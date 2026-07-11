@@ -4,6 +4,8 @@ Game satire politik Indonesia berbasis browser tentang perang narasi, buzzer, ak
 
 **Dibuat oleh [Adrian Janitra Putra](https://github.com/japutraa) (`japutraa`).**
 
+[![Deploy static content to Pages](https://github.com/japutraa/perang-narasi-republik-timeline/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/japutraa/perang-narasi-republik-timeline/actions/workflows/deploy-pages.yml)
+
 ## Mainkan
 
 Setelah GitHub Pages diaktifkan, game dapat dimainkan di:
@@ -31,14 +33,19 @@ Fitur utama:
 - Arsip fakta dan sumber untuk membedakan satire, opini, propaganda, dan klaim faktual.
 - Dapat dimainkan offline dalam satu file HTML.
 
-## GitHub Pages
+## GitHub Pages melalui GitHub Actions
+
+Repository ini memakai workflow otomatis di `.github/workflows/deploy-pages.yml`, dengan pola deployment yang sama seperti Echo Atlas. Setiap push ke branch `main` akan mengunggah situs statis dan menerbitkannya ke GitHub Pages.
 
 1. Buat repository baru bernama `perang-narasi-republik-timeline` pada akun `japutraa`.
-2. Upload seluruh isi folder ini ke root repository, bukan folder pembungkusnya.
-3. Buka **Settings → Pages**.
-4. Pada **Build and deployment**, pilih **Deploy from a branch**.
-5. Pilih branch **main**, folder **/(root)**, lalu klik **Save**.
-6. GitHub akan menerbitkan game pada URL yang tercantum di atas.
+2. Ekstrak ZIP, lalu upload **seluruh isi hasil ekstraksi** ke root repository. Jangan upload file ZIP-nya sebagai satu file.
+3. Pastikan folder tersembunyi `.github/workflows/` ikut ter-upload.
+4. Buka **Settings → Pages**.
+5. Pada **Build and deployment → Source**, pilih **GitHub Actions**.
+6. Buka tab **Actions** dan jalankan workflow **Deploy static content to Pages**, atau cukup push commit baru ke `main`.
+7. Setelah deployment hijau, game tersedia di:
+
+**https://japutraa.github.io/perang-narasi-republik-timeline/**
 
 Alternatif melalui terminal:
 
@@ -51,10 +58,15 @@ git remote add origin https://github.com/japutraa/perang-narasi-republik-timelin
 git push -u origin main
 ```
 
+> Penting: untuk paket ini jangan pilih **Deploy from a branch**. Pilih **GitHub Actions**, karena proses publikasinya dilakukan oleh workflow.
+
 ## Struktur repository
 
 ```text
 .
+├── .github/
+│   └── workflows/
+│       └── deploy-pages.yml # Deployment otomatis GitHub Pages
 ├── index.html       # Seluruh game: HTML, CSS, dan JavaScript
 ├── LICENSE          # Teks lengkap GNU GPL v3
 ├── README.md        # Dokumentasi proyek

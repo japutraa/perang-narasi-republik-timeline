@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.2 — 2026-07-11
+
+- Menambahkan workflow GitHub Actions untuk deployment otomatis ke GitHub Pages.
+- Menggunakan pola static Pages: checkout, configure, upload artifact, dan deploy.
+- Mengubah panduan Pages dari **Deploy from a branch** menjadi **GitHub Actions**.
+- Menambahkan badge status deployment pada README.
+
 ## 2.3.1 — 2026-07-11
 
 - Menghapus panel promosi “Baru di versi 2.2” dari layar awal.
