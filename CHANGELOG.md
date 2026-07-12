@@ -1,5 +1,32 @@
 # Changelog
 
+## 3.4.0 — Ekonomi Politik & Kolom Warga Edition
+
+### Added
+
+- Progressive action pricing across all six phases and career levels.
+- Separate patron economy for buzzers and donation economy for activists.
+- Debt, monthly interest, minimum installments, missed payments, credit limits, and debt management UI.
+- Bankruptcy ending with optional bailout routes.
+- Buzzer bailout option **Insya Allah Komisaris** and activist bailout paths through **Koperasi Gerakan** or **Pinjol Algoritma**.
+- Special event **Insya Allah Komisaris** about concurrent executive and SOE commissioner roles.
+- Active wildcard **Guru Gembul-bul** with a once-per-phase context/data ability.
+- Threaded comment replies that explicitly respond to the current tweet and chosen action.
+- Topic-aware jokes for bapak Facebook, Gen Z, emak group chat, PDF readers, fanwar accounts, millennials, and conspiracy accounts.
+
+### Changed
+
+- Buzzer starts with substantially larger operational capital and receives larger monthly patron invoices.
+- Activist starts with a smaller movement treasury and receives limited donations and community contributions.
+- Special-event expenses scale with phase and role.
+- Final recap now includes bailout count and outstanding debt.
+- Comment threads prioritize issue-specific discussion before random timeline noise.
+
+### Fixed
+
+- Negative cash values now render correctly instead of appearing as Rp0.
+- Players with no affordable action receive a clear financing/game-over route instead of a silent disabled deck.
+
 ## 3.3.0 — Kolom Netizen & Akun Hantu Edition
 
 - Merombak komentar menjadi persona netizen yang mudah dibaca dan berbeda gaya: bapak Facebook, Gen Z base, milenial sotoy, emak grup WA, anak PDF, fanwar, akun konspirasi, dan akun forum lama.

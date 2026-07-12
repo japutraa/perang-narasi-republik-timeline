@@ -1,11 +1,11 @@
 {
   "name": "Perang Narasi: Republik Timeline",
   "short_name": "Perang Narasi",
-  "description": "Game satire politik Indonesia selama enam tahun dengan persona komentar netizen, crew abilities, dan plot twist jejak digital.",
+  "description": "Game satire politik Indonesia selama enam tahun dengan ekonomi progresif, utang berbunga, crew abilities, komentar netizen, dan plot twist jejak digital.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#0c0c0b",
   "theme_color": "#f4d34a",
   "lang": "id",
-  "version": "3.3.0"
+  "version": "3.4.0"
 }

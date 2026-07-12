@@ -959,6 +959,62 @@
         border-color: var(--yellow);
         color: var(--yellow);
       }
+      .debt-panel {
+        margin-top: 10px;
+        padding: 9px 10px;
+        border: 1px solid rgba(255, 106, 106, 0.38);
+        background: rgba(255, 82, 82, 0.07);
+        font: 800 10px/1.45 monospace;
+        color: var(--muted);
+      }
+      .debt-panel.hidden { display: none; }
+      .debt-panel b { color: #ff8d8d; }
+      .debt-panel button {
+        margin-top: 7px;
+        width: 100%;
+        border: 1px solid rgba(255,255,255,.2);
+        background: #171713;
+        color: var(--ink);
+        padding: 7px 8px;
+        cursor: pointer;
+        font: 900 9px/1.2 monospace;
+        letter-spacing: .4px;
+      }
+      .debt-panel button:hover { border-color: var(--yellow); }
+      .finance-card {
+        border-color: #ff8d8d !important;
+        background: linear-gradient(135deg, rgba(255,80,80,.1), rgba(255,210,80,.04)), var(--panel2) !important;
+      }
+      .finance-card h4 { color: #ff9a9a; }
+      .reply-context {
+        display:block;
+        margin: 2px 0 5px;
+        color: #8fa2aa;
+        font: 800 9px/1.3 monospace;
+      }
+      .cost-level {
+        display:inline-block;
+        margin-left:5px;
+        padding:2px 5px;
+        border:1px solid rgba(255,255,255,.16);
+        color:var(--muted);
+        font:900 8px/1 monospace;
+      }
+      .bankruptcy-stage {
+        border: 2px solid #ff6565;
+        background: radial-gradient(circle at 85% 15%, rgba(255,70,70,.15), transparent 35%), #11100d;
+        padding: 18px;
+      }
+      .bankruptcy-stage h2 { color:#ff8585; }
+      .loan-warning {
+        border-left: 5px solid #ff6565;
+        background: rgba(255,70,70,.08);
+        padding: 10px 12px;
+        margin: 12px 0;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
       .money-label {
         font-size: 9px;
         color: var(--muted);
@@ -1573,7 +1629,7 @@
         }
       }
 
-      /* v3.3.0 — Kolom Netizen & Akun Hantu Edition */
+      /* v3.4.0 — Ekonomi Politik & Kolom Warga Edition */
       .roster-stack {
         display: grid;
         gap: 9px;
@@ -1717,7 +1773,7 @@
         }
       }
     
-/* v3.3.0 — Commentariat personas & digital ghost */
+/* v3.4.0 — Commentariat personas & digital ghost */
 .roster-card.wildcard-card{border-left:5px solid #ff9f43;background:linear-gradient(90deg,rgba(255,159,67,.08),transparent 42%),#10100e}.wildcard-card .roster-role{color:#ffb86b}.crew-intro-card.wildcard-intro{border-top:4px solid #ff9f43}.digital-ghost{position:relative;border-color:#8dffb4!important;background:linear-gradient(135deg,rgba(141,255,180,.08),rgba(124,93,255,.06)),var(--panel2)!important;box-shadow:inset 0 0 0 1px rgba(141,255,180,.12)}.digital-ghost:before{content:"ARCHIVE CACHE // IDENTITAS BELUM TERVERIFIKASI";display:block;color:#8dffb4;font:1000 9px/1.3 monospace;letter-spacing:.6px;margin-bottom:8px}.ghost-handle{font-family:monospace;font-size:10px;color:#8dffb4;border:1px dashed rgba(141,255,180,.45);padding:6px 8px;margin:8px 0;background:#090c0a}.legacy-signal{margin-top:10px;border-left:4px solid #ff9f43;padding:9px 11px;background:rgba(255,159,67,.08);font-size:11px;line-height:1.45}.comment-item.persona-bapak{border-left:3px solid #8bd3ff}.comment-item.persona-genz{border-left:3px solid #ff78c6}.comment-item.persona-millennial{border-left:3px solid #f4d34a}.comment-item.persona-conspiracy{border-left:3px solid #ff9f43}.comment-item.persona-emak{border-left:3px solid #a9f98f}.comment-item.persona-anakpdf{border-left:3px solid #b39cff}.comment-item.persona-fanwar{border-left:3px solid #ff6060}.comment-item.persona-forumGhost{border-left:3px solid #8dffb4;background:linear-gradient(90deg,rgba(141,255,180,.07),transparent 36%)}.comment-item.persona-forumGhost .comment-body b{font-family:monospace;color:#8dffb4}.comment-item.persona-forumGhost .comment-avatar{filter:grayscale(1)}
 
 </style>
@@ -1734,7 +1790,7 @@
         </div>
         <div>
           <div class="stamp">
-            BUILD 3.3.0 • 12 JULI 2026<br />Tokoh game adalah parodi-komposit
+            BUILD 3.4.0 • 12 JULI 2026<br />Tokoh game adalah parodi-komposit
           </div>
           <label class="switch" style="margin-top: 9px"
             ><input id="soundToggle" type="checkbox" checked /> bunyi kantor
@@ -1850,7 +1906,7 @@
               hanya ingin semuanya marah lebih lama.”
             </blockquote>
             <small
-              >Versi 3.3.0 • Kolom Netizen & Akun Hantu Edition • Autosave<br /><span
+              >Versi 3.4.0 • Ekonomi Politik & Kolom Warga Edition • Autosave<br /><span
                 class="author-credit"
                 >GNU GPL v3 • Game by
                 <a
@@ -1883,6 +1939,11 @@
                 <p id="objective" class="objective"></p>
                 <div class="money-label" id="moneyLabel">DANA OPERASI</div>
                 <div id="money" class="money">Rp0</div>
+                <div id="debtPanel" class="debt-panel hidden">
+                  UTANG OPERASI: <b id="debtAmount">Rp0</b><br />
+                  BUNGA BULANAN: <span id="debtRate">0%</span>
+                  <button type="button" id="financeBtn">KELOLA CICILAN</button>
+                </div>
                 <div class="price-scale-note"></div>
                 <div class="event-count" id="eventCount">SPECIAL EVENT 0</div>
                 <div class="phase-map" id="phaseMap"></div>
@@ -2060,12 +2121,14 @@
           return String(n);
         }
         function formatMoney(n) {
-          n = Math.max(0, Math.round(n));
-          if (n >= 1e12) return "Rp" + idNum(n / 1e12) + " T";
-          if (n >= 1e9) return "Rp" + idNum(n / 1e9) + " M";
-          if (n >= 1e6) return "Rp" + idNum(n / 1e6) + " jt";
-          if (n >= 1e3) return "Rp" + idNum(n / 1e3) + " rb";
-          return "Rp" + n.toLocaleString("id-ID");
+          n = Math.round(Number(n) || 0);
+          const sign = n < 0 ? "−" : "";
+          n = Math.abs(n);
+          if (n >= 1e12) return sign + "Rp" + idNum(n / 1e12) + " T";
+          if (n >= 1e9) return sign + "Rp" + idNum(n / 1e9) + " M";
+          if (n >= 1e6) return sign + "Rp" + idNum(n / 1e6) + " jt";
+          if (n >= 1e3) return sign + "Rp" + idNum(n / 1e3) + " rb";
+          return sign + "Rp" + n.toLocaleString("id-ID");
         }
         const state = {
           role: null,
@@ -2108,10 +2171,16 @@
           commentMemory: [],
           fufuArchive: null,
           fufuTwistResolved: false,
+          debt: 0,
+          loanRate: 0,
+          bailoutCount: 0,
+          missedPayments: 0,
+          bankruptcyHistory: [],
         };
 
         const SAVE_KEY = "perang-narasi-save-v3";
         let restoring = false;
+        let bankruptcyContinuation = null;
         function saveGame(silent = true) {
           if (!state.role) return;
           try {
@@ -2187,6 +2256,11 @@
           state.commentMemory = state.commentMemory || [];
           state.fufuArchive = state.fufuArchive || null;
           state.fufuTwistResolved = Boolean(state.fufuTwistResolved);
+          state.debt = Math.max(0, Number(state.debt) || 0);
+          state.loanRate = Math.max(0, Number(state.loanRate) || 0);
+          state.bailoutCount = Number(state.bailoutCount) || 0;
+          state.missedPayments = Number(state.missedPayments) || 0;
+          state.bankruptcyHistory = state.bankruptcyHistory || [];
           $("#startScreen").classList.add("hidden");
           $("#gameScreen").classList.remove("hidden");
           $("#roleLabel").textContent = roleData[state.role].label;
@@ -2199,7 +2273,7 @@
         const roleData = {
           buzzer: {
             label: "BUZZER",
-            money: 450000000,
+            money: 2400000000,
             reach: 45,
             credibility: 38,
             integrity: 52,
@@ -2229,7 +2303,7 @@
           },
           aktivis: {
             label: "AKTIVIS",
-            money: 130000000,
+            money: 85000000,
             reach: 24,
             credibility: 66,
             integrity: 74,
@@ -2833,6 +2907,22 @@
                     "Pernyataan sikap udah naik. Tolong baca full sebelum bilang mahasiswa cuma ikut tren.",
                 },
               },
+              {
+                id: "guru-gembulbul",
+                icon: "🧑‍🏫",
+                name: "Guru Gembul-bul",
+                role: "WILDCARD BARAYA SERBA MAPEL",
+                bio: "Mulai dari sejarah, nyasar ke filsafat, berhenti sebentar di pendidikan, lalu minta baraya jangan menelan konten mentah-mentah.",
+                ability: {
+                  name: "Kelas Baraya Tanpa Bel Pulang",
+                  desc: "Kredibilitas dan reach naik. Kartu context/data berikutnya lebih kuat dan murah, tapi heat ikut naik karena semua orang merasa ikut ujian lisan.",
+                  immediate: { credibility: 6, reach: 8, heat: 5, stress: 2 },
+                  buff: { actionIds: ["context", "data"], damage: 14, costMultiplier: 0.68, engagementMultiplier: 1.25 },
+                  metrics: { views: 560000, likes: 72000, reposts: 24000, replies: 33000 },
+                  tone: "neutral",
+                  quote: "Baraya, masalahnya bukan kita kekurangan opini. Masalahnya tiap opini masuk kelas tanpa bawa referensi, terus minta nilai A.",
+                },
+              },
             ],
             [
               {
@@ -3292,6 +3382,18 @@
               "https://apnews.com/article/3776bd9365804cda9f7c3f85b2104502",
             ],
           ],
+          dualroles: [
+            [
+              "Rangkap jabatan wakil menteri dan komisaris",
+              "Putusan MK No. 80/PUU-XVII/2019 menegaskan larangan rangkap jabatan wakil menteri, termasuk pada komisaris atau direksi perusahaan negara maupun swasta.",
+              "https://www.mkri.id/",
+            ],
+            [
+              "Temuan rangkap jabatan 2025",
+              "Pada Juli 2025, Transparency International Indonesia menyoroti puluhan wakil menteri atau pejabat setingkat yang juga tercatat memegang posisi komisaris BUMN. Game menyajikannya sebagai isu konflik kepentingan dan tata kelola, bukan tuduhan pidana individual.",
+              "https://ti.or.id/",
+            ],
+          ],
           bankrupt: [
             [
               "Demonstrasi ekonomi 2026",
@@ -3634,6 +3736,12 @@
               "Parodi komposit.",
             ],
 
+            [
+              "🧑‍🏫",
+              "Guru Gembul-bul",
+              "Arketipe guru-komentator yang masuk dari sejarah, muter lewat pendidikan, lalu pulang membawa dua disclaimer dan satu kata: baraya.",
+              "Terinspirasi gaya komentar publik Guru Gembul tentang pendidikan, sejarah, agama, dan isu sosial; bukan pernyataan bahwa semua pandangannya identik dengan karakter ini.",
+            ],
             [
               "🧩",
               "Bossman Mardi-Gitu",
@@ -4465,6 +4573,47 @@
                     money: -14000000,
                   },
                   "“Gerakan mendengar sebelum memakai mikrofon.”",
+                ],
+              ],
+            },
+          },
+          {
+            id: "insya-allah-komisaris",
+            phase: 1,
+            after: 5,
+            icon: "🪑",
+            title: "Insya Allah Komisaris",
+            actor: "Pak Wamen Rangkap Tiga & Dewan Pengawas Kehadiran Fleksibel",
+            text: "Kabinet butuh koordinasi, BUMN butuh pengawasan, dan satu orang ternyata dianggap cukup punya hari 37 jam. Di grup relawan beredar doa karier baru: kerja keras, jaga loyalitas, insya Allah komisaris.",
+            fact: "Rangkap jabatan pejabat eksekutif sebagai komisaris BUMN diperdebatkan sebagai masalah konflik kepentingan, efektivitas pengawasan, dan kepatuhan pada larangan rangkap jabatan. Putusan MK No. 80/PUU-XVII/2019 menegaskan larangan tersebut bagi wakil menteri.",
+            sourceKey: "dualroles",
+            choices: {
+              buzzer: [
+                [
+                  "Bikin tagar #InsyaAllahKomisaris",
+                  "Ubah rangkap jabatan menjadi aspirasi karier nasional. CV cukup satu halaman: loyal, siap rapat, dan bisa tidur di mobil dinas.",
+                  { reach: 13, network: 10, integrity: -11, democracy: -7, heat: 12, money: 240000000 },
+                  "Pak, saya rangkap jemuran sama cucian aja sudah burnout. Ini kok jabatan bisa bundle family pack?",
+                ],
+                [
+                  "Akui konflik kepentingannya",
+                  "Dorong pelepasan jabatan komisaris dan publikasi mandat pengawasan yang jelas.",
+                  { reach: 2, credibility: 12, integrity: 11, democracy: 9, heat: -5, money: -85000000 },
+                  "Waduh, ada humas yang berani bilang satu badan cuma punya 24 jam.",
+                ],
+              ],
+              aktivis: [
+                [
+                  "Bikin Peta Kursi Rangkap",
+                  "Susun jabatan, kewenangan, remunerasi, dan potensi konflik kepentingan dalam satu dashboard.",
+                  { reach: 8, credibility: 11, integrity: 9, democracy: 8, network: 7, money: -42000000 },
+                  "Nah ini baru jelas. Kursinya banyak, tulang belakang akuntabilitasnya jangan sampai lipat tiga.",
+                ],
+                [
+                  "Cuma bikin meme kursi musik",
+                  "Viral cepat: musik berhenti, semua orang tetap dapat kursi.",
+                  { reach: 14, credibility: -3, integrity: -2, democracy: 0, heat: 10, money: -12000000 },
+                  "Memenya lucu, tapi daftar nama dan dasar hukumnya mana, Min?",
                 ],
               ],
             },
@@ -8168,6 +8317,13 @@
               " Intinya hilirisasi dulu. Definisi detail belakangan, tepuk tangan sekarang.",
           },
           {
+            match: /Guru Gembul-bul|Gembul/i,
+            label: "MODE BARAYA EXPLAINER",
+            className: "voice-preacher",
+            prefix: "Baraya, gini ya: ",
+            suffix: " Jangan telan mentah-mentah, nanti kolom komentar kena maag intelektual.",
+          },
+          {
             match: /Felix Si-Auw/i,
             label: "MODE CERAMAH ALGORITMIK",
             className: "voice-preacher",
@@ -8974,23 +9130,51 @@
         }
 
         function actionCost(a, i) {
-          const multipliers = [1, 1.08, 1.16, 1.23, 1.32, 1.42],
+          const phaseScale = [1.35, 2.25, 3.55, 5.4, 8.1, 12.0],
+            roleScale = state.role === "buzzer" ? 1.55 : 0.9,
+            prestigeScale = 1 + (state.specialties?.length || 0) * 0.07,
+            careerScale = 1 + Math.min(0.72, (Number(state.career) || 0) / 210),
             topicFactor = i.weak.includes(a.id)
-              ? 0.94
+              ? 0.92
               : i.resist.includes(a.id)
-                ? 1.08
+                ? 1.13
                 : 1,
             crewFactor = activeActionBuffs(a).reduce(
               (m, b) => m * (b.costMultiplier ?? 1),
               1,
             );
           return Math.max(
-            1000000,
+            3000000,
             Math.round(
-              (a.cost * multipliers[state.phase] * topicFactor * crewFactor) /
+              (a.cost * phaseScale[state.phase] * roleScale * prestigeScale * careerScale * topicFactor * crewFactor) /
                 1000000,
             ) * 1000000,
           );
+        }
+        function costLevelLabel() {
+          return ["LOKAL", "NASIONAL", "ISTANA", "KONSORSIUM", "PRA-PEMILU", "OPERASI AKBAR"][state.phase] || "OPERASI";
+        }
+        function financeRules() {
+          const p = state.phase || 0;
+          if (state.role === "buzzer") {
+            return {
+              rate: 0.035 + p * 0.004,
+              limit: 3500000000 * (p + 1),
+              reserve: Math.round(900000000 * (1 + p * 0.55)),
+              label: "KREDIT PATRON",
+            };
+          }
+          return {
+            rate: 0.055 + p * 0.006,
+            limit: 550000000 * (p + 1),
+            reserve: Math.round(180000000 * (1 + p * 0.5)),
+            label: "KREDIT GERAKAN",
+          };
+        }
+        function minimumActionCost() {
+          const i = currentIssue();
+          const costs = availableActions().map((a) => actionCost(a, i));
+          return costs.length ? Math.min(...costs) : 0;
         }
         const promotionChoices = {
           buzzer: [
@@ -9926,6 +10110,11 @@
             commentMemory: [],
             fufuArchive: null,
             fufuTwistResolved: false,
+            debt: 0,
+            loanRate: 0,
+            bailoutCount: 0,
+            missedPayments: 0,
+            bankruptcyHistory: [],
           });
           resetQuizDeck();
           $("#startScreen").classList.add("hidden");
@@ -10173,19 +10362,27 @@
 
         function renderCards() {
           const i = currentIssue();
-          $("#cards").innerHTML = availableActions()
+          const actions = availableActions();
+          const affordable = actions.some((a) => state.money >= actionCost(a, i));
+          let html = actions
             .map((a) => {
               const d = effectiveDamage(a, i),
                 cost = actionCost(a, i),
                 v = actionPresentation(a, i),
                 disabled = state.money < cost || state.resolve <= 0,
                 buffs = activeActionBuffs(a);
-              return `<button class="action-card" data-action="${a.id}" ${disabled ? "disabled" : ""}><span class="cost">${formatMoney(cost)}</span><h4>${v.name}</h4><p>${v.desc}</p><div class="tags">${a.tags.map((t) => `<span class="tag">${t}</span>`).join("")}${i.weak.includes(a.id) ? '<span class="tag new">EFEKTIF</span>' : ""}${buffs.map((b) => `<span class="tag ability-tag">⚡ ${b.sourceName}</span>`).join("")}</div><span class="action-context">${v.context}</span><p style="margin-top:7px;color:var(--ink)">Dampak ±${d}${buffs.length ? " • CREW BOOST" : ""}</p></button>`;
+              return `<button class="action-card" data-action="${a.id}" ${disabled ? "disabled" : ""}><span class="cost">${formatMoney(cost)} <span class="cost-level">${costLevelLabel()}</span></span><h4>${v.name}</h4><p>${v.desc}</p><div class="tags">${a.tags.map((t) => `<span class="tag">${t}</span>`).join("")}${i.weak.includes(a.id) ? '<span class="tag new">EFEKTIF</span>' : ""}${buffs.map((b) => `<span class="tag ability-tag">⚡ ${b.sourceName}</span>`).join("")}</div><span class="action-context">${v.context}</span><p style="margin-top:7px;color:var(--ink)">Dampak ±${d}${buffs.length ? " • CREW BOOST" : ""}</p></button>`;
             })
             .join("");
+          if (!affordable && state.resolve > 0) {
+            html += `<button class="action-card finance-card" id="cashCrisisCard"><span class="cost">KAS KERING</span><h4>💸 Semua Action Card Kemahalan</h4><p>${state.role === "buzzer" ? "Invoice belum cair, patron cuma centang dua, dan komisaris masih berupa doa." : "Donasi seret, proposal dibaca cuma bagian anggaran, dan logistik minta dibayar pakai uang beneran."}</p><div class="tags"><span class="tag new">RISIKO BANGKRUT</span><span class="tag">KREDIT BERBUNGA</span></div><p style="margin-top:7px;color:var(--ink)">Buka meja bailout atau akhiri kronik.</p></button>`;
+          }
+          $("#cards").innerHTML = html;
           document
             .querySelectorAll("[data-action]")
             .forEach((b) => (b.onclick = () => playAction(b.dataset.action)));
+          const crisis = $("#cashCrisisCard");
+          if (crisis) crisis.onclick = () => showBankruptcyCrisis("KAS TAK CUKUP UNTUK SATU ACTION");
         }
         function nextChronicleIssue() {
           if (state.day < 12) return phases[state.phase].days[state.day];
@@ -10271,11 +10468,85 @@
             kind: opts.kind || "",
             label: opts.label || persona.label,
             persona: personaId,
+            replyTo: opts.replyTo || "",
           };
+        }
+        function issueHook(i) {
+          return i.title.replace(/^#/, "").replace(/([a-z])([A-Z])/g, "$1 $2");
+        }
+        function topicJoke(i, persona) {
+          const key = i.key;
+          const bank = {
+            mbg: {
+              bapak: "Yang bergizi programnya, yang diet transparansinya.",
+              genz: "menunya slay, audit vendornya masih shy.",
+              emak: "Anak saya makan pakai mulut, bukan pakai infografik.",
+            },
+            finance: {
+              bapak: "Kalau grafiknya naik terus, cicilan bapak kok nggak ikut optimis?",
+              genz: "rupiahnya lagi healing tanpa izin kantor.",
+              emak: "Indeks boleh hijau, harga cabai saya merah menyala.",
+            },
+            budget: {
+              bapak: "Anggaran dipotong rapi, struk warung tetap panjang.",
+              genz: "efisiensi core, rakyat nombok era.",
+              emak: "Yang gratis katanya program, yang bayar tetap dompet rumah.",
+            },
+            tni: {
+              bapak: "Bapak hormat seragam, tapi rapat warga tetap butuh notulen sipil.",
+              genz: "checks and balances jangan jadi check-in barak bestie.",
+              emak: "Yang saya mau aman itu anak pulang sekolah, bukan kritik disuruh tiarap.",
+            },
+            publicfigures: {
+              bapak: "Follower banyak belum tentu bisa benerin pompa air, apalagi negara.",
+              genz: "paid partnership-nya invisible, sinematografinya 4K.",
+              emak: "Artisnya senyum, saya tetap antre gas.",
+            },
+            future: {
+              bapak: "Ramalan politik kayak cuaca: payungnya dijual konsultan.",
+              genz: "fiksi prediktif tapi invoice-nya canon.",
+              emak: "Tahun depan belum datang, tagihannya sudah salam kenal.",
+            },
+          };
+          return bank[key]?.[persona] || {
+            bapak: "Ini kayak istri nanya uang belanja, bapak jawab klasemen bola.",
+            genz: "packaging-nya slay, logikanya masih loading.",
+            emak: "Admin menang debat, saya tetap menang antrean pasar.",
+          }[persona] || "Timeline rame, substansi lagi cari parkir.";
+        }
+        function discussionComment(tone, i, a) {
+          const display = actionPresentation(a, i),
+            topic = issueHook(i),
+            pool = tone === "good"
+              ? ["genz", "anakpdf", "emak", "bapak", "millennial"]
+              : tone === "bad"
+                ? ["genz", "emak", "bapak", "conspiracy", "fanwar", "millennial"]
+                : ["anakpdf", "bapak", "emak", "genz", "millennial", "conspiracy"],
+            persona = pool[rnd(0, pool.length - 1)];
+          const texts = {
+            bapak: tone === "good"
+              ? `Tweet-nya bahas ${topic}, terus ${display.name} akhirnya jawab isi, bukan nyari typo. ${topicJoke(i, "bapak")}`
+              : `Tweet-nya bahas ${topic}, kok dibales pakai ${display.name}? ${topicJoke(i, "bapak")}`,
+            genz: tone === "good"
+              ? `wait, ini ngomongin ${topic} dan ${display.name} beneran kasih konteks? rare timeline W. ${topicJoke(i, "genz")}`
+              : `bestie ini kan soal ${topic}, kenapa ${display.name} malah jadi side quest? ${topicJoke(i, "genz")}`,
+            emak: tone === "good"
+              ? `Saya baca soal ${topic}. Bagus kalau ${display.name} bikin jelas siapa yang tanggung biaya. ${topicJoke(i, "emak")}`
+              : `Yang dibahas ${topic}, jawabannya ${display.name}. Saya ibu-ibu, bukan berarti bisa dialihin pakai poster. ${topicJoke(i, "emak")}`,
+            millennial: tone === "good"
+              ? `Secara stakeholder mapping, ${display.name} nyambung ke problem ${topic}. Minimal ada problem-solution fit.`
+              : `Secara helicopter view, ${display.name} ini deliverable-nya rame tapi nggak aligned sama isu ${topic}.`,
+            conspiracy: `Gue nggak nuduh ya, tapi ${topic}, ${display.name}, dan akun-akun upload menit yang sama itu kalau ditarik garis merah... spidolnya habis duluan.`,
+            anakpdf: tone === "bad"
+              ? `${display.name} belum menjawab bagian inti ${topic}. Dokumen primer, halaman, dan metodologinya mana?`
+              : `${display.name} nyambung. Sekarang pin link primer soal ${topic}, jangan cuma screenshot yang font-nya paling gede.`,
+            fanwar: `POKOKNYA ${display.name.toUpperCase()} MENANG. ISU ${topic.toUpperCase()} NANTI DIBAHAS HABIS RATIO.`,
+          };
+          return makeComment(tone, texts[persona], { persona, replyTo: i.handle });
         }
         function contextualComment(tone, i) {
           const pool = topicCommentPool(tone, i);
-          return makeComment(tone, pool[rnd(0, pool.length - 1)]);
+          return makeComment(tone, pool[rnd(0, pool.length - 1)], { replyTo: i.handle });
         }
 
         function npcReaction(i, a, good) {
@@ -10362,14 +10633,20 @@
           state.postMetrics.replies += replyGain;
           const tone = good ? "good" : "bad",
             i = currentIssue();
-          state.comments.unshift(
-            trendHintComment(),
+          const thread = [
             npcReaction(i, a, good),
-            contextualComment("neutral", i),
+            discussionComment("neutral", i, a),
+            discussionComment(tone, i, a),
             contextualComment(tone, i),
-          );
-          if (rnd(0, 100) > 45)
-            state.comments.unshift(contextualComment(good ? "good" : "bad", i));
+          ];
+          if (rnd(0, 100) > 58) {
+            const jokePersona = ["bapak", "genz", "emak"][rnd(0, 2)];
+            thread.push(makeComment("neutral", topicJoke(i, jokePersona), { persona: jokePersona, replyTo: i.handle }));
+          }
+          if (rnd(0, 100) > 62) thread.push(trendHintComment());
+          state.comments.unshift(...thread);
+          if (rnd(0, 100) > 48)
+            state.comments.unshift(discussionComment(good ? "good" : "bad", i, a));
           state.comments = state.comments.slice(0, 24);
           const coordinated = clamp(
               Math.round(
@@ -10433,7 +10710,7 @@
             total = Math.max(1, good + bad + neutral);
           $("#modalContent").classList.remove("final-modal");
           $("#modalContent").innerHTML =
-            `<h2>${type === "replies" ? "Kolom Komentar" : "Analitik " + type.toUpperCase()}</h2><p>${metricNarrative(type)}</p><div class="trend-radar"><b>📡 RADAR TREND BERIKUTNYA</b><br>${nextTrendHint()}</div><div class="sentiment-row"><div><strong>${Math.round((good / total) * 100)}%</strong>Substantif</div><div><strong>${Math.round((bad / total) * 100)}%</strong>Toksik/seragam</div><div><strong>${Math.round((neutral / total) * 100)}%</strong>Bertanya / radar</div></div><div class="comment-list">${state.comments.map((c) => `<div class="comment-item ${c.kind || ""} persona-${c.persona || "plain"}"><div class="comment-avatar">${c.avatar}</div><div class="comment-body"><b>${c.handle}</b><span class="comment-tone ${c.kind || c.tone}">${c.label || c.tone}</span><br>${c.text}</div></div>`).join("")}</div><button class="btn" id="closeMetric">Tutup</button>`;
+            `<h2>${type === "replies" ? "Kolom Komentar" : "Analitik " + type.toUpperCase()}</h2><p>${metricNarrative(type)}</p><div class="trend-radar"><b>📡 RADAR TREND BERIKUTNYA</b><br>${nextTrendHint()}</div><div class="sentiment-row"><div><strong>${Math.round((good / total) * 100)}%</strong>Substantif</div><div><strong>${Math.round((bad / total) * 100)}%</strong>Toksik/seragam</div><div><strong>${Math.round((neutral / total) * 100)}%</strong>Bertanya / radar</div></div><div class="comment-list">${state.comments.map((c) => `<div class="comment-item ${c.kind || ""} persona-${c.persona || "plain"}"><div class="comment-avatar">${c.avatar}</div><div class="comment-body"><b>${c.handle}</b><span class="comment-tone ${c.kind || c.tone}">${c.label || c.tone}</span>${c.replyTo ? `<span class="reply-context">↳ membalas ${c.replyTo}</span>` : "<br>"}${c.text}</div></div>`).join("")}</div><button class="btn" id="closeMetric">Tutup</button>`;
           $("#modal").classList.remove("hidden");
           $("#closeMetric").onclick = () => $("#modal").classList.add("hidden");
         }
@@ -10445,7 +10722,10 @@
           const cost = actionCost(a, i),
             display = actionPresentation(a, i),
             buffs = activeActionBuffs(a);
-          if (state.money < cost) return;
+          if (state.money < cost) {
+            showBankruptcyCrisis(`BIAYA ${display.name.toUpperCase()} MELEBIHI KAS`);
+            return;
+          }
           const d = effectiveDamage(a, i),
             protectedNegatives = buffs.some((b) => b.protectNegatives);
           state.money -= cost;
@@ -10539,6 +10819,13 @@
               ? "DANA OPERASI / INVOICE"
               : "KAS GERAKAN / DONASI";
           $("#money").textContent = formatMoney(state.money);
+          const debtPanel = $("#debtPanel");
+          if (debtPanel) {
+            const hasDebt = (state.debt || 0) > 0;
+            debtPanel.classList.toggle("hidden", !hasDebt);
+            $("#debtAmount").textContent = formatMoney(state.debt || 0);
+            $("#debtRate").textContent = `${((state.loanRate || financeRules().rate) * 100).toFixed(1)}%`;
+          }
           $("#eventCount").textContent =
             `SPECIAL EVENT ${state.seenEvents.length}`;
           $("#specialtyLabel").textContent =
@@ -10589,7 +10876,6 @@
           const reasons = [];
           if (state.stress >= 100) reasons.push("BURNOUT");
           if (state.credibility <= 0) reasons.push("KREDIBILITAS RUNTUH");
-          if (state.money < 0) reasons.push("SALDO NEGATIF");
           return reasons;
         }
         function proceedAfterMonth() {
@@ -10600,6 +10886,103 @@
           } else if (state.quizEnabled) showQuiz();
           else continueAfterDay();
         }
+        function serviceDebt() {
+          if (!(state.debt > 0)) return;
+          const rate = state.loanRate || financeRules().rate;
+          const interest = Math.round(state.debt * rate);
+          const principal = Math.round(state.debt * 0.025);
+          const due = interest + principal;
+          const paid = Math.min(Math.max(0, state.money), due);
+          state.money -= paid;
+          const paidInterest = Math.min(paid, interest);
+          const paidPrincipal = Math.max(0, paid - paidInterest);
+          state.debt = Math.max(0, state.debt + (interest - paidInterest) - paidPrincipal);
+          if (paid < due) state.missedPayments = (state.missedPayments || 0) + 1;
+          else state.missedPayments = Math.max(0, (state.missedPayments || 0) - 1);
+          addLog(`Cicilan politik jatuh tempo ${formatMoney(due)}. Terbayar ${formatMoney(paid)}; sisanya ikut tumbuh dewasa.`, paid < due ? "bad" : "info");
+        }
+        function showDebtManagement() {
+          if (!(state.debt > 0)) return;
+          const rules = financeRules();
+          const maxPay = Math.min(state.debt, Math.max(0, state.money));
+          $("#modalContent").innerHTML = `<h2>💳 Meja Cicilan Narasi</h2><div class="career-line"><b>Utang ${formatMoney(state.debt)}</b><p>Bunga ${(state.loanRate * 100).toFixed(1)}% per bulan. Batas kredit ${formatMoney(rules.limit)}. Telat bayar: ${state.missedPayments || 0} bulan.</p></div><div class="loan-warning">Utang tidak membuat argumen lebih benar. Ia cuma membuat bulan berikutnya lebih mahal.</div><div class="choice-grid"><button class="choice-card" data-pay="0.25"><h3>Bayar 25% Kas</h3><small>Maksimal ${formatMoney(Math.min(maxPay, state.money * .25))}</small></button><button class="choice-card" data-pay="0.6"><h3>Bayar 60% Kas</h3><small>Maksimal ${formatMoney(Math.min(maxPay, state.money * .6))}</small></button></div><button class="btn secondary" id="closeDebt">Tutup</button>`;
+          $("#modal").classList.remove("hidden");
+          document.querySelectorAll("[data-pay]").forEach((b) => b.onclick = () => {
+            const fraction = Number(b.dataset.pay);
+            const amount = Math.min(state.debt, Math.max(0, Math.round(state.money * fraction)));
+            if (amount <= 0) return flash("KASNYA JUGA IKUT KOSONG");
+            state.money -= amount;
+            state.debt -= amount;
+            addLog(`Bayar pokok utang ${formatMoney(amount)}. Timeline tidak tepuk tangan, tapi bunga sedikit kecewa.`, "good");
+            $("#modal").classList.add("hidden");
+            render(); saveGame(true);
+          });
+          $("#closeDebt").onclick = () => $("#modal").classList.add("hidden");
+        }
+        function takeBailout(kind, reason) {
+          const rules = financeRules();
+          const need = Math.max(rules.reserve, -state.money + Math.round(rules.reserve * .65));
+          const remaining = Math.max(0, rules.limit - (state.debt || 0));
+          const principal = Math.min(need, remaining);
+          if (principal <= 0) return showBankruptcyEnding(reason, "LIMIT KREDIT HABIS");
+          const premium = kind === "fast" ? 1.16 : kind === "commissioner" ? 1.08 : 1.04;
+          const rate = rules.rate + (kind === "fast" ? .025 : kind === "commissioner" ? -.006 : -.01);
+          state.debt += Math.round(principal * premium);
+          state.money += principal;
+          state.loanRate = Math.max(state.loanRate || 0, Math.max(.015, rate));
+          state.bailoutCount = (state.bailoutCount || 0) + 1;
+          state.missedPayments = 0;
+          if (kind === "commissioner") {
+            state.integrity = clamp(state.integrity - 12);
+            state.democracy = clamp(state.democracy - 7);
+            state.network = clamp(state.network + 11);
+            state.career += 7;
+            state.comments.unshift(makeComment("bad", "Insya Allah komisaris. Jobdesc menyusul, konflik kepentingan diminta tunggu di lobi.", { persona: "bapak" }));
+          } else if (kind === "solidarity") {
+            state.integrity = clamp(state.integrity + 2);
+            state.network = clamp(state.network + 8);
+            state.stress = clamp(state.stress + 4);
+            state.comments.unshift(makeComment("good", "Urungan masuk. Tolong laporan kas jangan hilang pas kameranya udah mati.", { persona: "emak" }));
+          } else {
+            state.integrity = clamp(state.integrity - 6);
+            state.heat = clamp(state.heat + 6);
+            state.reach = clamp(state.reach + 4);
+          }
+          state.bankruptcyHistory.push({ phase: state.phase, day: state.day, kind, reason, principal, debt: state.debt });
+          $("#modal").classList.add("hidden");
+          render(); saveGame(true);
+          flash(`BAILOUT CAIR ${formatMoney(principal)} • BUNGA ${(state.loanRate * 100).toFixed(1)}%/BULAN`);
+          const resume = bankruptcyContinuation;
+          bankruptcyContinuation = null;
+          if (typeof resume === "function") resume();
+        }
+        function showBankruptcyCrisis(reason = "KAS OPERASI KOLAPS", continuation = null) {
+          bankruptcyContinuation = continuation;
+          const rules = financeRules();
+          const remaining = Math.max(0, rules.limit - (state.debt || 0));
+          const exhausted = remaining < Math.max(10000000, rules.reserve * .35) || (state.bailoutCount || 0) >= 4;
+          const bailoutCards = state.role === "buzzer"
+            ? `<button class="choice-card" data-bailout="commissioner"><h3>🤲 Insya Allah Komisaris</h3><small>Patron menyelamatkan operasi. Bunga lebih ringan, karier dan jaringan naik, integritas serta demokrasi bayar ongkosnya.</small></button><button class="choice-card" data-bailout="fast"><h3>🏦 Kredit Invoice Tanpa Banyak Tanya</h3><small>Cair cepat, provisi tebal, bunga bikin bulan berikutnya ikut kampanye.</small></button>`
+            : `<button class="choice-card" data-bailout="solidarity"><h3>🤝 Koperasi Gerakan</h3><small>Urunan warga dan jaringan. Bunga sedikit lebih manusiawi, laporan kas wajib transparan.</small></button><button class="choice-card" data-bailout="fast"><h3>📱 Pinjol Algoritma</h3><small>Cair cepat. Notifikasi penagihan lebih rajin daripada update kasus.</small></button>`;
+          $("#modalContent").innerHTML = `<div class="bankruptcy-stage"><span class="special-ribbon">ENDING DARURAT • BANGKRUT</span><h2>💸 Kas Habis, Idealisme Minta Struk</h2><p><b>${reason}</b></p><div class="ending-score"><div><strong>${formatMoney(state.money)}</strong>Kas</div><div><strong>${formatMoney(state.debt || 0)}</strong>Utang</div><div><strong>${state.bailoutCount || 0}</strong>Bailout</div><div><strong>${formatMoney(remaining)}</strong>Sisa kredit</div></div><div class="loan-warning">Kamu bisa menerima kredit penyelamatan dan lanjut bermain. Bunganya dibebankan setiap bulan. Kalau menolak—atau limit habis—kronik benar-benar tamat.</div>${exhausted ? '<div class="lesson"><b>LIMIT KREDIT HABIS.</b><br>Patron sedang offline, koperasi juga sudah mute grup.</div>' : `<div class="choice-grid">${bailoutCards}</div>`}<div class="btn-row"><button class="btn secondary" id="acceptBankruptcy">Akui Bangkrut & Akhiri Game</button>${state.money >= 0 && !continuation ? '<button class="btn secondary" id="cancelBankruptcy">Batal</button>' : ''}</div></div>`;
+          $("#modal").classList.remove("hidden");
+          document.querySelectorAll("[data-bailout]").forEach((b) => b.onclick = () => takeBailout(b.dataset.bailout, reason));
+          $("#acceptBankruptcy").onclick = () => showBankruptcyEnding(reason, exhausted ? "LIMIT KREDIT HABIS" : "PEMAIN MENOLAK BAILOUT");
+          const cancel = $("#cancelBankruptcy");
+          if (cancel) cancel.onclick = () => {
+            bankruptcyContinuation = null;
+            $("#modal").classList.add("hidden");
+          };
+        }
+        function showBankruptcyEnding(reason, note) {
+          state.finished = true;
+          clearSave();
+          $("#modalContent").innerHTML = `<div class="bankruptcy-stage"><span class="special-ribbon">GAME OVER • BANGKRUT</span><h2>${state.role === "buzzer" ? "Invoice Terakhir Tidak Pernah Cair" : "Gerakan Besar, Saldo Kecil"}</h2><p>${reason}. ${note}.</p><div class="ending-score"><div><strong>${formatMoney(state.debt || 0)}</strong>Utang akhir</div><div><strong>${state.bailoutCount || 0}</strong>Bailout</div><div><strong>${Math.round(state.reach)}</strong>Jangkauan</div><div><strong>${Math.round(state.integrity)}</strong>Integritas</div></div><div class="lesson"><b>CATATAN REPUBLIK:</b><br>${state.role === "buzzer" ? "Trending bisa disewa. Arus kas tetap minta transfer beneran." : "Solidaritas bukan uang tak terbatas. Transparansi dan keberlanjutan juga bagian dari gerakan."}</div><button class="btn" id="bankruptMenu">Kembali ke Menu Utama</button></div>`;
+          $("#modal").classList.remove("hidden");
+          $("#bankruptMenu").onclick = () => startFreshCycle();
+          beep(90, .28);
+        }
+
         function showCareerCrisis(reasons) {
           const reserve = state.role === "buzzer" ? 90000000 : 30000000;
           const reasonText = reasons
@@ -10730,10 +11113,16 @@
             state.network = clamp(state.network - 3);
           }
           if (state.heat > 78) state.democracy = clamp(state.democracy - 3);
-          state.money +=
-            state.role === "buzzer"
-              ? rnd(35000000, 90000000)
-              : rnd(7000000, 30000000);
+          const monthlyFunding = state.role === "buzzer"
+            ? [rnd(150000000, 280000000), rnd(220000000, 420000000), rnd(320000000, 600000000), rnd(450000000, 820000000), rnd(600000000, 1050000000), rnd(800000000, 1400000000)][state.phase]
+            : [rnd(5000000, 17000000), rnd(7000000, 24000000), rnd(10000000, 34000000), rnd(14000000, 47000000), rnd(20000000, 65000000), rnd(28000000, 90000000)][state.phase];
+          state.money += monthlyFunding;
+          addLog(`${state.role === "buzzer" ? "Invoice/patron cair" : "Donasi dan urunan masuk"}: ${formatMoney(monthlyFunding)}.`, "info");
+          serviceDebt();
+          if (state.money < 0 || ((state.debt || 0) > financeRules().limit && state.missedPayments > 0)) {
+            showBankruptcyCrisis(state.money < 0 ? "SALDO OPERASI NEGATIF" : "BATAS KREDIT JEBOL", proceedAfterMonth);
+            return;
+          }
           const reasons = criticalReasons();
           if (reasons.length) {
             showCareerCrisis(reasons);
@@ -10807,7 +11196,12 @@
         }
 
         function resolveSpecialEvent(e, c) {
-          applyEffects(c[2]);
+          const scaledEffects = { ...c[2] };
+          if ((scaledEffects.money || 0) < 0) {
+            const eventScale = [1.15, 1.65, 2.35, 3.2, 4.3, 5.8][state.phase] * (state.role === "buzzer" ? 1.3 : .85);
+            scaledEffects.money = Math.round((scaledEffects.money * eventScale) / 1000000) * 1000000;
+          }
+          applyEffects(scaledEffects);
           const meta = c[4] || {};
           let legacyNote = "";
           if (meta.fufuMode) {
@@ -10847,10 +11241,10 @@
           });
           state.career += Math.max(
             1,
-            Math.round(Math.abs(c[2].reach || 0) / 3),
+            Math.round(Math.abs(scaledEffects.reach || 0) / 3),
           );
           state.comments.unshift(
-            makeComment((c[2].integrity || 0) >= 0 ? "good" : "bad", c[3], {
+            makeComment((scaledEffects.integrity || 0) >= 0 ? "good" : "bad", c[3], {
               persona: e.id.startsWith("fufufafa") ? "forumGhost" : undefined,
             }),
           );
@@ -10859,13 +11253,18 @@
           state.postMetrics.reposts += rnd(2500, 34000) * (state.phase + 1);
           state.postMetrics.replies += rnd(1500, 18000) * (state.phase + 1);
           state.lastImpact = {
-            organic: clamp(55 + (c[2].integrity || 0), 10, 88),
-            coordinated: clamp(20 - (c[2].integrity || 0), 4, 65),
-            undecided: clamp(25 + Math.round((c[2].heat || 0) / 2), 8, 60),
+            organic: clamp(55 + (scaledEffects.integrity || 0), 10, 88),
+            coordinated: clamp(20 - (scaledEffects.integrity || 0), 4, 65),
+            undecided: clamp(25 + Math.round((scaledEffects.heat || 0) / 2), 8, 60),
             label: c[0],
           };
+          if (state.money < 0) {
+            saveGame(true);
+            showBankruptcyCrisis(`SPECIAL EVENT ${e.title.toUpperCase()} MENGHABISKAN KAS`, continueAfterDay);
+            return;
+          }
           $("#modalContent").innerHTML =
-            `<span class="special-ribbon">EVENT RESOLVED</span><h2>${e.icon} ${e.title}</h2><div class="event-result"><b>${c[0]}</b><p>${c[1]}</p><p><b>Dampak timeline:</b> ${c[3]}</p>${legacyNote ? `<div class="legacy-signal"><b>EFEK JEJAK DIGITAL:</b> ${legacyNote}</div>` : ""}</div><div class="ending-score"><div><strong>${(c[2].reach || 0) >= 0 ? "+" : ""}${c[2].reach || 0}</strong>Jangkauan</div><div><strong>${(c[2].integrity || 0) >= 0 ? "+" : ""}${c[2].integrity || 0}</strong>Integritas</div><div><strong>${(c[2].democracy || 0) >= 0 ? "+" : ""}${c[2].democracy || 0}</strong>Demokrasi</div><div><strong>${c[2].money ? formatMoney(Math.abs(c[2].money)) : "—"}</strong>${c[2].money >= 0 ? "Dana masuk" : "Biaya"}</div></div><button class="btn" id="eventContinue">Lanjutkan Kronik</button>`;
+            `<span class="special-ribbon">EVENT RESOLVED</span><h2>${e.icon} ${e.title}</h2><div class="event-result"><b>${c[0]}</b><p>${c[1]}</p><p><b>Dampak timeline:</b> ${c[3]}</p>${legacyNote ? `<div class="legacy-signal"><b>EFEK JEJAK DIGITAL:</b> ${legacyNote}</div>` : ""}</div><div class="ending-score"><div><strong>${(scaledEffects.reach || 0) >= 0 ? "+" : ""}${scaledEffects.reach || 0}</strong>Jangkauan</div><div><strong>${(scaledEffects.integrity || 0) >= 0 ? "+" : ""}${scaledEffects.integrity || 0}</strong>Integritas</div><div><strong>${(scaledEffects.democracy || 0) >= 0 ? "+" : ""}${scaledEffects.democracy || 0}</strong>Demokrasi</div><div><strong>${scaledEffects.money ? formatMoney(Math.abs(scaledEffects.money)) : "—"}</strong>${scaledEffects.money >= 0 ? "Dana masuk" : "Biaya"}</div></div><button class="btn" id="eventContinue">Lanjutkan Kronik</button>`;
           $("#eventContinue").onclick = continueAfterDay;
           render();
           saveGame(true);
@@ -10909,7 +11308,9 @@
           state.trendReveal = 0;
           state.phase++;
           state.day = 1;
-          state.money += state.role === "buzzer" ? 350000000 : 120000000;
+          state.money += state.role === "buzzer"
+            ? Math.round(1100000000 * (1 + state.phase * 0.48))
+            : Math.round(90000000 * (1 + state.phase * 0.22));
           $("#modal").classList.add("hidden");
           showPhaseIntro(false);
           render();
@@ -10944,7 +11345,7 @@
                   .join("")
               : "<li>Belum ada crew ability yang dipakai. Mereka masih menatapmu dari sidebar.</li>";
           $("#modalContent").innerHTML =
-            `<h2>Riwayat Karier</h2><div class="career-line"><b>${state.role === "buzzer" ? "Dari relawan menuju mesin kekuasaan" : "Dari utas menuju institusi publik"}</b><ul>${path}</ul></div><p>Poin karier: <b>${state.career}</b>. Angka ini ngukur seberapa jauh kamu naik, bukan seberapa sehat republiknya.</p><div class="career-line"><b>Jejak Special Event</b><ul>${events}</ul></div><div class="crew-history"><b>⚡ Crew Ability yang Sudah Dipakai</b><ul>${crew}</ul></div><button class="btn" id="closeCareer">Tutup</button>`;
+            `<h2>Riwayat Karier</h2><div class="career-line"><b>${state.role === "buzzer" ? "Dari relawan menuju mesin kekuasaan" : "Dari utas menuju institusi publik"}</b><ul>${path}</ul></div><p>Poin karier: <b>${state.career}</b> • Bailout: <b>${state.bailoutCount || 0}</b> • Utang: <b>${formatMoney(state.debt || 0)}</b>. Karier bisa naik sementara arus kas turun—sangat realistis, sayangnya.</p><div class="career-line"><b>Jejak Special Event</b><ul>${events}</ul></div><div class="crew-history"><b>⚡ Crew Ability yang Sudah Dipakai</b><ul>${crew}</ul></div><button class="btn" id="closeCareer">Tutup</button>`;
           $("#modal").classList.remove("hidden");
           $("#closeCareer").onclick = () => $("#modal").classList.add("hidden");
         }
@@ -11118,7 +11519,7 @@
             );
           clearSave();
           $("#modalContent").innerHTML =
-            `<div class="finale-stage"><div class="finale-content"><span class="finale-kicker">ENAM TAHUN • 72 BULAN • ${state.eventHistory.length} SPECIAL EVENT • ${(state.crisisHistory || []).length} KRISIS</span><h2>${title}</h2><p>${text}</p><div class="ending-score"><div><strong>${Math.round(state.reach)}</strong>Jangkauan</div><div><strong>${Math.round(state.integrity)}</strong>Integritas</div><div><strong>${Math.round(state.democracy)}</strong>Demokrasi</div><div><strong>${state.career}</strong>Karier</div></div><div class="lesson"><b>INDEKS WARISAN: ${moral}/100</b><br>Ini bukan skor kemenangan kubu. Ini ukuran kasar tentang kualitas ruang publik yang tersisa ketika pemilu berikutnya datang.</div><p><b>Bab terakhir belum selesai.</b> Kotak suara 2029 menunggu, tetapi game tidak akan memilihkan presiden untukmu.</p><button class="btn" id="electionNight">Masuk Malam Pemilu</button></div></div>`;
+            `<div class="finale-stage"><div class="finale-content"><span class="finale-kicker">ENAM TAHUN • 72 BULAN • ${state.eventHistory.length} SPECIAL EVENT • ${(state.crisisHistory || []).length} KRISIS • ${state.bailoutCount || 0} BAILOUT</span><h2>${title}</h2><p>${text}</p><div class="ending-score"><div><strong>${Math.round(state.reach)}</strong>Jangkauan</div><div><strong>${Math.round(state.integrity)}</strong>Integritas</div><div><strong>${Math.round(state.democracy)}</strong>Demokrasi</div><div><strong>${state.career}</strong>Karier</div><div><strong>${formatMoney(state.debt || 0)}</strong>Utang</div></div><div class="lesson"><b>INDEKS WARISAN: ${moral}/100</b><br>Ini bukan skor kemenangan kubu. Ini ukuran kasar tentang kualitas ruang publik yang tersisa ketika pemilu berikutnya datang.</div><p><b>Bab terakhir belum selesai.</b> Kotak suara 2029 menunggu, tetapi game tidak akan memilihkan presiden untukmu.</p><button class="btn" id="electionNight">Masuk Malam Pemilu</button></div></div>`;
           $("#modal").classList.remove("hidden");
           $("#electionNight").onclick = () =>
             showElectionNight(title, text, moral);
@@ -11179,6 +11580,11 @@
             commentMemory: [],
             fufuArchive: null,
             fufuTwistResolved: false,
+            debt: 0,
+            loanRate: 0,
+            bailoutCount: 0,
+            missedPayments: 0,
+            bankruptcyHistory: [],
           });
           syncQuizToggles();
           updateContinuePanel();
@@ -11207,6 +11613,7 @@
             (b) => (b.onclick = () => showMetricDetails(b.dataset.metric)),
           );
         bind("#saveBtn", "onclick", () => saveGame(false));
+        bind("#financeBtn", "onclick", showDebtManagement);
         bind("#continueBtn", "onclick", continueGame);
         bind("#deleteSaveBtn", "onclick", () => {
           clearSave();
