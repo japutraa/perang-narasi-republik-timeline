@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.0.4 — Dynamic Breaking Ticker
+
+- Membuat billboard **BREAKING** berubah mengikuti keenam fase campaign.
+- Menambahkan headline khusus untuk Pemilu 2024, tahun pertama pemerintahan, tekanan ekonomi 2026, dan tiga fase fiksi prediktif 2027–2029.
+- Mengembalikan ticker kronik umum saat pemain kembali ke menu utama.
+- Memulai ulang animasi ticker ketika fase berubah agar headline baru langsung terbaca.
+
 ## 3.0.3 — Safe Main Menu
 
 - Mengganti tombol **Ulang** menjadi **Menu Utama**.
