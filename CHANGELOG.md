@@ -1,9 +1,12 @@
 # Changelog
 
-## 2.4.1 — 2026-07-12
+## 2.4.2 — 2026-07-12
 
-- Menghapus teks teknis tentang jumlah dan distribusi jawaban Cek Nalar dari panel pengaturan agar antarmuka lebih bersih.
-- Seluruh fungsi Cek Nalar tetap dipertahankan.
+- Memperbaiki trigger deployment agar mengikuti default branch repository secara otomatis, bukan hanya branch `main`.
+- Menambahkan trigger manual melalui `workflow_dispatch`.
+- Memisahkan proses persiapan artifact dan deployment menjadi dua job dengan dependensi eksplisit.
+- Mengunggah hanya file situs publik dari direktori `_site`, sehingga artifact Pages lebih bersih dan konsisten.
+- Menambahkan pemeriksaan keberadaan `index.html` sebelum deployment.
 
 ## 2.4.0 — 2026-07-12
 

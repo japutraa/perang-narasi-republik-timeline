@@ -14,19 +14,17 @@
 
 ## Deployment
 
-Package ini memakai GitHub Actions melalui:
+Package menyertakan workflow otomatis di:
 
 `.github/workflows/deploy-pages.yml`
 
-Sesudah semua file dipush ke branch `main`:
+Workflow mengikuti default branch repository secara otomatis. Nama branch tidak harus `main`; `master` atau nama default lain juga dapat dipakai.
 
-1. Buka **Settings → Pages**.
-2. Pada **Build and deployment → Source**, pilih **GitHub Actions**.
-3. Buka tab **Actions**.
-4. Pastikan workflow **Deploy static content to Pages** berjalan.
-5. Bila belum berjalan, pilih workflow tersebut lalu tekan **Run workflow** pada branch `main`.
-
-Setiap push berikutnya ke `main` akan otomatis menerbitkan versi terbaru.
+1. Upload seluruh isi package ke root repository, termasuk folder tersembunyi `.github`.
+2. Buka **Settings → Pages**.
+3. Pada **Build and deployment → Source**, pilih **GitHub Actions**.
+4. Pastikan GitHub Actions diizinkan melalui **Settings → Actions → General**.
+5. Push commit ke default branch, atau jalankan workflow **Deploy Perang Narasi to GitHub Pages** secara manual dari tab **Actions**.
 
 ## Suggested topics
 
