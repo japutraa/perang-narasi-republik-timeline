@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Ekonomi Politik & Kolom Warga Edition — Release 3.4.0**  
+> **Rotating Action Deck Edition — Release 3.4.1**  
 > Game satire politik Indonesia tentang kekuasaan, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.4.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.4.1-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -31,7 +31,7 @@ Campaign membentang selama **6 fase × 12 bulan = 72 episode**:
 
 Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya ditandai jelas sebagai **fiksi prediktif**, bukan ramalan atau klaim faktual.
 
-## Fitur release 3.4.0
+## Fitur release 3.4.1
 
 - **72 skenario bulanan** dengan isu, lawan narasi, strategi, dan konteks berbeda.
 - **Ekonomi progresif:** biaya action naik tajam mengikuti fase, level karier, skala operasi, dan jenis jalur. Operasi pemilu nasional tidak lagi dihargai seperti pesanan desain satu poster.
@@ -49,6 +49,8 @@ Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang ter
 - **Roster tanpa pengulangan:** karakter Pemilu 2024 tidak didaur ulang sebagai dekorasi di fase lain; tim berganti total dari tahun ke tahun.
 - **Crew combo:** ability dapat menurunkan biaya action, memperkuat damage narasi, melindungi kredibilitas, memanaskan timeline, membuka radar tren, atau mengubah engagement.
 - **Action deck kontekstual:** nama, deskripsi, biaya, dan framing kartu berubah mengikuti fase serta tema isu, dari pemilu dan MBG sampai ekonomi, politik influencer, deepfake, dan rekap 2029.
+- **Action sekali pakai per bulan:** setelah satu format dimainkan, kartu itu langsung diganti pendekatan baru dengan mekanik sejenis tetapi judul, deskripsi, dan kemasan berbeda. Setiap keluarga action memiliki beberapa varian sebelum habis pada bulan aktif.
+- **Layout kartu baru:** judul dan harga berada pada area terpisah agar tetap terbaca pada kartu sempit maupun biaya operasi berskala miliaran.
 - **Character voice system:** unggahan memakai bahasa timeline yang lebih cair dan pola komunikasi berbeda untuk karakter komando, pejabat fiskal, akademisi, aktivis kampus, dokumenteris, podcaster, influencer bisnis, penceramah digital, dan bot sintetis.
 - **Kolom komentar berbentuk diskusi:** komentar sekarang membalas akun dan isi tweet secara langsung. Bapak Facebook, Gen Z, emak grup WA, anak PDF, milenial sotoy, fanwar, dan akun benang merah menanggapi isu serta action pemain dengan humor yang relevan. Radar Trend tetap memberi petunjuk satir mengenai isu bulan berikutnya.
 - Final malam pemilu memakai layout terpisah antara narasi dan ilustrasi kotak suara agar tetap terbaca pada desktop maupun layar kecil.

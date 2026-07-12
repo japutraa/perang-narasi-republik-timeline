@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.4.1 — Rotating Action Deck Edition
+
+- Memisahkan area judul dan harga pada action card agar tidak overlap.
+- Setiap format action hanya dapat dipakai sekali per bulan.
+- Setelah dipakai, kartu otomatis diganti varian baru dengan nama dan deskripsi berbeda tetapi mekanik sejenis.
+- Menambahkan hingga empat format unik untuk setiap keluarga action sebelum pendekatan tersebut habis pada bulan aktif.
+- Menyimpan progres varian action di autosave dan tetap kompatibel dengan save versi 3.x.
+
 ## 3.4.0 — Ekonomi Politik & Kolom Warga Edition
 
 ### Added

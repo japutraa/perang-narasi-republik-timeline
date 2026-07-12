@@ -545,10 +545,22 @@
         opacity: 0.36;
         cursor: not-allowed;
       }
+      .action-card-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+        gap: 12px;
+        margin-bottom: 8px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--line);
+      }
       .action-card h4 {
-        margin: 0 0 7px;
-        padding-right: 40px;
+        margin: 0;
+        padding: 0;
+        min-width: 0;
         font-size: 15px;
+        line-height: 1.18;
+        overflow-wrap: anywhere;
       }
       .action-card p {
         margin: 0;
@@ -557,11 +569,19 @@
         line-height: 1.42;
       }
       .cost {
-        position: absolute;
-        right: 8px;
-        top: 8px;
+        position: static;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: flex-start;
+        min-width: max-content;
+        max-width: 132px;
         color: var(--yellow);
         font-size: 10px;
+        font-weight: 900;
+        line-height: 1.15;
+        text-align: right;
+        white-space: nowrap;
       }
       .tags {
         display: flex;
@@ -994,7 +1014,7 @@
       }
       .cost-level {
         display:inline-block;
-        margin-left:5px;
+        margin:4px 0 0;
         padding:2px 5px;
         border:1px solid rgba(255,255,255,.16);
         color:var(--muted);
@@ -1629,7 +1649,7 @@
         }
       }
 
-      /* v3.4.0 — Ekonomi Politik & Kolom Warga Edition */
+      /* v3.4.1 — Rotating Action Deck Edition */
       .roster-stack {
         display: grid;
         gap: 9px;
@@ -1790,7 +1810,7 @@
         </div>
         <div>
           <div class="stamp">
-            BUILD 3.4.0 • 12 JULI 2026<br />Tokoh game adalah parodi-komposit
+            BUILD 3.4.1 • 12 JULI 2026<br />Tokoh game adalah parodi-komposit
           </div>
           <label class="switch" style="margin-top: 9px"
             ><input id="soundToggle" type="checkbox" checked /> bunyi kantor
@@ -1906,7 +1926,7 @@
               hanya ingin semuanya marah lebih lama.”
             </blockquote>
             <small
-              >Versi 3.4.0 • Ekonomi Politik & Kolom Warga Edition • Autosave<br /><span
+              >Versi 3.4.1 • Rotating Action Deck Edition • Autosave<br /><span
                 class="author-credit"
                 >GNU GPL v3 • Game by
                 <a
@@ -2176,11 +2196,12 @@
           bailoutCount: 0,
           missedPayments: 0,
           bankruptcyHistory: [],
+          monthlyActionVariants: {},
+          lastActionVariant: 0,
         };
 
         const SAVE_KEY = "perang-narasi-save-v3";
         let restoring = false;
-        let bankruptcyContinuation = null;
         function saveGame(silent = true) {
           if (!state.role) return;
           try {
@@ -2261,6 +2282,8 @@
           state.bailoutCount = Number(state.bailoutCount) || 0;
           state.missedPayments = Number(state.missedPayments) || 0;
           state.bankruptcyHistory = state.bankruptcyHistory || [];
+          state.monthlyActionVariants = state.monthlyActionVariants || {};
+          state.lastActionVariant = Number(state.lastActionVariant) || 0;
           $("#startScreen").classList.add("hidden");
           $("#gameScreen").classList.remove("hidden");
           $("#roleLabel").textContent = roleData[state.role].label;
@@ -9114,7 +9137,107 @@
             },
           ],
         };
-        function actionPresentation(a, i) {
+        const actionAlternativeFlavor = {
+          buzzer: {
+            meme: [
+              ["Potong Jadi Reels 9 Detik", "Isunya panjang, videonya pendek, caption-nya cuma: paham kan?"],
+              ["Stiker WA Serangan Balik", "Ubah argumen jadi stiker yang bakal nyasar ke grup keluarga sebelum makan siang."],
+              ["Template Meme Cadangan", "Punchline baru, font tetap Impact, konteks kembali diminta antre."],
+            ],
+            patriot: [
+              ["Kibarkan Emoji Darurat", "Tambahkan bendera sampai kritik kelihatan seperti pelanggaran upacara."],
+              ["Lagu Wajib di Background", "Naikkan volume nasionalisme biar pertanyaan kebijakan tenggelam di chorus."],
+              ["Cap Kurang Merah Putih", "Bikin skala cinta negara berdasarkan seberapa sering orang setuju sama admin."],
+            ],
+            data: [
+              ["Grafik Mulai dari Nol yang Salah", "Atur sumbu sampai kenaikan kecil terlihat kayak lompatan peradaban."],
+              ["Pilih Persentase Paling Cakep", "Angkanya sah, pembandingnya kebetulan lagi cuti."],
+              ["Screenshot Tabel Tanpa Catatan Kaki", "Ambil kolom terbaik, crop metodologi, lalu bilang data tidak bisa bohong."],
+            ],
+            whatabout: [
+              ["Tapi Zaman Dulu Gimana?", "Geser bulan ini ke dosa pemerintahan lama sebelum orang sempat buka dokumen."],
+              ["Buka Folder Skandal Sebelah", "Kalau isu susah dijawab, pindahkan penonton ke kebakaran lain."],
+              ["Lempar Nama Mantan Pejabat", "Satu nama lama cukup buat reply berubah jadi reuni dendam nasional."],
+            ],
+            endorse: [
+              ["Titip Narasi ke Seleb", "Pinjam muka terkenal, kasih tiga poin bicara, jangan bahas disclosure dulu."],
+              ["Unboxing Kebijakan Berbayar", "Program negara dibuka seperti paket skincare: lighting bagus, syarat kecil."],
+              ["Joget Dulu, Transparansi Nanti", "Buat koreografi sederhana untuk kebijakan yang penjelasannya 84 halaman."],
+            ],
+            podcast: [
+              ["Monolog Dua Jam Tanpa Jeda", "Jawab semua pertanyaan sekaligus sampai penonton lupa pertanyaan pertama."],
+              ["Potong Jawaban Jadi Shorts", "Ambil 17 detik paling gagah dari dua jam percakapan."],
+              ["Undang Host yang Nggak Nyela", "Suasana santai, kopi hangat, pertanyaan tindak lanjut tidak diundang."],
+            ],
+            attack: [
+              ["Gali Tweet Zaman Blackberry", "Cari salah ketik 2012 untuk membatalkan kritik 2026."],
+              ["Bikin Kolase Masa Lalu", "Empat screenshot, satu musik tegang, nol hubungan dengan kebijakan."],
+              ["Seret Circle Pertemanan", "Kalau orangnya susah diserang, audit siapa yang pernah foto bareng dia."],
+            ],
+            concert: [
+              ["Festival Prestasi Nasional", "Tambah panggung, drone, dan MC sampai evaluasi kebijakan terasa merusak vibe."],
+              ["Launching plus Band Pembuka", "Program baru butuh gitar solo supaya pertanyaan anggaran terdengar kurang asyik."],
+              ["Panggung Rakyat Lampu Seribu", "Semakin terang LED-nya, semakin redup bagian lampiran."],
+            ],
+            transparency: [
+              ["Upload Dokumen Utuh", "Langkah ekstrem: kasih warga file lengkap, bukan carousel pilihan admin."],
+              ["Akui Salah Sebelum Trending", "Koreksi duluan sebelum netizen bikin nama skandal yang lebih catchy."],
+              ["Q&A Tanpa Pertanyaan Titipan", "Buka mikrofon dan terima risiko warga benar-benar bertanya."],
+            ],
+          },
+          aktivis: {
+            context: [
+              ["Cari Video Sebelum Dipotong", "Buka versi panjang sebelum timeline memilih 11 detik paling emosional."],
+              ["Thread Konteks Babak Dua", "Tambah tanggal, pelaku, dan urutan kejadian tanpa bikin pembaca ujian skripsi."],
+              ["Buka Arsip yang Dilupakan", "Tarik dokumen lama supaya semua kubu gagal pura-pura baru dengar."],
+            ],
+            data: [
+              ["Audit Angka Babak Dua", "Cek denominator, baseline, dan siapa yang mendadak hilang dari tabel."],
+              ["Grafik yang Nggak Nipu", "Bikin visual yang masih masuk akal walau tidak se-viral grafik miring."],
+              ["Baca Catatan Kaki Sampai Habis", "Temukan kalimat kecil yang biasanya lebih jujur daripada konferensi pers."],
+            ],
+            empathy: [
+              ["Dengar Warga yang Kena", "Turunkan volume pundit, naikkan suara orang yang hidup di dalam dampaknya."],
+              ["Voice Note dari Lapangan", "Bawa cerita konkret, termasuk bagian yang nggak muat jadi slogan."],
+              ["Ruang Aman Buat Cerita", "Jangan paksa korban berubah jadi konten sebelum mereka siap."],
+            ],
+            meme: [
+              ["Meme Edukatif Versi Receh", "Bikin orang ketawa dulu, lalu selipkan sumber sebelum mereka kabur."],
+              ["Stiker WA Anti-Lupa", "Kirim satire ke grup keluarga dengan risiko dibalas ucapan selamat pagi."],
+              ["Carousel Satire Enam Slide", "Slide pertama lucu, slide terakhir baru kasih daftar bacaan."],
+            ],
+            network: [
+              ["Koordinasi Grup Sebelah", "Satukan kampus, komunitas, dan admin yang selama ini cuma saling like."],
+              ["Patungan Logistik Lagi", "Beli air, kabel, transport, dan harapan dalam satu spreadsheet."],
+              ["Hubungi Komunitas yang Jarang Diajak", "Perluas gerakan di luar circle yang foto profilnya sudah seragam."],
+            ],
+            law: [
+              ["Baca Pasal Sampai Tuntas", "Jangan berhenti di ayat yang cocok buat poster."],
+              ["Bandingkan Amar dan Dissent", "Buka bagian hakim yang beda pendapat sebelum kubu memilih screenshot."],
+              ["Klinik Hukum Dadakan", "Terjemahkan bahasa putusan ke bahasa warga tanpa menghilangkan syarat penting."],
+            ],
+            film: [
+              ["Mini Dokumenter Vertikal", "Bawa bukti ke layar kecil tanpa mengecilkan kompleksitasnya."],
+              ["Rilis Potongan Wawancara", "Tampilkan suara narasumber, konteks, dan kenapa bagian itu dipilih."],
+              ["Buka Footage yang Disimpan", "Keluarkan arsip saat klaim resmi mulai lupa kamera pernah menyala."],
+            ],
+            attack: [
+              ["Quote-Tweet Pakai Caps Lock", "Menang volume, kalah substansi, tetap dapat ribuan reply."],
+              ["Bongkar Aib yang Nggak Nyambung", "Bikin gerakan sibuk menjelaskan kenapa kritiknya berubah jadi infotainment."],
+              ["Fanwar Atas Nama Gerakan", "Pastikan musuh utama bulan ini adalah aktivis lain yang beda font poster."],
+            ],
+            transparency: [
+              ["Publikasikan Donor dan Metode", "Kasih tahu siapa mendanai, bagaimana data dikumpulkan, dan apa keterbatasannya."],
+              ["Koreksi Thread Sendiri", "Edit klaim yang keliru sebelum lawan menjadikannya monumen permanen."],
+              ["Buka Catatan Produksi", "Tunjukkan proses, sumber, dan bagian yang masih belum pasti."],
+            ],
+          },
+        };
+        function maxActionVariants(a) {
+          return 1 + (actionAlternativeFlavor[state.role]?.[a.id]?.length || 0);
+        }
+
+        function actionPresentation(a, i, variantIndex = 0) {
           const phase = phaseActionFlavor[state.role]?.[state.phase]?.[a.id],
             fallback = phaseFallbackFlavor[state.role]?.[state.phase]?.[a.id],
             topic = topicActionFlavor[i.key]?.[state.role]?.[a.id],
@@ -9122,9 +9245,18 @@
               i.key === "future"
                 ? phase || fallback || topic
                 : topic || phase || fallback;
+          const baseName = pick?.[0] || a.name;
+          const baseDesc = pick?.[1] || a.desc;
+          const alternatives = actionAlternativeFlavor[state.role]?.[a.id] || [];
+          const offset = alternatives.length
+            ? (state.phase * 2 + state.day - 1) % alternatives.length
+            : 0;
+          const alt = variantIndex > 0 && alternatives.length
+            ? alternatives[(variantIndex - 1 + offset) % alternatives.length]
+            : null;
           return {
-            name: pick?.[0] || a.name,
-            desc: pick?.[1] || a.desc,
+            name: alt?.[0] || baseName,
+            desc: alt?.[1] || baseDesc,
             context: `${i.month} • ${i.title.replace("#", "")} • ${getVoiceProfile(i).label}`,
           };
         }
@@ -9173,7 +9305,10 @@
         }
         function minimumActionCost() {
           const i = currentIssue();
-          const costs = availableActions().map((a) => actionCost(a, i));
+          state.monthlyActionVariants = state.monthlyActionVariants || {};
+          const costs = availableActions()
+            .filter((a) => (Number(state.monthlyActionVariants[a.id]) || 0) < maxActionVariants(a))
+            .map((a) => actionCost(a, i));
           return costs.length ? Math.min(...costs) : 0;
         }
         const promotionChoices = {
@@ -10115,6 +10250,8 @@
             bailoutCount: 0,
             missedPayments: 0,
             bankruptcyHistory: [],
+            monthlyActionVariants: {},
+            lastActionVariant: 0,
           });
           resetQuizDeck();
           $("#startScreen").classList.add("hidden");
@@ -10274,6 +10411,8 @@
             state.actions = 0;
             state.heat = clamp(i.heat + state.phase * 2);
             state.lastAction = null;
+            state.lastActionVariant = 0;
+            state.monthlyActionVariants = {};
             seedPostMetrics();
           }
           $("#issueTitle").innerHTML =
@@ -10363,24 +10502,40 @@
         function renderCards() {
           const i = currentIssue();
           const actions = availableActions();
-          const affordable = actions.some((a) => state.money >= actionCost(a, i));
+          state.monthlyActionVariants = state.monthlyActionVariants || {};
+          const hasAvailableFormats = actions.some(
+            (a) => (Number(state.monthlyActionVariants[a.id]) || 0) < maxActionVariants(a),
+          );
+          const affordable = actions.some((a) => {
+            const used = Number(state.monthlyActionVariants[a.id]) || 0;
+            return used < maxActionVariants(a) && state.money >= actionCost(a, i);
+          });
           let html = actions
             .map((a) => {
+              const used = Number(state.monthlyActionVariants[a.id]) || 0;
+              const maxVariants = maxActionVariants(a);
+              const exhausted = used >= maxVariants;
+              const variantIndex = Math.min(used, Math.max(0, maxVariants - 1));
               const d = effectiveDamage(a, i),
                 cost = actionCost(a, i),
-                v = actionPresentation(a, i),
-                disabled = state.money < cost || state.resolve <= 0,
+                v = actionPresentation(a, i, variantIndex),
+                disabled = exhausted || state.money < cost || state.resolve <= 0,
                 buffs = activeActionBuffs(a);
-              return `<button class="action-card" data-action="${a.id}" ${disabled ? "disabled" : ""}><span class="cost">${formatMoney(cost)} <span class="cost-level">${costLevelLabel()}</span></span><h4>${v.name}</h4><p>${v.desc}</p><div class="tags">${a.tags.map((t) => `<span class="tag">${t}</span>`).join("")}${i.weak.includes(a.id) ? '<span class="tag new">EFEKTIF</span>' : ""}${buffs.map((b) => `<span class="tag ability-tag">⚡ ${b.sourceName}</span>`).join("")}</div><span class="action-context">${v.context}</span><p style="margin-top:7px;color:var(--ink)">Dampak ±${d}${buffs.length ? " • CREW BOOST" : ""}</p></button>`;
+              const title = exhausted ? "Pendekatan Ini Udah Habis Bulan Ini" : v.name;
+              const desc = exhausted
+                ? "Timeline udah lihat semua variasinya. Coba kartu lain sebelum netizen sadar admin cuma ganti caption."
+                : v.desc;
+              const costText = exhausted ? "SUDAH DIPAKAI" : formatMoney(cost);
+              return `<button class="action-card ${exhausted ? "action-exhausted" : ""}" data-action="${a.id}" data-variant="${used}" ${disabled ? "disabled" : ""}><div class="action-card-head"><h4>${title}</h4><span class="cost">${costText}${exhausted ? "" : `<span class="cost-level">${costLevelLabel()}</span>`}</span></div><p>${desc}</p><div class="tags">${a.tags.map((t) => `<span class="tag">${t}</span>`).join("")}${i.weak.includes(a.id) ? '<span class="tag new">EFEKTIF</span>' : ""}${used > 0 && !exhausted ? '<span class="tag new">FORMAT BARU</span>' : ""}${buffs.map((b) => `<span class="tag ability-tag">⚡ ${b.sourceName}</span>`).join("")}</div><span class="action-context">${v.context}</span><p style="margin-top:7px;color:var(--ink)">Dampak ±${d}${buffs.length ? " • CREW BOOST" : ""}</p></button>`;
             })
             .join("");
-          if (!affordable && state.resolve > 0) {
-            html += `<button class="action-card finance-card" id="cashCrisisCard"><span class="cost">KAS KERING</span><h4>💸 Semua Action Card Kemahalan</h4><p>${state.role === "buzzer" ? "Invoice belum cair, patron cuma centang dua, dan komisaris masih berupa doa." : "Donasi seret, proposal dibaca cuma bagian anggaran, dan logistik minta dibayar pakai uang beneran."}</p><div class="tags"><span class="tag new">RISIKO BANGKRUT</span><span class="tag">KREDIT BERBUNGA</span></div><p style="margin-top:7px;color:var(--ink)">Buka meja bailout atau akhiri kronik.</p></button>`;
+          if (!affordable && hasAvailableFormats && state.resolve > 0) {
+            html += `<button class="action-card finance-card" id="cashCrisisCard"><div class="action-card-head"><h4>💸 Semua Action Card Kemahalan</h4><span class="cost">KAS KERING</span></div><p>${state.role === "buzzer" ? "Invoice belum cair, patron cuma centang dua, dan komisaris masih berupa doa." : "Donasi seret, proposal dibaca cuma bagian anggaran, dan logistik minta dibayar pakai uang beneran."}</p><div class="tags"><span class="tag new">RISIKO BANGKRUT</span><span class="tag">KREDIT BERBUNGA</span></div><p style="margin-top:7px;color:var(--ink)">Buka meja bailout atau akhiri kronik.</p></button>`;
           }
           $("#cards").innerHTML = html;
           document
             .querySelectorAll("[data-action]")
-            .forEach((b) => (b.onclick = () => playAction(b.dataset.action)));
+            .forEach((b) => (b.onclick = () => playAction(b.dataset.action, Number(b.dataset.variant) || 0)));
           const crisis = $("#cashCrisisCard");
           if (crisis) crisis.onclick = () => showBankruptcyCrisis("KAS TAK CUKUP UNTUK SATU ACTION");
         }
@@ -10639,10 +10794,7 @@
             discussionComment(tone, i, a),
             contextualComment(tone, i),
           ];
-          if (rnd(0, 100) > 58) {
-            const jokePersona = ["bapak", "genz", "emak"][rnd(0, 2)];
-            thread.push(makeComment("neutral", topicJoke(i, jokePersona), { persona: jokePersona, replyTo: i.handle }));
-          }
+          if (rnd(0, 100) > 58) thread.push(makeComment("neutral", topicJoke(i, ["bapak", "genz", "emak"][rnd(0,2)]), { persona: ["bapak", "genz", "emak"][rnd(0,2)], replyTo: i.handle }));
           if (rnd(0, 100) > 62) thread.push(trendHintComment());
           state.comments.unshift(...thread);
           if (rnd(0, 100) > 48)
@@ -10715,12 +10867,18 @@
           $("#closeMetric").onclick = () => $("#modal").classList.add("hidden");
         }
 
-        function playAction(id) {
+        function playAction(id, variantIndex = 0) {
           const a = actionDefs[state.role].find((x) => x.id === id),
             i = currentIssue();
           if (!a || state.resolve <= 0) return;
+          state.monthlyActionVariants = state.monthlyActionVariants || {};
+          const currentVariant = Number(state.monthlyActionVariants[id]) || 0;
+          if (variantIndex !== currentVariant || currentVariant >= maxActionVariants(a)) {
+            renderCards();
+            return;
+          }
           const cost = actionCost(a, i),
-            display = actionPresentation(a, i),
+            display = actionPresentation(a, i, currentVariant),
             buffs = activeActionBuffs(a);
           if (state.money < cost) {
             showBankruptcyCrisis(`BIAYA ${display.name.toUpperCase()} MELEBIHI KAS`);
@@ -10749,10 +10907,14 @@
           state.actions++;
           state.career += Math.max(1, Math.round(d / 8));
           state.lastAction = id;
+          state.lastActionVariant = currentVariant;
+          state.monthlyActionVariants[id] = currentVariant + 1;
           state.history.push({
             phase: state.phase,
             day: state.day,
             action: id,
+            variant: currentVariant,
+            label: display.name,
           });
           const good = a.int >= 0 && a.dem >= 0;
           updateEngagement(a, d, good);
@@ -10761,6 +10923,16 @@
             `${display.name}: narasi lawan turun ${d}. ${good ? "Publik dapet konteks lebih banyak." : "Engagement naik; ruang publik ngirim voice note panjang."}`,
             good ? "good" : "bad",
           );
+          if (state.monthlyActionVariants[id] < maxActionVariants(a))
+            addLog(
+              "Format ini udah kepakai. Slotnya diganti pendekatan baru yang efeknya mirip, tapi caption dan kemasannya beda.",
+              "info",
+            );
+          else
+            addLog(
+              "Semua variasi pendekatan ini udah habis bulan ini. Timeline minta ide lain, bukan copy-paste pakai emoji baru.",
+              "info",
+            );
           if (consumed.length)
             addLog(
               `Crew combo kepakai: ${consumed.map((b) => `${b.sourceName} — ${b.abilityName}`).join(" + ")}. Buff habis, admin balik ngopi.`,
@@ -10952,27 +11124,19 @@
           $("#modal").classList.add("hidden");
           render(); saveGame(true);
           flash(`BAILOUT CAIR ${formatMoney(principal)} • BUNGA ${(state.loanRate * 100).toFixed(1)}%/BULAN`);
-          const resume = bankruptcyContinuation;
-          bankruptcyContinuation = null;
-          if (typeof resume === "function") resume();
         }
-        function showBankruptcyCrisis(reason = "KAS OPERASI KOLAPS", continuation = null) {
-          bankruptcyContinuation = continuation;
+        function showBankruptcyCrisis(reason = "KAS OPERASI KOLAPS") {
           const rules = financeRules();
           const remaining = Math.max(0, rules.limit - (state.debt || 0));
           const exhausted = remaining < Math.max(10000000, rules.reserve * .35) || (state.bailoutCount || 0) >= 4;
           const bailoutCards = state.role === "buzzer"
             ? `<button class="choice-card" data-bailout="commissioner"><h3>🤲 Insya Allah Komisaris</h3><small>Patron menyelamatkan operasi. Bunga lebih ringan, karier dan jaringan naik, integritas serta demokrasi bayar ongkosnya.</small></button><button class="choice-card" data-bailout="fast"><h3>🏦 Kredit Invoice Tanpa Banyak Tanya</h3><small>Cair cepat, provisi tebal, bunga bikin bulan berikutnya ikut kampanye.</small></button>`
             : `<button class="choice-card" data-bailout="solidarity"><h3>🤝 Koperasi Gerakan</h3><small>Urunan warga dan jaringan. Bunga sedikit lebih manusiawi, laporan kas wajib transparan.</small></button><button class="choice-card" data-bailout="fast"><h3>📱 Pinjol Algoritma</h3><small>Cair cepat. Notifikasi penagihan lebih rajin daripada update kasus.</small></button>`;
-          $("#modalContent").innerHTML = `<div class="bankruptcy-stage"><span class="special-ribbon">ENDING DARURAT • BANGKRUT</span><h2>💸 Kas Habis, Idealisme Minta Struk</h2><p><b>${reason}</b></p><div class="ending-score"><div><strong>${formatMoney(state.money)}</strong>Kas</div><div><strong>${formatMoney(state.debt || 0)}</strong>Utang</div><div><strong>${state.bailoutCount || 0}</strong>Bailout</div><div><strong>${formatMoney(remaining)}</strong>Sisa kredit</div></div><div class="loan-warning">Kamu bisa menerima kredit penyelamatan dan lanjut bermain. Bunganya dibebankan setiap bulan. Kalau menolak—atau limit habis—kronik benar-benar tamat.</div>${exhausted ? '<div class="lesson"><b>LIMIT KREDIT HABIS.</b><br>Patron sedang offline, koperasi juga sudah mute grup.</div>' : `<div class="choice-grid">${bailoutCards}</div>`}<div class="btn-row"><button class="btn secondary" id="acceptBankruptcy">Akui Bangkrut & Akhiri Game</button>${state.money >= 0 && !continuation ? '<button class="btn secondary" id="cancelBankruptcy">Batal</button>' : ''}</div></div>`;
+          $("#modalContent").innerHTML = `<div class="bankruptcy-stage"><span class="special-ribbon">ENDING DARURAT • BANGKRUT</span><h2>💸 Kas Habis, Idealisme Minta Struk</h2><p><b>${reason}</b></p><div class="ending-score"><div><strong>${formatMoney(state.money)}</strong>Kas</div><div><strong>${formatMoney(state.debt || 0)}</strong>Utang</div><div><strong>${state.bailoutCount || 0}</strong>Bailout</div><div><strong>${formatMoney(remaining)}</strong>Sisa kredit</div></div><div class="loan-warning">Kamu bisa menerima kredit penyelamatan dan lanjut bermain. Bunganya dibebankan setiap bulan. Kalau menolak—atau limit habis—kronik benar-benar tamat.</div>${exhausted ? '<div class="lesson"><b>LIMIT KREDIT HABIS.</b><br>Patron sedang offline, koperasi juga sudah mute grup.</div>' : `<div class="choice-grid">${bailoutCards}</div>`}<div class="btn-row"><button class="btn secondary" id="acceptBankruptcy">Akui Bangkrut & Akhiri Game</button><button class="btn secondary" id="cancelBankruptcy">Batal</button></div></div>`;
           $("#modal").classList.remove("hidden");
           document.querySelectorAll("[data-bailout]").forEach((b) => b.onclick = () => takeBailout(b.dataset.bailout, reason));
           $("#acceptBankruptcy").onclick = () => showBankruptcyEnding(reason, exhausted ? "LIMIT KREDIT HABIS" : "PEMAIN MENOLAK BAILOUT");
-          const cancel = $("#cancelBankruptcy");
-          if (cancel) cancel.onclick = () => {
-            bankruptcyContinuation = null;
-            $("#modal").classList.add("hidden");
-          };
+          $("#cancelBankruptcy").onclick = () => $("#modal").classList.add("hidden");
         }
         function showBankruptcyEnding(reason, note) {
           state.finished = true;
@@ -11120,7 +11284,7 @@
           addLog(`${state.role === "buzzer" ? "Invoice/patron cair" : "Donasi dan urunan masuk"}: ${formatMoney(monthlyFunding)}.`, "info");
           serviceDebt();
           if (state.money < 0 || ((state.debt || 0) > financeRules().limit && state.missedPayments > 0)) {
-            showBankruptcyCrisis(state.money < 0 ? "SALDO OPERASI NEGATIF" : "BATAS KREDIT JEBOL", proceedAfterMonth);
+            showBankruptcyCrisis(state.money < 0 ? "SALDO OPERASI NEGATIF" : "BATAS KREDIT JEBOL");
             return;
           }
           const reasons = criticalReasons();
@@ -11260,7 +11424,7 @@
           };
           if (state.money < 0) {
             saveGame(true);
-            showBankruptcyCrisis(`SPECIAL EVENT ${e.title.toUpperCase()} MENGHABISKAN KAS`, continueAfterDay);
+            showBankruptcyCrisis(`SPECIAL EVENT ${e.title.toUpperCase()} MENGHABISKAN KAS`);
             return;
           }
           $("#modalContent").innerHTML =
@@ -11345,7 +11509,7 @@
                   .join("")
               : "<li>Belum ada crew ability yang dipakai. Mereka masih menatapmu dari sidebar.</li>";
           $("#modalContent").innerHTML =
-            `<h2>Riwayat Karier</h2><div class="career-line"><b>${state.role === "buzzer" ? "Dari relawan menuju mesin kekuasaan" : "Dari utas menuju institusi publik"}</b><ul>${path}</ul></div><p>Poin karier: <b>${state.career}</b> • Bailout: <b>${state.bailoutCount || 0}</b> • Utang: <b>${formatMoney(state.debt || 0)}</b>. Karier bisa naik sementara arus kas turun—sangat realistis, sayangnya.</p><div class="career-line"><b>Jejak Special Event</b><ul>${events}</ul></div><div class="crew-history"><b>⚡ Crew Ability yang Sudah Dipakai</b><ul>${crew}</ul></div><button class="btn" id="closeCareer">Tutup</button>`;
+            `<h2>Riwayat Karier</h2><div class="career-line"><b>${state.role === "buzzer" ? "Dari relawan menuju mesin kekuasaan" : "Dari utas menuju institusi publik"}</b><ul>${path}</ul></div><p>Poin karier: <b>${state.career}</b>. Angka ini ngukur seberapa jauh kamu naik, bukan seberapa sehat republiknya.</p><div class="career-line"><b>Jejak Special Event</b><ul>${events}</ul></div><div class="crew-history"><b>⚡ Crew Ability yang Sudah Dipakai</b><ul>${crew}</ul></div><button class="btn" id="closeCareer">Tutup</button>`;
           $("#modal").classList.remove("hidden");
           $("#closeCareer").onclick = () => $("#modal").classList.add("hidden");
         }
@@ -11585,6 +11749,8 @@
             bailoutCount: 0,
             missedPayments: 0,
             bankruptcyHistory: [],
+            monthlyActionVariants: {},
+            lastActionVariant: 0,
           });
           syncQuizToggles();
           updateContinuePanel();
