@@ -1,6 +1,6 @@
 # Perang Narasi: Republik Timeline
 
-> **v3.5.0 — Narrative Rewrite Edition**
+> **v3.5.2 — Narrative Rewrite Edition**
 
 Game satire politik Indonesia tentang buzzer pemerintah, aktivisme, propaganda, ekonomi politik, hukum, geopolitik, dan ingatan publik.
 
@@ -8,13 +8,13 @@ Game satire politik Indonesia tentang buzzer pemerintah, aktivisme, propaganda, 
 
 [Mainkan di browser](https://japutraa.github.io/perang-narasi-republik-timeline/)
 
-## Rilis 3.5.0
+## Rilis 3.5.2
 
 Versi ini merombak campaign **6 fase × 12 bulan = 72 episode** menjadi cerita sebab-akibat yang utuh:
 
 **peristiwa → tweet tokoh → action relevan → diskusi warga → konsekuensi → teaser episode berikutnya**
 
-Arc utamanya mencakup putusan usia cawapres dan istilah polemis “anak haram konstitusi”, Jokowi dan warisan kekuasaan, @fufufafa, MBG, Kopdes Merah Putih, rangkap jabatan komisaris, perkara Hasto–Tom Lembong–Nadiem, polemik ijazah, rupiah melemah, IHSG jatuh, PLN, banjir Sumatra, BRICS, lawatan luar negeri, Menlu Sugiyono versus Dino Pati Djalal, hingga proyeksi terbuka Pemilu 2029.
+Arc utamanya mencakup putusan usia cawapres dan istilah polemis “anak haram konstitusi”, Jokowi dan warisan kekuasaan, @fufufafa, MBG, Kopdes Merah Putih, rangkap jabatan komisaris, perkara Hasto–Tom Lembong–Nadiem, polemik ijazah, rupiah melemah, IHSG jatuh, PLN, banjir Sumatra, BRICS, lawatan luar negeri, Menlu Sugiyono versus Om Dipo Peta Dunia, hingga proyeksi terbuka Pemilu 2029. Tiyo dan Fatima Azzahra kini masuk sebagai tokoh aktivis mahasiswa aktif dalam arc Indonesia Gelap, UU TNI, tekanan ekonomi 2026, dan callback Pemilu 2029.
 
 ## Prinsip editorial
 
@@ -34,3 +34,11 @@ Tokoh adalah parodi atau karakter komposit. Game membedakan tudingan, bantahan, 
 ## Lisensi
 
 Copyright © 2026 Adrian Janitra Putra. Dirilis di bawah GNU GPL v3.0.
+
+
+### Tokoh aktivis mahasiswa
+
+- **Tiyo** — cameo aktif fase 2025 dengan ability **Estafet Toa Antarkampus**, berfokus pada konsolidasi, logistik, dokumentasi, dan kesinambungan aksi.
+- **Fatima Azzahra** — cameo aktif fase 2026 dengan ability **Konsolidasi Sampai Footnote**, berfokus pada tuntutan, bukti, pernyataan sikap, dan tindak lanjut.
+
+Keduanya ditulis sebagai representasi parodi-komposit berdasarkan tokoh yang dirujuk pembuat game. Game tidak mengarang jabatan organisasi atau riwayat biografis yang tidak terverifikasi.

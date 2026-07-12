@@ -1,9 +1,18 @@
 # Changelog
 
+## 3.5.2 — Diplomacy Parody Rename
+
+- Menambahkan **Tiyo** sebagai cameo aktif fase 2025 dengan ability **Estafet Toa Antarkampus**.
+- Menambahkan **Fatima Azzahra** sebagai cameo aktif fase 2026 dengan ability **Konsolidasi Sampai Footnote**.
+- Menulis ulang tweet Februari 2025 dan Juni 2026 agar kedua tokoh masuk ke alur Indonesia Gelap, UU TNI, tekanan ekonomi, serta BEM UI.
+- Menambahkan callback Tiyo dan Fatima pada forum politik Pemilu 2029 agar perkembangan mereka tidak berhenti sebagai cameo satu fase.
+- Memperbarui special event Tolak UU TNI dan Indonesia Bangkrut.
+- Menambahkan disclaimer bahwa representasi keduanya adalah parodi-komposit dan tidak mengarang riwayat organisasi yang tidak terverifikasi.
+
 ## 3.5.0 — Narrative Rewrite Edition
 
 - Menulis ulang arc faktual 2024–Juli 2026 dan menyambungkannya ke proyeksi 2027–2029.
-- Menambahkan Jokowi, Menlu Sugiyono, Dino Pati Djalal, Roy Sur-Yoyo, dr. Tifa-Tifi, serta gaya pidato Pak Jenderal Gemoyono.
+- Menambahkan Jokowi, Menlu Sugiyono, Om Dipo Peta Dunia, Roy Sur-Yoyo, dr. Tifa-Tifi, serta gaya pidato Pak Jenderal Gemoyono.
 - Menambahkan polemik konstitusi, ijazah, @fufufafa, rupiah, IHSG, PLN, banjir Sumatra, Kopdes, MBG, dan perkara hukum.
 - Action cards kini mengambil objek, dokumen, pihak terdampak, dan teaser dari episode aktif.
 - Komentar kini membahas tweet dan action yang dipilih, bukan kumpulan template lepas.
