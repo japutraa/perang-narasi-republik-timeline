@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Crew Ability Edition — Release 3.2.0**  
+> **Kolom Netizen & Akun Hantu Edition — Release 3.3.0**  
 > Game satire politik Indonesia tentang kekuasaan, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.2.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.3.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -31,11 +31,15 @@ Campaign membentang selama **6 fase × 12 bulan = 72 episode**:
 
 Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya ditandai jelas sebagai **fiksi prediktif**, bukan ramalan atau klaim faktual.
 
-## Fitur release 3.2.0
+## Fitur release 3.3.0
 
 - **72 skenario bulanan** dengan isu, lawan narasi, strategi, dan konteks berbeda.
-- **Tim & Mentor aktif:** setiap fase memiliki satu mentor dan dua cameo yang dipilih khusus sesuai tema tahun tersebut.
-- **36 kemampuan karakter unik:** setiap karakter dapat dipanggil tepat satu kali per fase untuk memberi dampak instan atau buff pada action berikutnya.
+- **Kolom komentar berpersona:** bapak Facebook, Gen Z base, milenial sotoy, emak grup WA, anak PDF, fanwar nasional, akun benang merah, dan hantu forum lama punya pilihan kata, handle, emoji, serta punchline yang berbeda.
+- **Anti-repetition ringan:** game mengingat komentar baru-baru ini agar baris yang sama tidak cepat muncul lagi.
+- **Bossman Mardi-Gitu:** wildcard fase 2027 dengan ability papan tulis global yang membuka radar tren dan menaikkan engagement, tetapi menguji kredibilitas.
+- **Mekanik fufufafa dua bab:** special event 2024 menyimpan pilihan pemain, lalu arsip yang sama kembali sebagai plot twist pada pra-pemilu 2028. Identitas pemilik akun tetap ditandai belum terverifikasi final.
+- **Tim & Mentor aktif:** setiap fase memiliki satu mentor dan dua cameo yang dipilih khusus sesuai tema tahun tersebut; fase 2027 mendapat satu wildcard tambahan.
+- **37 kemampuan karakter unik:** setiap karakter dapat dipanggil tepat satu kali per fase untuk memberi dampak instan atau buff pada action berikutnya.
 - **Roster tanpa pengulangan:** karakter Pemilu 2024 tidak didaur ulang sebagai dekorasi di fase lain; tim berganti total dari tahun ke tahun.
 - **Crew combo:** ability dapat menurunkan biaya action, memperkuat damage narasi, melindungi kredibilitas, memanaskan timeline, membuka radar tren, atau mengubah engagement.
 - **Action deck kontekstual:** nama, deskripsi, biaya, dan framing kartu berubah mengikuti fase serta tema isu, dari pemilu dan MBG sampai ekonomi, politik influencer, deepfake, dan rekap 2029.
@@ -68,6 +72,8 @@ Dunia game memuat karakter plesetan dan komposit seperti:
 - Ferry Irwindy
 - Ustaz Felix Si-Auw
 - Raymond Cuan-Check
+- Bossman Mardi-Gitu
+- @fufufafa sebagai “digital ghost event” dengan status identitas yang tidak dipastikan game
 
 Karakter tersebut menyindir gaya komunikasi, jabatan, fenomena, dan arketipe politik. Mereka **bukan biografi**, bukan tuduhan operasi buzzer, dan bukan pernyataan mengenai motif pribadi figur nyata.
 

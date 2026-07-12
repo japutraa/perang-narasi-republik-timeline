@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.3.0 — Kolom Netizen & Akun Hantu Edition
+
+- Merombak komentar menjadi persona netizen yang mudah dibaca dan berbeda gaya: bapak Facebook, Gen Z base, milenial sotoy, emak grup WA, anak PDF, fanwar, akun konspirasi, dan akun forum lama.
+- Menambahkan memori komentar agar teks yang sama tidak cepat berulang.
+- Mengubah Radar Trend menjadi bisikan dari persona berbeda dengan bahasa yang lebih natural dan receh.
+- Menambahkan **Bossman Mardi-Gitu** sebagai wildcard fase 2027 dengan ability Tarik Benang Merah Global.
+- Menambahkan special event **Akun Lama, Koalisi Baru** pada 2024 dan **Cache Lama Ikut Kampanye Lagi** pada 2028.
+- Pilihan pemain pada event pertama disimpan dan mengubah bonus, penalti, serta narasi plot twist pada event kedua.
+- Menandai secara eksplisit bahwa kepemilikan akun @fufufafa tidak diperlakukan sebagai fakta yang telah terbukti.
+- Menambahkan sumber arsip untuk kontroversi akun Kaskus dan memperluas disclaimer anti-doxing serta standar bukti.
+- Mempertahankan kompatibilitas save versi 3.x.
+
 ## 3.2.0 — Crew Ability Edition
 
 - Mengubah panel **Tim & Mentor** dari dekorasi menjadi sistem gameplay aktif.

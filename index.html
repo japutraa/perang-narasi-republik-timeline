@@ -1573,7 +1573,7 @@
         }
       }
 
-      /* v3.2.0 — Crew Ability Edition */
+      /* v3.3.0 — Kolom Netizen & Akun Hantu Edition */
       .roster-stack {
         display: grid;
         gap: 9px;
@@ -1716,7 +1716,11 @@
           padding: 8px;
         }
       }
-    </style>
+    
+/* v3.3.0 — Commentariat personas & digital ghost */
+.roster-card.wildcard-card{border-left:5px solid #ff9f43;background:linear-gradient(90deg,rgba(255,159,67,.08),transparent 42%),#10100e}.wildcard-card .roster-role{color:#ffb86b}.crew-intro-card.wildcard-intro{border-top:4px solid #ff9f43}.digital-ghost{position:relative;border-color:#8dffb4!important;background:linear-gradient(135deg,rgba(141,255,180,.08),rgba(124,93,255,.06)),var(--panel2)!important;box-shadow:inset 0 0 0 1px rgba(141,255,180,.12)}.digital-ghost:before{content:"ARCHIVE CACHE // IDENTITAS BELUM TERVERIFIKASI";display:block;color:#8dffb4;font:1000 9px/1.3 monospace;letter-spacing:.6px;margin-bottom:8px}.ghost-handle{font-family:monospace;font-size:10px;color:#8dffb4;border:1px dashed rgba(141,255,180,.45);padding:6px 8px;margin:8px 0;background:#090c0a}.legacy-signal{margin-top:10px;border-left:4px solid #ff9f43;padding:9px 11px;background:rgba(255,159,67,.08);font-size:11px;line-height:1.45}.comment-item.persona-bapak{border-left:3px solid #8bd3ff}.comment-item.persona-genz{border-left:3px solid #ff78c6}.comment-item.persona-millennial{border-left:3px solid #f4d34a}.comment-item.persona-conspiracy{border-left:3px solid #ff9f43}.comment-item.persona-emak{border-left:3px solid #a9f98f}.comment-item.persona-anakpdf{border-left:3px solid #b39cff}.comment-item.persona-fanwar{border-left:3px solid #ff6060}.comment-item.persona-forumGhost{border-left:3px solid #8dffb4;background:linear-gradient(90deg,rgba(141,255,180,.07),transparent 36%)}.comment-item.persona-forumGhost .comment-body b{font-family:monospace;color:#8dffb4}.comment-item.persona-forumGhost .comment-avatar{filter:grayscale(1)}
+
+</style>
   </head>
   <body>
     <div class="app">
@@ -1730,7 +1734,7 @@
         </div>
         <div>
           <div class="stamp">
-            BUILD 3.2.0 • 12 JULI 2026<br />Tokoh game adalah parodi-komposit
+            BUILD 3.3.0 • 12 JULI 2026<br />Tokoh game adalah parodi-komposit
           </div>
           <label class="switch" style="margin-top: 9px"
             ><input id="soundToggle" type="checkbox" checked /> bunyi kantor
@@ -1846,7 +1850,7 @@
               hanya ingin semuanya marah lebih lama.”
             </blockquote>
             <small
-              >Versi 3.2.0 • Crew Ability Edition • Autosave<br /><span
+              >Versi 3.3.0 • Kolom Netizen & Akun Hantu Edition • Autosave<br /><span
                 class="author-credit"
                 >GNU GPL v3 • Game by
                 <a
@@ -2101,6 +2105,9 @@
           abilityBuffs: [],
           abilityLog: [],
           trendReveal: 0,
+          commentMemory: [],
+          fufuArchive: null,
+          fufuTwistResolved: false,
         };
 
         const SAVE_KEY = "perang-narasi-save-v3";
@@ -2177,6 +2184,9 @@
           state.abilityBuffs = state.abilityBuffs || [];
           state.abilityLog = state.abilityLog || [];
           state.trendReveal = state.trendReveal || 0;
+          state.commentMemory = state.commentMemory || [];
+          state.fufuArchive = state.fufuArchive || null;
+          state.fufuTwistResolved = Boolean(state.fufuTwistResolved);
           $("#startScreen").classList.add("hidden");
           $("#gameScreen").classList.remove("hidden");
           $("#roleLabel").textContent = roleData[state.role].label;
@@ -2887,6 +2897,34 @@
                     "Sebelum bilang ini solusi, coba bayangin siapa yang bayar lima dan sepuluh tahun lagi.",
                 },
               },
+
+              {
+                id: "mardi-gitu",
+                icon: "🧩",
+                name: "Bossman Mardi-Gitu",
+                role: "WILDCARD BENANG MERAH GLOBAL",
+                bio: "Satu papan tulis, empat negara, tujuh panah, dan kesimpulan yang keburu viral sebelum sumbernya selesai loading.",
+                ability: {
+                  name: "Tarik Benang Merah Global",
+                  desc: "Reach dan heat meledak, dua tren berikutnya terbuka, action meme/context berikutnya makin viral. Kredibilitas ikut dites semesta.",
+                  immediate: { reach: 14, heat: 11, credibility: -5 },
+                  metrics: {
+                    views: 940000,
+                    likes: 118000,
+                    reposts: 47000,
+                    replies: 56000,
+                  },
+                  trendReveal: 2,
+                  buff: {
+                    actionIds: ["meme", "context"],
+                    damage: 15,
+                    engagementMultiplier: 1.55,
+                  },
+                  tone: "neutral",
+                  quote:
+                    "Gue nggak bilang ini pasti nyambung. Gue cuma gambar tujuh panah. Kalau panah kedelapan muncul, algoritma yang mutusin.",
+                },
+              },
             ],
             [
               {
@@ -3038,6 +3076,18 @@
               "Influencer pendukung paslon",
               "ANTARA melaporkan kelompok Kreator Indonesia Maju sebagai influencer dan artis pendukung Prabowo-Gibran dalam masa kampanye.",
               "https://sultra.antaranews.com/berita/454833/influencer-pendukung-prabowo-gibran-menilai-paparan-02-mudah-dipahami",
+            ],
+          ],
+          fufufafa: [
+            [
+              "Kontroversi akun Kaskus fufufafa",
+              "Akun forum lama itu viral pada 2024 karena unggahan yang menyerang Prabowo dan keluarganya serta komentar tidak pantas terhadap sejumlah figur publik. Kepemilikannya ramai dikaitkan dengan Gibran, tetapi belum terbukti secara final.",
+              "https://www.suara.com/tekno/2024/09/02/194331/apakah-fufufafa-akun-milik-gibran-begini-jawaban-pendiri-kaskus-dan-pakar",
+            ],
+            [
+              "Status identitas belum terkonfirmasi",
+              "Pendiri Kaskus Andrew Darwis menekankan mudahnya membuat akun pada masa itu; Ainun Najib menyatakan belum ada bukti langsung yang cukup. Gibran dan sejumlah pendukungnya membantah keterkaitan akun tersebut.",
+              "https://katadata.co.id/lifestyle/varia/66f4c71c2d57a/4-fakta-akun-fufufafa-yang-viral-di-media-sosial-benarkah-milik-gibran",
             ],
           ],
           dirtyvote: [
@@ -3583,6 +3633,13 @@
               "Arketipe komika-politik diaspora yang membawa keresahan republik ke panggung, lalu pulang membawa kolom komentar.",
               "Parodi komposit.",
             ],
+
+            [
+              "🧩",
+              "Bossman Mardi-Gitu",
+              "Arketipe influencer geopolitik-ekonomi yang menghubungkan papan tulis, mata uang, elite global, dan algoritma dalam satu napas panjang.",
+              "Parodi komposit atas gaya konten naratif-konspiratif; bukan klaim faktual mengenai teori tertentu.",
+            ],
             [
               "💻",
               "Ainun Na-Jib Data Warga",
@@ -3795,6 +3852,65 @@
                     money: 6000000,
                   },
                   "“Kalah pemilu bukan pensiun sebagai warga.”",
+                ],
+              ],
+            },
+          },
+          {
+            id: "fufufafa-archive",
+            phase: 0,
+            after: 8,
+            icon: "👻",
+            title: "Akun Lama, Koalisi Baru",
+            actor: "@fufufafa • cache forum yang menolak pensiun",
+            text: "Netizen menggali akun Kaskus lama berisi hinaan kasar terhadap Pak Jenderal Gemoyono dan komentar seksual terhadap selebritas. Akun itu ramai dikaitkan dengan Mas Samsul Raka Buming-Buming, tetapi identitas pemiliknya belum terbukti final. War room mendadak menemukan prinsip baru: jejak digital harus dilupakan, kecuali jejak digital lawan.",
+            fact: "Kontroversi fufufafa ramai pada 2024. Jejak unggahannya terdokumentasi, tetapi klaim bahwa akun tersebut milik Gibran tetap diperdebatkan dan belum memiliki pembuktian langsung yang disepakati.",
+            sourceKey: "fufufafa",
+            choices: {
+              buzzer: [
+                [
+                  "Kubur dengan isu baru",
+                  "Naikkan tiga tagar lain sampai orang lupa akun forum itu pernah punya histori.",
+                  { reach: 10, credibility: -4, integrity: -6, democracy: -4, heat: 9, money: -24000000 },
+                  "Timeline pindah isu. Cache browser nggak ikut pindah.",
+                  { fufuMode: "buried" },
+                ],
+                [
+                  "Bilang: identitasnya belum terbukti",
+                  "Pisahkan isi unggahan yang bermasalah dari klaim siapa pemiliknya.",
+                  { reach: 2, credibility: 9, integrity: 8, democracy: 6, heat: -4, money: -8000000 },
+                  "Untuk sekali ini, ketidakpastian dipakai sebagai ketelitian, bukan kabut.",
+                  { fufuMode: "verified" },
+                ],
+                [
+                  "Pakai arsipnya buat tekan koalisi",
+                  "Simpan screenshot sebagai kartu tawar internal. Publik cuma kebagian teaser.",
+                  { reach: 7, money: 85000000, credibility: -7, integrity: -12, democracy: -6, heat: 12 },
+                  "Koalisi tetap mesra. Folder ZIP mendapat kursi di meja negosiasi.",
+                  { fufuMode: "weaponized" },
+                ],
+              ],
+              aktivis: [
+                [
+                  "Arsipkan, tapi jangan kunci identitas",
+                  "Verifikasi unggahan, waktu, dan pola tanpa mengubah dugaan menjadi vonis.",
+                  { reach: 4, credibility: 11, integrity: 10, democracy: 9, heat: -4, money: -7000000 },
+                  "Thread-nya nggak seviral tuduhan, tapi masih bisa dibaca setelah panik reda.",
+                  { fufuMode: "verified" },
+                ],
+                [
+                  "Cap pemiliknya, gas meme",
+                  "Plot twist menang. Standar bukti kehilangan sinyal.",
+                  { reach: 14, credibility: -9, integrity: -8, democracy: -5, heat: 16, money: -3000000 },
+                  "Memenya terbang. Kata ‘diduga’ jatuh di parkiran.",
+                  { fufuMode: "weaponized" },
+                ],
+                [
+                  "Bahas misogini dan hinaannya, bukan doxing",
+                  "Fokus pada pola bahasa diskriminatif dan akuntabilitas digital tanpa menyebarkan data pribadi.",
+                  { reach: 6, credibility: 10, integrity: 12, democracy: 10, heat: 1, money: -9000000 },
+                  "Identitas masih diperdebatkan. Standar perilakunya nggak perlu ikut kabur.",
+                  { fufuMode: "principled" },
                 ],
               ],
             },
@@ -5597,6 +5713,69 @@
             },
           },
           {
+            id: "fufufafa-return",
+            phase: 4,
+            after: 6,
+            icon: "💾",
+            title: "PLOT TWIST: Cache Lama Ikut Kampanye Lagi",
+            actor: "@fufufafa_archive • second account yang jadi third rail koalisi",
+            text: () => {
+              const mode = state.fufuArchive?.mode || "ignored";
+              const memory = {
+                verified: "Dulu kamu menyimpan arsip sambil menjaga kata ‘diduga’. Sekarang tim hukum membaca thread-mu lebih dulu daripada tim kampanye.",
+                principled: "Dulu kamu memisahkan isu identitas dari misogini dan hinaan. Arsipmu kembali sebagai standar akuntabilitas, bukan bahan doxing.",
+                weaponized: "Dulu kamu mengubah dugaan menjadi senjata. Sekarang screenshot baru dan lama saling tembak, sementara standar bukti kabur dari lokasi.",
+                buried: "Dulu kamu menenggelamkannya dengan isu baru. Cache lama naik lagi tepat saat koalisi menjual harmoni sebagai produk unggulan.",
+                ignored: "Save lama belum punya pilihan soal arsip ini. Timeline tetap bertindak seolah semua orang sudah mengambil posisi sejak 2024.",
+              }[mode];
+              return `${memory} Akun forum yang pernah menghina calon presiden kini menjadi cermin aneh bagi pasangan kekuasaan yang sama. Identitasnya masih belum terverifikasi final; ironi politiknya keburu punya fanbase.`;
+            },
+            fact: "Isi unggahan akun fufufafa dan kontroversinya menjadi bagian dari jejak digital publik. Namun hubungan kepemilikan akun dengan Gibran tidak diperlakukan game sebagai fakta yang telah terbukti.",
+            sourceKey: "fufufafa",
+            choices: {
+              buzzer: [
+                [
+                  "Klarifikasi pakai standar bukti",
+                  "Akui ironi politiknya, jelaskan apa yang diketahui dan apa yang belum bisa dibuktikan.",
+                  { reach: 3, credibility: 11, integrity: 9, democracy: 7, heat: -7, money: -15000000 },
+                  "War room akhirnya belajar bahwa ‘belum terbukti’ bukan sinonim ‘nggak boleh dibahas’.",
+                ],
+                [
+                  "Rilis screenshot tandingan",
+                  "Banjiri timeline dengan arsip lawan sampai semua orang lupa pertanyaan awal.",
+                  { reach: 13, credibility: -8, integrity: -10, democracy: -7, heat: 17, money: -42000000 },
+                  "Satu akun lama dibalas empat akun lama. Arkeologi digital masuk APBN.",
+                ],
+                [
+                  "Diam dan tunggu isu lain",
+                  "Tidak membantah, tidak menjawab, hanya berharap algoritma punya amnesia.",
+                  { reach: -2, credibility: -4, integrity: -2, democracy: -2, heat: 5, money: 0 },
+                  "Timeline pindah sebentar, lalu kembali membawa screenshot resolusi lebih tinggi.",
+                ],
+              ],
+              aktivis: [
+                [
+                  "Audit klaim, arsip, dan standar buktinya",
+                  "Buat peta mana unggahan asli, mana inferensi, mana spekulasi, dan mana data pribadi yang tidak perlu disebar.",
+                  { reach: 5, credibility: 13, integrity: 11, democracy: 10, heat: -5, money: -12000000 },
+                  "Plot twist tetap lucu. Metodologinya akhirnya nggak jadi korban punchline.",
+                ],
+                [
+                  "Jadikan meme koalisi paling absurd",
+                  "Ironinya kuat, konteksnya ditaruh di link yang cuma dibuka 2% penonton.",
+                  { reach: 15, credibility: -3, integrity: -4, democracy: -2, heat: 14, money: -5000000 },
+                  "Meme menang semalam. Pertanyaan soal bukti minta jadwal ulang.",
+                ],
+                [
+                  "Fokus pada akuntabilitas tanpa doxing",
+                  "Bahas ucapan diskriminatif, standar pejabat publik, dan etika digital tanpa menjadikan data pribadi sebagai tontonan.",
+                  { reach: 7, credibility: 11, integrity: 13, democracy: 12, heat: -2, money: -10000000 },
+                  "Akun anonim tetap anonim. Standar publiknya justru makin terang.",
+                ],
+              ],
+            },
+          },
+          {
             id: "campaign-money",
             phase: 4,
             after: 10,
@@ -6106,35 +6285,111 @@
         };
         const commentTemplates = {
           good: [
-            "Ini baru jawab substansi, bukan serang orang.",
-            "Sumbernya jelas. Aku belum tentu setuju, tapi bisa cek.",
-            "Akhirnya ada yang mengakui bagian yang salah.",
-            "Tolong pin dokumen primernya.",
-            "Kritik atau pembelaan yang begini bikin warga tidak dianggap bodoh.",
-            "Jarang-jarang timeline memberi konteks sebelum kesimpulan.",
-            "Ada metodologi, ada koreksi, dan tidak ada musik tegang. Kemajuan.",
-            "Aku save dulu sebelum algoritma menenggelamkannya.",
+            "Nah gini dong, ada link, ada angka, nggak cuma ‘percaya saya’.",
+            "Gue beda pendapat, tapi datanya dibuka. Fair.",
+            "Akhirnya ada yang jawab pertanyaan, bukan nyari salah ketik.",
+            "Save dulu. Besok biasanya ketimbun video joget dan klarifikasi jilid dua.",
+            "Ini enak dibaca. Nggak perlu gelar tiga buat ngerti siapa ngapain.",
+            "Oke, gue cek sumbernya. Kalau salah ya koreksi, bukan bakar orangnya.",
+            "Ada konteks, ada batas data, ada bagian ‘kami belum tahu’. Langka banget.",
+            "Pin ini, Min. Biar grup keluarga nggak cuma dapet screenshot separuh.",
+            "Baru kali ini kolom komentar bikin tekanan darah turun dua poin.",
+            "Substansinya masuk. Punchline-nya bonus, bukan pengganti bukti.",
           ],
           bad: [
-            "Brief-nya kelihatan dari orbit.",
-            "Jawab pertanyaannya, jangan audit masa kecil orang.",
-            "Semua akun kok typo-nya sama?",
-            "Ini engagement tinggi, informasi rendah.",
-            "Kok yang dibahas pembawanya, bukan dokumennya?",
-            "Narasinya rapi sekali sampai terasa baru keluar dari satu Google Docs.",
-            "Admin memenangi punchline, lalu kehilangan pertanyaan.",
-            "Tolong bedakan klarifikasi dengan intimidasi pakai font resmi.",
+            "Wkwk ini klarifikasi apa trailer season baru?",
+            "Semua akun ngomongnya sama, bahkan komanya ikut briefing.",
+            "Pertanyaannya A, jawabannya flashback 2014.",
+            "Admin menang meme. Faktanya kalah WO.",
+            "Yang dikoreksi kok orangnya, bukan angkanya?",
+            "Ini organik banget sampai semua upload jam 19.03.",
+            "Kok makin dijelasin makin berasa lagi ditawarin paket internet?",
+            "Bang, itu font resmi nggak bikin intimidasi jadi transparansi.",
+            "Sumber: percaya sama caption gue sendiri.",
+            "Rame iya. Nyambung sama isu? beda server.",
           ],
           neutral: [
-            "Ada sumber lain yang independen?",
-            "Konteks sebelum videonya apa?",
-            "Aku baca dulu, timeline terlalu panas.",
-            "Siapa yang membiayai kampanye ini?",
-            "Angkanya nominal atau persentase?",
-            "Ada versi dokumen sebelum direvisi?",
-            "Ini kejadian nasional atau satu lokasi yang digeneralisasi?",
-            "Yang bilang siapa, datanya periode kapan?",
+            "Gue kelewat satu episode. Ini mulai dari mana?",
+            "Yang full video ada nggak? Gue takut debat modal 12 detik.",
+            "Duitnya dari mana, keluarnya ke siapa?",
+            "Angka segini dibanding tahun berapa?",
+            "Ini fakta, prediksi, atau admin lagi kerasukan PowerPoint?",
+            "Ada link dokumen aslinya nggak? Bukan link ke thread yang ngelink ke thread.",
+            "Yang terdampak udah ditanya, atau baru yang punya mikrofon?",
+            "Bentar, ini kebijakan nasional atau satu kasus dipaksa jadi poster?",
+            "Siapa sponsor surveinya? Bukan nuduh, cuma males kena plot twist.",
+            "Kalau salah, mekanisme koreksinya apa selain hapus story?",
           ],
+        };
+        const commenterPersonas = {
+          bapak: {
+            label: "BAPAK FACEBOOK",
+            avatars: ["👨🏻‍🦳", "🧔🏻", "☕", "🚗"],
+            handles: ["@pakRT_online", "@ayah_nayla88", "@omheru_bijak", "@bapak2meresahkan"],
+            openers: ["Hehe izin nimbrung ya, ", "Bapak cuma mau bilang, ", "Dulu zaman bapak nggak begini... tapi serius, ", "Ini pendapat pribadi sambil nunggu servis motor: "],
+            closers: [" Salam sehat untuk keluarga. 🙏", " Hehe jangan baper ya.", " Yang penting ngopi dulu.", " Mohon koreksi kalau bapak salah, tapi pelan-pelan."],
+          },
+          genz: {
+            label: "GEN Z BASE",
+            avatars: ["🧃", "🫠", "💅", "😭"],
+            handles: ["@anakbasecapek", "@spilldongmin", "@fyprepublik", "@skripsibelumjadi"],
+            openers: ["bestie, ", "pls deh, ", "gue baru buka timeline terus ", "no offense ya tapi "],
+            closers: [" 😭", " admin spill full context dong.", " gue capek tapi penasaran.", " ini lore-nya panjang bgt anjir."],
+          },
+          millennial: {
+            label: "MILENIAL SOTOY",
+            avatars: ["💻", "🥤", "📊", "🧠"],
+            handles: ["@mantananakbem", "@strategicthinkingbro", "@webinargratis", "@linkedinpolitik"],
+            openers: ["Sebagai mantan anak organisasi, ", "Secara helicopter view nih, ", "Menurut gue yang pernah ikut webinar gratis, ", "Kalau kita pakai framework sederhana, "],
+            closers: [" CMIIW tapi jangan galak.", " Ini cuma two cents gue.", " Intinya perlu alignment sih.", " Nanti gue bikin carousel-nya."],
+          },
+          conspiracy: {
+            label: "BENANG MERAH?",
+            avatars: ["🧿", "🕵️", "🧩", "🛰️"],
+            handles: ["@benangmerahglobal", "@bongkarsemesta", "@arsiprahasia", "@kebetulanterus"],
+            openers: ["Coba sambungkan titiknya: ", "Gue nggak nuduh ya, tapi... ", "Ada yang aneh nih: ", "Orang awam lihat berita. Gue lihat polanya: "],
+            closers: [" Kebetulan? Silakan nilai sendiri.", " Buka mata, jangan cuma buka FYP.", " Screenshot sebelum dihapus.", " Yang ngerti geopolitik pasti paham."],
+          },
+          emak: {
+            label: "EMAK GRUP WA",
+            avatars: ["👩🏻", "🛒", "🍳", "📱"],
+            handles: ["@bundanya_alif", "@mamahhemat", "@ibu2komplek", "@dapurdannegara"],
+            openers: ["Maaf ya ibu-ibu ikut komen, ", "Yang saya rasain di pasar tuh, ", "Anak saya nanya, saya juga bingung: ", "Boleh debat, tapi "],
+            closers: [" Yang penting harga telur jangan ikut trending.", " Tolong jangan kirim hoaks ke grup kelas lagi.", " Saya baca sambil goreng tempe.", " Admin kalau jawab jangan pakai bahasa rapat."],
+          },
+          anakpdf: {
+            label: "ANAK PDF",
+            avatars: ["📚", "🧾", "🧐", "📎"],
+            handles: ["@halaman37", "@bacalampiran", "@catatankaki", "@dokumenprimer"],
+            openers: ["Izin nambahin konteks, ", "Catatan kecil: ", "Bukan mau sok akademik, tapi ", "Gue cek dokumen aslinya: "],
+            closers: [" Link primer gue taruh di bawah.", " Tolong jangan crop tabelnya.", " Metodenya penting, bukan cuma judulnya.", " Kalau ada versi baru kabarin."],
+          },
+          fanwar: {
+            label: "FANWAR NASIONAL",
+            avatars: ["🔥", "📢", "🤡", "🥊"],
+            handles: ["@pasukansampaiakhir", "@ratioinaja", "@timkamihebat", "@capslockmerdeka"],
+            openers: ["HAHAHA ", "UDAH KETEBak ", "MIN LIAT NIH ", "POKOKNYA "] ,
+            closers: [" TITIK.", " JANGAN BANYAK ALASAN.", " RATIO + BLOCK.", " MENANGISLAH."],
+          },
+          forumGhost: {
+            label: "AKUN FORUM LAMA",
+            avatars: ["👻", "🗃️", "💾", "🕳️"],
+            handles: ["@fufufafa_archive", "@kaskuscache", "@akunlamabangkit", "@gan_jejakdigital"],
+            openers: ["Ane numpang lewat gan, ", "Pertamax dulu: ", "Old thread never dies: ", "Cache bilang begini: "],
+            closers: [" Jejak digital nggak kenal masa tenang.", " Cendol belakangan, verifikasi dulu.", " Jangan tanya ane pemiliknya siapa.", " Thread closed, screenshot jalan terus."],
+          },
+          npc: {
+            label: "AKUN ASLI",
+            avatars: ["👤"],
+            handles: ["@akun_asli"],
+            openers: [""],
+            closers: [""],
+          },
+        };
+        const personaPools = {
+          good: ["genz", "bapak", "millennial", "emak", "anakpdf", "anakpdf"],
+          bad: ["genz", "fanwar", "millennial", "conspiracy", "bapak", "fanwar"],
+          neutral: ["bapak", "genz", "millennial", "conspiracy", "emak", "anakpdf"],
         };
         const topicCommentTemplates = {
           election: {
@@ -6339,7 +6594,7 @@
           ],
           [
             "Belum deklarasi, tapi podcast berdurasi dua jam sudah punya sponsor.",
-            "Kreator finansial mulai memakai kata “mandat rakyat”. Pra-pemilu resmi masuk affiliate.",
+            "Kreator finansial mulai memakai kata “mandat rakyat”. Pra-pemilu resmi masuk affiliate; papan tulis global ikut buka pre-order.",
           ],
           [
             "Akun cek fakta menambah shift malam. Itu sendiri sudah menjadi polling.",
@@ -7548,6 +7803,7 @@
             "KOALISI MEMBESAR, RUANG OPOSISI DIRENOVASI MENJADI LOUNGE",
             "KABINET FANTASY LEAGUE MEMBUKA BURSA TRANSFER",
             "SEMUA RELAWAN MENDADAK AHLI KEBIJAKAN PUBLIK",
+            "AKUN FORUM LAMA NAIK LAGI, KOALISI MENDADAK CARI TOMBOL LOG OUT",
           ],
           [
             "MBG MENYAJIKAN PORSI BESAR DAN LAMPIRAN PENGAWASAN KECIL",
@@ -7576,6 +7832,7 @@
             "DEEPFAKE MENANG DEBAT SEBELUM KANDIDAT NAIK PANGGUNG",
             "SEMUA TOKOH MENDADAK BELANJA DI PASAR TANPA MEMBAWA DOMPET",
             "KOALISI BUBAR KARENA URUTAN NAMA DI POSTER",
+            "CACHE 2014 IKUT KAMPANYE 2028 TANPA DIMINTA",
           ],
           [
             "KOTAK SUARA MENUNGGU, ADMIN MENYIAPKAN DUA VERSI PIDATO KEMENANGAN",
@@ -7917,6 +8174,22 @@
             prefix: "Teman-teman, coba jujur deh: ",
             suffix:
               " Versi 30 detiknya pasti nyampe duluan daripada konteks lengkapnya.",
+          },
+          {
+            match: /Mardi-Gitu|Bossman/i,
+            label: "MODE PAPAN TULIS GLOBAL",
+            className: "voice-podcast",
+            prefix: "Gue kasih sudut yang nggak diajarin di sekolah ya: ",
+            suffix:
+              " Kebetulan? Bisa aja. Tapi engagement nggak pernah suka jawaban sesederhana itu.",
+          },
+          {
+            match: /fufufafa|akun forum|Kaskus/i,
+            label: "MODE CACHE LAMA",
+            className: "voice-bot",
+            prefix: "[ARSIP FORUM DIPULIHKAN] ",
+            suffix:
+              " Identitas belum final. Screenshot keburu punya karier politik sendiri.",
           },
           {
             match: /Raymond Cuan-Check/i,
@@ -9650,6 +9923,9 @@
             abilityBuffs: [],
             abilityLog: [],
             trendReveal: 0,
+            commentMemory: [],
+            fufuArchive: null,
+            fufuTwistResolved: false,
           });
           resetQuizDeck();
           $("#startScreen").classList.add("hidden");
@@ -9756,7 +10032,7 @@
           $("#teamBox").innerHTML = `<div class="roster-stack">${roster
             .map((c, idx) => {
               const used = isAbilityUsed(c);
-              return `<article class="roster-card ${idx === 0 ? "mentor-card" : "cameo-card"}"><div class="roster-head"><div class="face">${c.icon}</div><div><span class="roster-role">${c.role}</span><b>${c.name}</b><small>${c.bio}</small></div></div><div class="ability-box"><div class="ability-name">⚡ ${c.ability.name}</div><small class="ability-desc">${c.ability.desc}</small><button type="button" class="ability-btn ${used ? "used" : ""}" data-ability="${c.id}" ${used ? "disabled" : ""}>${used ? "SUDAH DIPAKAI FASE INI" : "PAKAI SEKARANG • 1× / FASE"}</button></div></article>`;
+              return `<article class="roster-card ${idx === 0 ? "mentor-card" : c.role.includes("WILDCARD") ? "wildcard-card" : "cameo-card"}"><div class="roster-head"><div class="face">${c.icon}</div><div><span class="roster-role">${c.role}</span><b>${c.name}</b><small>${c.bio}</small></div></div><div class="ability-box"><div class="ability-name">⚡ ${c.ability.name}</div><small class="ability-desc">${c.ability.desc}</small><button type="button" class="ability-btn ${used ? "used" : ""}" data-ability="${c.id}" ${used ? "disabled" : ""}>${used ? "SUDAH DIPAKAI FASE INI" : "PAKAI SEKARANG • 1× / FASE"}</button></div></article>`;
             })
             .join(
               "",
@@ -9775,7 +10051,7 @@
             (b) => b.phase === state.phase,
           );
           $("#modalContent").innerHTML =
-            `<h2>FASE ${state.phase + 1}/6<br>${p.name}</h2><span class="quiz-kicker">${p.period} • ${p.status}</span><div class="career-line"><b>${state.role === "buzzer" ? p.bRank : p.aRank}</b><p>${first ? "Kariermu dimulai. Tahun ini kamu nggak cuma punya action cards—crew juga bisa turun tangan sekali per fase." : "Tahun baru, roster baru. Ability lama nggak ikut pindah kantor; setiap karakter cuma punya satu momentum."}</p></div><div class="crew-intro-grid">${roster.map((c, idx) => `<div class="crew-intro-card"><span class="roster-role">${idx === 0 ? "MENTOR FASE" : "CAMEO AKTIF"} • ${c.role}</span><b>${c.icon} ${c.name}</b><small>${c.bio}</small><div class="ability-name">⚡ ${c.ability.name}</div><small>${c.ability.desc}</small></div>`).join("")}</div><div class="lesson"><b>MEKANIK CREW:</b> tiap karakter dapat dipanggil tepat satu kali dalam fase ini. Ability bisa memberi dampak instan atau buff untuk action berikutnya. Roster berganti total di fase berikutnya.</div><p style="font-size:12px;color:var(--muted)">Tokoh plesetan adalah karakter komposit. Ability adalah mekanik fiksi satir, bukan klaim mengenai tindakan nyata figur yang menjadi inspirasi.</p><button class="btn" id="phaseStartBtn">Masuk Timeline</button>`;
+            `<h2>FASE ${state.phase + 1}/6<br>${p.name}</h2><span class="quiz-kicker">${p.period} • ${p.status}</span><div class="career-line"><b>${state.role === "buzzer" ? p.bRank : p.aRank}</b><p>${first ? "Kariermu dimulai. Tahun ini kamu nggak cuma punya action cards—crew juga bisa turun tangan sekali per fase." : "Tahun baru, roster baru. Ability lama nggak ikut pindah kantor; setiap karakter cuma punya satu momentum."}</p></div><div class="crew-intro-grid">${roster.map((c, idx) => `<div class="crew-intro-card ${c.role.includes("WILDCARD") ? "wildcard-intro" : ""}"><span class="roster-role">${idx === 0 ? "MENTOR FASE" : c.role.includes("WILDCARD") ? "WILDCARD FASE" : "CAMEO AKTIF"} • ${c.role}</span><b>${c.icon} ${c.name}</b><small>${c.bio}</small><div class="ability-name">⚡ ${c.ability.name}</div><small>${c.ability.desc}</small></div>`).join("")}</div><div class="lesson"><b>MEKANIK CREW:</b> tiap karakter dapat dipanggil tepat satu kali dalam fase ini. Ability bisa memberi dampak instan atau buff untuk action berikutnya. Fase tertentu punya wildcard tambahan dengan risiko yang lebih liar.</div><p style="font-size:12px;color:var(--muted)">Tokoh plesetan adalah karakter komposit. Ability adalah mekanik fiksi satir, bukan klaim mengenai tindakan nyata figur yang menjadi inspirasi.</p><button class="btn" id="phaseStartBtn">Masuk Timeline</button>`;
           $("#modal").classList.remove("hidden");
           $("#phaseStartBtn").onclick = () => {
             $("#modal").classList.add("hidden");
@@ -9945,82 +10221,58 @@
         }
 
         function makeComment(tone = "neutral", custom = null, opts = {}) {
-          const avatars = {
-              good: ["🧠", "🧑‍🏫", "📚", "🫡", "🧾", "🗂️"],
-              bad: ["🤡", "🔥", "🥴", "🤖", "📢", "🧨"],
-              neutral: ["🧐", "👀", "☕", "🐈", "🧵", "📎"],
-            },
-            handles = {
-              good: [
-                "@bacadulukak",
-                "@wargapunyaarsip",
-                "@dokumenprimer",
-                "@nggakmudahpanik",
-                "@catatankaki",
-                "@auditwarung",
-                "@threadwaras",
-                "@cekfullvideo",
-              ],
-              bad: [
-                "@briefnyabocor",
-                "@akunseragam",
-                "@emosidulu",
-                "@ratio_nasional",
-                "@capslockmerdeka",
-                "@potongvideodulu",
-                "@fansgariskeras",
-                "@adminlembur",
-              ],
-              neutral: [
-                "@tanyasumber",
-                "@scrollpelan",
-                "@wargabiasa",
-                "@masihmikir",
-                "@radarwarung",
-                "@screenshotfolder",
-                "@nitipjejak",
-                "@kopibelending",
-              ],
-            },
-            base =
-              custom ||
-              commentTemplates[tone][rnd(0, commentTemplates[tone].length - 1)],
-            openers =
-              tone === "good"
-                ? [
-                    "Nah ini baru nyambung. ",
-                    "Oke, ini lumayan waras: ",
-                    "Akhirnya ada yang baca full. ",
-                    "",
-                  ]
-                : tone === "bad"
-                  ? [
-                      "Wkwk bentar, ",
-                      "Lah kok jadi gini: ",
-                      "Admin, ini brief atau pendapat? ",
-                      "",
-                    ]
-                  : [
-                      "Serius nanya, ",
-                      "Nitip jejak dulu: ",
-                      "Bentar, gue masih nyambungin: ",
-                      "",
-                    ];
+          state.commentMemory = state.commentMemory || [];
+          const choosePersona = () => {
+            if (opts.persona) return opts.persona;
+            if (opts.kind === "npc") return "npc";
+            if (state.fufuArchive && Math.random() < (state.fufuTwistResolved ? 0.13 : 0.075))
+              return "forumGhost";
+            const pool = personaPools[tone] || personaPools.neutral;
+            return pool[rnd(0, pool.length - 1)];
+          };
+          const pickBase = () =>
+            custom ||
+            commentTemplates[tone][rnd(0, commentTemplates[tone].length - 1)];
+          let personaId = choosePersona();
+          let persona = commenterPersonas[personaId] || commenterPersonas.millennial;
+          let raw = pickBase();
+          let textOut = "";
+          for (let attempt = 0; attempt < 6; attempt++) {
+            if (attempt > 0 && !opts.persona && opts.kind !== "npc") {
+              personaId = choosePersona();
+              persona = commenterPersonas[personaId] || commenterPersonas.millennial;
+            }
+            const opener =
+              opts.kind === "npc"
+                ? ""
+                : persona.openers[rnd(0, persona.openers.length - 1)];
+            const closer =
+              opts.kind === "npc"
+                ? ""
+                : persona.closers[rnd(0, persona.closers.length - 1)];
+            let body = netizenize(raw);
+            if (personaId === "genz") body = body.charAt(0).toLowerCase() + body.slice(1);
+            if (personaId === "fanwar" && Math.random() < 0.65) body = body.toUpperCase();
+            textOut = netizenize(opener + body + closer);
+            const fingerprint = textOut.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+            if (!state.commentMemory.includes(fingerprint) || attempt === 5) {
+              state.commentMemory.unshift(fingerprint);
+              state.commentMemory = state.commentMemory.slice(0, 28);
+              break;
+            }
+          }
           return {
             avatar:
-              opts.avatar || avatars[tone][rnd(0, avatars[tone].length - 1)],
+              opts.avatar || persona.avatars[rnd(0, persona.avatars.length - 1)],
             handle:
-              opts.handle || handles[tone][rnd(0, handles[tone].length - 1)],
-            text: netizenize(
-              (opts.kind === "npc" ? "" : openers[rnd(0, openers.length - 1)]) +
-                base,
-            ),
+              opts.handle || persona.handles[rnd(0, persona.handles.length - 1)],
+            text: textOut,
             tone,
             kind: opts.kind || "",
-            label: opts.label || tone,
+            label: opts.label || persona.label,
+            persona: personaId,
           };
         }
-
         function contextualComment(tone, i) {
           const pool = topicCommentPool(tone, i);
           return makeComment(tone, pool[rnd(0, pool.length - 1)]);
@@ -10065,18 +10317,22 @@
           });
         }
         function trendHintComment() {
+          const persona = ["conspiracy", "genz", "bapak", "millennial"][rnd(0, 3)];
           return makeComment("neutral", nextTrendHint(), {
             avatar: "📡",
             handle: [
               "@radarwarung",
-              "@adminbelumtidur",
+              "@adminjam3pagi",
+              "@bocoranparkiran",
               "@trendbesok",
-              "@bisikankoridor",
-            ][rnd(0, 3)],
+              "@omkonspirasi",
+            ][rnd(0, 4)],
             kind: "hint",
-            label: "RADAR TREND",
+            label: "BISIKAN TREND",
+            persona,
           });
         }
+
 
         function updateEngagement(a, d, good) {
           const p = (engagementProfiles[state.role] || {})[a.id] || {
@@ -10177,7 +10433,7 @@
             total = Math.max(1, good + bad + neutral);
           $("#modalContent").classList.remove("final-modal");
           $("#modalContent").innerHTML =
-            `<h2>${type === "replies" ? "Kolom Komentar" : "Analitik " + type.toUpperCase()}</h2><p>${metricNarrative(type)}</p><div class="trend-radar"><b>📡 RADAR TREND BERIKUTNYA</b><br>${nextTrendHint()}</div><div class="sentiment-row"><div><strong>${Math.round((good / total) * 100)}%</strong>Substantif</div><div><strong>${Math.round((bad / total) * 100)}%</strong>Toksik/seragam</div><div><strong>${Math.round((neutral / total) * 100)}%</strong>Bertanya / radar</div></div><div class="comment-list">${state.comments.map((c) => `<div class="comment-item ${c.kind || ""}"><div class="comment-avatar">${c.avatar}</div><div class="comment-body"><b>${c.handle}</b><span class="comment-tone ${c.kind || c.tone}">${c.label || c.tone}</span><br>${c.text}</div></div>`).join("")}</div><button class="btn" id="closeMetric">Tutup</button>`;
+            `<h2>${type === "replies" ? "Kolom Komentar" : "Analitik " + type.toUpperCase()}</h2><p>${metricNarrative(type)}</p><div class="trend-radar"><b>📡 RADAR TREND BERIKUTNYA</b><br>${nextTrendHint()}</div><div class="sentiment-row"><div><strong>${Math.round((good / total) * 100)}%</strong>Substantif</div><div><strong>${Math.round((bad / total) * 100)}%</strong>Toksik/seragam</div><div><strong>${Math.round((neutral / total) * 100)}%</strong>Bertanya / radar</div></div><div class="comment-list">${state.comments.map((c) => `<div class="comment-item ${c.kind || ""} persona-${c.persona || "plain"}"><div class="comment-avatar">${c.avatar}</div><div class="comment-body"><b>${c.handle}</b><span class="comment-tone ${c.kind || c.tone}">${c.label || c.tone}</span><br>${c.text}</div></div>`).join("")}</div><button class="btn" id="closeMetric">Tutup</button>`;
           $("#modal").classList.remove("hidden");
           $("#closeMetric").onclick = () => $("#modal").classList.add("hidden");
         }
@@ -10528,8 +10784,15 @@
         }
         function showSpecialEvent(e) {
           const choices = e.choices[state.role];
+          const eventText = typeof e.text === "function" ? e.text() : e.text;
+          const eventFact = typeof e.fact === "function" ? e.fact() : e.fact;
+          const ghost = e.id.startsWith("fufufafa");
+          const legacy =
+            e.id === "fufufafa-return"
+              ? `<div class="legacy-signal"><b>JEJAK PILIHAN 2024:</b> ${state.fufuArchive?.mode || "tidak tercatat pada save lama"}</div>`
+              : "";
           $("#modalContent").innerHTML =
-            `<span class="special-ribbon">SPECIAL EVENT</span><h2>${e.icon} ${e.title}</h2><div class="event-card"><h3>${e.actor}</h3><p>${e.text}</p><div class="event-source"><b>Konteks dunia nyata:</b> ${e.fact}</div></div><p>Pilih respons terhadap peristiwa ini.</p><div class="choice-grid">${choices.map((c, i) => `<button class="choice-card" data-event-choice="${i}"><h3>${c[0]}</h3><small>${c[1]}</small></button>`).join("")}</div><div class="source-disclaimer">Tokoh dan dialog di event adalah parodi-komposit. Klaim faktual diringkas di Arsip Fakta dan tidak menyatakan motif pribadi yang tidak terdokumentasi.</div>`;
+            `<span class="special-ribbon">${ghost ? "DIGITAL GHOST EVENT" : "SPECIAL EVENT"}</span><h2>${e.icon} ${e.title}</h2><div class="event-card ${ghost ? "digital-ghost" : ""}"><h3>${e.actor}</h3>${ghost ? '<div class="ghost-handle">@fufufafa • KASKUS CACHE • STATUS PEMILIK: BELUM TERVERIFIKASI FINAL</div>' : ""}<p>${eventText}</p><div class="event-source"><b>Konteks dunia nyata:</b> ${eventFact}</div>${legacy}</div><p>Pilih respons terhadap peristiwa ini.</p><div class="choice-grid">${choices.map((c, i) => `<button class="choice-card" data-event-choice="${i}"><h3>${c[0]}</h3><small>${c[1]}</small></button>`).join("")}</div><div class="source-disclaimer">Tokoh dan dialog di event adalah parodi-komposit. Klaim faktual diringkas di Arsip Fakta dan tidak menyatakan motif pribadi atau identitas akun yang belum terbukti.</div>`;
           $("#modal").classList.remove("hidden");
           document
             .querySelectorAll("[data-event-choice]")
@@ -10542,8 +10805,39 @@
                   )),
             );
         }
+
         function resolveSpecialEvent(e, c) {
           applyEffects(c[2]);
+          const meta = c[4] || {};
+          let legacyNote = "";
+          if (meta.fufuMode) {
+            state.fufuArchive = {
+              mode: meta.fufuMode,
+              role: state.role,
+              choice: c[0],
+              phase: state.phase,
+              day: state.day,
+            };
+          }
+          if (e.id === "fufufafa-return") {
+            const mode = state.fufuArchive?.mode || "ignored";
+            const legacyEffects = {
+              verified: { credibility: 4, integrity: 3, heat: -2 },
+              principled: { credibility: 5, integrity: 5, democracy: 3 },
+              weaponized: { credibility: -5, integrity: -4, heat: 7 },
+              buried: { credibility: -3, heat: 5 },
+              ignored: { stress: 2 },
+            }[mode];
+            if (legacyEffects) applyEffects(legacyEffects);
+            state.fufuTwistResolved = true;
+            legacyNote = {
+              verified: "Karena dulu kamu hati-hati pada identitas, arsipmu sekarang punya bobot lebih besar.",
+              principled: "Fokusmu pada perilaku dan etika membuat plot twist tidak berubah menjadi doxing.",
+              weaponized: "Overclaim lama kembali sebagai ricochet kredibilitas.",
+              buried: "Upaya mengubur isu membuat kemunculannya kembali terasa lebih mahal.",
+              ignored: "Save lama tidak menyimpan keputusan 2024; timeline memberi konsekuensi netral.",
+            }[mode];
+          }
           state.seenEvents.push(e.id);
           state.eventHistory.push({
             id: e.id,
@@ -10556,7 +10850,9 @@
             Math.round(Math.abs(c[2].reach || 0) / 3),
           );
           state.comments.unshift(
-            makeComment((c[2].integrity || 0) >= 0 ? "good" : "bad", c[3]),
+            makeComment((c[2].integrity || 0) >= 0 ? "good" : "bad", c[3], {
+              persona: e.id.startsWith("fufufafa") ? "forumGhost" : undefined,
+            }),
           );
           state.postMetrics.views += rnd(120000, 900000) * (state.phase + 1);
           state.postMetrics.likes += rnd(8000, 85000) * (state.phase + 1);
@@ -10569,10 +10865,12 @@
             label: c[0],
           };
           $("#modalContent").innerHTML =
-            `<span class="special-ribbon">EVENT RESOLVED</span><h2>${e.icon} ${e.title}</h2><div class="event-result"><b>${c[0]}</b><p>${c[1]}</p><p><b>Dampak timeline:</b> ${c[3]}</p></div><div class="ending-score"><div><strong>${(c[2].reach || 0) >= 0 ? "+" : ""}${c[2].reach || 0}</strong>Jangkauan</div><div><strong>${(c[2].integrity || 0) >= 0 ? "+" : ""}${c[2].integrity || 0}</strong>Integritas</div><div><strong>${(c[2].democracy || 0) >= 0 ? "+" : ""}${c[2].democracy || 0}</strong>Demokrasi</div><div><strong>${c[2].money ? formatMoney(Math.abs(c[2].money)) : "—"}</strong>${c[2].money >= 0 ? "Dana masuk" : "Biaya"}</div></div><button class="btn" id="eventContinue">Lanjutkan Kronik</button>`;
+            `<span class="special-ribbon">EVENT RESOLVED</span><h2>${e.icon} ${e.title}</h2><div class="event-result"><b>${c[0]}</b><p>${c[1]}</p><p><b>Dampak timeline:</b> ${c[3]}</p>${legacyNote ? `<div class="legacy-signal"><b>EFEK JEJAK DIGITAL:</b> ${legacyNote}</div>` : ""}</div><div class="ending-score"><div><strong>${(c[2].reach || 0) >= 0 ? "+" : ""}${c[2].reach || 0}</strong>Jangkauan</div><div><strong>${(c[2].integrity || 0) >= 0 ? "+" : ""}${c[2].integrity || 0}</strong>Integritas</div><div><strong>${(c[2].democracy || 0) >= 0 ? "+" : ""}${c[2].democracy || 0}</strong>Demokrasi</div><div><strong>${c[2].money ? formatMoney(Math.abs(c[2].money)) : "—"}</strong>${c[2].money >= 0 ? "Dana masuk" : "Biaya"}</div></div><button class="btn" id="eventContinue">Lanjutkan Kronik</button>`;
           $("#eventContinue").onclick = continueAfterDay;
           render();
+          saveGame(true);
         }
+
         function showCast(group = "power") {
           const labels = {
             power: "Gemoyverse & Kabinet",
@@ -10878,6 +11176,9 @@
             abilityBuffs: [],
             abilityLog: [],
             trendReveal: 0,
+            commentMemory: [],
+            fufuArchive: null,
+            fufuTwistResolved: false,
           });
           syncQuizToggles();
           updateContinuePanel();
