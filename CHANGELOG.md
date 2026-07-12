@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.5.0 — Narrative Rewrite Edition
+
+- Menulis ulang arc faktual 2024–Juli 2026 dan menyambungkannya ke proyeksi 2027–2029.
+- Menambahkan Jokowi, Menlu Sugiyono, Dino Pati Djalal, Roy Sur-Yoyo, dr. Tifa-Tifi, serta gaya pidato Pak Jenderal Gemoyono.
+- Menambahkan polemik konstitusi, ijazah, @fufufafa, rupiah, IHSG, PLN, banjir Sumatra, Kopdes, MBG, dan perkara hukum.
+- Action cards kini mengambil objek, dokumen, pihak terdampak, dan teaser dari episode aktif.
+- Komentar kini membahas tweet dan action yang dipilih, bukan kumpulan template lepas.
+- Final 2029 membawa jejak enam tahun dan tetap open-ended.
+
 ## 3.4.2 — Phase-Locked Action Deck Edition
 
 - Mengubah batas pemakaian action dari per bulan menjadi per fase/tahun.
