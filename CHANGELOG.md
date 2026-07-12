@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.4.3 — 2026-07-12
+
+- Membersihkan catatan teknis dari antarmuka Cek Nalar.
+- Menyederhanakan label Special Event tanpa penanda posisi hari internal.
+- Tidak ada perubahan pada logika soal, event, atau gameplay.
+
 ## 2.4.2 — 2026-07-12
 
 - Memperbaiki trigger deployment agar mengikuti default branch repository secara otomatis, bukan hanya branch `main`.

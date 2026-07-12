@@ -6,12 +6,12 @@
 
 **Game satire strategi tentang kekuasaan, aktivisme, propaganda, dan harga yang dibayar untuk menguasai percakapan publik.**
 
-[![Release](https://img.shields.io/badge/release-v2.4.2-111111?style=flat-square)](CHANGELOG.md)
+[![Release](https://img.shields.io/badge/release-v2.4.3-111111?style=flat-square)](CHANGELOG.md)
 [![Platform](https://img.shields.io/badge/platform-browser-111111?style=flat-square)](#mainkan)
 [![Language](https://img.shields.io/badge/language-Bahasa%20Indonesia-111111?style=flat-square)](#tentang-game)
 [![License](https://img.shields.io/badge/license-GNU%20GPL%20v3-111111?style=flat-square)](LICENSE)
 
-[**MAIN SEKARANG**](https://japutraa.github.io/perang-narasi-republik-timeline/) · [Release 2.4.2](#release-240--special-events-edition) · [Changelog](CHANGELOG.md) · [Lisensi](LICENSE)
+[**MAIN SEKARANG**](https://japutraa.github.io/perang-narasi-republik-timeline/) · [Release 2.4.3](#release-240--special-events-edition) · [Changelog](CHANGELOG.md) · [Lisensi](LICENSE)
 
 **Game design, writing, and development by [Adrian Janitra Putra](https://github.com/japutraa).**
 
