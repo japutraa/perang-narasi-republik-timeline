@@ -1649,7 +1649,7 @@
         }
       }
 
-      /* v3.6.0 — Narrative Rewrite Edition */
+      /* v3.6.1 — Responsive Thread Edition */
       .roster-stack {
         display: grid;
         gap: 9px;
@@ -1810,7 +1810,7 @@
         </div>
         <div>
           <div class="stamp">
-            BUILD 3.6.0 • 12 JULI 2026<br />Tokoh game adalah parodi-komposit • dialog dibuat absurd, bukan kutipan literal
+            BUILD 3.6.1 • 13 JULI 2026<br />Tokoh game adalah parodi-komposit • dialog dibuat absurd, bukan kutipan literal
           </div>
           <label class="switch" style="margin-top: 9px"
             ><input id="soundToggle" type="checkbox" checked /> bunyi kantor
@@ -1926,7 +1926,7 @@
               hanya ingin semuanya marah lebih lama.”
             </blockquote>
             <small
-              >Versi 3.6.0 • Narrative Rewrite • Autosave<br /><span
+              >Versi 3.6.1 • Narrative Rewrite • Autosave<br /><span
                 class="author-credit"
                 >GNU GPL v3 • Game by
                 <a
@@ -2189,6 +2189,7 @@
           abilityLog: [],
           trendReveal: 0,
           commentMemory: [],
+          npcReplyMemory: [],
           fufuArchive: null,
           fufuTwistResolved: false,
           debt: 0,
@@ -2283,6 +2284,7 @@
           state.abilityLog = state.abilityLog || [];
           state.trendReveal = state.trendReveal || 0;
           state.commentMemory = state.commentMemory || [];
+          state.npcReplyMemory = state.npcReplyMemory || [];
           state.fufuArchive = state.fufuArchive || null;
           state.fufuTwistResolved = Boolean(state.fufuTwistResolved);
           state.debt = Math.max(0, Number(state.debt) || 0);
@@ -3195,6 +3197,7 @@
         phaseRosters.buzzer[0].push({id:"joko-woles",icon:"🛠️",name:"Pak Joko Woles",role:"MENTOR TRANSISI REMOTE",bio:"Kerja, kerja, kerja; pertanyaan politik diarahkan ke yang terkait.",ability:{name:"Yang Penting Kerja",desc:"Heat turun dan transparansi berikutnya lebih murah, tapi satu pertanyaan tetap menunggu.",immediate:{heat:-8,stress:-4,credibility:3},buff:{actionIds:["transparency","data"],costMultiplier:.75,damage:8},tone:"neutral",quote:"Ya ditanyakan saja ke yang terkait. Saya fokus kerja dulu."}});
         phaseRosters.buzzer[1].push({id:"menlu-sugiyono",icon:"🌐",name:"Menlu Sugiyono",role:"DIPLOMAT HEMAT KATA",bio:"Satu kalimat resmi, tujuh pertemuan tertutup, dua belas foto jabat tangan.",ability:{name:"Bebas Aktif, Caption Pasif",desc:"Buka dua teaser geopolitik dan turunkan heat; manfaat konkretnya tetap ditagih.",immediate:{reach:5,heat:-5,credibility:2},reveal:2,tone:"neutral",quote:"Posisi Indonesia jelas. Detailnya melalui jalur diplomatik."}});
         phaseRosters.aktivis[0].push({id:"roy-tifa",icon:"🔍",name:"Roy Sur-Yoyo & dr. Tifa-Tifi",role:"WILDCARD ZOOM 800%",bio:"Melihat font, pixel, dan benang merah yang nggak semua orang lihat—kadang karena memang nggak ada.",ability:{name:"Forensik dari Screenshot",desc:"Reach melonjak dan konteks berikutnya kuat, tapi kredibilitas turun kalau bukti primer nggak muncul.",immediate:{reach:10,credibility:-3,heat:9},buff:{actionIds:["context","data"],damage:12,engagementMultiplier:1.5},tone:"neutral",quote:"Saya cuma bertanya. Silakan jawab pakai dokumen asli."}});
+        phaseRosters.aktivis[0].push({id:"konni-bakso-rie",icon:"🗺️",name:"Prof. Konni Bakso-Rie",role:"WILDCARD PETA PERTAHANAN LIPAT TIGA",bio:"Masuk studio bawa peta Indo-Pasifik sebesar taplak hajatan. Pulang ninggalin tiga headline, dua bantahan, dan host yang lupa jeda iklan.",ability:{name:"Bentangkan Peta Sampai Gelas Tumpah",desc:"Buka dua teaser geopolitik. Kartu data/context berikutnya lebih kuat dan murah; reach serta heat naik karena tiap panah di peta punya fanbase sendiri.",immediate:{reach:9,credibility:3,heat:7,stress:2,money:-7000000},metrics:{views:610000,likes:69000,reposts:30000,replies:41000},reveal:2,buff:{actionIds:["data","context"],damage:14,costMultiplier:.72,engagementMultiplier:1.3},tone:"neutral",quote:"Kalau mau bantah, bawa dokumen dan kronologi. Jangan cuma bawa potongan tujuh detik plus musik tegang."}});
         phaseRosters.aktivis[1].push({id:"dipo-peta",icon:"🧭",name:"Om Dipo Peta Dunia",role:"MENTOR STRATEGIC PAYOFF",bio:"Menghitung manfaat diplomasi setelah karpet merah digulung.",ability:{name:"Foreign Policy Scorecard",desc:"Buka dua tren dan perkuat data/konteks geopolitik.",immediate:{credibility:7,reach:4},reveal:2,buff:{actionIds:["data","context"],damage:13,costMultiplier:.8},tone:"good",quote:"Diplomasi harus punya tujuan, leverage, dan hasil—bukan cuma itinerary."}});
         phaseRosters.aktivis[1].push({id:"togar-toa",icon:"📣",name:"Mas Tiyo Toa",role:"ORATOR TOA KELILING",bio:"Kalau satu toa mati, dia sudah punya megafon cadangan, rundown aksi, dan tiga grup konsolidasi yang belum tidur.",ability:{name:"Estafet Toa Antarkampus",desc:"Network dan reach melonjak. Kartu network/empathy berikutnya lebih murah dan lebih kuat; heat ikut naik karena gerbang kampus mendadak ramai.",immediate:{network:12,reach:8,heat:5,stress:3,money:-6000000},metrics:{views:430000,likes:68000,reposts:39000,replies:26000},buff:{actionIds:["network","empathy"],damage:13,costMultiplier:.65,engagementMultiplier:1.3},tone:"good",quote:"Tuntutannya jangan cuma viral. Bagi PIC, jaga posko, catat korban, terus ketemu lagi setelah timeline pindah isu."}});
         phaseRosters.aktivis[2].push({id:"farah-footnote",icon:"📝",name:"Fatima Footnote",role:"STRATEGIS KAMPUS & PENJAGA CATATAN KAKI",bio:"Bisa mengubah rapat panas, enam voice note, dan dua puluh revisi menjadi pernyataan sikap yang masih bisa dibaca manusia.",ability:{name:"Konsolidasi Sampai Footnote",desc:"Kredibilitas, network, dan demokrasi naik. Kartu transparency/law/context berikutnya lebih murah serta terlindung dari penalti negatif.",immediate:{credibility:7,network:10,democracy:5,stress:3,money:-8000000},metrics:{views:360000,likes:57000,reposts:31000,replies:24000},buff:{actionIds:["transparency","law","context"],damage:12,costMultiplier:.7,protectNegatives:true},tone:"good",quote:"Slogannya boleh keras. Dokumennya harus lebih keras, dan tuntutannya jangan hilang pas kamera pulang."}});
@@ -3820,10 +3823,15 @@
           ["🧭","Om Dipo Peta Dunia","Arketipe diplomat-kritikus yang selalu bertanya strategic payoff setelah foto karpet merah selesai diunggah.","Parodi komposit atas debat kebijakan luar negeri."],
           ["🔍","Roy Sur-Yoyo","Arketipe komentator forensik digital yang menyukai zoom, metadata, dan konferensi pers panjang.","Kontroversi ijazah tetap dibedakan antara tudingan, bantahan, dan hasil pemeriksaan resmi."],
           ["🩺","dr. Tifa-Tifi","Arketipe influencer-oposisi yang menghubungkan dokumen, kesehatan politik, dan kecurigaan publik dalam thread panjang.","Parodi komposit; bukan pengesahan atas klaim yang belum terbukti."],
+          ["🗺️","Prof. Konni Bakso-Rie","Arketipe pengamat pertahanan yang datang membawa peta besar, kronologi panjang, dan kritik kebijakan yang langsung mengubah studio menjadi ruang situasi.","Parodi-komposit atas persona publik Connie Rahakundini Bakrie. Klaim, bantahan, dan adegan di dalam game tetap dipisahkan dari fakta yang terverifikasi."],
           ["📣","Mas Tiyo Toa","Tokoh aktivis mahasiswa dalam game yang menghubungkan orasi, logistik lapangan, dokumentasi, dan konsolidasi antarkampus.","Representasi parodi-komposit berdasarkan tokoh yang dirujuk pembuat game; game tidak mengarang jabatan atau riwayat organisasi sebagai fakta."],
           ["📝","Fatima Footnote","Tokoh aktivis mahasiswa dalam game yang menjaga agar slogan, data, dan tuntutan tetap nyambung setelah aksi selesai.","Representasi parodi-komposit berdasarkan tokoh yang dirujuk pembuat game; game tidak mengarang jabatan atau riwayat organisasi sebagai fakta."]
         );
 
+        sources.connie = [
+          ["Polemik klaim pertahanan pada Pemilu 2024","Pada Februari 2024, pernyataan Connie Rahakundini Bakrie tentang Prabowo, durasi pemerintahan, dan pengadaan Mirage diperdebatkan di ruang publik serta dibantah oleh Ulta Levenia Nababan. Game ini menampilkan polemiknya sebagai debat klaim, sumber, dan insentif media—bukan menetapkan satu potongan video sebagai kebenaran final.","https://rmol.id/politik/read/2024/02/14/609364/pengamat-terorisme-ulta-levenia-pernyataan-connie-tidak-cerminkan-seorang-akademisi"],
+          ["Karakter parodi-komposit","Prof. Konni Bakso-Rie adalah karakter fiksi satir yang mengambil inspirasi umum dari persona analis pertahanan di ruang publik. Dialog, ability, serta interaksinya dengan tokoh lain bukan rekonstruksi peristiwa nyata.","https://rmol.id/politik/read/2024/02/14/609364/pengamat-terorisme-ulta-levenia-pernyataan-connie-tidak-cerminkan-seorang-akademisi"]
+        ];
         sources.ulta = [
           ["Pernyataan publik Ulta Levenia pada Pemilu 2024","Pada Februari 2024, Ulta Levenia Nababan dikutip mengkritik klaim Connie Bakrie mengenai Prabowo, durasi pemerintahan, dan pengadaan Mirage; ia menekankan verifikasi sumber serta menilai tudingan belum berdasar.","https://rmol.id/politik/read/2024/02/14/609364/pengamat-terorisme-ulta-levenia-pernyataan-connie-tidak-cerminkan-seorang-akademisi"],
           ["Profil peneliti keamanan","Ulta dikenal sebagai peneliti terorisme dan konflik. Adegan panel, interaksi dengan Abu Jempol, serta seluruh dialog di dalam game adalah komposit fiksi satir.","https://www.ebatak.com/informasi/berita/profil-ulta-levenia-nababan"]
@@ -6491,11 +6499,11 @@
             phase:0,
             after:1,
             icon:"🚨",
-            title:"Threat Level Naik karena Mikrofon Menyala",
-            actor:"Dr. Ultima Waspadaban & Abu Jempol Nusantara",
-            text:"Menjelang pemilu, satu klaim pertahanan masuk studio. Dr. Ultima datang bawa catatan sumber; Abu Jempol datang bawa caps lock, bendera, dan kalimat ‘yang paham geopolitik pasti paham’. Host cuma minta satu hal: thumbnail jangan kurang merah.",
-            fact:"Ulta Levenia Nababan memang membuat pernyataan publik pada Februari 2024 yang mengkritik klaim Connie Bakrie dan menekankan verifikasi. Panel bersama Abu Jempol dalam game ini adalah komposit fiksi, bukan rekonstruksi peristiwa nyata.",
-            sourceKey:"ulta",
+            title:"Mirage, Mikrofon, dan Peta yang Nggak Muat Meja",
+            actor:"Prof. Konni Bakso-Rie, Dr. Ultima Waspadaban & Abu Jempol Nusantara",
+            text:"Menjelang pemilu, satu klaim pertahanan masuk studio. Prof. Konni bentang peta sampai gelas host pindah meja; Dr. Ultima buka catatan sumber; Abu Jempol buka caps lock dan langsung menuduh remote TV antek asing. Produser senang: thumbnail merah, tiga kubu, iklan aman.",
+            fact:"Pada Februari 2024, Ulta Levenia Nababan mengkritik klaim Connie Rahakundini Bakrie mengenai Prabowo, durasi pemerintahan, dan pengadaan Mirage serta menekankan verifikasi sumber. Adegan tiga tokoh di game ini adalah komposit fiksi satir, bukan rekonstruksi panel nyata.",
+            sourceKey:"connie",
             choices:{
               buzzer:[
                 ["Jadikan threat assessment sebagai konten","Campur analisis keamanan, fanwar, dan patriotisme sampai penonton lupa mana bukti dan mana efek suara.",{reach:11,credibility:-4,integrity:-5,democracy:-3,heat:13,money:-38000000},"“Threat level naik. Kualitas diskusi turun ke basement.”"],
@@ -7452,6 +7460,7 @@
           {match:/Roy Sur-Yoyo|Tifa-Tifi|forensikdariscreenshot/i,label:"MODE ZOOM 800%",className:"voice-preacher",prefix:"Saya cuma bertanya, ya. Coba zoom: ",suffix:" Kalau salah, bantah pakai dokumen asli. Jangan pakai emosi resolusi 144p."},
           {match:/Guru Gembul-bul/i,label:"MODE BARAYA PANJANG",className:"voice-preacher",prefix:"Baraya, duduk dulu. Masalahnya gini: ",suffix:" Jangan cuma baca judul. Nanti komentar kita jadi praktikum sosiologi tanpa dosen."},
           {match:/Hasbun Naskah Basi|hasbunbrief|Dapur Klarifikasi/i,label:"MODE KLARIFIKASI BUTUH KLARIFIKASI",className:"voice-press",prefix:"Oke, gue lurusin yang lurusannya tadi agak belok: ",suffix:" Jangan dipotong ya. Kalau dipotong, besok kami bikin klarifikasi director's cut."},
+          {match:/Konni Bakso-Rie|konnibaksorie/i,label:"MODE PETA PERTAHANAN LIPAT TIGA",className:"voice-podcast",prefix:"Gue bentang peta dulu ya, gelasnya minggir: ",suffix:" Kalau mau bantah, bawa dokumen. Jangan cuma bawa potongan tujuh detik sama musik tegang."},
           {match:/Ultima Waspadaban|ultimawaspada/i,label:"MODE THREAT ASSESSMENT PODCAST",className:"voice-data",prefix:"Sebelum panik nasional, cek tiga hal dulu: sumber, konteks, sama siapa yang jual paniknya. ",suffix:" Threat level belum tentu merah. Thumbnail-nya aja yang keburu merah."},
           {match:/Abu Jempol|abujempol/i,label:"MODE JEMPOL NASIONAL",className:"voice-command",prefix:"Bro, sederhana aja: ",suffix:" Yang setuju kasih bendera. Yang nanya panjang, nanti gue jawab pakai stiker singa."}
         );
@@ -9578,6 +9587,7 @@
             abilityLog: [],
             trendReveal: 0,
             commentMemory: [],
+            npcReplyMemory: [],
             fufuArchive: null,
             fufuTwistResolved: false,
             debt: 0,
@@ -10045,42 +10055,195 @@
           return makeComment(tone, base + suffix, { replyTo: i.handle });
         }
 
+        const npcVoiceReplyPools = {
+          "voice-documentary": {
+            good: [
+              "Oke, {action} masuk. Buat {topic}, gue tempel {doc} sama timecode-nya. Biar besok nggak ada yang pura-pura amnesia.",
+              "Nah, ini baru enak diedit: klaim, bukti, bantahan, semuanya punya track sendiri. {people} nggak cuma jadi B-roll.",
+              "Sip. Frame-nya sekarang punya sebelum dan sesudah. Metadata aman, versi koreksi juga ikut disimpan.",
+              "Gue suka arah {action}. Dramanya ada, tapi sumber primer nggak disuruh jadi figuran.",
+              "Masuk arsip. Bukan cuma videonya—siapa bilang apa, tanggal berapa, dan siapa yang kena dampaknya juga ikut.",
+              "Oke. Kalau narasi nanti ganti kostum, jejak {doc} masih bisa dikenali dari sepatunya.",
+            ],
+            bad: [
+              "{action} sinematik sih. Cuma {doc} masih figuran tanpa dialog.",
+              "Kemarahan masuk frame. Bukti buat {topic} belum dapat close-up.",
+              "Footage-nya keren, konteksnya masih pakai stock video. {people} jangan cuma jadi establishing shot.",
+              "Kalau semua lawan dijadikan villain kartun, penonton ketawa tapi pulangnya tetap nggak tahu {doc} di mana.",
+              "Cut-nya cepat. Verifikasinya ketinggalan di ruang editing.",
+              "Judulnya nendang. Cuma bagian yang menjawab {topic} kayaknya kepotong pas export.",
+            ],
+          },
+          "voice-data": {
+            good: [
+              "Oke, {action} bisa dicek. Samain periode, buka baseline, baru kita ribut dengan tertib.",
+              "Nah gini. {doc} dibuka, batas datanya disebut, dan grafiknya nggak dipotong pas garis mulai turun.",
+              "Masuk. Untuk {topic}, angka ini punya tanggal, sumber, dan pembanding—tiga barang langka di timeline.",
+              "Sip. Klaimnya sekarang punya kaki, bukan cuma punya font tebal.",
+              "Ini fair. Kalau salah bisa dikoreksi; kalau benar nggak perlu diselamatkan pakai musik heroik.",
+              "Oke. Data buat {people} akhirnya dipakai buat menjelaskan, bukan buat dekorasi backdrop.",
+            ],
+            bad: [
+              "Angkanya ada, tapi {action} memilih pembanding yang bikin mood rapat tetap cerah.",
+              "Grafiknya tinggi. Jawaban soal {topic} masih pendek.",
+              "Baseline-nya pindah-pindah kayak kursi rapat. {doc} mana yang harus dipercaya?",
+              "Kalau denominator disembunyikan, persentase bisa kelihatan gagah padahal sendirian.",
+              "Ini bukan data bohong. Ini data yang diajak cosplay jadi kesimpulan.",
+              "{action} bikin angka terlihat sibuk. Masalah {people} tetap belum punya alamat.",
+            ],
+          },
+          "voice-command": {
+            good: [
+              "Baik. {action} gue catat. Kali ini pertanyaan {topic} nggak disuruh push-up dulu.",
+              "Oke, substansi masuk. Bendera tetap berkibar, {doc} juga akhirnya dibuka.",
+              "Diterima. Nggak semua kritik perlu dituduh antek; kadang memang ada tabel yang salah.",
+              "Bagus. Jawab lurus, jangan bikin warga lari keliling lapangan sebelum dapat konteks.",
+              "Masuk laporan. Kalau bukti kuat, mic nggak perlu diteriaki.",
+            ],
+            bad: [
+              "Noted. Timeline boleh ribut, rundown tetap jalan, pertanyaan {topic} tunggu aba-aba.",
+              "{action} semangat sekali. Jawabannya belum hadir, tapi volume sudah hormat senjata.",
+              "Kalau semua yang nanya disebut antek, nanti petugas sensus ikut dicurigai.",
+              "Merah putih aman. {doc} masih belum turun dari kendaraan dinas.",
+              "Perintahnya jelas: bikin ramai dulu, klarifikasi lihat situasi.",
+            ],
+          },
+          "voice-preacher": {
+            good: [
+              "Beda boleh. {action} setidaknya ngajak orang baca {doc}, bukan cuma menghafal musuh.",
+              "Nah, ini baru diskusi. {topic} dijelasin tanpa mengubah komentar jadi tes keimanan nasional.",
+              "Masuk. Algoritma boleh jadi pengeras suara, jangan jadi satu-satunya guru.",
+              "Sip. Ada konteks, ada batas klaim, ada ruang bilang ‘gue belum tahu’. Itu juga ilmu.",
+              "Oke. {people} diajak mikir, bukan cuma diajak marah berjamaah.",
+            ],
+            bad: [
+              "Klip pendeknya rame. Konteks panjangnya masih nyari jamaah.",
+              "{action} bikin semua orang merasa paling tercerahkan, padahal {doc} belum dibaca.",
+              "Kalau kesimpulan datang sebelum sumber, itu bukan kajian. Itu trailer keyakinan.",
+              "Masalah {topic} rumit. Jawabannya jangan dibuat sesederhana tombol subscribe.",
+              "Nasihatnya panjang, bukti primernya masih izin ke toilet.",
+            ],
+          },
+          "voice-podcast": {
+            good: [
+              "Oke, fair. {action} bedah insentifnya tanpa sok bisa baca isi kepala semua orang.",
+              "Ini bisa dibahas. Ada {doc}, ada pihak yang untung, ada yang nanggung risiko.",
+              "Sip. Hot take-nya punya unit economics argumen yang nggak langsung boncos.",
+              "Nah. {topic} dibongkar pelan-pelan, bukan dipaksa muat di thumbnail satu kata.",
+              "Masuk. Peta besarnya kelihatan, tapi warga di bawah panahnya nggak dihapus.",
+              "Oke. {action} bikin orang pengen debat, tapi minimal debatnya bawa bahan.",
+            ],
+            bad: [
+              "Hot take-nya cuan. Unit economics argumennya masih boncos.",
+              "{action} cocok buat thumbnail. Buat jawab {topic}, runway-nya tinggal dua menit.",
+              "Peta besarnya penuh panah. {people} di bawahnya jadi titik kecil tanpa suara.",
+              "Kalau semua dikaitkan ke elite global, tukang fotokopi depan kantor ikut masuk bagan.",
+              "Podcast-nya dua jam. Bagian yang menjawab {doc} cuma suara kursi digeser.",
+              "Insight-nya premium. Verifikasinya masih versi free trial.",
+            ],
+          },
+          "voice-press": {
+            good: [
+              "Oke, versi resminya kali ini nggak ngumpet di paragraf tujuh. {action} jawab {topic} cukup lurus.",
+              "Masuk. Ada dokumen, tenggat, dan siapa yang harus bertanggung jawab. Admin bisa pulang sebelum subuh.",
+              "Sip. {people} dapat jawaban, bukan cuma kalimat ‘akan dikoordinasikan’ dengan logo HD.",
+              "Nah gini. Kalau salah bilang salah, kalau belum tahu bilang belum tahu. Nggak perlu director's cut.",
+              "Oke. {doc} dibuka dan pertanyaan lanjutan nggak dimute.",
+            ],
+            bad: [
+              "{action} rame sih. Pertanyaan {topic} masih duduk di ruang tunggu sambil pegang nomor antrean.",
+              "Klarifikasinya menjelaskan klarifikasi yang menjelaskan salah paham pertama. {doc} belum ikut rapat.",
+              "Versi resminya panjang. Jawaban konkretnya cuma ‘nanti’ pakai font 18.",
+              "Admin sudah upload tiga slide. {people} masih nunggu satu kalimat yang bisa dipakai hidup.",
+              "Kalimatnya aman. Maknanya pakai helm dan kabur lewat pintu belakang.",
+            ],
+          },
+          "voice-genz": {
+            good: [
+              "Oke ini actually nyambung. {action} kasih konteks tanpa bikin otak gue buffering.",
+              "Rare timeline W: {doc} di-spill, sumbernya hidup, dan {topic} nggak ditinggal on read.",
+              "Slay boleh, footnote juga ada. Balance yang jarang.",
+              "Nah bestie, ini baru konten vertikal yang nggak motong akal sehat jadi 9:16.",
+            ],
+            bad: [
+              "{action} slay di desain, flop di konteks. {topic} literally ditinggal seen.",
+              "POV: admin punya transisi video, tapi nggak punya jawaban.",
+              "Bestie ini lore-nya makin panjang karena tiap slide menghindari {doc}.",
+              "Engagement naik, comprehension keluar grup.",
+            ],
+          },
+          "voice-bot": {
+            good: [
+              "Respons Anda terdeteksi 72% substantif dan 28% membahayakan KPI propaganda.",
+              "Sumber primer ditemukan. Sistem bingung karena biasanya cuma disuruh memperbanyak slogan.",
+              "Konteks valid. Mohon tunggu sementara bot lain belajar mengeja transparansi.",
+            ],
+            bad: [
+              "Respons Anda dinyatakan sangat organik oleh model yang nggak boleh diaudit.",
+              "Pertanyaan {topic} gagal diproses. Sistem otomatis mengalihkan ke kubu sebelah.",
+              "Klarifikasi berhasil dibuat. Kebenaran tidak termasuk dalam paket berlangganan ini.",
+            ],
+          },
+          "voice-citizen": {
+            good: [
+              "Oke, {action} minimal jawab {topic} tanpa bikin warga ikut kursus jargon tiga semester.",
+              "Nah, ini kebaca manusia. {doc} ada dan {people} nggak cuma disebut pas butuh foto.",
+              "Sip. Nggak harus sepakat, yang penting pertanyaannya nggak diculik ke isu lain.",
+              "Masuk akal. Punchline ada, jawaban juga hadir. Tumben lengkap.",
+            ],
+            bad: [
+              "{action} lucu sih. Pertanyaan {topic} masih ditinggal di parkiran.",
+              "Rame iya. Nyambung sama {doc}? beda server.",
+              "Gue cuma pengen tahu siapa untung dan siapa disuruh sabar. Kok jawabannya malah poster.",
+              "Ini respons apa side quest? Isu utamanya belum disentuh.",
+            ],
+          },
+        };
+        const npcActionHooks = {
+          meme:{good:["Memenya nganter orang ke sumber, bukan nyuruh sumber jadi korban meme.","Recehnya pas. Habis ketawa orang masih tahu harus baca apa."],bad:["Punchline menang, konteks kalah WO.","Memenya sampai duluan; faktanya masih cari parkir."]},
+          data:{good:["Baseline, periode, sama sumbernya kelihatan. Grafik nggak perlu bodyguard.","Datanya punya pembanding, bukan cuma punya warna partai."],bad:["Angka dipakai seperti garnish: cantik, tapi nggak bikin argumen bergizi.","Grafiknya disuruh senyum meski sumbunya lagi nangis."]},
+          context:{good:["Potongan viral akhirnya ketemu video sebelum dan sesudahnya.","Kronologinya utuh; admin potong video kehilangan mata pencaharian."],bad:["Konteksnya dipanjangin sampai inti masalah tersesat.","Versi penuh dibuka, tapi menit yang nggak nyaman tetap dilompati."]},
+          film:{good:["Footage, sumber, dan ruang koreksinya ikut tayang.","Dokumenternya punya metodologi, bukan cuma punya color grading."],bad:["Sinematiknya 4K, verifikasinya 144p.","B-roll banyak, jawaban konkret jadi cameo."]},
+          attack:{good:["Kritiknya nyentuh kuasa dan keputusan, bukan bentuk alis orang.","Serang kebijakannya, bukan bikin akun gosip berseragam aktivisme."],bad:["Personal attack-nya lari paling depan, relevansinya ketinggalan sandal.","Masalah kebijakan diubah jadi audisi roasting."]},
+          patriot:{good:["Nasionalisme dipakai buat nuntut hasil, bukan mematikan pertanyaan.","Bendera tetap tegak, data juga nggak disuruh tiarap."],bad:["Merah putih dijadikan tombol mute buat warga yang nanya.","Kritik disebut antek sampai petugas audit ikut dituduh impor."]},
+          whatabout:{good:["Perbandingannya relevan dan standar ukurnya sama.","Kubu lain dibahas tanpa membebaskan kubu sendiri dari jawaban."],bad:["Pertanyaan sekarang dilempar ke 2014 dan belum beli tiket pulang.","Kubu sebelah dipanggil jadi pengacara gratis."]},
+          transparency:{good:["Kontrak, biaya, dan koreksinya dibuka sebelum isu pindah.","Transparansi kali ini berlaku juga buat teman sendiri. Aneh tapi menyegarkan."],bad:["Yang dibuka cuma pintu konferensi pers. Datanya tetap di lemari.","Transparansinya punya jam kerja: aktif kalau yang diperiksa lawan."]},
+          podcast:{good:["Timestamp pentingnya jelas; dua jam ngobrol nggak jadi kabut.","Host nanya balik, narasumber nggak cuma dikasih sofa empuk."],bad:["Podcast panjang dipakai buat mengencerkan satu jawaban.","Mikrofonnya mahal, follow-up question-nya paket hemat."]},
+          endorse:{good:["Disclosure-nya kelihatan; penonton tahu ini dukungan, iklan, atau dua-duanya.","Influencer-nya bilang siapa yang bayar. Republik selamat satu caption."],bad:["Paid partnership-nya hilang, senyumnya tetap sponsor-ready.","Testimoninya organik banget sampai copywriting tiga akun sama persis."]},
+          concert:{good:["Panggungnya dipakai buat ngajak orang baca tuntutan.","Musiknya keras, kontrak dan biaya tetap terdengar."],bad:["Sound system menjawab semua kecuali pertanyaan kebijakan.","Konsernya meriah; akuntabilitas pulang sebelum encore."]},
+          empathy:{good:["Warga terdampak pegang mikrofon, bukan cuma dipajang di thumbnail.","Izin, perlindungan, dan tindak lanjutnya ikut dipikirin."],bad:["Cerita korban diperas sampai tinggal engagement.","Air mata jadi B-roll; perlindungan narasumber lupa dibudgetkan."]},
+          network:{good:["Ada PIC, logistik, keamanan, dan kerja setelah trending turun.","Gerakannya punya kaki di lapangan, bukan cuma admin di cloud."],bad:["Grup koordinasinya 14, yang datang rapat 4, yang pegang tugas nggak ada.","Koalisi penuh logo, tindak lanjut full buffering."]},
+          law:{good:["Amar, pertimbangan, dan akibat hukumnya dibaca satu paket.","Pasalnya diterjemahin tanpa dipakai cosplay paling benar."],bad:["Hukum dijadikan carousel: pasal nyaman di-slide satu, dissent hilang di draft.","Istilah legal dipakai buat nakut-nakutin orang yang belum sarapan."]},
+        };
+        function fillNpcTemplate(template, vars) {
+          return String(template).replace(/\{(action|topic|doc|people)\}/g, (_, k) => vars[k] || "");
+        }
+        function pickFreshNpcReply(lines, key) {
+          state.npcReplyMemory = state.npcReplyMemory || [];
+          const candidates = shuffle(lines || []);
+          let picked = candidates.find((line) => !state.npcReplyMemory.includes(key + "|" + line));
+          if (!picked) picked = candidates[0] || "Oke, gue catat.";
+          state.npcReplyMemory.unshift(key + "|" + picked);
+          state.npcReplyMemory = state.npcReplyMemory.slice(0, 64);
+          return picked;
+        }
         function npcReaction(i, a, good, selectedDisplay = null) {
           const v = getVoiceProfile(i),
-            display = selectedDisplay || actionPresentation(a, i, phaseActionUseCount(a.id));
-          let text;
-          if (v.className === "voice-command")
-            text = good
-              ? "Oke, masuk. Substansinya gue taruh di lampiran yang entah kapan dibuka publik."
-              : "Noted. Timeline boleh ribut, rundown tetap jalan.";
-          else if (v.className === "voice-data")
-            text = good
-              ? "Sip, samain periode sama baseline dulu. Baru lempar grafik."
-              : "Angkanya sih benar, cuma pembandingnya bikin mood rapat turun.";
-          else if (v.className === "voice-preacher")
-            text = good
-              ? "Beda boleh. Jangan sampai algoritma jadi satu-satunya guru."
-              : "Klip pendekmu rame, konteks panjangmu masih nyari jamaah.";
-          else if (v.className === "voice-podcast")
-            text = good
-              ? "Oke, fair. Kita bedah insentifnya, nggak us sok baca niat orang."
-              : "Hot take-nya cuan. Unit economics argumennya masih boncos.";
-          else if (v.className === "voice-documentary")
-            text = good
-              ? "Masukin dokumennya ke arsip. Narasi ganti, metadata jangan."
-              : "Kemarahanmu masuk frame. Buktinya belum.";
-          else if (v.className === "voice-bot")
-            text =
-              "Respons Anda sangat organik menurut model yang nggak boleh diaudit.";
-          else
-            text = good
-              ? `Oke, “${display.name}” minimal jawab bagian yang paling ribet.`
-              : `“${display.name}” rame sih. Pertanyaannya masih duduk di ruang tunggu.`;
+            display = selectedDisplay || actionPresentation(a, i, phaseActionUseCount(a.id)),
+            toneKey = good ? "good" : "bad",
+            topic = i.subject || i.title,
+            doc = i.document || "dokumen utuh",
+            people = i.people || "warga yang kena dampaknya",
+            angle = actionCommentAngles[state.role]?.[a.id] || {good:"responsnya nyambung",bad:"responsnya muter",ask:"buktinya mana"},
+            vars = {action:`“${display.name}”`,topic,doc,people},
+            voicePool = npcVoiceReplyPools[v.className] || npcVoiceReplyPools["voice-citizen"],
+            voiceLine = pickFreshNpcReply(voicePool[toneKey], `${i.key}:${v.className}:${toneKey}`),
+            hooks = npcActionHooks[a.id]?.[toneKey] || [good ? angle.good + "." : angle.bad + "."],
+            hook = pickFreshNpcReply(hooks, `${i.key}:${a.id}:${toneKey}:hook`);
+          let text = fillNpcTemplate(voiceLine, vars) + " " + fillNpcTemplate(hook, vars);
+          if (rnd(0, 100) > 78) text += " " + topicJoke(i, ["bapak","genz","emak","warung"][rnd(0,3)]);
           return makeComment(good ? "good" : "bad", text, {
-            avatar: i.avatar,
-            handle: i.handle,
-            kind: "npc",
-            label: "AKUN ASLI",
+            avatar:i.avatar,handle:i.handle,kind:"npc",label:"AKUN ASLI",replyTo:`“${display.name}”`,
           });
         }
         function trendHintComment() {
@@ -11084,6 +11247,7 @@
             abilityLog: [],
             trendReveal: 0,
             commentMemory: [],
+            npcReplyMemory: [],
             fufuArchive: null,
             fufuTwistResolved: false,
             debt: 0,

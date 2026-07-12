@@ -1,15 +1,12 @@
 # Changelog
 
-## 3.6.0 — Republik Absurd & Voice Bible
+## 3.6.1 — Responsive Thread & Defense Panel Edition
 
-- Menulis ulang lapisan suara agar unggahan, action card, balasan tokoh, dan komentar terasa lebih natural, spontan, serta dekat dengan bahasa timeline Indonesia.
-- Menambahkan punchline kontekstual untuk arc konstitusi, MBG, diplomasi, rupiah, IHSG, PLN, bencana, hukum, dan pemilu.
-- Menambahkan persona komentar Abang Ojol, Anak Kos, ASN Silent Reader, Pengamat Warung, serta Buzzer Magang.
-- Menambahkan karakter pemerintah **Pak Hasbun Naskah Basi**, **Dr. Ultima Waspadaban**, dan **Abu Jempol Nusantara**, masing-masing dengan ability sekali pakai per fase.
-- Menambahkan special event mengenai verifikasi klaim keamanan pada Pemilu 2024 dan krisis komunikasi setelah intimidasi terhadap jurnalis pada 2025.
-- Menjaga nama tokoh sebagai parodi-komposit serta membedakan fakta publik, interpretasi editorial, dan adegan fiksi satir.
-- Mempertahankan kompatibilitas save versi 3.x.
-
+- Merombak respons **AKUN ASLI** menjadi pool kontekstual berdasarkan gaya tokoh, isu aktif, action card, dokumen, dan pihak terdampak.
+- Menambahkan memori anti-pengulangan agar balasan tokoh tidak mengulang kalimat identik saat pemain memilih keluarga action yang sama.
+- Menambahkan hook komentar khusus untuk meme, data, konteks, dokumenter, serangan, patriotisme, whataboutism, transparansi, podcast, endorsement, konser, empati, jaringan, dan hukum.
+- Menambahkan **Prof. Konni Bakso-Rie** dengan ability **Bentangkan Peta Sampai Gelas Tumpah**.
+- Menulis ulang special event debat pertahanan sebagai panel tiga arah bersama Dr. Ultima Waspadaban dan Abu Jempol Nusantara.
 
 ## 3.5.4 — Student Activist Naming Refinement
 
