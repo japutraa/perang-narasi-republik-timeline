@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.4.2 — Phase-Locked Action Deck Edition
+
+- Mengubah batas pemakaian action dari per bulan menjadi per fase/tahun.
+- Action yang sudah dipakai tidak kembali ketika bulan berganti; progresnya disimpan dalam autosave berdasarkan fase dan keluarga kartu.
+- Menambahkan 60 slot unik untuk setiap keluarga action pada setiap fase, cukup untuk seluruh 12 bulan tanpa mengulang judul.
+- Membuat nama dan deskripsi varian menggabungkan teknik action dengan tema fase seperti MBG, UU TNI, rupiah, Danantara, deepfake, dan rekap 2029.
+- Menghubungkan komentar secara langsung ke judul action yang benar-benar dipilih.
+- Menambahkan respons khusus per keluarga action untuk bapak Facebook, Gen Z, emak grup WA, anak PDF, milenial sotoy, fanwar, dan akun konspirasi.
+- Menambahkan migrasi save 3.4.1 agar penggunaan kartu pada bulan aktif dibawa ke counter fase baru.
+
 ## 3.4.1 — Rotating Action Deck Edition
 
 - Memisahkan area judul dan harga pada action card agar tidak overlap.

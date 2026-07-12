@@ -1649,7 +1649,7 @@
         }
       }
 
-      /* v3.4.1 — Rotating Action Deck Edition */
+      /* v3.4.2 — Phase-Locked Action Deck Edition */
       .roster-stack {
         display: grid;
         gap: 9px;
@@ -1810,7 +1810,7 @@
         </div>
         <div>
           <div class="stamp">
-            BUILD 3.4.1 • 12 JULI 2026<br />Tokoh game adalah parodi-komposit
+            BUILD 3.4.2 • 12 JULI 2026<br />Tokoh game adalah parodi-komposit
           </div>
           <label class="switch" style="margin-top: 9px"
             ><input id="soundToggle" type="checkbox" checked /> bunyi kantor
@@ -1926,7 +1926,7 @@
               hanya ingin semuanya marah lebih lama.”
             </blockquote>
             <small
-              >Versi 3.4.1 • Rotating Action Deck Edition • Autosave<br /><span
+              >Versi 3.4.2 • Phase-Locked Action Deck • Autosave<br /><span
                 class="author-credit"
                 >GNU GPL v3 • Game by
                 <a
@@ -2197,6 +2197,7 @@
           missedPayments: 0,
           bankruptcyHistory: [],
           monthlyActionVariants: {},
+          phaseActionVariants: {},
           lastActionVariant: 0,
         };
 
@@ -2283,6 +2284,12 @@
           state.missedPayments = Number(state.missedPayments) || 0;
           state.bankruptcyHistory = state.bankruptcyHistory || [];
           state.monthlyActionVariants = state.monthlyActionVariants || {};
+          state.phaseActionVariants = state.phaseActionVariants || {};
+          if (!Object.keys(state.phaseActionVariants).length && Object.keys(state.monthlyActionVariants).length) {
+            Object.entries(state.monthlyActionVariants).forEach(([id, count]) => {
+              state.phaseActionVariants[`${state.phase}:${id}`] = Number(count) || 0;
+            });
+          }
           state.lastActionVariant = Number(state.lastActionVariant) || 0;
           $("#startScreen").classList.add("hidden");
           $("#gameScreen").classList.remove("hidden");
@@ -9233,31 +9240,314 @@
             ],
           },
         };
+        const PHASE_ACTION_VARIANT_LIMIT = 60;
+        const phaseVariantTokens = [
+          [
+            ["Survei", "pakai angka elektabilitas, sampel, dan margin galat sebagai panggung"],
+            ["Debat", "kemas respons seperti potongan debat yang langsung minta dinilai menang"],
+            ["Quick Count", "masuk lewat angka sementara sebelum server resmi selesai sarapan"],
+            ["Koalisi", "bungkus teknik ini sebagai obrolan silaturahmi yang kursinya sudah dihitung"],
+            ["Baliho", "buat pesannya cukup besar untuk terlihat, belum tentu cukup jelas untuk dipahami"],
+            ["Bursa Kursi", "arahkan percakapan ke kompetensi, loyalitas, dan kursi yang pura-pura belum dibagi"],
+          ],
+          [
+            ["Dapur MBG", "bawa isu ke dapur program, vendor, gizi, dan faktur yang lebih panjang dari menu"],
+            ["Efisiensi", "pakai bahasa penghematan sambil mengecek siapa yang sebenarnya disuruh nombok"],
+            ["Indonesia Gelap", "masuk ke gelombang protes tanpa menganggap satu tagar mewakili semua tuntutan"],
+            ["UU TNI", "sentuh batas sipil-militer, pasal, dan kekhawatiran yang tidak selesai dengan hormat komando"],
+            ["17+8", "hubungkan tuntutan, arsip, dan respons negara sebelum semuanya dipotong jadi carousel"],
+            ["Kursi Komisaris", "angkat rangkap jabatan, konflik kepentingan, dan doa karier bernama insya Allah komisaris"],
+          ],
+          [
+            ["Rupiah", "tarik isu ke kurs, harga, daya beli, dan grafik yang mood-nya lebih stabil daripada dompet"],
+            ["APBN", "bawa angka ke sumber dana, biaya peluang, dan pos yang mendadak hilang dari presentasi"],
+            ["Ruang Sipil", "uji dampaknya pada kritik, jurnalis, pembela HAM, dan orang yang tidak punya centang biru"],
+            ["BEM UI", "masuk lewat pernyataan sikap, data ekonomi, dan PDF yang dibaca admin cuma judulnya"],
+            ["Kabinet", "sorot tumpang tindih jabatan, koordinasi, dan rapat yang jumlahnya mengalahkan hasil"],
+            ["Dana Negara", "ikuti aliran uang sampai ke lembaga, program, dan istilah sinergi yang belum tentu punya kuitansi"],
+          ],
+          [
+            ["Danantara", "jadikan tata kelola aset, investasi, dan pengawasan sebagai inti percakapan"],
+            ["Krisis Iklim", "hubungkan kebijakan dengan banjir, panas, pangan, dan anggaran adaptasi"],
+            ["Konsorsium", "petakan siapa duduk dengan siapa sebelum semua hubungan disebut kebetulan profesional"],
+            ["AI Negara", "uji data, bias, audit, dan bot yang sudah membantah sebelum warga selesai bertanya"],
+            ["Oposisi", "bedakan alternatif kebijakan dari sekadar logo baru dan konferensi pers bersama"],
+            ["Brand Aktivis", "cek kapan edukasi berubah jadi personal brand dan kapan link donasi tetap transparan"],
+          ],
+          [
+            ["Podcast Kandidat", "bawa teknik ini ke percakapan dua jam yang dipotong jadi 19 detik paling heroik"],
+            ["Dinasti 2.0", "uji akses, nama keluarga, merit, dan logo baru yang tidak otomatis menghapus silsilah"],
+            ["Deepfake", "cek keaslian, sumber, dan kecepatan klarifikasi sebelum wajah palsu menang debat"],
+            ["Pasar Dadakan", "lihat siapa benar-benar belanja, siapa cuma pegang cabai untuk kamera"],
+            ["Koalisi Rapuh", "masuk ke negosiasi yang disebut solid sampai urutan nama di poster berubah"],
+            ["Dana Kreator", "ikuti sponsor, affiliate, iklan mikro-target, dan disclosure yang ukurannya lebih kecil dari hashtag"],
+          ],
+          [
+            ["Debat 2029", "kemas langkah ini untuk panggung kandidat tanpa mengubah jawaban menjadi skor gaya"],
+            ["Quick Count", "jaga jarak antara estimasi, klaim kemenangan, dan mandat yang belum selesai dihitung"],
+            ["Rekap TPS", "turunkan narasi sampai formulir, saksi, server, dan warga yang membuka 87 tab"],
+            ["Masa Tenang", "uji apakah teknik ini benar-benar tenang atau cuma scheduled post pakai jam berbeda"],
+            ["Sengketa", "bawa bukti, standar pembuktian, dan amar sebelum potongan ekspresi hakim jadi kesimpulan"],
+            ["Pidato Kemenangan", "siapkan bahasa yang tetap waras ketika hasil belum final dan dua podium sudah menyala"],
+          ],
+        ];
+        const actionVariantKits = {
+          buzzer: {
+            meme: [
+              ["Remix Punchline", "Potong kerumitan jadi satu lelucon yang gampang nyangkut."],
+              ["Stikerkan Isu", "Ubah masalah negara jadi stiker grup keluarga yang sulit dihapus."],
+              ["Bikin POV", "Pilih sudut pandang paling menguntungkan lalu pura-pura kameranya objektif."],
+              ["Jadikan GIF", "Bikin satu ekspresi berulang menggantikan penjelasan yang terlalu panjang."],
+              ["Susun Tier List", "Urutkan aktor politik seperti karakter game agar konflik kepentingan terasa seperti hiburan."],
+              ["Potong Punchline", "Ambil kalimat paling lucu, sisakan konteks di ruang editing."],
+              ["Bikin Before–After", "Bandingkan dua gambar yang dramatis walau baseline-nya beda server."],
+              ["Karikaturkan Lawan", "Besarkan satu ciri sampai kebijakan aslinya hilang dari frame."],
+              ["Cetak Template", "Sebarkan format siap pakai supaya spontanitas bisa dikirim lewat spreadsheet."],
+              ["Bikin Reaction", "Ganti jawaban dengan wajah kaget dan subtitle huruf kapital."],
+            ],
+            patriot: [
+              ["Pasang Bendera di", "Tambahkan simbol nasional supaya kritik terdengar seperti gangguan upacara."],
+              ["Label Anti-Nasional", "Ubah perbedaan kebijakan menjadi tes kecintaan pada negara."],
+              ["Aktifkan Lagu Wajib untuk", "Naikkan emosi sebelum pertanyaan sempat menemukan mikrofon."],
+              ["Bikin Sumpah Setia", "Paksa isu kompleks masuk pilihan setia atau tidak setia."],
+              ["Seragamkan Caption", "Buat patriotisme terdengar serempak sampai tanda bacanya ikut apel."],
+              ["Gelar Upacara untuk", "Tambahkan podium, hormat, dan kalimat besar ke masalah yang butuh data kecil."],
+              ["Pasang Tameng Merah Putih", "Lindungi kebijakan dari kritik dengan simbol yang tidak bisa menjawab pertanyaan."],
+              ["Bikin Tes Nasionalisme", "Nilai warga dari seberapa cepat mereka setuju, bukan seberapa kuat argumennya."],
+              ["Naikkan Volume Lagu", "Tutup celah bukti dengan chorus yang mudah dinyanyikan."],
+              ["Bingkai sebagai Ancaman", "Ubah evaluasi publik menjadi alarm terhadap persatuan nasional."],
+            ],
+            data: [
+              ["Pilih Baseline", "Ambil tahun pembanding yang paling ramah pada grafik."],
+              ["Crop Grafik", "Sisakan bagian visual yang naik dan keluarkan bagian yang bertanya kenapa."],
+              ["Ganti Denominator", "Buat persentase terlihat gagah dengan penyebut yang tidak ikut konferensi pers."],
+              ["Sorot Persentase", "Besarkan angka relatif, kecilkan jumlah absolut dan catatan kaki."],
+              ["Pilih Sampel Nyaman", "Pakai kelompok yang paling mendukung lalu sebut sebagai suara publik."],
+              ["Gabungkan Kategori", "Satukan kelompok berbeda sampai tren yang diinginkan muncul."],
+              ["Geser Periode", "Mulai grafik tepat setelah titik terburuk supaya semua tampak pulih."],
+              ["Ubah Satuan", "Ganti rupiah, persen, indeks, atau per kapita sampai audiens kehilangan kalkulator."],
+              ["Sorot Ranking", "Pilih posisi yang bagus dan sembunyikan jarak dengan negara pembanding."],
+              ["Bikin Dashboard", "Tambahkan meter warna hijau agar keputusan terlihat ilmiah sebelum metodologi dibuka."],
+            ],
+            whatabout: [
+              ["Lempar ke Era Lama", "Bawa pertanyaan sekarang ke dosa pemerintahan sebelumnya."],
+              ["Cari Skandal Pembanding", "Temukan kasus lain yang lebih heboh agar topik utama antre."],
+              ["Tag Mantan Pejabat", "Undang tokoh lama ke reply supaya debat berubah jadi reuni dendam."],
+              ["Buka Album Sejarah", "Tarik foto masa lalu tanpa menjelaskan hubungannya dengan keputusan hari ini."],
+              ["Balik Tanya Kubu Sebelah", "Jawab pertanyaan dengan pertanyaan yang lebih emosional."],
+              ["Pindah Server Isu", "Geser percakapan ke masalah lain yang kebetulan lebih mudah dimenangkan."],
+              ["Cari Kesalahan Lama", "Gunakan kegagalan terdahulu sebagai izin untuk tidak menjawab sekarang."],
+              ["Bikin Kompetisi Dosa", "Ubah akuntabilitas menjadi lomba siapa paling buruk."],
+              ["Undang Masa Lalu", "Biarkan arsip lama mengambil semua kursi di percakapan baru."],
+              ["Putar Arah Panah", "Arahkan kritik balik ke pengkritik sebelum substansi sempat masuk."],
+            ],
+            endorse: [
+              ["Titip Script ke", "Pinjam muka terkenal dan tiga poin bicara yang sudah disetujui legal."],
+              ["Unboxing", "Buka kebijakan seperti paket premium dengan syarat kecil di akhir video."],
+              ["Jogetkan", "Bikin koreografi sederhana untuk program yang lampirannya 84 halaman."],
+              ["Pakai Soft Launch", "Masukkan pesan politik di sela rutinitas pagi dan kode promo."],
+              ["Bikin Collab", "Satukan figur populer dan pejabat sampai disclosure kehilangan tempat duduk."],
+              ["Kirim Brief Influencer", "Bagi caption organik lewat dokumen yang namanya final_final_beneran."],
+              ["Bikin Testimoni", "Ubah pengalaman satu figur menjadi bukti nasional."],
+              ["Pakai Cameo", "Munculkan wajah terkenal tepat ketika pertanyaan teknis mulai ramai."],
+              ["Jadikan Affiliate", "Hubungkan dukungan dengan engagement, trafik, dan istilah kolaborasi nasional."],
+              ["Buat Challenge", "Ajak pengikut meniru gerakan sebelum mereka sempat membaca program."],
+            ],
+            podcast: [
+              ["Monologkan", "Jawab dua jam sampai pertanyaan awal kehabisan baterai."],
+              ["Potong jadi Shorts", "Ambil belasan detik paling heroik dari percakapan panjang."],
+              ["Undang Host Ramah untuk", "Pilih kursi nyaman dan pertanyaan yang tidak punya tindak lanjut."],
+              ["Bikin Episode Eksklusif", "Jadikan akses sebagai bukti kedalaman walau datanya tetap tipis."],
+              ["Pasang Thumbnail Marah", "Naikkan alis dan huruf kapital agar algoritma menganggap ini substansi."],
+              ["Bikin Deep Talk", "Pakai lampu redup untuk membuat jawaban normatif terasa personal."],
+              ["Tumpuk Jargon di", "Isi jeda dengan istilah besar sampai lawan kehabisan waktu klarifikasi."],
+              ["Buat Reaction Podcast", "Bahas klip dari podcast lain sampai timeline jadi cermin berlapis."],
+              ["Rilis Teaser", "Sebarkan kalimat paling kontroversial sebelum konteks lengkap tayang."],
+              ["Bikin Town Hall Studio", "Undang penonton pilihan dan sebut suasananya spontan."],
+            ],
+            attack: [
+              ["Gali Arsip", "Cari unggahan lama yang bisa memindahkan perhatian dari kebijakan."],
+              ["Bikin Kolase", "Satukan screenshot, musik tegang, dan hubungan yang belum tentu ada."],
+              ["Seret Circle", "Kalau target sulit diserang, audit siapa yang pernah foto bareng."],
+              ["Cari Salah Ketik", "Besarkan typo sampai argumen utama tidak kebagian layar."],
+              ["Buka CV Lawan", "Ubah pengalaman kerja menjadi sidang karakter tanpa relevansi yang jelas."],
+              ["Goreng Potongan Lama", "Naikkan ulang klip lama dengan caption baru dan tanggal yang sengaja kabur."],
+              ["Bikin Dossier", "Tumpuk informasi benar, setengah benar, dan dekorasi merah dalam satu PDF."],
+              ["Audit Pertemanan", "Jadikan relasi sosial sebagai bukti niat politik."],
+              ["Cari Foto Lama", "Gunakan satu frame untuk menulis seluruh biografi lawan."],
+              ["Bikin Thread Aib", "Susun tuduhan bertingkat agar bantahan selalu tertinggal satu slide."],
+            ],
+            concert: [
+              ["Panggungkan", "Tambah LED, MC, dan drone sampai evaluasi terasa merusak suasana."],
+              ["Festivalisasi", "Ubah peluncuran kebijakan menjadi hari raya konten."],
+              ["Kasih Band Pembuka untuk", "Taruh musik sebelum anggaran supaya pertanyaan terdengar kurang asyik."],
+              ["Bikin Parade", "Gerakkan massa, maskot, dan kamera dalam satu arus yang sulit diaudit."],
+              ["Pasang LED Seribu", "Terangi panggung sampai lampiran kebijakan ikut silau."],
+              ["Gelar Expo", "Penuhi aula dengan booth pencapaian dan satu meja pengaduan di belakang."],
+              ["Buat Gala Nasional", "Naikkan dress code agar kritik terlihat tidak sopan."],
+              ["Turunkan Drone ke", "Ambil gambar udara yang megah dan jauh dari detail pelaksanaan."],
+              ["Bikin Countdown", "Ciptakan rasa sejarah sebelum indikator keberhasilan disepakati."],
+              ["Jadikan Roadshow", "Bawa narasi berkeliling sambil pertanyaan lokal menunggu sesi berikutnya."],
+            ],
+            transparency: [
+              ["Buka Dokumen", "Unggah file lengkap dan terima risiko warga membaca catatan kaki."],
+              ["Akui Salah di", "Koreksi sebelum netizen memberi nama skandal yang lebih catchy."],
+              ["Gelar Q&A untuk", "Buka mikrofon tanpa daftar pertanyaan titipan."],
+              ["Publikasikan Kontrak", "Tunjukkan pihak, nilai, mandat, dan bagian yang biasanya disebut rahasia dagang."],
+              ["Buka Dashboard Mentah", "Kasih data yang bisa diunduh, bukan cuma meter warna hijau."],
+              ["Jelaskan Konflik Kepentingan", "Sebut jabatan, hubungan, dan mekanisme mitigasinya tanpa bahasa kabut."],
+              ["Rilis Metodologi", "Terangkan cara angka dibuat, termasuk keterbatasan yang tidak seksi."],
+              ["Buka Notulen", "Tunjukkan siapa mengusulkan apa dan siapa mendadak izin keluar."],
+              ["Koreksi Caption", "Perbaiki klaim sambil membiarkan jejak perubahan terlihat."],
+              ["Undang Audit Independen", "Biarkan pihak lain memeriksa sebelum semua temuan disebut serangan politik."],
+            ],
+          },
+          aktivis: {
+            context: [
+              ["Susun Kronologi", "Urutkan waktu, aktor, dan keputusan sebelum potongan video memimpin sidang."],
+              ["Cari Versi Penuh", "Buka rekaman lengkap dan bagian sebelum-sesudah klip viral."],
+              ["Tarik Arsip", "Keluarkan dokumen lama saat semua pihak mendadak lupa."],
+              ["Bikin Peta Aktor", "Tunjukkan siapa memutuskan, siapa membayar, dan siapa menerima dampak."],
+              ["Cek Tanggal", "Pastikan foto, video, dan kutipan tidak teleportasi antarperistiwa."],
+              ["Buka Timeline", "Susun kejadian menjadi alur yang bisa dibaca tanpa gelar tiga."],
+              ["Bandingkan Pernyataan", "Taruh janji, keputusan, dan hasil dalam satu layar."],
+              ["Kumpulkan Saksi", "Hubungkan cerita warga dengan bukti yang bisa diverifikasi."],
+              ["Beri Catatan Konteks", "Tambahkan bagian yang hilang tanpa menghapus kritik yang sah."],
+              ["Bikin FAQ", "Jawab pertanyaan dasar sebelum hoaks menemukan desain yang lebih bagus."],
+            ],
+            data: [
+              ["Audit Angka", "Cek baseline, denominator, periode, dan siapa yang hilang dari tabel."],
+              ["Bikin Grafik Waras", "Visualisasikan data tanpa sumbu yang sengaja dibuat dramatis."],
+              ["Baca Catatan Kaki", "Cari kalimat kecil yang biasanya lebih jujur dari headline."],
+              ["Unduh Dataset", "Periksa data mentah sebelum percaya pada carousel."],
+              ["Cek Metodologi", "Uji sampel, definisi, dan batas klaim yang boleh dibuat."],
+              ["Bandingkan Anggaran", "Taruh rencana, realisasi, dan biaya peluang dalam satu tabel."],
+              ["Hitung per Kapita", "Ubah angka besar menjadi dampak yang bisa dibayangkan warga."],
+              ["Uji Ranking", "Lihat jarak, indikator, dan negara pembanding sebelum merayakan posisi."],
+              ["Bikin Replikasi", "Coba hitung ulang agar grafik tidak bergantung pada iman."],
+              ["Rilis Spreadsheet", "Kasih rumus, sumber, dan sel yang tidak dikunci admin."],
+            ],
+            empathy: [
+              ["Dengar Warga", "Turunkan volume pundit dan naikkan suara orang yang hidup di dalam dampak."],
+              ["Buka Ruang Cerita", "Jangan paksa korban berubah jadi konten sebelum mereka siap."],
+              ["Rekam Voice Note", "Bawa pengalaman lapangan, termasuk bagian yang tidak muat jadi slogan."],
+              ["Temui Keluarga", "Hubungkan kebijakan dengan rutinitas, biaya, dan rasa aman sehari-hari."],
+              ["Jaga Identitas", "Ceritakan dampak tanpa menjadikan korban sasaran baru."],
+              ["Bikin Forum Dengar", "Biarkan warga menyusun prioritas, bukan cuma jadi latar foto."],
+              ["Kumpulkan Kesaksian", "Cari pola dari banyak pengalaman tanpa menyamaratakan semuanya."],
+              ["Terjemahkan Dampak", "Bawa bahasa anggaran ke dapur, sekolah, kerja, dan transport."],
+              ["Cek Persetujuan", "Pastikan cerita dipublikasikan dengan izin dan konteks."],
+              ["Kembalikan Suara", "Jadikan narasumber subjek, bukan properti kampanye."],
+            ],
+            meme: [
+              ["Bikin Meme Edukatif", "Ajak orang ketawa lalu sisipkan sumber sebelum mereka kabur."],
+              ["Stikerkan Kritik", "Kirim satire ke grup keluarga dengan risiko dibalas bunga dan kopi."],
+              ["Bikin Carousel Receh", "Slide pertama lucu, slide terakhir baru mengaku punya daftar bacaan."],
+              ["Jadikan Reaction", "Pakai humor untuk menunjukkan kontradiksi tanpa mengganti bukti."],
+              ["Bikin Template Warga", "Sebarkan format yang gampang diadaptasi tanpa membuat semua akun seperti bot."],
+              ["Remix Janji", "Taruh ucapan lama di samping hasil terbaru dan biarkan kontras bekerja."],
+              ["Bikin Bingo", "Ubah jargon berulang jadi permainan sambil tetap menyimpan konteks."],
+              ["Karikaturkan Sistem", "Sindir struktur kekuasaan tanpa menjadikan satu orang kambing hitam tunggal."],
+              ["Bikin Caption Receh", "Turunkan bahasa seminar ke timeline tanpa menurunkan akurasi."],
+              ["Susun Meme Berantai", "Buat humor yang mengantar ke arsip, bukan menjauh darinya."],
+            ],
+            network: [
+              ["Koordinasi Jaringan", "Satukan kampus, komunitas, dan admin yang selama ini cuma saling like."],
+              ["Patungan Logistik", "Beli air, kabel, transport, dan harapan dalam satu spreadsheet."],
+              ["Hubungi Komunitas", "Perluas gerakan di luar circle yang foto profilnya sudah seragam."],
+              ["Bikin Posko", "Bangun tempat kerja yang tetap hidup saat tagar turun."],
+              ["Susun Relawan", "Bagi tugas verifikasi, dokumentasi, advokasi, dan jaga kesehatan."],
+              ["Buka Kanal Aman", "Pisahkan koordinasi sensitif dari grup yang semua anggotanya admin."],
+              ["Bangun Koalisi Isu", "Temukan tuntutan bersama tanpa memaksa semua kelompok jadi satu merek."],
+              ["Latih Moderator", "Jaga diskusi agar tidak berubah jadi audisi siapa paling marah."],
+              ["Bikin Dana Bersama", "Kumpulkan sumber daya dengan laporan yang bisa dibaca warga."],
+              ["Hubungkan Daerah", "Bawa isu keluar dari pusat timeline dan dengar variasi dampaknya."],
+            ],
+            law: [
+              ["Baca Pasal", "Jangan berhenti di ayat yang paling cocok untuk poster."],
+              ["Bandingkan Amar", "Buka pertimbangan, dissent, dan akibat hukum yang tidak muat di screenshot."],
+              ["Bikin Klinik Hukum", "Terjemahkan putusan ke bahasa warga tanpa menghapus syarat penting."],
+              ["Uji Konflik Kepentingan", "Cek jabatan, kewenangan, dan siapa mengawasi siapa."],
+              ["Susun Legal Brief", "Ringkas argumen, bukti, dan permintaan tanpa cosplay menjadi hakim."],
+              ["Cek Prosedur", "Uji apakah pembahasan, partisipasi, dan naskah benar-benar tersedia."],
+              ["Bandingkan Regulasi", "Lihat aturan lama, perubahan baru, dan celah implementasi."],
+              ["Buka Putusan", "Kasih link dokumen utuh sebelum kubu memilih paragraf favorit."],
+              ["Petakan Wewenang", "Jelaskan siapa boleh berbuat apa dan siapa yang bisa menggugat."],
+              ["Bikin Panduan Hak", "Ubah bahasa hukum menjadi langkah praktis yang tidak menyesatkan."],
+            ],
+            film: [
+              ["Bikin Dokumenter Mini", "Bawa bukti ke layar kecil tanpa mengecilkan kompleksitas."],
+              ["Rilis Wawancara", "Tampilkan suara narasumber, konteks, dan alasan pemilihan potongan."],
+              ["Buka Footage", "Keluarkan arsip saat klaim resmi mulai lupa kamera pernah menyala."],
+              ["Susun Visual Evidence", "Hubungkan gambar, dokumen, lokasi, dan waktu secara transparan."],
+              ["Bikin Teaser Etis", "Tarik perhatian tanpa menjual trauma sebagai cliffhanger."],
+              ["Rilis Director’s Notes", "Jelaskan metode, keterbatasan, dan bagian yang masih diperdebatkan."],
+              ["Buat Screening Warga", "Bawa film ke diskusi yang tidak selesai saat kredit penutup."],
+              ["Potong Arsip Vertikal", "Sesuaikan format tanpa memotong hubungan sebab-akibat."],
+              ["Bikin Peta Visual", "Tunjukkan jaringan aktor dan aliran keputusan dalam satu frame."],
+              ["Buka Koreksi Film", "Publikasikan pembaruan jika ada bukti baru atau kesalahan."],
+            ],
+            attack: [
+              ["Quote-Tweet Caps Lock", "Menang volume, kalah substansi, tetap dapat ribuan reply."],
+              ["Bongkar Aib Sampingan", "Bikin gerakan sibuk menjelaskan kenapa kritik berubah jadi infotainment."],
+              ["Mulai Fanwar", "Pastikan musuh utama bulan ini aktivis lain yang beda font poster."],
+              ["Seret Keluarga", "Ubah debat kebijakan menjadi audit hubungan personal."],
+              ["Cari Klip Memalukan", "Pakai satu momen untuk membatalkan seluruh argumen."],
+              ["Bikin Doxxing Halus", "Sebarkan petunjuk identitas sambil bilang netizen yang menemukan sendiri."],
+              ["Goreng Salah Ucap", "Besarkan kalimat buruk dan tinggalkan isu utama di draft."],
+              ["Audit Circle", "Jadikan foto bersama sebagai pengganti bukti konflik kepentingan."],
+              ["Bikin Thread Penghakiman", "Susun vonis sebelum verifikasi selesai."],
+              ["Ratio Kawan Sendiri", "Ubah energi gerakan menjadi kompetisi kesucian."],
+            ],
+            transparency: [
+              ["Publikasikan Donor", "Kasih tahu siapa mendanai, untuk apa, dan berapa sisanya."],
+              ["Koreksi Thread", "Perbaiki klaim keliru sebelum lawan menjadikannya monumen."],
+              ["Buka Catatan Produksi", "Tunjukkan proses, sumber, dan bagian yang belum pasti."],
+              ["Rilis Laporan Kas", "Biarkan warga melihat pemasukan, pengeluaran, dan kuitansi yang lecek."],
+              ["Jelaskan Afiliasi", "Sebut hubungan organisasi dan politik tanpa kalimat kabut."],
+              ["Buka Metode Riset", "Terangkan sampling, wawancara, verifikasi, dan keterbatasan."],
+              ["Publikasikan Koreksi", "Biarkan versi lama terlihat agar perubahan bisa diaudit."],
+              ["Buka Konflik Internal", "Akui perbedaan strategi tanpa mengubahnya jadi drama personal."],
+              ["Undang Peer Review", "Minta orang lain menguji klaim sebelum dipakai mobilisasi."],
+              ["Bikin Arsip Terbuka", "Simpan dokumen, metadata, dan kronologi untuk publik."],
+            ],
+          },
+        };
+        function phaseActionKey(id) {
+          return `${state.phase}:${id}`;
+        }
+        function phaseActionUseCount(id) {
+          state.phaseActionVariants = state.phaseActionVariants || {};
+          return Number(state.phaseActionVariants[phaseActionKey(id)]) || 0;
+        }
         function maxActionVariants(a) {
-          return 1 + (actionAlternativeFlavor[state.role]?.[a.id]?.length || 0);
+          return PHASE_ACTION_VARIANT_LIMIT;
         }
 
         function actionPresentation(a, i, variantIndex = 0) {
           const phase = phaseActionFlavor[state.role]?.[state.phase]?.[a.id],
             fallback = phaseFallbackFlavor[state.role]?.[state.phase]?.[a.id],
             topic = topicActionFlavor[i.key]?.[state.role]?.[a.id],
-            pick =
-              i.key === "future"
-                ? phase || fallback || topic
-                : topic || phase || fallback;
-          const baseName = pick?.[0] || a.name;
-          const baseDesc = pick?.[1] || a.desc;
-          const alternatives = actionAlternativeFlavor[state.role]?.[a.id] || [];
-          const offset = alternatives.length
-            ? (state.phase * 2 + state.day - 1) % alternatives.length
-            : 0;
-          const alt = variantIndex > 0 && alternatives.length
-            ? alternatives[(variantIndex - 1 + offset) % alternatives.length]
-            : null;
+            pick = i.key === "future" ? phase || fallback || topic : topic || phase || fallback,
+            baseName = pick?.[0] || a.name,
+            baseDesc = pick?.[1] || a.desc;
+          if (variantIndex <= 0) {
+            return {
+              name: baseName,
+              desc: baseDesc,
+              context: `${i.month} • ${i.title.replace("#", "")} • ${getVoiceProfile(i).label} • VARIAN FASE 1/${PHASE_ACTION_VARIANT_LIMIT}`,
+            };
+          }
+          const kit = actionVariantKits[state.role]?.[a.id] || [["Ubah Kemasan", "Pakai pendekatan baru tanpa menyalin caption lama."]],
+            comboIndex = variantIndex - 1,
+            move = kit[comboIndex % kit.length],
+            tokens = phaseVariantTokens[state.phase] || phaseVariantTokens[0],
+            token = tokens[Math.floor(comboIndex / kit.length) % tokens.length],
+            issue = issueHook(i);
           return {
-            name: alt?.[0] || baseName,
-            desc: alt?.[1] || baseDesc,
-            context: `${i.month} • ${i.title.replace("#", "")} • ${getVoiceProfile(i).label}`,
+            name: `${move[0]} ${token[0]}`,
+            desc: `${move[1]} Kali ini ${token[1]}. Tetap nyambung ke ${issue}, bukan cuma ganti font dan berharap algoritma lupa.`,
+            context: `${i.month} • ${i.title.replace("#", "")} • ${getVoiceProfile(i).label} • VARIAN FASE ${variantIndex + 1}/${PHASE_ACTION_VARIANT_LIMIT}`,
           };
         }
 
@@ -9305,9 +9595,9 @@
         }
         function minimumActionCost() {
           const i = currentIssue();
-          state.monthlyActionVariants = state.monthlyActionVariants || {};
+          state.phaseActionVariants = state.phaseActionVariants || {};
           const costs = availableActions()
-            .filter((a) => (Number(state.monthlyActionVariants[a.id]) || 0) < maxActionVariants(a))
+            .filter((a) => phaseActionUseCount(a.id) < maxActionVariants(a))
             .map((a) => actionCost(a, i));
           return costs.length ? Math.min(...costs) : 0;
         }
@@ -10251,6 +10541,7 @@
             missedPayments: 0,
             bankruptcyHistory: [],
             monthlyActionVariants: {},
+            phaseActionVariants: {},
             lastActionVariant: 0,
           });
           resetQuizDeck();
@@ -10412,7 +10703,6 @@
             state.heat = clamp(i.heat + state.phase * 2);
             state.lastAction = null;
             state.lastActionVariant = 0;
-            state.monthlyActionVariants = {};
             seedPostMetrics();
           }
           $("#issueTitle").innerHTML =
@@ -10502,17 +10792,17 @@
         function renderCards() {
           const i = currentIssue();
           const actions = availableActions();
-          state.monthlyActionVariants = state.monthlyActionVariants || {};
+          state.phaseActionVariants = state.phaseActionVariants || {};
           const hasAvailableFormats = actions.some(
-            (a) => (Number(state.monthlyActionVariants[a.id]) || 0) < maxActionVariants(a),
+            (a) => phaseActionUseCount(a.id) < maxActionVariants(a),
           );
           const affordable = actions.some((a) => {
-            const used = Number(state.monthlyActionVariants[a.id]) || 0;
+            const used = phaseActionUseCount(a.id);
             return used < maxActionVariants(a) && state.money >= actionCost(a, i);
           });
           let html = actions
             .map((a) => {
-              const used = Number(state.monthlyActionVariants[a.id]) || 0;
+              const used = phaseActionUseCount(a.id);
               const maxVariants = maxActionVariants(a);
               const exhausted = used >= maxVariants;
               const variantIndex = Math.min(used, Math.max(0, maxVariants - 1));
@@ -10521,12 +10811,12 @@
                 v = actionPresentation(a, i, variantIndex),
                 disabled = exhausted || state.money < cost || state.resolve <= 0,
                 buffs = activeActionBuffs(a);
-              const title = exhausted ? "Pendekatan Ini Udah Habis Bulan Ini" : v.name;
+              const title = exhausted ? "Pendekatan Ini Udah Habis di Fase Ini" : v.name;
               const desc = exhausted
-                ? "Timeline udah lihat semua variasinya. Coba kartu lain sebelum netizen sadar admin cuma ganti caption."
+                ? "Enam puluh pendekatan unik udah kepakai di fase ini. Coba keluarga kartu lain sampai roster tahun berikutnya datang."
                 : v.desc;
               const costText = exhausted ? "SUDAH DIPAKAI" : formatMoney(cost);
-              return `<button class="action-card ${exhausted ? "action-exhausted" : ""}" data-action="${a.id}" data-variant="${used}" ${disabled ? "disabled" : ""}><div class="action-card-head"><h4>${title}</h4><span class="cost">${costText}${exhausted ? "" : `<span class="cost-level">${costLevelLabel()}</span>`}</span></div><p>${desc}</p><div class="tags">${a.tags.map((t) => `<span class="tag">${t}</span>`).join("")}${i.weak.includes(a.id) ? '<span class="tag new">EFEKTIF</span>' : ""}${used > 0 && !exhausted ? '<span class="tag new">FORMAT BARU</span>' : ""}${buffs.map((b) => `<span class="tag ability-tag">⚡ ${b.sourceName}</span>`).join("")}</div><span class="action-context">${v.context}</span><p style="margin-top:7px;color:var(--ink)">Dampak ±${d}${buffs.length ? " • CREW BOOST" : ""}</p></button>`;
+              return `<button class="action-card ${exhausted ? "action-exhausted" : ""}" data-action="${a.id}" data-variant="${used}" ${disabled ? "disabled" : ""}><div class="action-card-head"><h4>${title}</h4><span class="cost">${costText}${exhausted ? "" : `<span class="cost-level">${costLevelLabel()}</span>`}</span></div><p>${desc}</p><div class="tags">${a.tags.map((t) => `<span class="tag">${t}</span>`).join("")}${i.weak.includes(a.id) ? '<span class="tag new">EFEKTIF</span>' : ""}${used > 0 && !exhausted ? `<span class="tag new">VARIAN FASE ${used + 1}/${maxVariants}</span>` : '<span class="tag new">BARU DI FASE INI</span>'}${buffs.map((b) => `<span class="tag ability-tag">⚡ ${b.sourceName}</span>`).join("")}</div><span class="action-context">${v.context}</span><p style="margin-top:7px;color:var(--ink)">Dampak ±${d}${buffs.length ? " • CREW BOOST" : ""}</p></button>`;
             })
             .join("");
           if (!affordable && hasAvailableFormats && state.resolve > 0) {
@@ -10669,44 +10959,88 @@
             emak: "Admin menang debat, saya tetap menang antrean pasar.",
           }[persona] || "Timeline rame, substansi lagi cari parkir.";
         }
-        function discussionComment(tone, i, a) {
-          const display = actionPresentation(a, i),
+        const actionCommentAngles = {
+          buzzer: {
+            meme: { good: "humornya ngebantu orang nangkep isu", bad: "memenya lucu tapi pertanyaannya ditinggal di parkiran", ask: "link konteks sebelum punchline-nya mana" },
+            patriot: { good: "simbolnya dipakai tanpa mematikan ruang kritik", bad: "cinta negara kok dijadikan tombol mute", ask: "bagian kebijakannya dijawab kapan setelah lagu selesai" },
+            data: { good: "angka, baseline, dan pembandingnya dibuka", bad: "grafiknya rapi tapi denominator-nya kayak lagi cuti", ask: "periode, sampel, dan angka absolutnya mana" },
+            whatabout: { good: "perbandingan sejarahnya masih relevan", bad: "isu sekarang disuruh antre di belakang skandal lama", ask: "setelah bahas masa lalu, jawaban untuk hari ini apa" },
+            endorse: { good: "figur publiknya jujur soal posisi dan hubungan", bad: "follower dipakai jadi gelar kompetensi", ask: "ini opini pribadi, kontrak, atau jabatan resmi" },
+            podcast: { good: "format panjangnya benar-benar dipakai buat bedah insentif", bad: "dua jam ngomong tapi pertanyaan intinya masih buffering", ask: "timestamp jawaban konkret dan sumbernya ada nggak" },
+            attack: { good: "kritik rekam jejaknya relevan dan terverifikasi", bad: "aib sampingan dipakai buat kabur dari kebijakan", ask: "hubungan temuan ini dengan isu utama apa" },
+            concert: { good: "panggungnya tetap menyisakan ruang audit", bad: "LED-nya terang, lampiran anggarannya gelap", ask: "setelah MC turun, indikator hasilnya apa" },
+            transparency: { good: "dokumen, konflik kepentingan, dan koreksinya kebuka", bad: "katanya transparan tapi file-nya cuma foto tabel", ask: "data mentah, kontrak, dan mekanisme koreksinya di mana" },
+          },
+          aktivis: {
+            context: { good: "kronologinya bikin klip viral balik punya sebelum dan sesudah", bad: "thread panjangnya malah bikin konteks tambah nyasar", ask: "sumber waktu, versi penuh, dan aktor keputusannya mana" },
+            data: { good: "baseline dan metodologinya bisa dicek ulang", bad: "angka dipakai sebagai aksesori intelektual", ask: "dataset, rumus, dan keterbatasannya dibuka nggak" },
+            empathy: { good: "warga terdampak jadi subjek, bukan dekorasi gerakan", bad: "cerita korban diperas jadi engagement", ask: "izin, perlindungan identitas, dan tindak lanjutnya ada nggak" },
+            meme: { good: "recehnya ngantar orang ke sumber", bad: "kritiknya berubah jadi fanart musuh kartun", ask: "habis ketawa, orang bisa baca konteksnya di mana" },
+            network: { good: "gerakannya punya logistik dan struktur di luar timeline", bad: "koalisi grup chat-nya lebih banyak dari kerja lapangannya", ask: "siapa pegang tugas, kas, keamanan, dan tindak lanjut" },
+            law: { good: "pasal, amar, dan prosedurnya diterjemahkan tanpa dipelintir", bad: "bahasa hukum dipakai buat cosplay paling benar", ask: "putusan utuh dan akibat hukumnya bisa dibaca di mana" },
+            film: { good: "visualnya punya dokumen, metadata, dan ruang koreksi", bad: "sinematiknya menang, metodologinya jadi figuran", ask: "footage, sumber, dan tanggapan pihak yang dikritik tersedia nggak" },
+            attack: { good: "kritiknya tetap relevan dengan kuasa dan kebijakan", bad: "gerakan berubah jadi akun infotainment yang marah", ask: "kenapa serangan personal ini penting buat tuntutan publik" },
+            transparency: { good: "donor, metode, dan kesalahan sendiri ikut dibuka", bad: "transparansinya cuma berlaku buat kubu lawan", ask: "laporan kas, afiliasi, dan versi koreksinya mana" },
+          },
+        };
+        function discussionComment(tone, i, a, selectedDisplay = null) {
+          const display = selectedDisplay || actionPresentation(a, i, phaseActionUseCount(a.id)),
             topic = issueHook(i),
+            angle = actionCommentAngles[state.role]?.[a.id] || { good: "responsnya nyambung", bad: "responsnya muter", ask: "buktinya mana" },
             pool = tone === "good"
               ? ["genz", "anakpdf", "emak", "bapak", "millennial"]
               : tone === "bad"
                 ? ["genz", "emak", "bapak", "conspiracy", "fanwar", "millennial"]
                 : ["anakpdf", "bapak", "emak", "genz", "millennial", "conspiracy"],
-            persona = pool[rnd(0, pool.length - 1)];
+            persona = pool[rnd(0, pool.length - 1)],
+            actionName = `“${display.name}”`;
           const texts = {
             bapak: tone === "good"
-              ? `Tweet-nya bahas ${topic}, terus ${display.name} akhirnya jawab isi, bukan nyari typo. ${topicJoke(i, "bapak")}`
-              : `Tweet-nya bahas ${topic}, kok dibales pakai ${display.name}? ${topicJoke(i, "bapak")}`,
+              ? `${actionName} ini lumayan, ${angle.good}. Soal ${topic}, bapak cuma nitip: ${angle.ask}. ${topicJoke(i, "bapak")}`
+              : tone === "bad"
+                ? `${actionName} itu kayak ganti stiker di mobil dinas: kelihatan baru, masalah ${topic} tetap ikut duduk belakang. ${angle.bad}. ${topicJoke(i, "bapak")}`
+                : `Bapak baca ${actionName}. Biar nggak salah paham soal ${topic}, ${angle.ask}?`,
             genz: tone === "good"
-              ? `wait, ini ngomongin ${topic} dan ${display.name} beneran kasih konteks? rare timeline W. ${topicJoke(i, "genz")}`
-              : `bestie ini kan soal ${topic}, kenapa ${display.name} malah jadi side quest? ${topicJoke(i, "genz")}`,
+              ? `${actionName} actually nyambung sama ${topic}; ${angle.good}. rare timeline W. ${topicJoke(i, "genz")}`
+              : tone === "bad"
+                ? `judul ${actionName} slay, tapi ${topic} ditinggal on read. ${angle.bad}. ${topicJoke(i, "genz")}`
+                : `${actionName} kedengeran niat, tapi pls spill: ${angle.ask}.`,
             emak: tone === "good"
-              ? `Saya baca soal ${topic}. Bagus kalau ${display.name} bikin jelas siapa yang tanggung biaya. ${topicJoke(i, "emak")}`
-              : `Yang dibahas ${topic}, jawabannya ${display.name}. Saya ibu-ibu, bukan berarti bisa dialihin pakai poster. ${topicJoke(i, "emak")}`,
+              ? `Saya baca ${actionName}. Bagus kalau ${angle.good}, apalagi soal ${topic}. Sekarang ${angle.ask}. ${topicJoke(i, "emak")}`
+              : tone === "bad"
+                ? `Yang dibahas ${topic}, kok jawabannya ${actionName}. ${angle.bad}. Saya ibu-ibu, bukan berarti bisa dialihkan pakai desain bagus. ${topicJoke(i, "emak")}`
+                : `Boleh pakai ${actionName}, tapi saya tanya yang gampang saja: ${angle.ask}.`,
             millennial: tone === "good"
-              ? `Secara stakeholder mapping, ${display.name} nyambung ke problem ${topic}. Minimal ada problem-solution fit.`
-              : `Secara helicopter view, ${display.name} ini deliverable-nya rame tapi nggak aligned sama isu ${topic}.`,
-            conspiracy: `Gue nggak nuduh ya, tapi ${topic}, ${display.name}, dan akun-akun upload menit yang sama itu kalau ditarik garis merah... spidolnya habis duluan.`,
-            anakpdf: tone === "bad"
-              ? `${display.name} belum menjawab bagian inti ${topic}. Dokumen primer, halaman, dan metodologinya mana?`
-              : `${display.name} nyambung. Sekarang pin link primer soal ${topic}, jangan cuma screenshot yang font-nya paling gede.`,
+              ? `Secara problem-solution fit, ${actionName} aligned sama isu ${topic}: ${angle.good}. Tinggal bikin accountability loop.`
+              : tone === "bad"
+                ? `Secara helicopter view, ${actionName} deliverable-nya ramai tapi nggak aligned: ${angle.bad}. Isu ${topic} belum punya closure.`
+                : `${actionName} punya engagement potential, tapi governance question-nya tetap: ${angle.ask}. CMIIW.`,
+            conspiracy: tone === "good"
+              ? `Gue nggak nuduh ya, tapi ${actionName}, isu ${topic}, dan dokumen yang akhirnya kebuka itu kalau ditarik garis merah... ternyata garisnya masuk akal.`
+              : `Gue nggak nuduh ya, tapi ${actionName}, ${topic}, dan akun-akun upload menit yang sama itu kalau ditarik garis merah... ${angle.bad}. Screenshot dulu.`,
+            anakpdf: tone === "good"
+              ? `${actionName} relevan: ${angle.good}. Sekarang pin dokumen primer soal ${topic}; jangan crop tabelnya.`
+              : tone === "bad"
+                ? `${actionName} belum menjawab inti ${topic}; ${angle.bad}. ${angle.ask}?`
+                : `Catatan kecil untuk ${actionName}: ${angle.ask}. Tolong kasih halaman dan versi dokumennya.`,
             fanwar: `POKOKNYA ${display.name.toUpperCase()} MENANG. ISU ${topic.toUpperCase()} NANTI DIBAHAS HABIS RATIO.`,
           };
           return makeComment(tone, texts[persona], { persona, replyTo: i.handle });
         }
-        function contextualComment(tone, i) {
-          const pool = topicCommentPool(tone, i);
-          return makeComment(tone, pool[rnd(0, pool.length - 1)], { replyTo: i.handle });
+
+        function contextualComment(tone, i, a = null, selectedDisplay = null) {
+          const pool = topicCommentPool(tone, i),
+            base = pool[rnd(0, pool.length - 1)],
+            angle = a ? actionCommentAngles[state.role]?.[a.id] : null,
+            suffix = angle && selectedDisplay && rnd(0, 100) > 52
+              ? ` Soal “${selectedDisplay.name}”, ${angle.ask}.`
+              : "";
+          return makeComment(tone, base + suffix, { replyTo: i.handle });
         }
 
-        function npcReaction(i, a, good) {
+        function npcReaction(i, a, good, selectedDisplay = null) {
           const v = getVoiceProfile(i),
-            display = actionPresentation(a, i);
+            display = selectedDisplay || actionPresentation(a, i, phaseActionUseCount(a.id));
           let text;
           if (v.className === "voice-command")
             text = good
@@ -10760,7 +11094,7 @@
         }
 
 
-        function updateEngagement(a, d, good) {
+        function updateEngagement(a, d, good, selectedDisplay = null, variantIndex = 0) {
           const p = (engagementProfiles[state.role] || {})[a.id] || {
               r: 1,
               l: 1,
@@ -10787,18 +11121,19 @@
           state.postMetrics.reposts += repostGain;
           state.postMetrics.replies += replyGain;
           const tone = good ? "good" : "bad",
-            i = currentIssue();
+            i = currentIssue(),
+            display = selectedDisplay || actionPresentation(a, i, variantIndex);
           const thread = [
-            npcReaction(i, a, good),
-            discussionComment("neutral", i, a),
-            discussionComment(tone, i, a),
-            contextualComment(tone, i),
+            npcReaction(i, a, good, display),
+            discussionComment("neutral", i, a, display),
+            discussionComment(tone, i, a, display),
+            contextualComment(tone, i, a, display),
           ];
           if (rnd(0, 100) > 58) thread.push(makeComment("neutral", topicJoke(i, ["bapak", "genz", "emak"][rnd(0,2)]), { persona: ["bapak", "genz", "emak"][rnd(0,2)], replyTo: i.handle }));
           if (rnd(0, 100) > 62) thread.push(trendHintComment());
           state.comments.unshift(...thread);
           if (rnd(0, 100) > 48)
-            state.comments.unshift(discussionComment(good ? "good" : "bad", i, a));
+            state.comments.unshift(discussionComment(good ? "good" : "bad", i, a, display));
           state.comments = state.comments.slice(0, 24);
           const coordinated = clamp(
               Math.round(
@@ -10871,8 +11206,8 @@
           const a = actionDefs[state.role].find((x) => x.id === id),
             i = currentIssue();
           if (!a || state.resolve <= 0) return;
-          state.monthlyActionVariants = state.monthlyActionVariants || {};
-          const currentVariant = Number(state.monthlyActionVariants[id]) || 0;
+          state.phaseActionVariants = state.phaseActionVariants || {};
+          const currentVariant = phaseActionUseCount(id);
           if (variantIndex !== currentVariant || currentVariant >= maxActionVariants(a)) {
             renderCards();
             return;
@@ -10908,7 +11243,7 @@
           state.career += Math.max(1, Math.round(d / 8));
           state.lastAction = id;
           state.lastActionVariant = currentVariant;
-          state.monthlyActionVariants[id] = currentVariant + 1;
+          state.phaseActionVariants[phaseActionKey(id)] = currentVariant + 1;
           state.history.push({
             phase: state.phase,
             day: state.day,
@@ -10917,20 +11252,20 @@
             label: display.name,
           });
           const good = a.int >= 0 && a.dem >= 0;
-          updateEngagement(a, d, good);
+          updateEngagement(a, d, good, display, currentVariant);
           const consumed = consumeActionBuffs(a);
           addLog(
             `${display.name}: narasi lawan turun ${d}. ${good ? "Publik dapet konteks lebih banyak." : "Engagement naik; ruang publik ngirim voice note panjang."}`,
             good ? "good" : "bad",
           );
-          if (state.monthlyActionVariants[id] < maxActionVariants(a))
+          if (phaseActionUseCount(id) < maxActionVariants(a))
             addLog(
-              "Format ini udah kepakai. Slotnya diganti pendekatan baru yang efeknya mirip, tapi caption dan kemasannya beda.",
+              `Action ini udah dicatat sebagai terpakai di fase ${state.phase + 1}. Slotnya langsung diganti varian unik berikutnya (${phaseActionUseCount(id) + 1}/${maxActionVariants(a)}).`,
               "info",
             );
           else
             addLog(
-              "Semua variasi pendekatan ini udah habis bulan ini. Timeline minta ide lain, bukan copy-paste pakai emoji baru.",
+              "Semua 60 varian keluarga action ini udah habis untuk fase sekarang. Timeline menolak copy-paste sampai roster tahun berikutnya masuk.",
               "info",
             );
           if (consumed.length)
@@ -11750,6 +12085,7 @@
             missedPayments: 0,
             bankruptcyHistory: [],
             monthlyActionVariants: {},
+            phaseActionVariants: {},
             lastActionVariant: 0,
           });
           syncQuizToggles();
