@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.1.0 — Voice & Trend Edition
+
+- Memperbaiki layout final malam pemilu agar teks tidak tertutup animasi kotak dan kertas suara.
+- Memisahkan narasi final dan ilustrasi ke layout responsif dua kolom, lalu menumpuknya pada layar kecil.
+- Menambahkan action card kontekstual untuk enam fase serta override isu seperti pemilu, MBG, fiskal, UU TNI, dokumenter, figur publik, dan Pemilu 2029.
+- Membuat biaya action meningkat secara bertahap mengikuti skala operasi setiap fase.
+- Menambahkan sistem gaya komunikasi karakter: komando, kalkulator fiskal, ceramah algoritmik, boardroom explainer, monolog aktivis, dokumenter, pernyataan kampus, konten vertikal, dan bot sintetis.
+- Memperluas bank komentar berdasarkan isu dan fase.
+- Menambahkan balasan langsung dari akun pembuat unggahan serta label **Akun Asli**.
+- Menambahkan komentar **Radar Trend** yang memberi petunjuk mengenai isu bulan berikutnya.
+- Mempertahankan kompatibilitas autosave versi 3.x.
+
 ## 3.0.4 — Dynamic Breaking Ticker
 
 - Membuat billboard **BREAKING** berubah mengikuti keenam fase campaign.

@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Six-Year Chronicle — Release 3.0.4**  
+> **Voice & Trend Edition — Release 3.1.0**  
 > Game satire politik Indonesia tentang kekuasaan, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.0.4-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.1.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -31,9 +31,13 @@ Campaign membentang selama **6 fase × 12 bulan = 72 episode**:
 
 Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya ditandai jelas sebagai **fiksi prediktif**, bukan ramalan atau klaim faktual.
 
-## Fitur release 3.0.4
+## Fitur release 3.1.0
 
 - **72 skenario bulanan** dengan isu, lawan narasi, strategi, dan konteks berbeda.
+- **Action deck kontekstual:** nama, deskripsi, biaya, dan framing kartu berubah mengikuti fase serta tema isu, dari pemilu dan MBG sampai ekonomi, politik influencer, deepfake, dan rekap 2029.
+- **Character voice system:** unggahan memakai pola komunikasi berbeda untuk karakter komando, pejabat fiskal, akademisi, aktivis kampus, dokumenteris, podcaster, influencer bisnis, penceramah digital, dan bot sintetis.
+- **Komentar kontekstual dan Radar Trend:** respons netizen lebih beragam, akun sumber dapat membalas langsung, dan komentar tertentu memberi petunjuk satir mengenai isu yang berpotensi viral pada bulan berikutnya.
+- Final malam pemilu memakai layout terpisah antara narasi dan ilustrasi kotak suara agar tetap terbaca pada desktop maupun layar kecil.
 - Special event yang muncul di antara bulan: dokumenter, demonstrasi, perubahan hukum, krisis program, politik influencer, AI generatif, dan kontestasi elektoral.
 - Jalur buzzer dan aktivis dengan promosi, spesialisasi, biaya moral, serta ending berbeda.
 - Statistik engagement yang bereaksi terhadap tindakan: repost, like, reply, views, sentimen, dan pola distribusi.
