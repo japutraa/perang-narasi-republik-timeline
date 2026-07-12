@@ -1649,7 +1649,7 @@
         }
       }
 
-      /* v3.5.4 — Narrative Rewrite Edition */
+      /* v3.6.0 — Narrative Rewrite Edition */
       .roster-stack {
         display: grid;
         gap: 9px;
@@ -1810,7 +1810,7 @@
         </div>
         <div>
           <div class="stamp">
-            BUILD 3.5.4 • 12 JULI 2026<br />Tokoh game adalah parodi-komposit
+            BUILD 3.6.0 • 12 JULI 2026<br />Tokoh game adalah parodi-komposit • dialog dibuat absurd, bukan kutipan literal
           </div>
           <label class="switch" style="margin-top: 9px"
             ><input id="soundToggle" type="checkbox" checked /> bunyi kantor
@@ -1926,7 +1926,7 @@
               hanya ingin semuanya marah lebih lama.”
             </blockquote>
             <small
-              >Versi 3.5.4 • Narrative Rewrite • Autosave<br /><span
+              >Versi 3.6.0 • Narrative Rewrite • Autosave<br /><span
                 class="author-credit"
                 >GNU GPL v3 • Game by
                 <a
@@ -3199,6 +3199,14 @@
         phaseRosters.aktivis[1].push({id:"togar-toa",icon:"📣",name:"Mas Tiyo Toa",role:"ORATOR TOA KELILING",bio:"Kalau satu toa mati, dia sudah punya megafon cadangan, rundown aksi, dan tiga grup konsolidasi yang belum tidur.",ability:{name:"Estafet Toa Antarkampus",desc:"Network dan reach melonjak. Kartu network/empathy berikutnya lebih murah dan lebih kuat; heat ikut naik karena gerbang kampus mendadak ramai.",immediate:{network:12,reach:8,heat:5,stress:3,money:-6000000},metrics:{views:430000,likes:68000,reposts:39000,replies:26000},buff:{actionIds:["network","empathy"],damage:13,costMultiplier:.65,engagementMultiplier:1.3},tone:"good",quote:"Tuntutannya jangan cuma viral. Bagi PIC, jaga posko, catat korban, terus ketemu lagi setelah timeline pindah isu."}});
         phaseRosters.aktivis[2].push({id:"farah-footnote",icon:"📝",name:"Fatima Footnote",role:"STRATEGIS KAMPUS & PENJAGA CATATAN KAKI",bio:"Bisa mengubah rapat panas, enam voice note, dan dua puluh revisi menjadi pernyataan sikap yang masih bisa dibaca manusia.",ability:{name:"Konsolidasi Sampai Footnote",desc:"Kredibilitas, network, dan demokrasi naik. Kartu transparency/law/context berikutnya lebih murah serta terlindung dari penalti negatif.",immediate:{credibility:7,network:10,democracy:5,stress:3,money:-8000000},metrics:{views:360000,likes:57000,reposts:31000,replies:24000},buff:{actionIds:["transparency","law","context"],damage:12,costMultiplier:.7,protectNegatives:true},tone:"good",quote:"Slogannya boleh keras. Dokumennya harus lebih keras, dan tuntutannya jangan hilang pas kamera pulang."}});
 
+        phaseRosters.buzzer[0].push(
+          {id:"ultima-waspada",icon:"🚨",name:"Dr. Ultima Waspadaban",role:"ANALIS THREAT LEVEL & PODCAST",bio:"Masuk studio bawa catatan lapangan, keluar studio bikin netizen merasa semua grup WhatsApp punya sleeper cell.",ability:{name:"Naikkan Threat Level ke Oranye",desc:"Kredibilitas dan reach naik. Kartu data/patriot berikutnya lebih kuat, tapi heat ikut naik karena semua orang mendadak merasa sedang di-briefing.",immediate:{credibility:4,reach:7,heat:5,stress:2},metrics:{views:520000,likes:63000,reposts:27000,replies:32000},buff:{actionIds:["data","patriot"],damage:12,costMultiplier:.78,engagementMultiplier:1.25},tone:"neutral",quote:"Cek sumber dulu. Habis itu cek siapa yang motong videonya. Habis itu baru boleh panik, tapi antre."}},
+          {id:"abu-jempol",icon:"👍",name:"Abu Jempol Nusantara",role:"PRAJURIT KOLOM KOMENTAR",bio:"Masuk thread tanpa dipanggil, keluar bawa bendera, caps lock, dan tujuh akun yang semuanya bilang ‘setuju, Bang’.",ability:{name:"Operasi Jempol Merah Putih",desc:"Repost, reply, dan reach meledak. Kartu meme/patriot berikutnya jadi brutal, tapi kredibilitas serta suhu timeline ikut terbakar.",immediate:{reach:11,heat:12,credibility:-4,democracy:-2},metrics:{views:780000,likes:94000,reposts:76000,replies:68000},buff:{actionIds:["meme","patriot"],damage:15,engagementMultiplier:1.55},tone:"bad",quote:"Nggak us bikin esai, Bro. Kasih emoji bendera, tulis ‘antek’, terus biarkan algoritma bela negara."}}
+        );
+        phaseRosters.buzzer[1].push(
+          {id:"hasbun-brief",icon:"🍱",name:"Pak Hasbun Naskah Basi",role:"KEPALA KOMUNIKASI & DAPUR KLARIFIKASI",bio:"Kalau respons pertama bikin publik tambah marah, beliau punya klarifikasi yang menjelaskan klarifikasi atas klarifikasi.",ability:{name:"Klarifikasi Jilid Tiga",desc:"Heat dan stres turun. Kartu transparency/podcast berikutnya lebih murah dan lebih kuat, tapi kredibilitas tetap bayar ongkos kalimat pertama.",immediate:{heat:-14,stress:-7,credibility:-2,reach:3,money:45000000},metrics:{views:390000,likes:24000,reposts:17000,replies:52000},buff:{actionIds:["transparency","podcast"],damage:14,costMultiplier:.65,protectNegatives:true},tone:"neutral",quote:"Maksud saya bukan begitu. Yang begitu itu konteks sebelumnya. Nanti kita luruskan di klarifikasi berikutnya, habis makan siang."}}
+        );
+
         const sources = {
           election: [
             [
@@ -3803,7 +3811,10 @@
         cast.power.push(
           ["🛠️","Pak Joko Woles","Arketipe mantan presiden yang menjawab badai politik dengan ‘yang penting kerja’ dan mengarahkan pertanyaan ke pihak terkait.","Parodi komposit atas gaya komunikasi publik; bukan kutipan literal."],
           ["🌐","Menlu Sugiyono","Arketipe menteri luar negeri hemat kata yang harus menjelaskan bebas aktif, BRICS, ASEAN, dan hasil lawatan dalam satu caption resmi.","Parodi jabatan dan gaya komunikasi, bukan tuduhan pribadi."],
-          ["🎓","Mas Samsul Raka Buming-Buming","Arketipe wakil presiden muda yang membawa warisan putusan konstitusi, kampanye digital, dan arsip forum lama ke ruang kekuasaan.","Parodi komposit; kepemilikan akun anonim tidak ditetapkan sebagai fakta."]
+          ["🎓","Mas Samsul Raka Buming-Buming","Arketipe wakil presiden muda yang membawa warisan putusan konstitusi, kampanye digital, dan arsip forum lama ke ruang kekuasaan.","Parodi komposit; kepemilikan akun anonim tidak ditetapkan sebagai fakta."],
+          ["🍱","Pak Hasbun Naskah Basi","Arketipe konsultan politik dan kepala komunikasi yang bisa membuat satu respons spontan membutuhkan tiga konferensi pers lanjutan.","Terinspirasi jabatan dan kontroversi komunikasi publik Hasan Nasbi; karakter, dialog, serta ability sepenuhnya fiksi satir."],
+          ["🚨","Dr. Ultima Waspadaban","Arketipe peneliti konflik-keamanan yang membawa field note, threat assessment, dan aura ‘tolong cek sumber sebelum panik’.","Terinspirasi profil publik Ulta Levenia Nababan sebagai peneliti terorisme; tidak menyatakan afiliasi atau tindakan fiktif sebagai fakta."],
+          ["👍","Abu Jempol Nusantara","Arketipe petarung media sosial nasionalis yang selalu tiba sebelum konteks dan pulang setelah kolom komentar terkunci.","Parodi-komposit atas persona aktivis media sosial; bukan pernyataan bahwa semua aktivitasnya terkoordinasi atau berbayar."]
         );
         cast.activist.push(
           ["🧭","Om Dipo Peta Dunia","Arketipe diplomat-kritikus yang selalu bertanya strategic payoff setelah foto karpet merah selesai diunggah.","Parodi komposit atas debat kebijakan luar negeri."],
@@ -3812,6 +3823,15 @@
           ["📣","Mas Tiyo Toa","Tokoh aktivis mahasiswa dalam game yang menghubungkan orasi, logistik lapangan, dokumentasi, dan konsolidasi antarkampus.","Representasi parodi-komposit berdasarkan tokoh yang dirujuk pembuat game; game tidak mengarang jabatan atau riwayat organisasi sebagai fakta."],
           ["📝","Fatima Footnote","Tokoh aktivis mahasiswa dalam game yang menjaga agar slogan, data, dan tuntutan tetap nyambung setelah aksi selesai.","Representasi parodi-komposit berdasarkan tokoh yang dirujuk pembuat game; game tidak mengarang jabatan atau riwayat organisasi sebagai fakta."]
         );
+
+        sources.ulta = [
+          ["Pernyataan publik Ulta Levenia pada Pemilu 2024","Pada Februari 2024, Ulta Levenia Nababan dikutip mengkritik klaim Connie Bakrie mengenai Prabowo, durasi pemerintahan, dan pengadaan Mirage; ia menekankan verifikasi sumber serta menilai tudingan belum berdasar.","https://rmol.id/politik/read/2024/02/14/609364/pengamat-terorisme-ulta-levenia-pernyataan-connie-tidak-cerminkan-seorang-akademisi"],
+          ["Profil peneliti keamanan","Ulta dikenal sebagai peneliti terorisme dan konflik. Adegan panel, interaksi dengan Abu Jempol, serta seluruh dialog di dalam game adalah komposit fiksi satir.","https://www.ebatak.com/informasi/berita/profil-ulta-levenia-nababan"]
+        ];
+        sources.communication = [
+          ["Intimidasi terhadap jurnalis Tempo","Pada Maret 2025, jurnalis Tempo menerima paket kepala babi dan kemudian kantor Tempo menerima bangkai tikus. Organisasi pers mengecamnya sebagai intimidasi serius.","https://www.theguardian.com/world/2025/mar/28/intimidation-journalists-indonesia-pig-heads-rats"],
+          ["Respons komunikasi yang dikritik","Hasan Nasbi sempat merespons enteng dengan menyarankan paket itu dimasak, lalu mengklarifikasi komitmen pemerintah pada kebebasan pers. Presiden Prabowo menyebut respons awal itu salah dan ceroboh.","https://www.theguardian.com/world/2025/mar/28/intimidation-journalists-indonesia-pig-heads-rats"]
+        ];
 
         const specialEvents = [
           {
@@ -6465,6 +6485,51 @@
             },
           },
         ];
+        specialEvents.push(
+          {
+            id:"threat-level-podcast",
+            phase:0,
+            after:1,
+            icon:"🚨",
+            title:"Threat Level Naik karena Mikrofon Menyala",
+            actor:"Dr. Ultima Waspadaban & Abu Jempol Nusantara",
+            text:"Menjelang pemilu, satu klaim pertahanan masuk studio. Dr. Ultima datang bawa catatan sumber; Abu Jempol datang bawa caps lock, bendera, dan kalimat ‘yang paham geopolitik pasti paham’. Host cuma minta satu hal: thumbnail jangan kurang merah.",
+            fact:"Ulta Levenia Nababan memang membuat pernyataan publik pada Februari 2024 yang mengkritik klaim Connie Bakrie dan menekankan verifikasi. Panel bersama Abu Jempol dalam game ini adalah komposit fiksi, bukan rekonstruksi peristiwa nyata.",
+            sourceKey:"ulta",
+            choices:{
+              buzzer:[
+                ["Jadikan threat assessment sebagai konten","Campur analisis keamanan, fanwar, dan patriotisme sampai penonton lupa mana bukti dan mana efek suara.",{reach:11,credibility:-4,integrity:-5,democracy:-3,heat:13,money:-38000000},"“Threat level naik. Kualitas diskusi turun ke basement.”"],
+                ["Pisahkan verifikasi dari fanwar","Buka sumber, tandai mana klaim dan bantahan, lalu biarkan analis bicara tanpa pasukan caps lock.",{reach:3,credibility:10,integrity:8,democracy:7,heat:-5,money:-22000000},"“Ternyata keamanan nasional bisa dibahas tanpa emoji sirene setiap kalimat.”"]
+              ],
+              aktivis:[
+                ["Cap semua narasumber sebagai propaganda","Viral cepat, tetapi kritikmu ikut malas membedakan riset, dukungan politik, dan konten.",{reach:10,credibility:-6,integrity:-5,democracy:-2,heat:11,money:-5000000},"“Semua dicap. Nggak ada yang diperiksa.”"],
+                ["Audit klaim, sumber, dan insentif panel","Uji pernyataan satu per satu dan jelaskan bahwa gelar, studio, serta follower bukan pengganti bukti.",{reach:4,credibility:11,integrity:9,democracy:8,heat:-3,money:-9000000},"“Boring sedikit, tapi minimal nggak semua orang pulang bawa hoaks baru.”"]
+              ]
+            }
+          },
+          {
+            id:"clarification-kitchen",
+            phase:1,
+            after:2,
+            icon:"🍱",
+            title:"Teror Masuk Redaksi, Jawaban Malah Masuk Dapur",
+            actor:"Pak Hasbun Naskah Basi",
+            text:"Seorang jurnalis menerima paket teror yang mengerikan. Publik menunggu kecaman tegas; meja komunikasi malah mengeluarkan jawaban enteng, lalu klarifikasi, lalu klarifikasi atas klarifikasi. Negara punya banyak jubir, tapi tombol ‘jangan ngomong dulu’ rupanya belum dianggarkan.",
+            fact:"Paket kepala babi dan bangkai tikus yang dikirim kepada Tempo pada Maret 2025 dikecam sebagai intimidasi terhadap pers. Respons awal Hasan Nasbi yang menyarankan paket itu dimasak menuai kritik dan kemudian diklarifikasi.",
+            sourceKey:"communication",
+            choices:{
+              buzzer:[
+                ["Bikin klarifikasi jilid tiga","Akui salah ucap setengah hati, tambahkan kalimat ‘dipelintir’, lalu berharap isu kalah cepat dengan agenda presiden berikutnya.",{reach:6,credibility:-5,integrity:-6,democracy:-6,heat:8,money:-42000000},"“Klarifikasinya lengkap. Permintaan maafnya masih buffering.”"],
+                ["Kecam teror dan buka langkah perlindungan","Jangan bercanda. Jelaskan penyelidikan, perlindungan jurnalis, dan tenggat tindak lanjut.",{reach:2,credibility:13,integrity:12,democracy:13,heat:-10,money:-30000000},"“Untuk sekali ini, humas memilih manusia sebelum punchline.”"]
+              ],
+              aktivis:[
+                ["Goreng salah ucap tanpa bahas terornya","Nama pejabat trending, korban dan kebebasan pers malah jadi figuran.",{reach:12,credibility:-5,integrity:-6,democracy:-3,heat:12,money:-5000000},"“Menang quote-tweet, kalah menjaga fokus.”"],
+                ["Pusatkan korban, bukti, dan kebebasan pers","Dokumentasikan ancaman, tuntut perlindungan, dan gunakan respons pejabat sebagai bukti masalah komunikasi—bukan satu-satunya cerita.",{reach:5,credibility:12,integrity:11,democracy:13,heat:-6,money:-11000000},"“Punchline berhenti. Arsip dan solidaritas lanjut.”"]
+              ]
+            }
+          }
+        );
+
         const engagementProfiles = {
           buzzer: {
             meme: { r: 1.8, l: 2.1, c: 1.2, v: 2.4 },
@@ -6584,6 +6649,41 @@
             openers: ["Ane numpang lewat gan, ", "Pertamax dulu: ", "Old thread never dies: ", "Cache bilang begini: "],
             closers: [" Jejak digital nggak kenal masa tenang.", " Cendol belakangan, verifikasi dulu.", " Jangan tanya ane pemiliknya siapa.", " Thread closed, screenshot jalan terus."],
           },
+          ojol: {
+            label: "ABANG OJOL",
+            avatars: ["🛵","🪖","📦","☔"],
+            handles: ["@orderanseret","@abanglampumerah","@helmsetengah","@nungguping"],
+            openers: ["Gue baca ini sambil nunggu order, ", "Bang, lampu merah aja ada hitung mundurnya. ", "Sebagai orang yang bensinnya bayar sendiri, ", "Tadi penumpang gue debat soal ini, "],
+            closers: [" Yang jelas bensin nggak bisa dibayar pakai nasionalisme.", " Gue lanjut narik dulu, negara jangan kabur.", " Kalau ada sumber lengkap kirim, jangan voice note 11 menit.", " Rating lima bintang buat yang jawab lurus."],
+          },
+          anakKos: {
+            label: "ANAK KOS",
+            avatars: ["🍜","🧦","🛏️","🥚"],
+            handles: ["@akhirbulanmulu","@mieinstanpolicy","@kosankebijakan","@telursetengah"],
+            openers: ["Sebagai rakyat yang kulkasnya lampu doang, ", "Gue mau komentar tapi saldo lagi introspeksi: ", "Anak kos nanya polos nih, ", "Kalau dijelasin pakai harga mi instan, "],
+            closers: [" Tolong jangan bikin telur jadi barang mewah.", " Ini gue save sebelum paket data habis.", " Negara boleh besar, porsi warteg jangan mengecil.", " Sekian dari kementerian akhir bulan."],
+          },
+          asn: {
+            label: "ASN SILENT READER",
+            avatars: ["🪪","🗂️","🖇️","😶"],
+            handles: ["@akunpribadibukaninstansi","@mohonjangantagkantor","@disposisidulu","@notulenanonim"],
+            openers: ["Komentar pribadi, nggak mewakili instansi: ", "Mohon jangan screenshot nama saya, tapi ", "Secara disposisi batin, ", "Saya cuma lewat sebelum apel: "],
+            closers: [" Demikian, mohon tidak ditindaklanjuti ke atasan.", " Saya logout dulu sebelum admin kantor bangun.", " Lampiran menyusul kalau server tidak maintenance.", " Ini bukan bocoran, cuma kebetulan saya hafal formatnya."],
+          },
+          warung: {
+            label: "PENGAMAT WARUNG",
+            avatars: ["🫖","🚬","🪑","🍌"],
+            handles: ["@warungpojok","@kopihitamdua","@kursiplastik","@gorenganpolitik"],
+            openers: ["Tadi di warung kesimpulannya simpel: ", "Kata bapak-bapak meja sebelah, ", "Saya bukan pengamat, cuma utang kopi saya tercatat rapi: ", "Di warung sini pollingnya begini: "],
+            closers: [" Gorengan dingin, debatnya tetap panas.", " Yang kalah debat bayar kopi.", " Besok isu baru, utang lama tetap dicatat.", " Silakan bantah, kursi plastik tersedia."],
+          },
+          buzzerMagang: {
+            label: "BUZZER MAGANG",
+            avatars: ["🧑‍💻","📱","🔋","🫡"],
+            handles: ["@adminshiftmalam","@organikbanget","@briefbelumturun","@akunbackup47"],
+            openers: ["Brief gue belum turun, tapi ", "Ini opini pribadi yang kebetulan seragam: ", "Admin senior bilang jangan ngaku, jadi ", "Gue magang doang ya, "],
+            closers: [" Hashtag final menyusul setelah approval.", " Tolong like, KPI gue tinggal dua persen.", " Kalau salah hapus, kalau benar invoice.", " Jangan bilang siapa-siapa kita upload jam yang sama."],
+          },
           npc: {
             label: "AKUN ASLI",
             avatars: ["👤"],
@@ -6593,9 +6693,9 @@
           },
         };
         const personaPools = {
-          good: ["genz", "bapak", "millennial", "emak", "anakpdf", "anakpdf"],
-          bad: ["genz", "fanwar", "millennial", "conspiracy", "bapak", "fanwar"],
-          neutral: ["bapak", "genz", "millennial", "conspiracy", "emak", "anakpdf"],
+          good: ["genz","bapak","millennial","emak","anakpdf","ojol","anakKos","warung","asn"],
+          bad: ["genz","fanwar","millennial","conspiracy","bapak","buzzerMagang","warung","emak"],
+          neutral: ["bapak","genz","millennial","conspiracy","emak","anakpdf","ojol","anakKos","asn","warung"],
         };
         const topicCommentTemplates = {
           election: {
@@ -7345,59 +7445,97 @@
           },
         ];
         voiceProfiles.unshift(
-          {match:/Jenderal Gemoyono|@gemoyono|Gemoyono/i,label:"MODE PODIUM NYENYENYE",className:"voice-command",prefix:"Saudara-saudara... nyenyenye katanya ",suffix:". Jangan gampang percaya elite sok pintar dan antek asing, ya!"},
-          {match:/Pak Joko Woles|@kerjakerja|transisi_dua_presiden|legacy/i,label:"MODE KERJA SAJA",className:"voice-data",prefix:"Ya, yang penting kerja. Soal yang ramai itu ",suffix:". Ditanyakan saja ke yang terkait."},
-          {match:/Menlu Sugiyono/i,label:"MODE DIPLOMASI HEMAT KATA",className:"voice-data",prefix:"Posisi Indonesia jelas: ",suffix:". Detailnya dibahas melalui jalur diplomatik."},
-          {match:/Om Dipo Peta Dunia/i,label:"MODE FOREIGN POLICY THREAD",className:"voice-podcast",prefix:"Kita perlu jujur: ",suffix:". Diplomasi bukan koleksi foto; harus ada strategic payoff."},
-          {match:/Roy Sur-Yoyo|Tifa-Tifi|forensikdariscreenshot/i,label:"MODE ZOOM 800%",className:"voice-preacher",prefix:"Saya cuma bertanya, ya: ",suffix:". Silakan bantah pakai dokumen asli, bukan marah-marah."},
-          {match:/Guru Gembul-bul/i,label:"MODE BARAYA PANJANG",className:"voice-preacher",prefix:"Baraya, masalahnya tuh gini: ",suffix:". Jangan cuma baca judul, nanti komentar kita jadi eksperimen sosial."}
+          {match:/Jenderal Gemoyono|@gemoyono|Gemoyono/i,label:"MODE PODIUM NYENYENYE",className:"voice-command",prefix:"Saudara-saudara... nyenyenye katanya ",suffix:" Ya sudah, yang penting merah putih. Kalau masih nanya, berarti mic saya kurang kencang."},
+          {match:/Pak Joko Woles|@kerjakerja|transisi_dua_presiden|legacy/i,label:"MODE KERJA SAJA",className:"voice-data",prefix:"Ya, saya kira begini. ",suffix:" Yang penting kerja. Sisanya ditanyakan ke yang terkait—saya juga lagi cari siapa yang terkait."},
+          {match:/Menlu Sugiyono/i,label:"MODE DIPLOMASI HEMAT KATA",className:"voice-data",prefix:"Posisi Indonesia jelas. ",suffix:" Detailnya melalui jalur diplomatik, karena caption Instagram bukan nota diplomatik, walau kadang diperlakukan begitu."},
+          {match:/Om Dipo Peta Dunia/i,label:"MODE FOREIGN POLICY THREAD",className:"voice-podcast",prefix:"Kita jujur aja ya: ",suffix:" Foto karpet merah itu bagus. Tapi strategic payoff-nya jangan ikut pulang naik pesawat kosong."},
+          {match:/Roy Sur-Yoyo|Tifa-Tifi|forensikdariscreenshot/i,label:"MODE ZOOM 800%",className:"voice-preacher",prefix:"Saya cuma bertanya, ya. Coba zoom: ",suffix:" Kalau salah, bantah pakai dokumen asli. Jangan pakai emosi resolusi 144p."},
+          {match:/Guru Gembul-bul/i,label:"MODE BARAYA PANJANG",className:"voice-preacher",prefix:"Baraya, duduk dulu. Masalahnya gini: ",suffix:" Jangan cuma baca judul. Nanti komentar kita jadi praktikum sosiologi tanpa dosen."},
+          {match:/Hasbun Naskah Basi|hasbunbrief|Dapur Klarifikasi/i,label:"MODE KLARIFIKASI BUTUH KLARIFIKASI",className:"voice-press",prefix:"Oke, gue lurusin yang lurusannya tadi agak belok: ",suffix:" Jangan dipotong ya. Kalau dipotong, besok kami bikin klarifikasi director's cut."},
+          {match:/Ultima Waspadaban|ultimawaspada/i,label:"MODE THREAT ASSESSMENT PODCAST",className:"voice-data",prefix:"Sebelum panik nasional, cek tiga hal dulu: sumber, konteks, sama siapa yang jual paniknya. ",suffix:" Threat level belum tentu merah. Thumbnail-nya aja yang keburu merah."},
+          {match:/Abu Jempol|abujempol/i,label:"MODE JEMPOL NASIONAL",className:"voice-command",prefix:"Bro, sederhana aja: ",suffix:" Yang setuju kasih bendera. Yang nanya panjang, nanti gue jawab pakai stiker singa."}
         );
         function netizenize(text) {
           const replacements = [
-            [/\btidak\b/gi, "nggak"],
-            [/\btetapi\b/gi, "tapi"],
-            [/\bsudah\b/gi, "udah"],
-            [/\bhanya\b/gi, "cuma"],
-            [/\bkarena\b/gi, "soalnya"],
-            [/\bmemang\b/gi, "emang"],
-            [/\bingin\b/gi, "pengen"],
-            [/\bbagaimana\b/gi, "gimana"],
-            [/\bseperti\b/gi, "kayak"],
-            [/\bterlihat\b/gi, "kelihatan"],
-            [/\bmenjadi\b/gi, "jadi"],
-            [/\btersebut\b/gi, "itu"],
-            [/\bseharusnya\b/gi, "harusnya"],
-            [/\bseluruh\b/gi, "semua"],
+            [/\btidak\b/gi, "nggak"], [/\btetapi\b/gi, "tapi"], [/\bsudah\b/gi, "udah"],
+            [/\bhanya\b/gi, "cuma"], [/\bkarena\b/gi, "soalnya"], [/\bmemang\b/gi, "emang"],
+            [/\bingin\b/gi, "pengen"], [/\bbagaimana\b/gi, "gimana"], [/\bseperti\b/gi, "kayak"],
+            [/\bterlihat\b/gi, "kelihatan"], [/\bmenjadi\b/gi, "jadi"], [/\btersebut\b/gi, "itu"],
+            [/\bseharusnya\b/gi, "harusnya"], [/\bseluruh\b/gi, "semua"], [/\bnamun\b/gi, "cuma masalahnya"],
+            [/\bsementara itu\b/gi, "di sisi lain"], [/\bmasyarakat\b/gi, "warga"], [/\bmelakukan\b/gi, "ngerjain"],
+            [/\bmenjelaskan\b/gi, "ngejelasin"], [/\bmempertanyakan\b/gi, "nanyain"], [/\bmenyampaikan\b/gi, "nyampein"]
           ];
           let out = String(text || "");
           replacements.forEach(([r, v]) => (out = out.replace(r, v)));
-          return out.replace(/\s+/g, " ").trim();
+          return out
+            .replace(/;\s*/g, ". ")
+            .replace(/\s+\./g, ".")
+            .replace(/\s+/g, " ")
+            .trim();
         }
         function escapeHtml(v) {
           return String(v ?? "").replace(
             /[&<>'"]/g,
-            (c) =>
-              ({
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                "'": "&#39;",
-                '"': "&quot;",
-              })[c],
+            (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[c],
           );
         }
+        const issuePunchlines = {
+          constitution:"Konstitusi lagi jadi pintu otomatis: kebuka pas keluarga datang, macet pas publik mau masuk.",
+          dirtyvote:"Yang paling cepat keluar bukan bantahan, tapi thumbnail reaction dengan muka kaget.",
+          election:"Server belum selesai ngunyah data, spanduk kemenangan udah dicetak bolak-balik.",
+          court:"Sidangnya enam jam. Yang viral alis hakim bergerak enam milimeter.",
+          jokowi:"Remote katanya udah diserahin. Kok baterainya masih hangat?",
+          cabinet:"Kursi ditambah biar koordinasi gampang. Gedungnya malah minta expansion pack.",
+          mbg:"Anak-anak butuh protein. Timeline kebagian garnish dan drone shot.",
+          darkprotests:"Lampu kota nyala. Masa depan anak kampus masuk mode hemat daya.",
+          tni:"Rapatnya tertutup, hasilnya disebut partisipatif. Aspirasi masuk lewat ventilasi.",
+          diploma:"Ijazah masuk zoom 800 persen. Akal sehat keluar frame pelan-pelan.",
+          diplomacy:"Paspor penuh cap. Warga nanya oleh-oleh kebijakannya ditaruh di bagasi mana.",
+          kopdes:"Koperasi disuruh sikap sempurna. Neraca keuangan masih salah baris.",
+          lawfare:"Pasal masuk war room. Keadilan disuruh tunggu admin upload carousel.",
+          august:"Duka belum selesai, akun anonim udah jual paket teori dalang.",
+          seventeen:"Tuntutannya 17+8. Admin pemerintah bacanya 1, 7, terus istirahat.",
+          disaster:"Air naik, sinyal turun, konferensi pers tetap HD.",
+          market:"IHSG merah. Admin pilih background hijau biar fundamental nggak insecure.",
+          pln:"Listrik mati bergilir. Narasi nyala 24 jam tanpa token.",
+          rupiah:"Rupiah melemah. Optimisme dikuatkan pakai mic wireless dan grafik crop.",
+          protest:"Mahasiswa teriak bangkrut, pejabat jawab fundamental kuat. Dua kalimat ini nggak saling follow.",
+          nadiem:"Laptop masuk pengadilan. Charger, konteks, dan presumption of innocence rebutan colokan.",
+          publicfigures:"Paid partnership-nya font 6. Senyumnya 4K.",
+          finance:"Angka makro kelihatan sehat. Dompet warga minta second opinion.",
+          future:"Belum kejadian, tapi konsultan udah kirim invoice termin pertama.",
+          future2027:"Negara belum jadi korporasi penuh. Deck investornya udah minta logo baru.",
+          future2028:"Belum deklarasi, podcastnya udah punya sponsor tiga episode.",
+          future2029:"Kotak suara belum dibuka. War room udah pesen bunga kemenangan."
+        };
+        const phasePunchlines = [
+          "Musim pemilu: semua orang punya prinsip, sampai rate card masuk.",
+          "Tahun pertama: kebijakan baru, logo baru, masalah lama pakai lanyard.",
+          "Ekonomi batuk, humas nyalain musik motivasi.",
+          "Ini fiksi prediktif. Invoice konsultannya sayangnya realistis.",
+          "Pra-pemilu: orang yang lima tahun hilang mendadak hafal harga cabai.",
+          "Pemilu lagi. Republik menekan refresh, cache lamanya belum dibersihin."
+        ];
         function getVoiceProfile(i) {
-          return (
-            voiceProfiles.find((v) =>
-              v.match.test(`${i.npc} ${i.handle} ${i.key}`),
-            ) || voiceProfiles.at(-1)
-          );
+          return voiceProfiles.find((v) => v.match.test(`${i.npc} ${i.handle} ${i.key}`)) || voiceProfiles.at(-1);
         }
-
+        function loosenPost(body){
+          return netizenize(body)
+            .replace(/\bDi timeline,\s*/gi,"Di timeline? ")
+            .replace(/\bNetizen bertanya:\s*/gi,"Netizen langsung nanya: ")
+            .replace(/\bPemerintah menyebut\s*/gi,"Versi pemerintah: ")
+            .replace(/\bKritikus menyebut\s*/gi,"Versi pengkritik: ")
+            .replace(/\bSemua kubu\s*/gi,"Semua kubu, seperti biasa, ")
+            .replace(/\bPublik\s*/gi,"Warga ")
+            .replace(/\s+/g," ")
+            .trim();
+        }
         function voicePostHtml(i) {
           const v = getVoiceProfile(i);
-          const body = netizenize(i.post);
-          return `<span class="voice-chip">${v.label}</span><div class="voice-copy ${v.className}">${escapeHtml(v.prefix + body + v.suffix)}</div>`;
+          const body = loosenPost(i.post);
+          const quip = issuePunchlines[i.key] || issuePunchlines[i.arc] || phasePunchlines[state.phase] || "";
+          const copy = `${v.prefix}${body} ${quip} ${v.suffix}`.replace(/\s+/g," ").trim();
+          return `<span class="voice-chip">${v.label}</span><div class="voice-copy ${v.className}">${escapeHtml(copy)}</div>`;
         }
         const phaseActionFlavor = {
           buzzer: [
@@ -8433,6 +8571,10 @@
           buzzer:{meme:"Bikin isu gampang dibagikan tanpa harus menjawab semua bagian yang bikin rapat nggak nyaman.",patriot:"Geser perdebatan dari kebijakan ke loyalitas dan identitas nasional.",data:"Pilih angka, periode, dan grafik yang paling membantu pesan pemerintah.",whatabout:"Tarik perhatian ke pembanding yang bikin masalah bulan ini kelihatan kecil.",endorse:"Pinjam kedekatan figur populer supaya respons terasa organik.",podcast:"Larutkan pertanyaan keras ke obrolan panjang, santai, dan penuh sponsor.",attack:"Ubah pembawa kritik jadi objek utama supaya substansi antre.",concert:"Mobilisasi panggung dan kerumunan untuk menciptakan kesan dukungan luas.",transparency:"Buka bukti, batas, dan kesalahan sebelum arsip lawan melakukannya."},
           aktivis:{context:"Kembalikan urutan peristiwa supaya potongan viral nggak menggantikan kenyataan.",data:"Uji angka, biaya, baseline, dan pihak yang menikmati atau menanggung kebijakan.",empathy:"Bawa pengalaman orang terdampak tanpa menjadikan mereka properti konten.",meme:"Pakai humor sebagai pintu menuju sumber, bukan pengganti sumber.",network:"Ubah engagement menjadi pembagian kerja, logistik, pengawasan, dan tindak lanjut.",law:"Terjemahkan pasal, putusan, prosedur, dan konflik kewenangan ke bahasa warga.",film:"Bangun argumen visual dengan arsip, metadata, narasumber, dan ruang koreksi.",attack:"Sorot kuasa dan konflik kepentingan tanpa turun jadi gosip tubuh atau keluarga.",transparency:"Buka donor, metode, koreksi, dan keterbatasan gerakan sendiri."}
         };
+        const actionDescPunch={
+          buzzer:{meme:"Kalau publik ketawa dulu, pertanyaan susah biasanya kebagian kursi belakang.",patriot:"Efektif buat bikin kritik kelihatan kayak kurang cinta tanah air.",data:"Grafiknya sah-sah aja. Yang dipilih cuma bagian yang nggak bikin ruang rapat sunyi.",whatabout:"Teknik klasik: kalau dapur sendiri kebakaran, tunjuk asap rumah sebelah.",endorse:"Follower dipinjam, kompetensi dianggap bonus DLC.",podcast:"Dua jam ngobrol; pertanyaan inti sempat tumbuh uban.",attack:"Substansi ditaruh di bagasi, pembawa pesan diaudit sampai zodiak.",concert:"Lampu LED bisa bikin kebijakan apa pun kelihatan punya mandat.",transparency:"Aneh memang, tapi kadang buka dokumen lebih murah daripada klarifikasi tujuh jilid."},
+          aktivis:{context:"Klip 12 detik dikembalikan ke habitat aslinya: video penuh dan kronologi.",data:"Angka disuruh kerja, bukan cuma berdiri cantik di carousel.",empathy:"Warga jadi manusia, bukan B-roll yang dipelankan pakai piano.",meme:"Receh boleh. Sumber primer tetap harus diajak nongkrong.",network:"Timeline diubah jadi posko, bukan cuma tempat semua orang bilang ‘gas’.",law:"Pasal diterjemahkan ke bahasa manusia tanpa cosplay hakim.",film:"Kamera dipakai buat arsip, bukan cuma bikin kemarahan kelihatan sinematik.",attack:"Yang dibongkar kuasa dan konflik kepentingan, bukan ukuran sepatu keluarga.",transparency:"Gerakan ikut buka dompet dan salahnya sendiri. Suasana langsung canggung tapi sehat."}
+        };
         function actionPresentation(a,i,variantIndex=0){
           const verbs=narrativeActionVerbs[state.role]?.[a.id]||["Respons terhadap"];
           const verb=verbs[variantIndex%verbs.length];
@@ -8443,8 +8585,15 @@
           if(["endorse","concert","network"].includes(a.id)) object=i.stage||object;
           if(a.id==="attack"&&state.role==="buzzer") object=`pengkritik ${i.subject||object}`;
           const short=String(object).split(/,| dan /)[0].trim();
-          const suffix=variantIndex>=verbs.length?` • Bab ${Math.floor(variantIndex/verbs.length)+1}`:"";
-          return {name:`${verb} ${short}${suffix}`.replace(/\s+/g," ").trim(),desc:narrativeActionDesc[state.role]?.[a.id]||a.desc,context:`Arc ${i.arc||i.key}: pilihan ini langsung merespons ${i.subject||i.title}. Jejaknya nyambung ke ${i.teaser||"bulan berikutnya"}.`};
+          const editions=["Edisi Panik","Versi Warung","Mode Jam Tiga Pagi","Cut Tanpa Disclaimer","Revisi Setelah Dimarahin","Paket Hemat Konteks","Director's Cut Admin","Versi Grup Keluarga","Edisi Deadline","Mode Semua Siap"];
+          const suffix=variantIndex>=verbs.length?` — ${editions[(variantIndex-verbs.length)%editions.length]}`:"";
+          const base=narrativeActionDesc[state.role]?.[a.id]||a.desc;
+          const punch=actionDescPunch[state.role]?.[a.id]||"Kalau berhasil, timeline berubah sebelum orang sempat baca utuh.";
+          return {
+            name:`${verb} ${short}${suffix}`.replace(/\s+/g," ").trim(),
+            desc:`${base} ${punch}`,
+            context:`Nyambung langsung ke ${i.subject||i.title}. Kalau dipakai sekarang, gema narasinya kebawa ke ${i.teaser||"bulan depan"}.`
+          };
         }
 
         function actionCost(a, i) {
@@ -9731,8 +9880,25 @@
           return `${lead} ${teaser}. Screenshot dulu, percaya belakangan.`;
         }
         function topicCommentPool(tone,i){
-          const core=i?.discussion?.[tone]||i?.discussion?.neutral||"pisahkan fakta dan opini";
-          const p={good:[`${core}. Nah gini, bahas ${i.subject} tuh ada objeknya, bukan cuma aura.`,`${core}. Pin ${i.document}, biar thread ini nggak jadi lomba percaya.`,`${core}. ${i.people} akhirnya nggak cuma jadi foto latar.`],bad:[`${core}. Yang ditanya ${i.subject}, jawabannya malah muter ke ${i.counter}.`,`${core}. Judulnya galak, bukti primernya masih OTW naik ojol.`,`${core}. Ini diskusi kebijakan apa audisi siapa paling yakin?`],neutral:[`${core}. Ada link ${i.document} nggak? Jangan screenshot satu paragraf.`,`${core}. Gue belum ambil kubu; pengen tahu fakta, tudingan, dan bantahannya.`,`${core}. Dampaknya ke ${i.people} apa, selain jadi bahan konten?`]};
+          const core=i?.discussion?.[tone]||i?.discussion?.neutral||"fakta dan opininya mesti dipisah";
+          const subject=i.subject||issueHook(i),doc=i.document||"dokumen utuh",people=i.people||"warga",counter=i.counter||"isu sebelah";
+          const p={
+            good:[
+              `Oke, ini nyambung. ${core}. Akhirnya ${subject} dibahas tanpa muter dulu ke ${counter}.`,
+              `${core}. Pin ${doc}; jangan sampai link primernya tenggelam di bawah stiker dan “izin save”.`,
+              `${core}. ${people} akhirnya jadi orang, bukan stok foto senyum di slide penutup.`
+            ],
+            bad:[
+              `Lah, yang dibahas ${subject}, kok admin lari ke ${counter}? Ini klarifikasi atau naik angkot salah jurusan?`,
+              `${core}. Judulnya galak, bukti primernya masih OTW naik ojol dan drivernya nyasar ke kantor humas.`,
+              `${core}. Ini diskusi kebijakan apa audisi siapa paling yakin sambil nggak baca lampiran?`
+            ],
+            neutral:[
+              `${core}. Link ${doc} ada nggak? Jangan screenshot satu paragraf terus sisanya disuruh tawakal.`,
+              `${core}. Gue belum ambil kubu; gue cuma pengen bedain fakta, tuduhan, bantahan, sama admin lagi kesurupan template.`,
+              `${core}. Dampaknya ke ${people} apa, selain jadi bahan konten, seminar, dan tote bag?`
+            ]
+          };
           return p[tone]||p.neutral;
         }
 
@@ -9796,41 +9962,24 @@
         function topicJoke(i, persona) {
           const key = i.key;
           const bank = {
-            mbg: {
-              bapak: "Yang bergizi programnya, yang diet transparansinya.",
-              genz: "menunya slay, audit vendornya masih shy.",
-              emak: "Anak saya makan pakai mulut, bukan pakai infografik.",
-            },
-            finance: {
-              bapak: "Kalau grafiknya naik terus, cicilan bapak kok nggak ikut optimis?",
-              genz: "rupiahnya lagi healing tanpa izin kantor.",
-              emak: "Indeks boleh hijau, harga cabai saya merah menyala.",
-            },
-            budget: {
-              bapak: "Anggaran dipotong rapi, struk warung tetap panjang.",
-              genz: "efisiensi core, rakyat nombok era.",
-              emak: "Yang gratis katanya program, yang bayar tetap dompet rumah.",
-            },
-            tni: {
-              bapak: "Bapak hormat seragam, tapi rapat warga tetap butuh notulen sipil.",
-              genz: "checks and balances jangan jadi check-in barak bestie.",
-              emak: "Yang saya mau aman itu anak pulang sekolah, bukan kritik disuruh tiarap.",
-            },
-            publicfigures: {
-              bapak: "Follower banyak belum tentu bisa benerin pompa air, apalagi negara.",
-              genz: "paid partnership-nya invisible, sinematografinya 4K.",
-              emak: "Artisnya senyum, saya tetap antre gas.",
-            },
-            future: {
-              bapak: "Ramalan politik kayak cuaca: payungnya dijual konsultan.",
-              genz: "fiksi prediktif tapi invoice-nya canon.",
-              emak: "Tahun depan belum datang, tagihannya sudah salam kenal.",
-            },
+            mbg:{bapak:"Yang bergizi programnya, yang diet transparansinya.",genz:"menunya slay, audit vendornya masih shy.",emak:"Anak saya makan pakai mulut, bukan pakai infografik.",ojol:"Kotak makannya gratis, ongkir kebijakannya siapa yang nombok?",anakKos:"Porsi protein nasional, anak kos tetap topping kerupuk.",warung:"Menu berubah tiap hari, vendor kok itu-itu lagi."},
+            finance:{bapak:"Kalau grafiknya naik terus, cicilan bapak kok nggak ikut optimis?",genz:"rupiahnya lagi healing tanpa izin kantor.",emak:"Indeks boleh hijau, harga cabai saya merah menyala.",ojol:"IHSG turun, bensin naik, rating driver disuruh stabil.",anakKos:"Fundamental kuat, dompet gue fundamentalnya tinggal resleting.",asn:"Secara indikator aman. Secara grup kantor, semua nanya THR."},
+            budget:{bapak:"Anggaran dipotong rapi, struk warung tetap panjang.",genz:"efisiensi core, rakyat nombok era.",emak:"Yang gratis katanya program, yang bayar tetap dompet rumah.",warung:"Negara efisien, gelas kopi tetap harus dicuci sendiri.",asn:"Pagu dipotong, target tetap. Ini namanya senam administrasi."},
+            tni:{bapak:"Bapak hormat seragam, tapi rapat warga tetap butuh notulen sipil.",genz:"checks and balances jangan jadi check-in barak bestie.",emak:"Yang saya mau aman itu anak pulang sekolah, bukan kritik disuruh tiarap.",ojol:"Kalau semua dikomando, orderan nyasar lapor ke siapa?",asn:"Mohon jangan semua urusan diberi disposisi 'siap laksanakan'."},
+            publicfigures:{bapak:"Follower banyak belum tentu bisa benerin pompa air, apalagi negara.",genz:"paid partnership-nya invisible, sinematografinya 4K.",emak:"Artisnya senyum, saya tetap antre gas.",buzzerMagang:"Disclosure kecil ya, nanti brand-nya takut.",warung:"Yang endorse banyak, yang baca aturan satu orang juga belum tentu."},
+            diplomacy:{bapak:"Paspor penuh, oleh-oleh kebijakan belum keluar bagasi.",genz:"soft power slay, domestic payoff mana bestie.",ojol:"Presiden terbang terus, saya muter komplek aja bensin mikir.",asn:"Nota diplomatik ada. Nota hasil konkret sedang proses paraf."},
+            disaster:{bapak:"Air naik, pejabat turun cuma buat foto.",genz:"disaster response-nya buffering tapi drone shot 4K.",emak:"Saya butuh listrik dan air bersih, bukan caption tabah.",ojol:"Jalan putus, order tetap masuk. Aplikasi lebih optimis dari BNPB."},
+            future:{bapak:"Ramalan politik kayak cuaca: payungnya dijual konsultan.",genz:"fiksi prediktif tapi invoice-nya canon.",emak:"Tahun depan belum datang, tagihannya sudah salam kenal.",warung:"Belum kejadian, tim sukses sudah pesan spanduk."}
           };
           return bank[key]?.[persona] || {
-            bapak: "Ini kayak istri nanya uang belanja, bapak jawab klasemen bola.",
-            genz: "packaging-nya slay, logikanya masih loading.",
-            emak: "Admin menang debat, saya tetap menang antrean pasar.",
+            bapak:"Ini kayak istri nanya uang belanja, bapak jawab klasemen bola.",
+            genz:"packaging-nya slay, logikanya masih loading.",
+            emak:"Admin menang debat, saya tetap menang antrean pasar.",
+            ojol:"Yang penting jangan muter lebih jauh dari rute aplikasi.",
+            anakKos:"Gue paham setengah. Setengah lagi kalah sama suara rice cooker.",
+            asn:"Mohon tidak dijadikan bahan rapat Senin pagi.",
+            warung:"Gorengan dingin, debatnya tetap panas.",
+            buzzerMagang:"Brief-nya nyambung dikit, KPI-nya aman banyak."
           }[persona] || "Timeline rame, substansi lagi cari parkir.";
         }
         const actionCommentAngles = {
@@ -9858,10 +10007,32 @@
           },
         };
         function discussionComment(tone,i,a,selectedDisplay=null){
-          const display=selectedDisplay||actionPresentation(a,i,phaseActionUseCount(a.id)),topic=i.subject||i.title,doc=i.document||"dokumen utuh",people=i.people||"warga",counter=i.counter||"kubu sebelah",angle=actionCommentAngles[state.role]?.[a.id]||{good:"responsnya nyambung",bad:"responsnya muter",ask:"buktinya mana"};
-          const choices=tone==="good"?["genz","anakpdf","emak","bapak","millennial"]:tone==="bad"?["genz","emak","bapak","conspiracy","fanwar","millennial"]:["anakpdf","bapak","emak","genz","millennial","conspiracy"],persona=choices[rnd(0,choices.length-1)],an=`“${display.name}”`;
-          const t={bapak:tone==="good"?`${an} lumayan nyambung. ${angle.good}. Tapi ${doc} jangan disimpan kayak kunci gudang RT.`:tone==="bad"?`${an} kayak cat ulang pos ronda: rame warnanya, masalah ${topic} masih bocor. ${angle.bad}.`:`Bapak izin tanya: soal ${topic}, ${angle.ask}? Gorengannya jangan lupa.`,genz:tone==="good"?`${an} actually jawab ${topic}. rare timeline W, sekarang spill ${doc} pls.`:tone==="bad"?`${an} judulnya slay, tapi ${topic} ditinggal on read terus disuruh lihat ${counter} 😭`:`wait, ${an} ini arahnya ke mana? pls bedain fakta, tuduhan, sama vibes.`,emak:tone==="good"?`Nah begini, ${an} ada hubungannya sama ${topic}. Sekarang dampaknya ke ${people}, jangan cuma angka TV.`:tone==="bad"?`Yang dibahas ${topic}, kok jawabannya jalan-jalan ke ${counter}. Saya kalau belanja kurang seribu aja dicari kasir.`:`Saya ibu-ibu mau tanya simpel: ${doc} bisa dibuka nggak dan siapa tanggung jawab?`,millennial:tone==="good"?`Secara problem-solution fit, ${an} aligned. Tinggal bikin accountability loop dan owner per deliverable.`:tone==="bad"?`Secara helicopter view, ${an} high engagement low closure. ${topic} belum punya owner, cuma hashtag. CMIIW.`:`${an} punya traction, tapi governance question-nya: ${angle.ask}.`,conspiracy:tone==="good"?`Gue nggak nuduh ya, tapi ${an}, ${doc}, dan pola akun yang kebuka itu kalau ditarik benang merah... kali ini garisnya nggak putus.`:`Gue nggak nuduh ya, tapi tiap bahas ${topic} selalu dialihin ke ${counter}. Kebetulan kok templatenya sama, typo-nya juga sama.`,anakpdf:tone==="good"?`${an} relevan. Pin ${doc}, versi lengkap, halaman, dan tanggalnya. Jangan crop tabel pas kolom kanan bikin nggak nyaman.`:tone==="bad"?`${an} belum jawab ${topic}. Saya cari sumber primer, yang ketemu carousel tanpa footnote.`:`Catatan: ${angle.ask}. Bedakan putusan, dakwaan, tudingan, bantahan, dan opini admin.`,fanwar:`POKOKNYA ${display.name.toUpperCase()} MENANG. SOAL ${String(topic).toUpperCase()} NANTI DIBAHAS HABIS RATIO.`};
-          return makeComment(tone,t[persona],{persona,replyTo:i.handle});
+          const display=selectedDisplay||actionPresentation(a,i,phaseActionUseCount(a.id));
+          const topic=i.subject||i.title,doc=i.document||"dokumen utuh",people=i.people||"warga",counter=i.counter||"kubu sebelah";
+          const angle=actionCommentAngles[state.role]?.[a.id]||{good:"responsnya nyambung",bad:"responsnya muter",ask:"buktinya mana"};
+          const choices=tone==="good"
+            ?["genz","anakpdf","emak","bapak","millennial","ojol","anakKos","asn","warung"]
+            :tone==="bad"
+              ?["genz","emak","bapak","conspiracy","fanwar","millennial","ojol","warung","buzzerMagang"]
+              :["anakpdf","bapak","emak","genz","millennial","conspiracy","ojol","anakKos","asn","warung"];
+          const persona=choices[rnd(0,choices.length-1)],an=`“${display.name}”`;
+          const t={
+            bapak:tone==="good"?`${an} lumayan nyambung. ${angle.good}. Tapi ${doc} jangan disimpan kayak kunci gudang RT.`:tone==="bad"?`${an} kayak cat ulang pos ronda: rame warnanya, masalah ${topic} masih bocor. ${angle.bad}.`:`Bapak izin tanya: soal ${topic}, ${angle.ask}? Gorengannya jangan lupa.`,
+            genz:tone==="good"?`${an} actually jawab ${topic}. rare timeline W. sekarang spill ${doc}, jangan cuma bilang “cek bio”.`:tone==="bad"?`${an} judulnya slay, tapi ${topic} ditinggal on read terus disuruh lihat ${counter} 😭`:`wait, ${an} ini arahnya ke mana? pls bedain fakta, tuduhan, sama vibes admin.`,
+            emak:tone==="good"?`Nah begini. ${an} nyambung sama ${topic}. Sekarang jelasin dampaknya ke ${people}; jangan cuma angka TV yang senyum.`:tone==="bad"?`Yang dibahas ${topic}, kok jawabannya jalan-jalan ke ${counter}. Saya belanja kurang seribu aja dicari kasir, lho.`:`Saya ibu-ibu nanya simpel: ${doc} bisa dibuka nggak, terus siapa yang tanggung jawab kalau salah?`,
+            millennial:tone==="good"?`Secara problem-solution fit, ${an} aligned. Tinggal bikin accountability loop—maaf kebiasaan LinkedIn.`:tone==="bad"?`Secara helicopter view, ${an} high engagement low closure. ${topic} belum punya jawaban, cuma hashtag dan coffee break. CMIIW.`:`${an} punya traction, tapi governance question-nya tetap: ${angle.ask}.`,
+            conspiracy:tone==="good"?`Gue nggak nuduh ya, tapi ${an}, ${doc}, dan pola akun yang kebuka itu kalau ditarik benang merah... kali ini garisnya nggak putus.`:`Gue nggak nuduh ya, tapi tiap bahas ${topic} selalu dialihin ke ${counter}. Kebetulan kok templatenya sama, typo-nya juga kembar identik.`,
+            anakpdf:tone==="good"?`${an} relevan. Pin ${doc}, versi lengkap, halaman, dan tanggal. Jangan crop tabel pas kolom kanan mulai bikin nggak nyaman.`:tone==="bad"?`${an} belum jawab ${topic}. Saya cari sumber primer, yang ketemu carousel tanpa footnote dan link mati.`:`Catatan: ${angle.ask}. Bedakan putusan, dakwaan, tudingan, bantahan, dan opini admin.`,
+            fanwar:`POKOKNYA ${display.name.toUpperCase()} MENANG. SOAL ${String(topic).toUpperCase()} NANTI DIBAHAS HABIS RATIO.`,
+            ojol:tone==="good"?`Gue baca ${an} sambil nunggu order. Nyambung ke ${topic}, rutenya nggak muter. Tinggal kasih link ${doc}.`:tone==="bad"?`${an} muternya lebih jauh dari aplikasi pas hujan. Tujuannya ${topic}, dibawa ke ${counter}.`:`Bang, titik jemput faktanya di mana? ${angle.ask}.`,
+            anakKos:tone==="good"?`${an} masuk akal bahkan dibaca sambil makan mi. Soal ${topic}, ${angle.good}.`:tone==="bad"?`${an} bikin kenyang engagement, gizinya nol. ${topic} belum dijawab, saldo nalar kepotong admin.`:`Versi anak kos: siapa bayar, siapa untung, dan ${doc} bisa dibaca gratis nggak?`,
+            asn:tone==="good"?`Komentar pribadi, nggak mewakili instansi: ${an} nyambung dan dokumennya bisa didisposisi ke publik.`:tone==="bad"?`Mohon jangan tag kantor, tapi ${an} ini menjawab ${topic} dengan format “akan dikoordinasikan”. Artinya belum.`:`Secara disposisi, ${angle.ask}. Lampiran ${doc} mohon jangan menyusul setelah isu selesai.`,
+            warung:tone==="good"?`Di warung tadi ${an} lolos uji kursi plastik. Nyambung, ada bukti, nggak cuma volume.`:tone==="bad"?`Kata meja sebelah, ${an} rame kayak knalpot bocor. ${topic} tetap nggak nyampe.`:`Polling warung: setengah nanya ${angle.ask}, setengah lagi minta tambah gorengan.`,
+            buzzerMagang:tone==="good"?`Brief gue bilang serang, tapi ${an} malah buka data. Bahaya sih, publik bisa kebiasaan minta bukti.`:tone==="bad"?`${an} sesuai brief banget. Pertanyaan ${topic} nggak dijawab, tapi KPI reply naik. Semoga invoice cair.`:`Gue magang doang, tapi ${angle.ask}? Admin senior belum balas.`
+          };
+          let body=t[persona]||`${an} bikin timeline rame. ${angle.ask}.`;
+          if(rnd(0,100)>66) body+=` ${topicJoke(i,persona)}`;
+          return makeComment(tone,body,{persona,replyTo:i.handle});
         }
 
         function contextualComment(tone, i, a = null, selectedDisplay = null) {

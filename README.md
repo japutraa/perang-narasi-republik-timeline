@@ -5,7 +5,7 @@
 **Game satire politik Indonesia tentang kekuasaan, propaganda, aktivisme, dan perebutan perhatian publik.**
 
 [![Play in Browser](https://img.shields.io/badge/PLAY-IN_BROWSER-111111?style=for-the-badge)](https://japutraa.github.io/perang-narasi-republik-timeline/)
-[![Release](https://img.shields.io/badge/release-v3.5.4-555555?style=for-the-badge)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-v3.6.0-555555?style=for-the-badge)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![License: GPL v3](https://img.shields.io/badge/license-GPLv3-777777?style=for-the-badge)](LICENSE)
 
 **Created by [Adrian Janitra Putra](https://github.com/japutraa)**
@@ -25,7 +25,7 @@ Pemain dapat menempuh salah satu dari dua jalur:
 
 Tujuan permainan bukan sekadar membuat sebuah narasi menjadi viral. Setiap keputusan memengaruhi kredibilitas, integritas, jaringan, kondisi ekonomi, kesehatan mental, suhu percakapan publik, dan kualitas demokrasi yang diwariskan.
 
-Game ini menggabungkan satire, strategi, literasi media, dan refleksi politik. Tidak ada jalur yang otomatis benar: komunikasi pemerintah dapat menjadi transparan atau manipulatif, sementara aktivisme dapat membangun gerakan atau terjebak dalam personal branding dan kemarahan algoritmik.
+Game ini menggabungkan satire, strategi, literasi media, dan refleksi politik. Dialognya sengaja terasa seperti timeline Indonesia: spontan, receh, sok yakin, kadang cerdas, dan sering membutuhkan klarifikasi jilid berikutnya. Tidak ada jalur yang otomatis benar: komunikasi pemerintah dapat menjadi transparan atau manipulatif, sementara aktivisme dapat membangun gerakan atau terjebak dalam personal branding dan kemarahan algoritmik.
 
 ## Cara Bermain
 
@@ -51,7 +51,7 @@ Pilihan pemain disimpan secara lokal di browser dan dapat dilanjutkan melalui fi
 - **Tim & Mentor** dengan kemampuan khusus sekali pakai pada setiap fase.
 - **Ekonomi politik progresif**, termasuk biaya operasi, patronase, donasi, kredit, bunga, bailout, dan risiko bangkrut.
 - **Simulasi engagement** berupa views, likes, reposts, dan komentar.
-- **Kolom komentar berpersona**, dari warga kritis sampai bapak-bapak receh, Gen Z, emak grup WhatsApp, fanwar, dan akun teori konspirasi.
+- **Kolom komentar berpersona**, dari warga kritis, abang ojol, anak kos, ASN silent reader, pengamat warung, bapak-bapak receh, Gen Z, emak grup WhatsApp, fanwar, akun teori konspirasi, sampai buzzer magang yang KPI-nya tinggal dua persen.
 - **Cek Nalar**, kuis opsional untuk menguji logika, konteks, statistik, konflik kepentingan, dan literasi media.
 - **Autosave dan Continue** menggunakan penyimpanan lokal browser.
 - **Multiple outcomes** berdasarkan cara pemain membangun karier dan ruang publik.

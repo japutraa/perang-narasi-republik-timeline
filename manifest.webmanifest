@@ -1,11 +1,11 @@
 {
   "name": "Perang Narasi: Republik Timeline",
   "short_name": "Perang Narasi",
-  "description": "Game satire strategi naratif tentang propaganda, aktivisme, ekonomi politik, dan demokrasi Indonesia.",
+  "description": "Game satire strategi naratif tentang propaganda, aktivisme, ekonomi politik, demokrasi, dan kekacauan komunikasi publik Indonesia.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#0c0c0b",
   "theme_color": "#f4d34a",
   "lang": "id",
-  "version": "3.5.4"
+  "version": "3.6.0"
 }
