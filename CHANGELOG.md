@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.0.3 — Safe Main Menu
+
+- Mengganti tombol **Ulang** menjadi **Menu Utama**.
+- Menambahkan dialog konfirmasi untuk menyimpan progres sebelum kembali ke menu.
+- Kembali ke menu tidak lagi menghapus save atau mereset campaign secara permanen.
+- Opsi tanpa simpan manual tetap mempertahankan autosave terakhir.
+- Mengganti mentor fase pertama buzzer dari pengulangan Narasi Bersama Konsultan menjadi **Kak Gemoyfikasi Nasional**.
+
 ## 3.0.2 — Chronicle Continuity Fix
 
 - Menghapus premature game over akibat stres 100, kredibilitas 0, atau saldo negatif.
