@@ -1,11 +1,23 @@
 # Changelog
 
-## 3.5.2 — Diplomacy Parody Rename
+## 3.5.4 — Student Activist Naming Refinement
 
-- Menambahkan **Tiyo** sebagai cameo aktif fase 2025 dengan ability **Estafet Toa Antarkampus**.
-- Menambahkan **Fatima Azzahra** sebagai cameo aktif fase 2026 dengan ability **Konsolidasi Sampai Footnote**.
+- Mengganti nama tampilan cameo aktivis mahasiswa menjadi **Mas Tiyo Toa** dan **Fatima Footnote**.
+- Memperbarui seluruh roster, episode, menu Tokoh, callback 2029, dokumentasi, dan metadata release secara konsisten.
+- ID internal karakter tetap dipertahankan agar save versi 3.x tetap kompatibel.
+
+## 3.5.4 — Student Activist Naming Refinement
+
+- Mengganti dua nama cameo aktivis mahasiswa dengan identitas parodi yang lebih jelas: **Mas Tiyo Toa** dan **Fatima Footnote**.
+- Memperbarui seluruh roster, tweet, special event, menu Tokoh, dialog, callback Pemilu 2029, manifest, dan dokumentasi agar konsisten.
+- Mempertahankan fungsi ability dan kompatibilitas save versi 3.x.
+
+## 3.5.4 — Student Activist Naming Refinement
+
+- Menambahkan **Mas Tiyo Toa** sebagai cameo aktif fase 2025 dengan ability **Estafet Toa Antarkampus**.
+- Menambahkan **Fatima Footnote** sebagai cameo aktif fase 2026 dengan ability **Konsolidasi Sampai Footnote**.
 - Menulis ulang tweet Februari 2025 dan Juni 2026 agar kedua tokoh masuk ke alur Indonesia Gelap, UU TNI, tekanan ekonomi, serta BEM UI.
-- Menambahkan callback Tiyo dan Fatima pada forum politik Pemilu 2029 agar perkembangan mereka tidak berhenti sebagai cameo satu fase.
+- Menambahkan callback Mas Tiyo Toa dan Fatima Footnote pada forum politik Pemilu 2029 agar perkembangan mereka tidak berhenti sebagai cameo satu fase.
 - Memperbarui special event Tolak UU TNI dan Indonesia Bangkrut.
 - Menambahkan disclaimer bahwa representasi keduanya adalah parodi-komposit dan tidak mengarang riwayat organisasi yang tidak terverifikasi.
 

@@ -1,11 +1,11 @@
 {
-  "name": "Perang Narasi: Republik Timeline — Diplomacy Parody Rename",
+  "name": "Perang Narasi: Republik Timeline",
   "short_name": "Perang Narasi",
-  "description": "Game satire politik Indonesia dengan kronik 2024–2029, termasuk Tiyo dan Fatima Azzahra sebagai cameo aktivis mahasiswa.",
+  "description": "Game satire strategi naratif tentang propaganda, aktivisme, ekonomi politik, dan demokrasi Indonesia.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#0c0c0b",
   "theme_color": "#f4d34a",
   "lang": "id",
-  "version": "3.5.2"
+  "version": "3.5.4"
 }
