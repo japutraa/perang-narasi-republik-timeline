@@ -1,5 +1,22 @@
 # Changelog
 
+## 2.4.1 — 2026-07-12
+
+- Menghapus teks teknis tentang jumlah dan distribusi jawaban Cek Nalar dari panel pengaturan agar antarmuka lebih bersih.
+- Seluruh fungsi Cek Nalar tetap dipertahankan.
+
+## 2.4.0 — 2026-07-12
+
+- Mengembalikan tokoh plesetan utama, termasuk Pak Jenderal Gemoyono, Mas Samsul Raka Buming-Buming, Mayor Tedi Beruang, Pak Bahlul Serba Bisa, dan Narasi Bersama Konsultan.
+- Menambahkan roster Kabinet Gemoyverse serta aktivis, pakar, jurnalis, dokumenteris, dan aktivis-influencer dalam bentuk parodi-komposit.
+- Menambahkan 21 special event yang muncul di antara hari-hari campaign.
+- Mengintegrasikan catatan 100 hari YLBHI, Indonesia Gelap, revisi UU TNI, rangkaian demonstrasi, 17+8, reshuffle Menteri Keuangan, serta tekanan ekonomi sebagai konteks event.
+- Membuat repost, like, comment, dan views berubah berdasarkan aksi pemain.
+- Menambahkan kolom komentar interaktif, sentimen, dan estimasi distribusi organik/terkoordinasi.
+- Menaikkan skala dana dan biaya permainan ke jutaan hingga miliaran rupiah.
+- Menambahkan format angka ringkas `rb`, `jt`, `M`, dan `T`.
+- Memperbarui README menjadi dokumentasi release 2.4.0.
+
 ## 2.3.2 — 2026-07-11
 
 - Menambahkan workflow GitHub Actions untuk deployment otomatis ke GitHub Pages.
