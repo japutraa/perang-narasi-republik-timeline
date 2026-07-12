@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.2.0 — Crew Ability Edition
+
+- Mengubah panel **Tim & Mentor** dari dekorasi menjadi sistem gameplay aktif.
+- Menambahkan 36 karakter fase yang unik: tiga karakter per jalur pada setiap fase, tanpa pengulangan roster lintas tahun.
+- Setiap mentor atau cameo memiliki kemampuan khusus yang hanya dapat dipakai satu kali dalam fase tersebut.
+- Menambahkan buff action: bonus damage, diskon biaya, pengali engagement, perlindungan penalti moral, dan radar tren.
+- Menyesuaikan pemilihan karakter dengan tema fase: rebranding pemilu, tahun pertama pemerintahan, tekanan fiskal dan ruang sipil, negara korporasi, pra-pemilu influencer, serta pemilu 2029.
+- Menambahkan indikator ability terpakai, buff aktif, log crew combo, histori ability pada menu Karier, dan jumlah crew call pada final.
+- Mengubah gaya unggahan serta balasan menjadi lebih kasual, netizen-like, dan berbeda menurut persona akun.
+- Mempertahankan kompatibilitas autosave versi 3.x.
+
 ## 3.1.0 — Voice & Trend Edition
 
 - Memperbaiki layout final malam pemilu agar teks tidak tertutup animasi kotak dan kertas suara.
