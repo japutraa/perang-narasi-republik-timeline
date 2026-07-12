@@ -1,5 +1,25 @@
 # Changelog
 
+## 3.0.1 — Preview & Runtime Fix
+
+- Memperbaiki error startup akibat tombol `saveBtn` belum tersedia di DOM.
+- Menambahkan tombol **Simpan** manual ke panel kontrol.
+- Memperbaiki elemen kalender bulanan yang hilang dan menyebabkan render fase pertama berhenti.
+- Menambahkan binding event yang tahan terhadap elemen opsional.
+- Menampilkan seluruh enam fase pada layar awal.
+- Mempertahankan autosave dan kompatibilitas save v3.0.0.
+
+## 3.0.0 — Six-Year Chronicle
+
+- Campaign diperluas menjadi 6 fase dan 72 bulan.
+- Arsip politik 2024–Juli 2026 dan skenario fiksi prediktif 2026–2029.
+- Autosave lokal dan Continue dari permainan terakhir.
+- Tokoh baru: Felix Si-Auw, Raymond Cuan-Check, dan figur komposit lain.
+- Special event baru untuk politik investasi, iklim, AI, dana kampanye, dan Pemilu 2029.
+- Final malam pemilu sinematik dengan open ending.
+- UI hari diubah menjadi kalender bulanan.
+
+
 ## 2.4.3 — 2026-07-12
 
 - Membersihkan catatan teknis dari antarmuka Cek Nalar.
