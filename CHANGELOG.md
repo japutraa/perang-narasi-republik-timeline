@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.0.2 — Chronicle Continuity Fix
+
+- Menghapus premature game over akibat stres 100, kredibilitas 0, atau saldo negatif.
+- Mengubah kondisi kritis menjadi **Krisis Karier** dengan tiga pilihan pemulihan dan konsekuensi permanen.
+- Menjamin campaign utama hanya berakhir pada fase 6, bulan 12.
+- Menyimpan riwayat krisis dalam autosave dan menampilkannya pada rekap final.
+- Mempertahankan kompatibilitas save versi 3.x.
+
 ## 3.0.1 — Preview & Runtime Fix
 
 - Memperbaiki error startup akibat tombol `saveBtn` belum tersedia di DOM.

@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Six-Year Chronicle — Release 3.0.1**  
+> **Six-Year Chronicle — Release 3.0.2**  
 > Game satire politik Indonesia tentang kekuasaan, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.0.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.0.2-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -31,13 +31,14 @@ Campaign membentang selama **6 fase × 12 bulan = 72 episode**:
 
 Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya ditandai jelas sebagai **fiksi prediktif**, bukan ramalan atau klaim faktual.
 
-## Fitur release 3.0.0
+## Fitur release 3.0.2
 
 - **72 skenario bulanan** dengan isu, lawan narasi, strategi, dan konteks berbeda.
 - Special event yang muncul di antara bulan: dokumenter, demonstrasi, perubahan hukum, krisis program, politik influencer, AI generatif, dan kontestasi elektoral.
 - Jalur buzzer dan aktivis dengan promosi, spesialisasi, biaya moral, serta ending berbeda.
 - Statistik engagement yang bereaksi terhadap tindakan: repost, like, reply, views, sentimen, dan pola distribusi.
 - **Autosave lokal** serta tombol **Continue** untuk melanjutkan permainan terakhir.
+- **Krisis karier**, bukan premature game over: burnout, kredibilitas runtuh, dan saldo negatif menjadi setback dengan pilihan pemulihan; campaign tetap berlanjut hingga fase 6.
 - Cek Nalar opsional dengan bank soal literasi politik.
 - Arsip fakta untuk membedakan sumber, kritik, satire, dan fiksi.
 - Final sinematik berbentuk **malam pemilu terbuka**: game tidak menentukan pemenang, melainkan memperlihatkan kondisi republik yang diwariskan pemain.
