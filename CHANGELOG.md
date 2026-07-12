@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.7.0 — Deduction Crew & Power Broker Edition
+
+- Menambahkan mekanik **Sinyal Isu**: pemain membaca tema episode lalu memilih Tim, Mentor, Wildcard, atau Power Card yang paling cocok.
+- **Deduksi Tepat** membuka follow-up action card eksklusif, diskon biaya, damage kontekstual, reward ekstra, serta komentar khusus karakter dan netizen.
+- Pilihan yang hanya sebagian cocok memberi bonus terbatas; pilihan **Salah Studio** tetap menghabiskan ability dan memicu penalti serta roasting timeline.
+- Menambahkan Wamen Stela Krispi, Bang Akbar Fasal Tanpa Sensor, Prof. Renal Disrupsi, Om Gita Wira-Wacana, Feri Latah-Hitung, Mas Hendro Satir-IO, dan Yanuar Risky Banget.
+- Menambahkan Mbak Puanorama Senayan dan Bu Mega-Watt Merah sebagai power card oposisi di dalam struktur kekuasaan, dengan efek besar dan konsekuensi loyalitas patron.
+- Menulis ulang follow-up card dan balasan karakter agar memakai topik, dokumen, risiko, kelompok terdampak, dan konteks episode aktif.
+- Memperbaiki pencocokan tema agar kata pendek seperti “AI” atau “anggaran” tidak terdeteksi dari potongan kata yang tidak relevan.
+- Mengganti nama yang masih terlalu dekat dengan figur asli menjadi Mas Hasta La Vista, Om Tomat Neraca, dan Menlu Sunyi Gono-Gini.
+- Menjaga kompatibilitas save versi 3.x dan workflow GitHub Pages.
+
 ## 3.6.1 — Responsive Thread & Defense Panel Edition
 
 - Merombak respons **AKUN ASLI** menjadi pool kontekstual berdasarkan gaya tokoh, isu aktif, action card, dokumen, dan pihak terdampak.
@@ -32,7 +44,7 @@
 ## 3.5.0 — Narrative Rewrite Edition
 
 - Menulis ulang arc faktual 2024–Juli 2026 dan menyambungkannya ke proyeksi 2027–2029.
-- Menambahkan Jokowi, Menlu Sugiyono, Om Dipo Peta Dunia, Roy Sur-Yoyo, dr. Tifa-Tifi, serta gaya pidato Pak Jenderal Gemoyono.
+- Menambahkan Jokowi, Menlu Sunyi Gono-Gini, Om Dipo Peta Dunia, Roy Sur-Yoyo, dr. Tifa-Tifi, serta gaya pidato Pak Jenderal Gemoyono.
 - Menambahkan polemik konstitusi, ijazah, @fufufafa, rupiah, IHSG, PLN, banjir Sumatra, Kopdes, MBG, dan perkara hukum.
 - Action cards kini mengambil objek, dokumen, pihak terdampak, dan teaser dari episode aktif.
 - Komentar kini membahas tweet dan action yang dipilih, bukan kumpulan template lepas.
