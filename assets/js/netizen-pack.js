@@ -60,6 +60,23 @@
         "pidatonya dua jam, rasa tanggung jawabnya cuma cameo tujuh detik",
       ],
     },
+    forumGhost: {
+      label: "ARSIP FUFUFAFA • PEMILIK BELUM TERBUKTI",
+      avatars: ["👻", "🗃️", "💾", "🕳️"],
+      handles: ["@fufufafa_archive", "@fufufafa_cache", "@akunlamabangkit"],
+      openers: ["Ane numpang lewat gan, ", "Pertamax dari kuburan cache: ", "Wkwkwk old thread never dies, ", "Sebelum akun ini dibantah lagi: "],
+      closers: [" Cendol belakangan, verifikasi dulu.", " Pemiliknya belum terbukti; jejak tulisannya keburu abadi.", " Thread boleh tutup, screenshot tetap lembur.", " Jangan vonis identitas cuma modal cocoklogi."],
+      bodies: [
+        "kampanye sambil tidur; bangun-bangun semua sudah jadi tim sukses",
+        "ini orang ngomongnya ngawur banget, bukti disuruh nyusul setelah emosi",
+        "banjir kok ditanya seiman—air saja nggak pernah minta lihat KTP, gan",
+        "ke mana-mana sama papi mami, tetapi bio politiknya tetap mulai dari nol",
+        "tampang pas-pasan bukan masalah; kuasa kebanyakan tanpa akuntabilitas baru masalah",
+        "makan tuh doa? anak sekolah juga butuh gizi, vendor waras, dan dapur yang tidak bikin sakit",
+        "dulu nyebut semua orang panasbung, sekarang semua kritik dibilang pesanan asing",
+        "wkwkwk bodoh boleh jadi gaya forum; kebijakan bodoh tetap harus dibayar rakyat beneran",
+      ],
+    },
   };
 
   const comments = {
@@ -87,6 +104,8 @@
   window.PNNetizenPack = Object.freeze({
     spamChance: 0.085,
     roughChance: 0.09,
+    fufuChance: 0.065,
+    fufuSource: "https://github.com/fufufufafafa/fufufafa-memorable-quotes",
     spamPersonaIds: ["seller", "judol", "cryptoBro"],
     personas,
     comments,

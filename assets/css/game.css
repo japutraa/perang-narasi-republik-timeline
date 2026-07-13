@@ -1481,6 +1481,17 @@ a {
   font-weight: 1000;
   margin-right: 7px;
 }
+.variant-chip {
+  display: inline-block;
+  margin: 0 7px 7px 0;
+  padding: 4px 7px;
+  border: 1px dashed var(--purple);
+  background: rgba(189, 137, 255, .08);
+  color: var(--purple);
+  font: 900 9px/1.1 monospace;
+  letter-spacing: .04em;
+  vertical-align: middle;
+}
 .voice-chip {
   display: inline-flex;
   align-items: center;

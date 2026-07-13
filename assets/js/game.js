@@ -1,5 +1,5 @@
 /**
- * Perang Narasi: Republik Timeline v3.10.0
+ * Perang Narasi: Republik Timeline v3.11.0
  * Copyright (C) 2026 Adrian Janitra Putra
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -19,6 +19,15 @@
     };
   const idNum = (n) =>
     Number(n).toLocaleString("id-ID", { maximumFractionDigits: 1 });
+  function createRunSeed() {
+    try {
+      const buffer = new Uint32Array(1);
+      crypto.getRandomValues(buffer);
+      return buffer[0] || 1;
+    } catch (error) {
+      return (Date.now() ^ Math.floor(Math.random() * 0xffffffff)) >>> 0 || 1;
+    }
+  }
   function compactNumber(n) {
     n = Math.max(0, Math.round(n));
     if (n >= 1e9) return idNum(n / 1e9) + " M";
@@ -61,6 +70,7 @@
     quizAnswered: 0,
     finished: false,
     finalReport: null,
+    runSeed: 0,
     specialties: [],
     history: [],
     career: 0,
@@ -209,6 +219,7 @@
     state.resolvedRipples = state.resolvedRipples || [];
     state.currentRippleNotices = [];
     state.eventOutcomeProfile = state.eventOutcomeProfile || { positive: 0, negative: 0, neutral: 0, mixed: 0 };
+    state.runSeed = Number(state.runSeed) >>> 0 || createRunSeed();
     $("#startScreen").classList.add("hidden");
     $("#gameScreen").classList.remove("hidden");
     $("#roleLabel").textContent = roleData[state.role].label;
@@ -1195,6 +1206,11 @@
         "Status identitas belum terkonfirmasi",
         "Pendiri Kaskus Andrew Darwis menekankan mudahnya membuat akun pada masa itu; Ainun Najib menyatakan belum ada bukti langsung yang cukup. Gibran dan sejumlah pendukungnya membantah keterkaitan akun tersebut.",
         "https://katadata.co.id/lifestyle/varia/66f4c71c2d57a/4-fakta-akun-fufufafa-yang-viral-di-media-sosial-benarkah-milik-gibran",
+      ],
+      [
+        "Repository arsip komentar",
+        "Repository komunitas mengumpulkan jejak komentar akun fufufafa untuk dokumentasi sejarah. Isinya dapat menjadi petunjuk gaya dan kronologi, bukan bukti final mengenai identitas pemilik akun.",
+        "https://github.com/fufufufafafa/fufufafa-memorable-quotes",
       ],
     ],
     dirtyvote: [
@@ -5552,6 +5568,7 @@
     },
   ];
   voiceProfiles.unshift(
+    {match:/Mas Tiyo Toa|tiyotoa/i,label:"MODE TOA KAMPUS TANPA SENSOR",className:"voice-press",prefix:"Gue bilang apa adanya: ",suffix:" Kalau kritiknya bikin kuping panas, bagus. Tinggal pastikan datanya nggak ikut gosong."},
     {match:/Stela Krispi|stelakrispi/i,label:"MODE LAB OTAK & POLICY DECK",className:"voice-data",prefix:"Oke, jangan pakai feeling dulu. Kita pecah variabelnya: ",suffix:" Kalau slide-nya futuristik tapi anggarannya hilang, itu bukan inovasi. Itu screensaver."},
     {match:/Puanorama|puanorama/i,label:"MODE PALU SENAYAN",className:"voice-press",prefix:"Rapat saya buka. Tolong jawab yang ditanya: ",suffix:" Kalau belum siap, risalahnya tetap jalan. Kamera juga."},
     {match:/Mega-Watt|megawatt/i,label:"MODE GARIS PARTAI & STOPKONTAK",className:"voice-command",prefix:"Politik itu harus punya garis. ",suffix:" Koalisi boleh berubah, sejarah jangan pura-pura lupa siapa yang cabut colokan."},
@@ -7569,7 +7586,14 @@
     return phases[state.phase];
   }
   function currentIssue() {
-    return currentPhase().days[state.day - 1];
+    const base = currentPhase().days[state.day - 1];
+    return window.PNTimelineVariants?.select
+      ? window.PNTimelineVariants.select(base, {
+          seed: state.runSeed || 1,
+          phaseIndex: state.phase,
+          dayIndex: state.day - 1,
+        })
+      : base;
   }
   function beep(f = 420, d = 0.05) {
     if (!state.sound) return;
@@ -7726,6 +7750,7 @@
       quizAnswered: 0,
       finished: false,
       finalReport: null,
+      runSeed: createRunSeed(),
       specialties: [],
       history: [],
       career: startPhase * 12,
@@ -8077,7 +8102,7 @@
       state.currentRippleNotices = [];
     }
     $("#issueTitle").innerHTML =
-      `<span class="future-label">${i.status}</span>${i.title}`;
+      `<span class="future-label">${i.status}</span><span class="variant-chip" title="Campaign baru dapat memilih post lain untuk bulan yang sama">TIMELINE ${Number(i._variantIndex || 0) + 1}/${i._variantCount || 1} • RUN ${String(state.runSeed || 0).slice(-4).padStart(4, "0")}</span>${i.title}`;
     $("#npcAvatar").textContent = i.avatar;
     $("#npcName").textContent = i.npc;
     $("#npcHandle").textContent = i.handle;
@@ -8095,7 +8120,7 @@
   }
   function renderFacts(issue){
     const arr=(Array.isArray(issue?.facts)&&issue.facts.length)?issue.facts:(sources[issue?.key]||[["Konteks episode",issue?.lesson||"Skenario politik dalam permainan.",""]]);
-    $("#facts").innerHTML=arr.map(x=>`<div class="fact-card"><h4>${x[0]}</h4><p>${x[1]}</p>${x[2]?`<a href="${x[2]}" target="_blank" rel="noopener">Buka sumber ↗</a>`:'<span class="handle">Skenario atau catatan editorial permainan</span>'}</div>`).join("")+`<div class="source-disclaimer"><b>Prinsip permainan</b><br>${issue?.status === "TIMELINE ALTERNATIF"?"Bagian ini adalah skenario satir—bukan ramalan, bocoran, atau tuduhan tentang kejadian yang belum berlangsung.":"Sumber memberi konteks dunia nyata. Tudingan, bantahan, dakwaan, vonis, dan upaya hukum dibedakan; dialog serta tokoh plesetan tetap fiksi satir."}</div>`;
+    $("#facts").innerHTML=arr.map(x=>`<div class="fact-card"><h4>${x[0]}</h4><p>${x[1]}</p>${x[2]?`<a href="${x[2]}" target="_blank" rel="noopener">Buka sumber ↗</a>`:'<span class="handle">Skenario atau catatan editorial permainan</span>'}</div>`).join("")+`<div class="source-disclaimer"><b>Prinsip permainan</b><br>${issue?.status === "TIMELINE ALTERNATIF"?"Bagian ini adalah skenario satir—bukan ramalan, bocoran, atau tuduhan tentang kejadian yang belum berlangsung.":"Kutipan singkat yang terdokumentasi ditautkan lewat kartu fakta. Selebihnya adalah reaksi, parafrasa, atau dialog satir; tudingan, bantahan, dakwaan, vonis, dan upaya hukum tetap dibedakan."}</div>`;
   }
 
   function effectiveDamage(a, i) {
@@ -8245,6 +8270,7 @@
       if (Math.random() < (netizenPack.spamChance || 0) && netizenPack.spamPersonaIds?.length)
         return netizenPack.spamPersonaIds[rnd(0, netizenPack.spamPersonaIds.length - 1)];
       if (Math.random() < (netizenPack.roughChance || 0)) return "rageCitizen";
+      if (Math.random() < (netizenPack.fufuChance || 0)) return "forumGhost";
       if (state.fufuArchive && Math.random() < (state.fufuTwistResolved ? 0.13 : 0.075))
         return "forumGhost";
       const pool = personaPools[tone] || personaPools.neutral;
@@ -9962,6 +9988,7 @@
       day: 1,
       finished: false,
       finalReport: null,
+      runSeed: 0,
       specialties: [],
       history: [],
       career: 0,

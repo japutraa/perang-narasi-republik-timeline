@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Raport Netizen & Election Ending — v3.10.0**  
+> **Multi-Timeline Run & Fufufafa Cache — v3.11.0**  
 > Game satire politik Indonesia tentang kekuasaan, buzzer, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.10.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.11.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -22,9 +22,14 @@ Pemain memilih salah satu dari dua jalur:
 
 Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024 sampai Pemilu 2029. Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya berada dalam **Timeline Alternatif**, bukan ramalan atau klaim faktual.
 
-## Fitur v3.10.0
+## Fitur v3.11.0
 
 - Mode **Kronik** untuk campaign penuh dan **Mode Bebas** untuk mulai atau lompat ke fase 2024–2029 mana saja.
+- Setiap bulan memiliki minimal tiga alternatif post utama: **216+ varian timeline** untuk 72 bulan.
+- Seed campaign menentukan varian yang muncul dan ikut tersimpan di save. Reload mempertahankan timeline yang sama; campaign baru menyusun kombinasi lain.
+- Setiap post utama hanya berfokus pada satu akun/tokoh. Panel ramai tetap boleh muncul sebagai special event, bukan sebagai satu tweet keroyokan.
+- Varian arsip memakai pernyataan kontroversial yang terdokumentasi, termasuk komentar rupiah–dolar, polemik SPPG, narasi agen asing, serta arsip fufufafa; kutipan, parafrasa, dan satire dibedakan lewat kartu sumber.
+- Akun `@fufufafa_archive` kini dapat muncul acak di kolom komentar dengan gaya forum lama. Labelnya selalu mengingatkan bahwa identitas pemilik belum terbukti final.
 - Raport ending yang menilai kinerja, mutu pilihan, moral, utang, solvabilitas, dan sisa uang pemain.
 - Empat calon presiden fiktif dengan persentase suara dinamis; pilihan pemain ikut menentukan siapa yang menang.
 - Pangkat akhir satir berdasarkan peran dan rekam permainan, dari **Arsiparis Republik Anti-Amnesia** sampai **Sultan Invoice, Fakir Nurani**.
@@ -56,6 +61,7 @@ Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024
 │   ├── js/game.js             # data naratif + mesin permainan
 │   ├── js/ending-system.js    # skor, moral, utang, pangkat, dan pemilu
 │   ├── js/netizen-pack.js     # persona komentar dan spam satir
+│   ├── js/timeline-variants.js # 216+ post bulanan, speaker, seed, sumber
 │   ├── js/runtime.js          # boot diagnostics + registrasi offline
 │   └── icons/icon.svg         # ikon lokal
 ├── manifest.webmanifest       # metadata PWA
@@ -87,7 +93,7 @@ npm ci
 npm test
 ```
 
-Sepuluh test memeriksa sintaks JavaScript, kelengkapan file modular, sinkronisasi roster Tokoh, Mode Bebas untuk kedua kubu, 42 event × 2 kubu × 4 pilihan, dua cabang konsekuensi untuk setiap pilihan, evaluator ending, kompatibilitas save v3, dan simulasi campaign penuh untuk kedua kubu.
+Sebelas test memeriksa sintaks JavaScript, kelengkapan file modular, 216+ varian satu-tokoh, perbedaan seed antarrun, sinkronisasi roster Tokoh, Mode Bebas untuk kedua kubu, 42 event × 2 kubu × 4 pilihan, evaluator ending, kompatibilitas save v3, dan simulasi campaign penuh untuk kedua kubu.
 
 ## Deploy ke GitHub Pages
 
@@ -104,6 +110,8 @@ Save memakai key `perang-narasi-save-v3` pada `localStorage`. Tidak ada akun, se
 
 - Satire bukan pengganti verifikasi.
 - Tokoh adalah plesetan atau komposit, bukan biografi.
+- Kutipan singkat yang terdokumentasi ditautkan ke sumber; reaksi dan dialog karakter tetap satire.
+- Arsip fufufafa dapat diverifikasi sebagai kumpulan unggahan, tetapi identitas pemilik akun tidak diperlakukan sebagai fakta final.
 - Dukungan politik, jabatan publik, dan kerja komunikasi tidak otomatis membuktikan seseorang adalah buzzer berbayar.
 - Tudingan, bantahan, dakwaan, putusan, serta upaya hukum harus dibedakan.
 - Episode masa depan berada di Timeline Alternatif dan tidak diperlakukan sebagai fakta.

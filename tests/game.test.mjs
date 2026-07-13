@@ -9,6 +9,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const indexSource = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const runtimeSource = fs.readFileSync(path.join(root, "assets/js/runtime.js"), "utf8");
 const netizenSource = fs.readFileSync(path.join(root, "assets/js/netizen-pack.js"), "utf8");
+const timelineVariantsSource = fs.readFileSync(path.join(root, "assets/js/timeline-variants.js"), "utf8");
 const endingSource = fs.readFileSync(path.join(root, "assets/js/ending-system.js"), "utf8");
 const gameSource = fs.readFileSync(path.join(root, "assets/js/game.js"), "utf8");
 
@@ -31,6 +32,7 @@ function testHtml({ expose = false } = {}) {
     .replace('<link rel="stylesheet" href="assets/css/game.css" />', "")
     .replace('<script src="assets/js/runtime.js" defer></script>', () => inlineScript(runtimeSource))
     .replace('<script src="assets/js/netizen-pack.js" defer></script>', () => inlineScript(netizenSource))
+    .replace('<script src="assets/js/timeline-variants.js" defer></script>', () => inlineScript(timelineVariantsSource))
     .replace('<script src="assets/js/ending-system.js" defer></script>', () => inlineScript(endingSource))
     .replace('<script src="assets/js/game.js" defer></script>', () => inlineScript(game));
 }
@@ -60,6 +62,7 @@ test("release references only files that are present", () => {
     "assets/css/game.css",
     "assets/js/runtime.js",
     "assets/js/netizen-pack.js",
+    "assets/js/timeline-variants.js",
     "assets/js/ending-system.js",
     "assets/js/game.js",
     "assets/icons/icon.svg",
@@ -71,7 +74,7 @@ test("release references only files that are present", () => {
   required.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), `${file} is missing`));
   assert.doesNotMatch(indexSource, /<style(?:\s|>)/i, "CSS must not be embedded in index.html");
   assert.doesNotMatch(indexSource, /<script(?![^>]+src=)[^>]*>/i, "JavaScript must not be embedded in index.html");
-  assert.match(indexSource, /meta name="version" content="3\.10\.0"/);
+  assert.match(indexSource, /meta name="version" content="3\.11\.0"/);
   assert.match(gameSource, /SAVE_KEY = "perang-narasi-save-v3"/);
   assert.match(gameSource, /Prof\. Konni BaksLaah/);
   assert.match(gameSource, /Mas Nadim Makaroni/);
@@ -79,6 +82,9 @@ test("release references only files that are present", () => {
   assert.doesNotMatch(gameSource, /Purba-Yaya|Felix Si-Auw|Dandhy Lensono|Akbar Fasal|Gita Wira-Wacana|Latah-Hitung/);
   assert.match(netizenSource, /BOT JUDOL NYASAR/);
   assert.match(netizenSource, /Anjing|Bangsat/);
+  assert.match(netizenSource, /ARSIP FUFUFAFA • PEMILIK BELUM TERBUKTI/);
+  assert.match(timelineVariantsSource, /Satuan Penjilat Prabowo-Gibran/);
+  assert.match(timelineVariantsSource, /fufufafa-memorable-quotes/);
   assert.match(endingSource, /SULTAN INVOICE, FAKIR NURANI/);
 });
 
@@ -148,6 +154,8 @@ test("modular build boots and starts a campaign", async () => {
   assert.ok(document.querySelector("#startScreen").classList.contains("hidden"));
   assert.ok(!document.querySelector("#gameScreen").classList.contains("hidden"));
   assert.ok(document.querySelectorAll("#cards .action-card").length > 0);
+  assert.match(document.querySelector("#issueTitle").textContent, /TIMELINE \d\/\d • RUN \d{4}/);
+  assert.doesNotMatch(document.querySelector("#npcName").textContent, /\s(?:&|vs\.?|dan)\s|,/);
   assert.ok(dom.window.localStorage.getItem("perang-narasi-save-v3"));
   dom.window.close();
 });
@@ -191,6 +199,43 @@ test("all strategic events expose four choices and two delayed branches", async 
 
   assert.equal(choices, 336);
   assert.equal(delayedBranches, 672);
+  dom.window.close();
+});
+
+test("every month has seeded single-speaker timeline variants", async () => {
+  const { dom, errors } = createDom({ expose: true });
+  await tick(dom.window);
+  assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
+  const { phases } = dom.window.__PN_TEST__;
+  const pack = dom.window.PNTimelineVariants;
+  let total = 0;
+  let changedBetweenRuns = 0;
+
+  phases.forEach((phase, phaseIndex) => phase.days.forEach((issue, dayIndex) => {
+    const variants = pack.build(issue, { phaseIndex, dayIndex });
+    assert.ok(variants.length >= 3, `${phaseIndex + 1}/${dayIndex + 1} needs at least three variants`);
+    assert.equal(new Set(variants.map((variant) => variant.post)).size, variants.length);
+    variants.forEach((variant) => {
+      assert.doesNotMatch(variant.npc, /\s(?:&|vs\.?|dan)\s|,/, `${variant.npc} is not a single focal account`);
+      assert.ok(variant.handle.startsWith("@"));
+    });
+    const runA = pack.select(issue, { phaseIndex, dayIndex, seed: 104729 });
+    const runB = pack.select(issue, { phaseIndex, dayIndex, seed: 130363 });
+    if (runA._variantId !== runB._variantId) changedBetweenRuns++;
+    total += variants.length;
+  }));
+
+  assert.ok(total >= 216, `${total} variants configured`);
+  assert.ok(changedBetweenRuns >= 24, `${changedBetweenRuns} months should differ between two runs`);
+  const podcastVariants = pack.build(phases[4].days[0], { phaseIndex: 4, dayIndex: 0 });
+  assert.equal(
+    podcastVariants.map((variant) => variant.npc).join(" | "),
+    "Bang Akbar Pasal | Om Gita Wacana-Wira | Prof. Renal Disrupsi",
+  );
+  const rupiahVariants = pack.build(phases[2].days[4], { phaseIndex: 2, dayIndex: 4 });
+  assert.ok(rupiahVariants.some((variant) => /desa enggak pakai dolar/i.test(variant.post)));
+  const sppgVariants = pack.build(phases[2].days[6], { phaseIndex: 2, dayIndex: 6 });
+  assert.ok(sppgVariants.some((variant) => /Satuan Penjilat Prabowo-Gibran/.test(variant.post)));
   dom.window.close();
 });
 
@@ -346,6 +391,7 @@ test("v3.x save key and migration path remain compatible", async () => {
   assert.equal(state.role, "aktivis");
   assert.equal(state.phase, 2);
   assert.equal(state.day, 6);
+  assert.ok(state.runSeed > 0);
   assert.deepEqual([...state.narrativeRipples], []);
   assert.deepEqual([...state.resolvedRipples], []);
   dom.window.close();

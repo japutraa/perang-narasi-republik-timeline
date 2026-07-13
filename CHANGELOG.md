@@ -2,6 +2,18 @@
 
 Semua perubahan penting pada proyek ini dicatat di sini.
 
+## 3.11.0 — 2026-07-13
+
+- Menambahkan minimal tiga alternatif post untuk masing-masing dari 72 bulan: lebih dari 216 varian timeline.
+- Menambahkan seed per campaign yang disimpan bersama save; reload konsisten, sedangkan run baru menghasilkan kombinasi timeline berbeda.
+- Mengubah post utama menjadi satu akun/tokoh fokus, termasuk memecah panel fase 5 bulan 1 menjadi varian terpisah untuk Bang Akbar Pasal, Om Gita Wacana-Wira, dan Prof. Renal Disrupsi.
+- Menambahkan varian berbasis pernyataan terdokumentasi mengenai rupiah–dolar, SPPG, ‘ndasmu etik’, demonstrasi ekonomi, dan narasi agen asing.
+- Menambahkan gaya khusus Mas Tiyo Toa serta varian kritik “Satuan Penjilat Prabowo-Gibran” dengan konteks dan tanggapan yang dapat diperiksa.
+- Mengembangkan `@fufufafa_archive` menjadi persona komentar acak yang terinspirasi repository arsip, tanpa menetapkan identitas pemilik sebagai fakta.
+- Menambahkan label varian dan empat digit seed pada timeline aktif agar perbedaan antarrun terlihat.
+- Memisahkan bank variasi bulanan ke `assets/js/timeline-variants.js`.
+- Menambahkan pengujian 216+ varian, satu pembicara per post, perbedaan seed, serta mempertahankan simulasi campaign penuh dua kubu.
+
 ## 3.10.0 — 2026-07-13
 
 - Menambahkan raport ending 0–100 untuk kinerja, pilihan substantif, moral, utang, solvabilitas, dan sisa uang.
