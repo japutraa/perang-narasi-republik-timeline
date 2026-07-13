@@ -8,6 +8,8 @@ import { JSDOM, VirtualConsole } from "jsdom";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const indexSource = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const runtimeSource = fs.readFileSync(path.join(root, "assets/js/runtime.js"), "utf8");
+const netizenSource = fs.readFileSync(path.join(root, "assets/js/netizen-pack.js"), "utf8");
+const endingSource = fs.readFileSync(path.join(root, "assets/js/ending-system.js"), "utf8");
 const gameSource = fs.readFileSync(path.join(root, "assets/js/game.js"), "utf8");
 
 function inlineScript(source) {
@@ -28,6 +30,8 @@ function testHtml({ expose = false } = {}) {
   return indexSource
     .replace('<link rel="stylesheet" href="assets/css/game.css" />', "")
     .replace('<script src="assets/js/runtime.js" defer></script>', () => inlineScript(runtimeSource))
+    .replace('<script src="assets/js/netizen-pack.js" defer></script>', () => inlineScript(netizenSource))
+    .replace('<script src="assets/js/ending-system.js" defer></script>', () => inlineScript(endingSource))
     .replace('<script src="assets/js/game.js" defer></script>', () => inlineScript(game));
 }
 
@@ -55,6 +59,8 @@ test("release references only files that are present", () => {
     "index.html",
     "assets/css/game.css",
     "assets/js/runtime.js",
+    "assets/js/netizen-pack.js",
+    "assets/js/ending-system.js",
     "assets/js/game.js",
     "assets/icons/icon.svg",
     "manifest.webmanifest",
@@ -65,11 +71,15 @@ test("release references only files that are present", () => {
   required.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), `${file} is missing`));
   assert.doesNotMatch(indexSource, /<style(?:\s|>)/i, "CSS must not be embedded in index.html");
   assert.doesNotMatch(indexSource, /<script(?![^>]+src=)[^>]*>/i, "JavaScript must not be embedded in index.html");
-  assert.match(indexSource, /meta name="version" content="3\.9\.0"/);
+  assert.match(indexSource, /meta name="version" content="3\.10\.0"/);
   assert.match(gameSource, /SAVE_KEY = "perang-narasi-save-v3"/);
   assert.match(gameSource, /Prof\. Konni BaksLaah/);
   assert.match(gameSource, /Mas Nadim Makaroni/);
   assert.doesNotMatch(gameSource, /Konni Bakso-Rie|Nadiem Makarim|\bNadiem\b/);
+  assert.doesNotMatch(gameSource, /Purba-Yaya|Felix Si-Auw|Dandhy Lensono|Akbar Fasal|Gita Wira-Wacana|Latah-Hitung/);
+  assert.match(netizenSource, /BOT JUDOL NYASAR/);
+  assert.match(netizenSource, /Anjing|Bangsat/);
+  assert.match(endingSource, /SULTAN INVOICE, FAKIR NURANI/);
 });
 
 test("Tokoh catalogue includes every six-phase roster entry", async () => {
@@ -149,7 +159,19 @@ test("all strategic events expose four choices and two delayed branches", async 
   assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
   assert.equal(api.phases.length, 6);
   assert.equal(api.phases.reduce((sum, phase) => sum + phase.days.length, 0), 72);
-  assert.equal(api.specialEvents.length, 41);
+  assert.equal(api.specialEvents.length, 42);
+  assert.doesNotMatch(
+    api.phases.flatMap((phase) => phase.days.map((day) => day.post)).join("\n"),
+    /FIKSI PREDIKTIF:|FIKSI PEMILU:|PROYEKSI FIKSI:/,
+  );
+  api.phases.flatMap((phase) => phase.days).forEach((day) => {
+    assert.doesNotMatch(day.post, /^[a-z]/, `${day.title} starts like an unfinished sentence`);
+    assert.doesNotMatch(
+      Object.values(day.discussion).join(" "),
+      /respons ini benar-benar menjawab|pisahkan fakta, tudingan, bantahan, dan dampaknya/i,
+      `${day.title} still uses generic discussion filler`,
+    );
+  });
 
   let choices = 0;
   let delayedBranches = 0;
@@ -167,8 +189,44 @@ test("all strategic events expose four choices and two delayed branches", async 
     }
   }
 
-  assert.equal(choices, 328);
-  assert.equal(delayedBranches, 656);
+  assert.equal(choices, 336);
+  assert.equal(delayedBranches, 672);
+  dom.window.close();
+});
+
+test("ending evaluator reflects choices, debt, cash morality, and election outcome", async () => {
+  const { dom, errors } = createDom({ expose: true });
+  await tick(dom.window);
+  assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
+  const evaluate = dom.window.PNEndingSystem.evaluate;
+  const good = evaluate({
+    role: "aktivis", phase: 5, integrity: 88, credibility: 84, democracy: 82,
+    network: 86, reach: 68, heat: 30, stress: 45, career: 130,
+    money: 500000000, debt: 0, missedPayments: 0, bailoutCount: 0,
+    quizAnswered: 20, quizCorrect: 18, perfectMatches: 10, crewMisfires: 1,
+    history: Array.from({ length: 20 }, (_, i) => ({ action: ["data", "context", "law", "network"][i % 4] })),
+    eventOutcomeProfile: { positive: 30, negative: 2, mixed: 6, neutral: 4 },
+    resolvedRipples: Array.from({ length: 34 }, () => ({ tone: "good" })),
+    specialties: ["Gerakan kolektif"],
+  });
+  const bad = evaluate({
+    role: "buzzer", phase: 5, integrity: 18, credibility: 25, democracy: 20,
+    network: 45, reach: 95, heat: 94, stress: 72, career: 110,
+    money: 25000000000, debt: 18000000000, missedPayments: 3, bailoutCount: 2,
+    quizAnswered: 10, quizCorrect: 2, perfectMatches: 2, crewMisfires: 12,
+    history: Array.from({ length: 25 }, (_, i) => ({ action: ["patriot", "attack", "whatabout", "meme"][i % 4] })),
+    eventOutcomeProfile: { positive: 1, negative: 30, mixed: 5, neutral: 6 },
+    resolvedRipples: Array.from({ length: 30 }, () => ({ tone: "bad" })),
+    specialties: ["Loyalis final"],
+  });
+
+  assert.ok(good.performance.score > bad.performance.score);
+  assert.ok(good.finance.solvency > bad.finance.solvency);
+  assert.ok(good.morality.score > bad.morality.score);
+  assert.equal(good.election.winner.key, "reform");
+  assert.equal(bad.election.winner.key, "wildcard");
+  assert.equal(good.election.candidates.reduce((sum, candidate) => sum + candidate.vote, 0), 100);
+  assert.equal(bad.election.candidates.reduce((sum, candidate) => sum + candidate.vote, 0), 100);
   dom.window.close();
 });
 
@@ -203,26 +261,42 @@ async function runCampaign(role) {
     await tick(window);
   }
 
+  const endingText = document.querySelector("#modalContent")?.textContent || "";
+  const electionButton = document.querySelector("#electionNight");
+  assert.ok(electionButton, `${role} ending must expose election results`);
+  electionButton.click();
+  await tick(window);
+  const electionText = document.querySelector("#modalContent")?.textContent || "";
+  const candidateCards = document.querySelectorAll(".candidate-result").length;
+
   const result = {
     ...window.__PN_TEST__.state,
     configuredEvents: window.__PN_TEST__.specialEvents.length,
     runtimeErrors: errors,
+    endingAudit: { endingText, electionText, candidateCards },
   };
   dom.window.close();
   return result;
 }
 
 for (const role of ["buzzer", "aktivis"]) {
-  test(`${role} campaign reaches the open ending with every event resolved`, async () => {
+  test(`${role} campaign reaches a scored election ending with every event resolved`, async () => {
     const state = await runCampaign(role);
     assert.equal(state.runtimeErrors.length, 0);
     assert.equal(state.finished, true);
     assert.equal(state.phase, 5);
     assert.equal(state.day, 12);
     assert.equal(state.eventHistory.length, state.configuredEvents);
-    assert.equal(state.eventHistory.length, 41);
+    assert.equal(state.eventHistory.length, 42);
     assert.equal(state.narrativeRipples.length, 0);
-    assert.equal(state.resolvedRipples.length, 41);
+    assert.equal(state.resolvedRipples.length, 42);
+    assert.ok(state.finalReport);
+    assert.ok(state.finalReport.performance.score >= 0 && state.finalReport.performance.score <= 100);
+    assert.equal(state.finalReport.election.candidates.reduce((sum, candidate) => sum + candidate.vote, 0), 100);
+    assert.match(state.endingAudit.endingText, /NILAI KINERJA/);
+    assert.match(state.endingAudit.endingText, /Utang/);
+    assert.match(state.endingAudit.electionText, /bukan prediksi pemilu dunia nyata/i);
+    assert.equal(state.endingAudit.candidateCards, 4);
   });
 }
 
