@@ -1,150 +1,110 @@
-<div align="center">
-
 # Perang Narasi: Republik Timeline
 
-**Game satire politik Indonesia tentang kekuasaan, propaganda, aktivisme, dan perebutan perhatian publik.**
+> **Strategic Consequences Edition — v3.8.1**  
+> Game satire politik Indonesia tentang kekuasaan, buzzer, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Play in Browser](https://img.shields.io/badge/PLAY-IN_BROWSER-111111?style=for-the-badge)](https://japutraa.github.io/perang-narasi-republik-timeline/)
-[![Release](https://img.shields.io/badge/release-v3.7.1-555555?style=for-the-badge)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
-[![License: GPL v3](https://img.shields.io/badge/license-GPLv3-777777?style=for-the-badge)](LICENSE)
+[![Release](https://img.shields.io/badge/release-3.8.1-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
+[![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
-**Created by [Adrian Janitra Putra](https://github.com/japutraa)**
+## Mainkan
 
-</div>
+**https://japutraa.github.io/perang-narasi-republik-timeline/**
 
----
+Game tidak memerlukan akun, backend, build step, atau dependency runtime. Semua permainan berlangsung di browser dan save hanya disimpan secara lokal.
 
-## Tentang Game
+## Tentang game
 
-**Perang Narasi: Republik Timeline** adalah game strategi naratif berbasis browser yang menempatkan pemain di tengah arena komunikasi politik Indonesia.
+Pemain memilih salah satu dari dua jalur:
 
-Pemain dapat menempuh salah satu dari dua jalur:
+- **Relawan Paslon → mesin komunikasi kekuasaan**
+- **Aktivis Timeline → jaringan kampus, masyarakat sipil, watchdog, atau figur publik**
 
-- **Buzzer**, yang bergerak dari relawan kampanye menuju lingkaran komunikasi kekuasaan.
-- **Aktivis**, yang berkembang dari warga kritis menjadi pengorganisir, peneliti, dokumenteris, atau tokoh publik.
+Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024 sampai Pemilu 2029. Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya ditandai jelas sebagai **fiksi prediktif**, bukan ramalan atau klaim faktual.
 
-Tujuan permainan bukan sekadar membuat sebuah narasi menjadi viral. Setiap keputusan memengaruhi kredibilitas, integritas, jaringan, kondisi ekonomi, kesehatan mental, suhu percakapan publik, dan kualitas demokrasi yang diwariskan.
+## Fitur v3.8.1
 
-Game ini menggabungkan satire, strategi, literasi media, dan refleksi politik. Tidak ada jalur yang otomatis benar: komunikasi pemerintah dapat menjadi transparan atau manipulatif, sementara aktivisme dapat membangun gerakan atau terjebak dalam personal branding dan kemarahan algoritmik.
+- 72 skenario bulanan dalam enam fase politik.
+- 41 strategic events untuk masing-masing kubu.
+- Empat strategi per event: **328 pilihan** di seluruh kombinasi event dan kubu.
+- **656 cabang konsekuensi** berhasil/gagal yang dapat jatuh 1–4 bulan kemudian.
+- Outcome positif, negatif, netral, dan campuran yang memengaruhi statistik, komentar, buff/debuff, riwayat keputusan, serta ending.
+- Tim & Mentor dengan tiga kartu aktif per bulan, seimbang untuk kedua kubu dan didistribusikan sepanjang timeline.
+- Sistem deduksi crew: match sempurna membuka follow-up card khusus; salah memilih tokoh tetap menghabiskan ability.
+- Action deck kontekstual, ekonomi progresif, utang, bailout, krisis karier, dan ending kebangkrutan.
+- Engagement, komentar publik, Radar Trend, Arsip Fakta, serta Cek Nalar opsional.
+- Autosave dan Continue yang tetap kompatibel dengan save seri v3.x.
+- PWA/offline app shell tanpa analytics dan tanpa pengiriman data permainan.
 
-## Cara Bermain
-
-Campaign berlangsung sebagai kronik politik selama enam fase, dari tahun pemilu hingga pemilu berikutnya.
-
-Dalam setiap episode, pemain akan:
-
-1. Menghadapi peristiwa atau kontroversi politik.
-2. Membaca unggahan dan respons tokoh di timeline.
-3. Memilih action card untuk membentuk atau melawan narasi.
-4. Mengelola dana, utang, kredibilitas, integritas, jaringan, stres, dan engagement.
-5. Menggunakan kemampuan khusus Tim & Mentor.
-6. Membaca komentar warga dan menangkap petunjuk isu yang mungkin ramai berikutnya.
-7. Menanggung konsekuensi yang dapat kembali memengaruhi cerita pada fase selanjutnya.
-
-Pilihan pemain disimpan secara lokal di browser dan dapat dilanjutkan melalui fitur **Continue**.
-
-## Fitur Utama
-
-- **Dua jalur karier** dengan strategi, sumber daya, dan risiko berbeda.
-- **Campaign enam fase** dengan puluhan episode dan special event.
-- **Action cards kontekstual** yang menyesuaikan isu, fase, posisi pemain, dan karakter yang dipilih. Perfect Match membuka follow-up card khusus serta reward tambahan.
-- **Lineup karakter bulanan yang seimbang**: kedua kubu selalu mendapat tiga kartu aktif, dirotasi sepanjang 72 bulan berdasarkan tema isu dan konteks fase.
-- **Tim & Mentor** dengan kemampuan khusus sekali pakai pada setiap fase. Pemain harus membaca sinyal isu dan memilih tokoh yang paling relevan untuk membuka combo kontekstual.
-- **Ekonomi politik progresif**, termasuk biaya operasi, patronase, donasi, kredit, bunga, bailout, dan risiko bangkrut.
-- **Simulasi engagement** berupa views, likes, reposts, dan komentar.
-- **Kolom komentar berpersona**, dari warga kritis sampai bapak-bapak receh, Gen Z, emak grup WhatsApp, fanwar, dan akun teori konspirasi.
-- **Cek Nalar**, kuis opsional untuk menguji logika, konteks, statistik, konflik kepentingan, dan literasi media.
-- **Autosave dan Continue** menggunakan penyimpanan lokal browser.
-- **Multiple outcomes** berdasarkan cara pemain membangun karier dan ruang publik.
-- **Open ending**, tanpa menetapkan satu kandidat, kubu, atau masa depan politik sebagai jawaban tunggal.
-
-## Dunia dan Narasi
-
-Cerita mengambil inspirasi dari dinamika politik Indonesia, komunikasi pemerintahan, gerakan mahasiswa, ekonomi politik, hukum, media digital, geopolitik, dan budaya internet.
-
-Tokoh-tokoh di dalam game adalah plesetan, arketipe, atau karakter komposit. Sebagian terinspirasi dari persona publik, tetapi tidak dimaksudkan sebagai biografi maupun tuduhan faktual terhadap individu tertentu.
-
-Bagian cerita yang berangkat dari peristiwa nyata berusaha membedakan:
-
-- fakta yang telah terdokumentasi;
-- tudingan dan bantahan;
-- dakwaan dan putusan;
-- opini dan propaganda;
-- serta satire dan fiksi.
-
-Fase masa depan diberi penanda sebagai **fiksi prediktif**. Tujuannya bukan meramalkan hasil politik, melainkan mengeksplorasi kemungkinan konsekuensi dari kebiasaan, kebijakan, dan konflik yang telah terbentuk sebelumnya.
-
-## Filosofi Desain
-
-Game ini dibangun di atas tiga gagasan utama:
-
-### Viral tidak sama dengan benar
-
-Engagement dapat memperbesar sebuah pesan tanpa membuatnya lebih akurat, etis, atau berguna bagi publik.
-
-### Tidak ada kubu yang kebal dari propaganda
-
-Manipulasi dapat datang dari pemerintah, oposisi, aktivis, media, influencer, konsultan, maupun warga biasa yang terlalu yakin pada satu potongan informasi.
-
-### Demokrasi adalah akumulasi kebiasaan
-
-Kualitas demokrasi tidak hanya ditentukan pada hari pemilu. Ia dibentuk oleh cara publik membaca data, memperlakukan kritik, menyimpan arsip, mendanai gerakan, menggunakan kekuasaan, dan merespons perbedaan.
-
-## Menjalankan Secara Lokal
-
-Game tidak membutuhkan instalasi, akun, server, atau proses build.
-
-1. Unduh atau clone repository ini.
-2. Buka `index.html` menggunakan browser modern.
-
-```bash
-git clone https://github.com/japutraa/perang-narasi-republik-timeline.git
-cd perang-narasi-republik-timeline
-```
-
-Seluruh gameplay utama berada dalam satu file HTML dan dapat dimainkan secara offline.
-
-## Teknologi
-
-- HTML5
-- CSS3
-- Vanilla JavaScript
-- Web Storage API (`localStorage`)
-- Tanpa framework dan tanpa dependency runtime
-
-## Struktur Repository
+## Struktur proyek
 
 ```text
 .
-├── index.html
-├── manifest.webmanifest
-├── README.md
+├── index.html                 # markup dan antarmuka
+├── assets/
+│   ├── css/game.css           # seluruh stylesheet
+│   ├── js/game.js             # data naratif + mesin permainan
+│   ├── js/runtime.js          # boot diagnostics + registrasi offline
+│   └── icons/icon.svg         # ikon lokal
+├── manifest.webmanifest       # metadata PWA
+├── sw.js                      # offline cache
+├── tests/game.test.mjs        # smoke test + simulasi 72 bulan
+├── .github/workflows/
+│   └── deploy-pages.yml       # test dan deploy GitHub Pages
 ├── CHANGELOG.md
 ├── LICENSE
-└── .github/
+└── package.json
 ```
 
-## Kontribusi
+Tidak ada library pihak ketiga yang dikirim ke browser. `jsdom` hanya merupakan dev dependency untuk simulasi otomatis dan tidak ikut ke runtime game.
 
-Masukan mengenai bug, keseimbangan mekanik, aksesibilitas, konsistensi naratif, dan kualitas satire dapat disampaikan melalui GitHub Issues.
+## Menjalankan secara lokal
 
-Kontribusi kode diperbolehkan selama tetap menjaga prinsip editorial proyek: satire harus dapat dibedakan dari tuduhan faktual, dan materi politik yang sensitif harus diberi konteks yang memadai.
+Karena rilis modular memakai beberapa file, jalankan static server dari root repo:
+
+```bash
+python3 -m http.server 8080
+```
+
+Lalu buka `http://localhost:8080`.
+
+## Test
+
+```bash
+npm ci
+npm test
+```
+
+Test memeriksa sintaks JavaScript, kelengkapan file modular, 41 event × 2 kubu × 4 pilihan, dua cabang konsekuensi untuk setiap pilihan, kompatibilitas save v3, dan simulasi campaign penuh untuk kedua kubu.
+
+## Deploy ke GitHub Pages
+
+1. Buat repository bernama `perang-narasi-republik-timeline` di akun `japutraa`.
+2. Upload isi folder ini ke branch `main`.
+3. Buka **Settings → Pages** dan pilih **GitHub Actions** sebagai Source.
+4. Workflow akan menjalankan test lalu menerbitkan game secara otomatis.
+
+## Privasi dan save game
+
+Save memakai key `perang-narasi-save-v3` pada `localStorage`. Tidak ada akun, server analytics, tracking pixel, atau pengiriman data permainan. Menghapus data situs di browser juga akan menghapus save lokal.
+
+## Prinsip editorial
+
+- Satire bukan pengganti verifikasi.
+- Tokoh adalah plesetan atau komposit, bukan biografi.
+- Dukungan politik, jabatan publik, dan kerja komunikasi tidak otomatis membuktikan seseorang adalah buzzer berbayar.
+- Tudingan, bantahan, dakwaan, putusan, serta upaya hukum harus dibedakan.
+- Episode masa depan selalu diberi label fiksi prediktif.
+- Kemenangan karier tidak selalu berarti kemenangan demokrasi.
 
 ## Kredit
 
-**Game design, writing, research, and development**  
-Adrian Janitra Putra — [@japutraa](https://github.com/japutraa)
+**Game design, writing, and development:**  
+[Adrian Janitra Putra](https://github.com/japutraa) — `japutraa`
 
 ## Lisensi
 
 Copyright © 2026 Adrian Janitra Putra.
 
-Kode sumber dirilis di bawah **GNU General Public License v3.0**. Lihat [LICENSE](LICENSE) untuk ketentuan lengkap.
+Kode dirilis di bawah [GNU General Public License v3.0 or later](LICENSE).
 
----
-
-<div align="center">
-
-**Satire bukan pengganti verifikasi. Engagement bukan mandat rakyat.**
-
-</div>

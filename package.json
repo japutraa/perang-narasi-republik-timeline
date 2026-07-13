@@ -1,0 +1,20 @@
+{
+  "name": "perang-narasi-republik-timeline",
+  "version": "3.8.1",
+  "private": true,
+  "description": "Game satire politik Indonesia berbasis browser karya Adrian Janitra Putra.",
+  "type": "module",
+  "scripts": {
+    "check": "node --check assets/js/runtime.js && node --check assets/js/game.js && node --check sw.js",
+    "test": "npm run check && node --test --test-concurrency=1 tests/*.test.mjs"
+  },
+  "author": "Adrian Janitra Putra (japutraa)",
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
+
