@@ -2,6 +2,18 @@
 
 Semua perubahan penting pada proyek ini dicatat di sini.
 
+## 3.12.0 — 2026-07-13
+
+- Mengaudit seluruh data yang tampil dan mengganti nama politik asli dengan alias parodi, termasuk kartu fakta, special event, roster, katalog, dan varian timeline.
+- Memisahkan persona Pak Jenderal Gemoyono: joget-gemoy pada kampanye 2024, lalu pidato komando, ketertiban, omon-omon, dan musuh bersama setelah menjadi presiden.
+- Memisahkan ucapan akun utama dari `Catatan Admin Aktivis` agar kritik editorial tidak lagi terdengar sebagai ucapan tokoh rezim.
+- Menambahkan model stance `regime`, `critic`, `institutional`, dan `archive`; varian generik kini ditulis dari posisi politik akun yang berbicara.
+- Menjadikan militerisasi tema kronologis utama: Mayor Tedi Ketok-Pintu di jabatan sipil, program sipil dalam rantai komando, revisi UU TNI, narasi agen asing, serta pengadaan pertahanan Juli 2026.
+- Mengunci batas arsip faktual pada Juli 2026; Agustus 2026 dan seterusnya tetap Timeline Alternatif.
+- Mengganti `Yanuar Risky Banget` menjadi `Risky Februari`.
+- Menjamin seluruh tokoh roster tampil minimal sekali dalam setiap fase sebelum slot diisi pengulangan.
+- Menambahkan test audit alias, stance/kronologi, dan coverage roster tanpa skip.
+
 ## 3.11.0 — 2026-07-13
 
 - Menambahkan minimal tiga alternatif post untuk masing-masing dari 72 bulan: lebih dari 216 varian timeline.

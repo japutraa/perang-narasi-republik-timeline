@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Multi-Timeline Run & Fufufafa Cache — v3.11.0**  
+> **Kronologi Rezim & Roster Tanpa Skip — v3.12.0**  
 > Game satire politik Indonesia tentang kekuasaan, buzzer, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.11.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.12.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -22,8 +22,15 @@ Pemain memilih salah satu dari dua jalur:
 
 Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024 sampai Pemilu 2029. Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya berada dalam **Timeline Alternatif**, bukan ramalan atau klaim faktual.
 
-## Fitur v3.11.0
+## Fitur v3.12.0
 
+- Semua nama politik yang tampil memakai alias parodi. Arsip fakta tetap menyimpan tautan sumber, tetapi kartu game tidak membocorkan nama asli.
+- Persona Pak Jenderal Gemoyono mengikuti waktu: kampanye 2024 memakai joget dan citra gemoy; setelah pelantikan, suaranya berubah menjadi pidato komando, ketertiban, omon-omon, dan musuh bersama.
+- Kronologi faktual dikunci sampai Juli 2026. Agustus 2026–2029 tetap berstatus Timeline Alternatif.
+- Militerisasi menjadi tema utama: sekretaris kabinet perwira aktif, program sipil dalam rantai komando, revisi UU TNI, pelabelan agen asing, serta pengadaan pertahanan dibahas lewat posisi rezim dan kritik aktivis yang terpisah.
+- Seluruh tokoh roster wajib mendapat giliran dalam fase masing-masing sebelum rotasi mengulang; relevansi isu menentukan urutan, bukan menghapus kartu.
+- Kritik editorial kini tampil sebagai **Catatan Admin Aktivis**, terpisah dari ucapan akun utama agar tokoh rezim tidak terdengar mengkritik dirinya sendiri.
+- `Yanuar Risky Banget` diganti menjadi **Risky Februari**.
 - Mode **Kronik** untuk campaign penuh dan **Mode Bebas** untuk mulai atau lompat ke fase 2024–2029 mana saja.
 - Setiap bulan memiliki minimal tiga alternatif post utama: **216+ varian timeline** untuk 72 bulan.
 - Seed campaign menentukan varian yang muncul dan ikut tersimpan di save. Reload mempertahankan timeline yang sama; campaign baru menyusun kombinasi lain.
@@ -38,7 +45,7 @@ Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024
 - Wording timeline dipoles agar lebih mengalir, karakter-spesifik, dan dekat dengan nada kolom Omong-Omong: satire tenang, bukti dulu, lalu tusukan di akhir.
 - Kritik 2026 mencakup tekanan rupiah dan pasar, defisit, gaya pidato “omon-omon”, serta produksi musuh bersama—dengan pemisahan tegas antara korelasi pasar dan klaim sebab-akibat.
 - Daftar Tokoh yang disinkronkan otomatis dari seluruh roster enam fase, lengkap dengan penanda fase kemunculan.
-- Nama karakter dipoles menjadi plesetan yang lebih jelas fiktif—termasuk **Prof. Konni BaksLaah** dan **Mas Nadim Makaroni**—tanpa mengubah atribusi di Arsip Fakta.
+- Nama karakter dipoles menjadi plesetan yang lebih jelas fiktif—termasuk **Prof. Konni BaksLaah**, **Mas Nadim Makaroni**, dan **Mayor Tedi Ketok-Pintu**.
 - 72 skenario bulanan dalam enam fase politik.
 - 42 strategic events untuk masing-masing kubu.
 - Empat strategi per event: **336 pilihan** di seluruh kombinasi event dan kubu.
@@ -93,7 +100,7 @@ npm ci
 npm test
 ```
 
-Sebelas test memeriksa sintaks JavaScript, kelengkapan file modular, 216+ varian satu-tokoh, perbedaan seed antarrun, sinkronisasi roster Tokoh, Mode Bebas untuk kedua kubu, 42 event × 2 kubu × 4 pilihan, evaluator ending, kompatibilitas save v3, dan simulasi campaign penuh untuk kedua kubu.
+Tiga belas test memeriksa sintaks JavaScript, kelengkapan file modular, audit alias politik, 216+ varian satu-tokoh, perbedaan seed antarrun, coverage seluruh roster, Mode Bebas untuk kedua kubu, 42 event × 2 kubu × 4 pilihan, evaluator ending, kompatibilitas save v3, dan simulasi campaign penuh untuk kedua kubu.
 
 ## Deploy ke GitHub Pages
 

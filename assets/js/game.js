@@ -1,5 +1,5 @@
 /**
- * Perang Narasi: Republik Timeline v3.11.0
+ * Perang Narasi: Republik Timeline v3.12.0
  * Copyright (C) 2026 Adrian Janitra Putra
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -271,7 +271,7 @@
       democracy: 53,
       network: 30,
       objective:
-        "Ubah kemarahan menjadi pengetahuan dan organisasi, sebelum algoritma mengubahmu menjadi merek pribadi.",
+        "Lawan normalisasi rezim yang mengubah kritik jadi musuh, urusan sipil jadi rantai komando, dan warga jadi dekorasi. Ubah marah menjadi bukti, bantuan, organisasi, dan daya paksa demokratis.",
       team: [
         [
           "📱",
@@ -399,7 +399,7 @@
         {
           id: "tedi-beruang",
           icon: "🐻",
-          name: "Mayor Tedi Beruang",
+          name: "Mayor Tedi Ketok-Pintu",
           role: "PENJAGA RUNDOWN ISTANA",
           bio: "Bisa bikin krisis kelihatan kayak agenda jam 14.30 yang sudah dikendalikan.",
           ability: {
@@ -1143,7 +1143,7 @@
   phaseRosters.aktivis[2].push(
     {id:"gita-wirawacana",icon:"♟️",name:"Om Gita Wacana-Wira",role:"MENTOR LONG GAME & PODCAST GLOBAL",availableFrom:2,themes:["economy","geopolitics","education","institutions","markets","productivity"],clue:"Panggil untuk rupiah, produktivitas, geopolitik, pendidikan, institusi, atau strategi jangka panjang.",bio:"Satu pertanyaan bisa keliling Singapura, Stanford, dan sejarah peradaban sebelum kembali ke harga beras.",ability:{name:"Tarik Kamera ke Long Game",desc:"Buka dua tren dan follow-up strategi jangka panjang. Salah tema bikin warga nunggu jawaban harian sampai episode berikutnya.",immediate:{credibility:7,reach:6,stress:-2,money:-12000000},metrics:{views:720000,likes:83000,reposts:21000,replies:25000},reveal:2,buff:{actionIds:["data","context","transparency"],damage:14,costMultiplier:.68},tone:"good",quote:"Kita perlu bicara bukan cuma tentang next quarter, tapi next generation—setelah tagihan bulan ini dibayar."},followUp:{actionIds:["data","context"],title:"Long Game {topic}, Short Invoice",desc:"Hubungkan {topic} dengan produktivitas, institusi, pendidikan, dan risiko antargenerasi—tanpa lupa tagihan bulan ini.",reward:{credibility:9,democracy:4,network:4},costMultiplier:.37}},
     {id:"feri-latah-hitung",icon:"🧮",name:"Feri Latih-Hitung",role:"EKONOM DOMPET STRESS TEST",availableFrom:2,themes:["economy","currency","budget","markets","debt","mbg"],clue:"Cocok untuk rupiah, IHSG, APBN, utang, MBG, dan program yang bilang gratis sambil kas batuk.",bio:"Kalau pemerintah bilang fundamental kuat, dia langsung nanya fundamental siapa dan struknya mana.",ability:{name:"Stress Test Sampai Dompet Bicara",desc:"Kuat di isu fiskal dan pasar; membuka kartu hitung biaya yang bonusnya besar untuk aktivis kere tapi teliti.",immediate:{credibility:6,reach:5,money:-6000000,heat:2},buff:{actionIds:["data","transparency"],damage:16,costMultiplier:.6},tone:"good",quote:"Gratis buat penerima bukan berarti gratis buat APBN. Tolong invoice-nya jangan disembunyikan di slide penutup."},followUp:{actionIds:["data","transparency"],title:"Hitung Siapa Bayar {topic}, Siapa Dapat",desc:"Bedah costing, risiko fiskal, kurs, dan distribusi manfaat {topic} tanpa mematikan kalkulator saat hasilnya nggak enak.",reward:{credibility:8,integrity:5,money:18000000},costMultiplier:.3}},
-    {id:"yanuar-risky",icon:"⚠️",name:"Yanuar Risky Banget",role:"ANALIS RISIKO & ARUS KAS NEGARA",availableFrom:2,themes:["markets","economy","risk","state-assets","budget","governance"],clue:"Paling pas untuk IHSG, Danantara, BUMN, risiko fiskal, tata kelola, dan grafik yang kelihatan aman karena zoom-nya jauh.",bio:"Membaca catatan kaki laporan keuangan sampai catatan kakinya minta perlindungan saksi.",ability:{name:"Peta Risiko Tanpa Filter Hijau",desc:"Membuka follow-up risk map. Tepat tema memberi reward besar; salah tema bikin semua orang merasa sedang ikut rapat audit yang nyasar.",immediate:{credibility:7,heat:2,money:-7000000},buff:{actionIds:["data","transparency","law"],damage:16,costMultiplier:.62,protectNegatives:true},tone:"good",quote:"Aset besar itu headline. Risiko, kontrol, dan siapa menanggung rugi itu isi laporan."},followUp:{actionIds:["data","transparency"],title:"Buka Risk Register {topic}",desc:"Petakan risiko {topic}, penanggung jawab, batas kerugian, dan siapa yang menalangi bila strategi gagal.",reward:{credibility:9,integrity:6,democracy:3},costMultiplier:.32}},
+    {id:"yanuar-risky",icon:"⚠️",name:"Risky Februari",role:"ANALIS RISIKO & ARUS KAS NEGARA",availableFrom:2,themes:["markets","economy","risk","state-assets","budget","governance"],clue:"Paling pas untuk IHSG, Danantara, BUMN, risiko fiskal, tata kelola, dan grafik yang kelihatan aman karena zoom-nya jauh.",bio:"Membaca catatan kaki laporan keuangan sampai catatan kakinya minta perlindungan saksi.",ability:{name:"Peta Risiko Tanpa Filter Hijau",desc:"Membuka follow-up risk map. Tepat tema memberi reward besar; salah tema bikin semua orang merasa sedang ikut rapat audit yang nyasar.",immediate:{credibility:7,heat:2,money:-7000000},buff:{actionIds:["data","transparency","law"],damage:16,costMultiplier:.62,protectNegatives:true},tone:"good",quote:"Aset besar itu headline. Risiko, kontrol, dan siapa menanggung rugi itu isi laporan."},followUp:{actionIds:["data","transparency"],title:"Buka Risk Register {topic}",desc:"Petakan risiko {topic}, penanggung jawab, batas kerugian, dan siapa yang menalangi bila strategi gagal.",reward:{credibility:9,integrity:6,democracy:3},costMultiplier:.32}},
     {id:"hendro-satirio",icon:"☕",name:"Mas Hendro Satir-IO",role:"PENGAMAT SUHU PUBLIK & QUICK POLL",availableFrom:10,themes:["polling","protest","parliament","election","public-opinion","party"],clue:"Panggil saat isu tentang survei, demo, DPR, elektabilitas, atau elite yang mengira timeline sama dengan rakyat.",bio:"Membaca arah angin politik dari survei, warung kopi, dan siapa yang tiba-tiba berhenti angkat telepon.",ability:{name:"Cek Suhu, Bukan Cuma Trending",desc:"Buka follow-up opini publik. Match kuat menambah reach dan kredibilitas; salah tema cuma menghasilkan hot take suhu ruang.",immediate:{reach:7,credibility:4,network:4,heat:1,money:-5000000},buff:{actionIds:["context","data","network"],damage:12,costMultiplier:.72},tone:"neutral",quote:"Trending itu ramai. Opini publik itu ramai yang disampling dengan benar. Bedanya lumayan mahal."},followUp:{actionIds:["context","data","network"],title:"Audit Survei {topic}, Bukan Perasaan",desc:"Buka sponsor, wording, sampel, tanggal, dan selisih antara suara timeline dengan suara warga soal {topic}.",reward:{credibility:7,reach:6,network:5},costMultiplier:.4}}
   );
   // Recurring power brokers return only in phases where their institutional leverage matters.
@@ -5084,6 +5084,87 @@
     },
   });
 
+  // Historical spine through July 2026. From August 2026 onward the existing
+  // alternative-timeline engine remains deliberately projective.
+  const chronologySources = window.PNTimelineVariants?.sources || {};
+  Object.assign(phases[0].days[9], {
+    title: "#KabinetBaruPintuKomando",
+    subject: "pelantikan, kabinet besar, dan perwira aktif di pusat kendali sipil",
+    document: "struktur kabinet, dasar hukum jabatan sipil, status kedinasan, target 100 hari, dan jalur pertanggungjawaban",
+    people: "pegawai sipil, prajurit profesional, pers, dan warga yang berhak tahu siapa memberi perintah kepada siapa",
+    counter: "dalih bahwa disiplin otomatis menggantikan kontrol sipil",
+    facts: [chronologySources.tediCivilianPost].filter(Boolean),
+  });
+  Object.assign(phases[1].days[0], {
+    title: "#DapurMasukRantaiKomando",
+    subject: "militer mengelola dapur sekolah, pangan, pertanian, dan proyek sipil",
+    document: "mandat operasi, anggaran, pengadaan, audit sipil, data satuan, dan kanal keluhan warga",
+    people: "murid, orang tua, petani, pekerja sipil, prajurit, dan komunitas yang layanannya masuk rantai komando",
+    counter: "klaim bahwa kecepatan dan disiplin cukup menggantikan transparansi",
+    facts: [chronologySources.militaryExpansion].filter(Boolean),
+  });
+  Object.assign(phases[1].days[2], {
+    title: "#UUBaruSeragamMasukKantorSipil",
+    subject: "revisi UU TNI, jabatan sipil perwira aktif, dan bayang-bayang dwifungsi",
+    document: "draf dan naskah final UU TNI, daftar jabatan sipil, risalah rapat, status perwira, serta mekanisme pengawasan",
+    people: "warga sipil, aparatur negara, aktivis, jurnalis, dan prajurit yang profesionalitasnya bergantung pada batas tugas yang jelas",
+    counter: "musuh asing, nostalgia ketertiban, dan anggapan bahwa semua kritik anti-tentara",
+    facts: [chronologySources.tniLaw, chronologySources.tediCivilianPost].filter(Boolean),
+  });
+  Object.assign(phases[2].days[6], {
+    title: "#RudalDatangDefisitMenegang",
+    subject: "kerja sama rudal Juli 2026, pengawasan pengadaan pertahanan, dan prioritas fiskal",
+    document: "nilai kontrak, kebutuhan strategis, biaya siklus hidup, risiko kurs, alih teknologi, asumsi defisit, dan pengawasan parlemen",
+    people: "warga pembayar pajak, prajurit, pekerja industri pertahanan, serta generasi yang mewarisi cicilan",
+    counter: "patriotisme kosong yang menganggap pertanyaan biaya sebagai penghinaan negara",
+    facts: [chronologySources.julyDefence].filter(Boolean),
+  });
+
+  const politicalAliases = [
+    [/Prabowo Subianto/gi, "Pak Jenderal Gemoyono"],
+    [/\bPrabowo\b/gi, "Pak Jenderal Gemoyono"],
+    [/Gibran Rakabuming Raka/gi, "Mas Samsul Raka Buming-Buming"],
+    [/\bGibran\b/gi, "Mas Samsul Raka Buming-Buming"],
+    [/Joko Widodo/gi, "Pak Joko Woles"],
+    [/\bJokowi\b/gi, "Pak Joko Woles"],
+    [/Teddy Indra Wijaya/gi, "Mayor Tedi Ketok-Pintu"],
+    [/Mayor Teddy/gi, "Mayor Tedi Ketok-Pintu"],
+    [/Hasan Nasbi/gi, "Pak Hasbun Naskah Basi"],
+    [/Bahlil Lahadalia/gi, "Bahlul Hilir-Hilir"],
+    [/\bBahlil\b/gi, "Bahlul Hilir-Hilir"],
+    [/Purbaya Yudhi Sadewa/gi, "Pak Purba-Yey Dompet Negara"],
+    [/Sri Mulyani/gi, "Bu Sri Mul-Yani-Aja"],
+    [/Nadiem Makarim/gi, "Mas Nadim Makaroni"],
+    [/\bNadiem\b/gi, "Mas Nadim Makaroni"],
+    [/Puan Maharani/gi, "Mbak Puanorama Senayan"],
+    [/Megawati Soekarnoputri/gi, "Bu Mega-Watt Merah"],
+    [/Connie Rahakundini Bakrie/gi, "Prof. Konni BaksLaah"],
+    [/Connie Bakrie/gi, "Prof. Konni BaksLaah"],
+    [/Ulta Levenia Nababan/gi, "Dr. Ultima Waspadaban"],
+    [/Tiyo Ardianto/gi, "Mas Tiyo Toa"],
+    [/Yanuar Nugroho/gi, "Risky Februari"],
+    [/Yanuar Risky Banget/gi, "Risky Februari"],
+    [/Anies Baswedan/gi, "Pak Anis Manis"],
+    [/Ganjar Pranowo/gi, "Pak Rambut Putih Filter Merah"],
+  ];
+  function aliasPoliticalText(value) {
+    if (typeof value !== "string" || /^https?:\/\//i.test(value)) return value;
+    return politicalAliases.reduce((text, [pattern, alias]) => text.replace(pattern, alias), value);
+  }
+  function aliasPoliticalDisplay(root, seen = new WeakSet()) {
+    if (!root || typeof root !== "object" || seen.has(root)) return root;
+    seen.add(root);
+    const technicalKeys = new Set(["id", "key", "sourceKey", "arc", "teaser", "themes", "weak", "resist", "actionIds", "characterId"]);
+    Object.keys(root).forEach((key) => {
+      if (technicalKeys.has(key)) return;
+      const value = root[key];
+      if (typeof value === "string") root[key] = aliasPoliticalText(value);
+      else aliasPoliticalDisplay(value, seen);
+    });
+    return root;
+  }
+  [roleData, phaseRosters, cast, sources, phases, specialEvents].forEach((root) => aliasPoliticalDisplay(root));
+
   const menuTicker = [
     "SATU PEMILU, LIMA TAHUN KEKUASAAN, LALU PEMILU LAGI",
     "SAVE LOKAL AKTIF, INGATAN PUBLIK DIJUAL TERPISAH",
@@ -5577,8 +5658,7 @@
     {match:/Gita Wacana-Wira|gitawacanawira/i,label:"MODE LONG GAME",className:"voice-podcast",prefix:"Mari tarik sedikit ke horizon yang lebih panjang: ",suffix:" Tapi long game tetap harus membayar short invoice. Institusi nggak hidup dari thumbnail."},
     {match:/Latih-Hitung|latihhitung/i,label:"MODE KALKULATOR DOMPET",className:"voice-data",prefix:"Sebentar, kita hitung dulu. ",suffix:" Gratis itu cara menerima. Bukan cara membiayai. APBN nggak makan jargon."},
     {match:/Satir-IO|satirio/i,label:"MODE SUHU PUBLIK",className:"voice-podcast",prefix:"Kalau baca suhu politik, jangan cuma lihat trending: ",suffix:" Timeline itu termometer satu ruangan. Indonesia rumahnya banyak."},
-    {match:/Risky Banget|riskybanget/i,label:"MODE RISK REGISTER",className:"voice-data",prefix:"Headline-nya aset. Saya mau lihat risikonya: ",suffix:" Kalau rugi ditanggung publik, risk register jangan disimpan di laci yang kuncinya ikut rapat."},
-    {match:/Jenderal Gemoyono|@gemoyono|Gemoyono/i,label:"MODE PODIUM OMON-OMON",className:"voice-command",prefix:"Saudara-saudara, saya bicara terus terang... ",suffix:" Kritik disebut omon-omon, pasar dibilang kurang patriotik, lalu antek asing diminta naik panggung ketika bukti mulai tipis."},
+    {match:/Risky Februari|riskyfebruari|riskybanget/i,label:"MODE RISK REGISTER",className:"voice-data",prefix:"Headline-nya aset. Saya mau lihat risikonya: ",suffix:" Kalau rugi ditanggung publik, risk register jangan disimpan di laci yang kuncinya ikut rapat."},
     {match:/Pak Joko Woles|@kerjakerja|transisi_dua_presiden|legacy/i,label:"MODE KERJA SAJA",className:"voice-data",prefix:"Ya, saya kira begini. ",suffix:" Yang penting kerja. Sisanya ditanyakan ke yang terkait—saya juga lagi cari siapa yang terkait."},
     {match:/Menlu Sunyi Gono-Gini/i,label:"MODE DIPLOMASI HEMAT KATA",className:"voice-data",prefix:"Posisi Indonesia jelas. ",suffix:" Detailnya melalui jalur diplomatik, karena caption Instagram bukan nota diplomatik, walau kadang diperlakukan begitu."},
     {match:/Om Diplo Peta Dunia/i,label:"MODE FOREIGN POLICY THREAD",className:"voice-podcast",prefix:"Kita jujur aja ya: ",suffix:" Foto karpet merah itu bagus. Tapi strategic payoff-nya jangan ikut pulang naik pesawat kosong."},
@@ -5651,6 +5731,20 @@
     "Pemilu lagi. Republik menekan refresh, cache lamanya belum dibersihin."
   ];
   function getVoiceProfile(i) {
+    if (/Jenderal Gemoyono|@gemoyono|Gemoyono/i.test(`${i.npc} ${i.handle}`)) {
+      if (state.phase === 0) return {
+        label: "MODE GEMOY • JOGET DULU",
+        className: "voice-command",
+        prefix: "He-he, santai. Pemilu harus gembira. ",
+        suffix: " Kalau suasana panas, kita joget dulu. Rakyat sudah pintar menilai.",
+      };
+      return {
+        label: "MODE KOMANDO • MUSUH BERSAMA",
+        className: "voice-command",
+        prefix: "Saudara-saudara, saya bicara terus terang. ",
+        suffix: " Negara harus kuat, satu komando, dan jangan kalah oleh omon-omon atau pihak yang ingin Indonesia gagal.",
+      };
+    }
     return voiceProfiles.find((v) => v.match.test(`${i.npc} ${i.handle} ${i.key}`)) || voiceProfiles.at(-1);
   }
   function loosenPost(body){
@@ -5668,8 +5762,8 @@
     const v = getVoiceProfile(i);
     const body = loosenPost(i.post);
     const quip = issuePunchlines[i.key] || issuePunchlines[i.arc] || phasePunchlines[state.phase] || "";
-    const copy = `${v.prefix}${body} ${quip} ${v.suffix}`.replace(/\s+/g," ").trim();
-    return `<span class="voice-chip">${v.label}</span><div class="voice-copy ${v.className}">${escapeHtml(copy)}</div>`;
+    const copy = `${v.prefix}${body} ${v.suffix}`.replace(/\s+/g," ").trim();
+    return `<span class="voice-chip">${v.label}</span><div class="voice-copy ${v.className}">${escapeHtml(copy)}</div>${quip ? `<div class="editorial-cut"><b>CATATAN ADMIN AKTIVIS:</b> ${escapeHtml(quip)}</div>` : ""}`;
   }
   const phaseActionFlavor = {
     buzzer: [
@@ -7807,7 +7901,7 @@
     return monthlyRosterFor(state.role, state.phase, state.day);
   }
 
-  const themeLabels={science:"SAINS",education:"PENDIDIKAN",research:"RISET",ai:"AI",data:"DATA",budget:"ANGGARAN",parliament:"DPR",protest:"PROTES",law:"HUKUM",coalition:"KOALISI",accountability:"AKUNTABILITAS",party:"PARTAI",legacy:"WARISAN",constitution:"KONSTITUSI",election:"PEMILU",jokowi:"WARISAN JOKOWI",media:"MEDIA",economy:"EKONOMI",geopolitics:"GEOPOLITIK",institutions:"INSTITUSI",markets:"PASAR",productivity:"PRODUKTIVITAS",currency:"RUPIAH",debt:"UTANG",mbg:"MBG",risk:"RISIKO","state-assets":"ASET NEGARA",governance:"TATA KELOLA",polling:"SURVEI","public-opinion":"OPINI PUBLIK",technology:"TEKNOLOGI",change:"PERUBAHAN",digital:"DIGITAL",military:"MILITER",disaster:"BENCANA",energy:"ENERGI"};
+  const themeLabels={science:"SAINS",education:"PENDIDIKAN",research:"RISET",ai:"AI",data:"DATA",budget:"ANGGARAN",parliament:"DPR",protest:"PROTES",law:"HUKUM",coalition:"KOALISI",accountability:"AKUNTABILITAS",party:"PARTAI",legacy:"WARISAN",constitution:"KONSTITUSI",election:"PEMILU",jokowi:"WARISAN PAK JOKO WOLES",media:"MEDIA",economy:"EKONOMI",geopolitics:"GEOPOLITIK",institutions:"INSTITUSI",markets:"PASAR",productivity:"PRODUKTIVITAS",currency:"RUPIAH",debt:"UTANG",mbg:"MBG",risk:"RISIKO","state-assets":"ASET NEGARA",governance:"TATA KELOLA",polling:"SURVEI","public-opinion":"OPINI PUBLIK",technology:"TEKNOLOGI",change:"PERUBAHAN",digital:"DIGITAL",military:"MILITER",disaster:"BENCANA",energy:"ENERGI"};
   const actionThemeMap={meme:["media","digital","election"],patriot:["geopolitics","military","election"],data:["data","economy","markets","budget","science"],whatabout:["party","legacy","election"],endorse:["media","digital","election"],podcast:["media","public-opinion","election"],attack:["party","law","media"],concert:["protest","election","media"],transparency:["accountability","governance","budget","law"],context:["media","law","accountability"],empathy:["protest","disaster","public-opinion"],network:["protest","coalition","party"],law:["law","constitution","parliament"],film:["media","accountability","law"]};
   const crewThemeOverrides={
     "gemoyfikasi":["election","media","digital"],"admin-satu":["media","digital"],"canva-negara":["media","digital"],"joko-woles":["legacy","jokowi","governance"],"ultima-waspada":["geopolitics","military","media"],"abu-jempol":["media","digital","election"],
@@ -7908,10 +8002,19 @@
         const rotationScore=relevance.raw*2-seen*15+freshness+urgency+stableCrewOrder(character.id,role,phase,month);
         return {character,relevance,rotationScore};
       });
-      const relevant=scored.filter(entry=>entry.relevance.raw>0);
-      const pool=relevant.length>=MONTHLY_CREW_SIZE?relevant:scored;
-      pool.sort((a,b)=>b.rotationScore-a.rotationScore||b.relevance.raw-a.relevance.raw||a.character.id.localeCompare(b.character.id));
-      const selected=pool.slice(0,MONTHLY_CREW_SIZE);
+      const byPriority=(a,b)=>b.rotationScore-a.rotationScore||b.relevance.raw-a.relevance.raw||a.character.id.localeCompare(b.character.id);
+      const unseen=scored.filter(entry=>(appearances.get(entry.character.id)||0)===0).sort((a,b)=>{
+        const aUntil=Number(a.character.availableUntil)||12,bUntil=Number(b.character.availableUntil)||12;
+        return aUntil-bUntil||byPriority(a,b);
+      });
+      // Coverage is mandatory: every character gets a month before repeats can
+      // consume all three slots. Relevance ranks the guaranteed appearances.
+      const selected=unseen.slice(0,MONTHLY_CREW_SIZE);
+      if(selected.length<MONTHLY_CREW_SIZE){
+        const selectedIds=new Set(selected.map(entry=>entry.character.id));
+        const fill=scored.filter(entry=>!selectedIds.has(entry.character.id)).sort(byPriority);
+        selected.push(...fill.slice(0,MONTHLY_CREW_SIZE-selected.length));
+      }
       selected.forEach(({character})=>{
         appearances.set(character.id,(appearances.get(character.id)||0)+1);
         lastSeen.set(character.id,month);

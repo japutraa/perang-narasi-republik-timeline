@@ -24,7 +24,7 @@ function testHtml({ expose = false } = {}) {
     assert.ok(game.includes(marker), "game test hook marker must exist");
     game = game.replace(
       marker,
-      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries };\n})();\n\ndocument.documentElement.dataset.gameReady',
+      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries, monthlyRosterSchedule, monthlyRosterFor, voicePostHtml };\n})();\n\ndocument.documentElement.dataset.gameReady',
     );
   }
 
@@ -74,18 +74,50 @@ test("release references only files that are present", () => {
   required.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), `${file} is missing`));
   assert.doesNotMatch(indexSource, /<style(?:\s|>)/i, "CSS must not be embedded in index.html");
   assert.doesNotMatch(indexSource, /<script(?![^>]+src=)[^>]*>/i, "JavaScript must not be embedded in index.html");
-  assert.match(indexSource, /meta name="version" content="3\.11\.0"/);
+  assert.match(indexSource, /meta name="version" content="3\.12\.0"/);
   assert.match(gameSource, /SAVE_KEY = "perang-narasi-save-v3"/);
   assert.match(gameSource, /Prof\. Konni BaksLaah/);
   assert.match(gameSource, /Mas Nadim Makaroni/);
-  assert.doesNotMatch(gameSource, /Konni Bakso-Rie|Nadiem Makarim|\bNadiem\b/);
+  assert.doesNotMatch(gameSource, /Konni Bakso-Rie/);
   assert.doesNotMatch(gameSource, /Purba-Yaya|Felix Si-Auw|Dandhy Lensono|Akbar Fasal|Gita Wira-Wacana|Latah-Hitung/);
   assert.match(netizenSource, /BOT JUDOL NYASAR/);
   assert.match(netizenSource, /Anjing|Bangsat/);
   assert.match(netizenSource, /ARSIP FUFUFAFA • PEMILIK BELUM TERBUKTI/);
-  assert.match(timelineVariantsSource, /Satuan Penjilat Prabowo-Gibran/);
+  assert.match(timelineVariantsSource, /Satuan Penjilat Pak Gemoyono–Mas Samsul/);
   assert.match(timelineVariantsSource, /fufufafa-memorable-quotes/);
   assert.match(endingSource, /SULTAN INVOICE, FAKIR NURANI/);
+});
+
+function displayText(value, seen = new Set()) {
+  if (typeof value === "string") return /^https?:\/\//i.test(value) ? "" : value;
+  if (!value || typeof value !== "object" || seen.has(value)) return "";
+  seen.add(value);
+  const technicalKeys = new Set(["id", "key", "sourceKey", "arc", "teaser", "themes", "weak", "resist", "actionIds", "characterId"]);
+  return Object.entries(value)
+    .filter(([key]) => !technicalKeys.has(key))
+    .map(([, item]) => displayText(item, seen)).join("\n");
+}
+
+test("all displayed political figures use parody aliases", async () => {
+  const { dom, errors } = createDom({ expose: true });
+  await tick(dom.window);
+  assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
+  const api = dom.window.__PN_TEST__;
+  const variants = api.phases.flatMap((phase, phaseIndex) => phase.days.flatMap((issue, dayIndex) =>
+    dom.window.PNTimelineVariants.build(issue, { phaseIndex, dayIndex })));
+  const renderedData = displayText({
+    phases: api.phases,
+    rosters: api.phaseRosters,
+    events: api.specialEvents,
+    cast: [...api.castEntries("power"), ...api.castEntries("activist")],
+    variants,
+  });
+  const realNamePattern = /\b(?:Prabowo|Jokowi|Joko Widodo|Gibran|Nadiem|Teddy Indra Wijaya|Bahlil|Hasan Nasbi|Purbaya Yudhi Sadewa|Sri Mulyani|Puan Maharani|Megawati Soekarnoputri|Connie(?: Rahakundini Bakrie| Bakrie)?|Anies Baswedan|Ganjar Pranowo|Tiyo Ardianto|Yanuar Nugroho|Yanuar Risky Banget)\b/i;
+  const leakedName = renderedData.match(realNamePattern);
+  assert.equal(leakedName, null, `real political name leaked into display: ${leakedName?.[0]}`);
+  assert.match(renderedData, /Risky Februari/);
+  assert.match(renderedData, /Mayor Tedi Ketok-Pintu/);
+  dom.window.close();
 });
 
 test("Tokoh catalogue includes every six-phase roster entry", async () => {
@@ -98,6 +130,23 @@ test("Tokoh catalogue includes every six-phase roster entry", async () => {
     const catalogue = new Set(api.castEntries(group).map((entry) => entry.name));
     api.phaseRosters[role].flat().forEach((character) => {
       assert.ok(catalogue.has(character.name), `${character.name} missing from ${group} catalogue`);
+    });
+  }
+  dom.window.close();
+});
+
+test("every roster character is scheduled before a phase ends", async () => {
+  const { dom, errors } = createDom({ expose: true });
+  await tick(dom.window);
+  const api = dom.window.__PN_TEST__;
+  assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
+  for (const role of ["buzzer", "aktivis"]) {
+    api.phaseRosters[role].forEach((roster, phaseIndex) => {
+      const schedule = api.monthlyRosterSchedule(role, phaseIndex);
+      assert.equal(schedule.length, 12, `${role}/phase ${phaseIndex + 1} month count`);
+      schedule.forEach((month, monthIndex) => assert.equal(month.length, 3, `${role}/${phaseIndex + 1}/${monthIndex + 1}`));
+      const appeared = new Set(schedule.flat().map((character) => character.id));
+      roster.forEach((character) => assert.ok(appeared.has(character.id), `${character.name} skipped in ${role}/phase ${phaseIndex + 1}`));
     });
   }
   dom.window.close();
@@ -234,8 +283,19 @@ test("every month has seeded single-speaker timeline variants", async () => {
   );
   const rupiahVariants = pack.build(phases[2].days[4], { phaseIndex: 2, dayIndex: 4 });
   assert.ok(rupiahVariants.some((variant) => /desa enggak pakai dolar/i.test(variant.post)));
-  const sppgVariants = pack.build(phases[2].days[6], { phaseIndex: 2, dayIndex: 6 });
-  assert.ok(sppgVariants.some((variant) => /Satuan Penjilat Prabowo-Gibran/.test(variant.post)));
+  assert.ok(rupiahVariants.some((variant) => /Satuan Penjilat Pak Gemoyono–Mas Samsul/.test(variant.post)));
+  const julyVariants = pack.build(phases[2].days[6], { phaseIndex: 2, dayIndex: 6 });
+  assert.ok(julyVariants.some((variant) => /kerja sama pertahanan|rudal/i.test(variant.post)));
+  assert.ok(julyVariants.every((variant) => variant.facts.some((fact) => /2026-07-07/.test(fact[2] || ""))));
+  assert.equal(phases[2].days[6].status, "ARSIP POLITIK 2026");
+  assert.equal(phases[2].days[7].status, "TIMELINE ALTERNATIF");
+
+  const campaignGemoy = pack.build(phases[0].days[1], { phaseIndex: 0, dayIndex: 1 });
+  assert.ok(campaignGemoy.some((variant) => variant.npc === "Pak Jenderal Gemoyono" && /joget/i.test(variant.post)));
+  const presidentialGemoy = pack.build(phases[1].days[2], { phaseIndex: 1, dayIndex: 2 })
+    .find((variant) => variant.npc === "Pak Jenderal Gemoyono");
+  assert.equal(presidentialGemoy.stance, "regime");
+  assert.match(presidentialGemoy.post, /negara|perwira|strategis/i);
   dom.window.close();
 });
 

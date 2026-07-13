@@ -17,11 +17,12 @@
 
   const speakers = {
     "Pak Jenderal Gemoyono": ["@gemoyonoresmi", "🦅"],
+    "Mayor Tedi Ketok-Pintu": ["@rundownkomando", "🎖️"],
     "Hasbun Naskah Basi": ["@hasbunbrief", "🧯"],
     "Bahlul Hilir-Hilir": ["@hilirterus", "⛏️"],
     "Pak Purba-Yey Dompet Negara": ["@dompetnegara", "💼"],
     "Feri Latih-Hitung": ["@ferilatihhitung", "🧮"],
-    "Yanuar Risky Banget": ["@riskybanget", "⚠️"],
+    "Risky Februari": ["@riskyfebruari", "⚠️"],
     "Bang Akbar Pasal": ["@akbarpasal", "🎙️"],
     "Mbak Amar Setengah": ["@pasalbelumselesai", "⚖️"],
     "Mbak Pintu Rapat": ["@draftnyadimana", "🚪"],
@@ -43,8 +44,8 @@
   };
 
   const speakerBanks = {
-    economy: ["Feri Latih-Hitung", "Yanuar Risky Banget", "Pak Purba-Yey Dompet Negara"],
-    government: ["Pak Jenderal Gemoyono", "Hasbun Naskah Basi", "Bahlul Hilir-Hilir"],
+    economy: ["Feri Latih-Hitung", "Risky Februari", "Pak Purba-Yey Dompet Negara"],
+    government: ["Pak Jenderal Gemoyono", "Mayor Tedi Ketok-Pintu", "Hasbun Naskah Basi"],
     law: ["Bang Akbar Pasal", "Mbak Amar Setengah", "Mbak Pintu Rapat"],
     civic: ["Mas Tiyo Toa", "Fatima Footnote", "Bang Dandy Lensa-Sono"],
     geopolitics: ["Om Gita Wacana-Wira", "Om Diplo Peta Dunia", "Menlu Sunyi Gono-Gini"],
@@ -55,15 +56,29 @@
     default: ["Warga Garuda Biru", "Fatima Footnote", "Hasbun Naskah Basi"],
   };
 
+  // The account must speak from its own political position. Regime accounts
+  // defend, command, minimise, or redirect; critics scrutinise those moves.
+  const speakerStances = {
+    "Pak Jenderal Gemoyono": "regime",
+    "Mayor Tedi Ketok-Pintu": "regime",
+    "Hasbun Naskah Basi": "regime",
+    "Bahlul Hilir-Hilir": "regime",
+    "Pak Purba-Yey Dompet Negara": "regime",
+    "Menlu Sunyi Gono-Gini": "regime",
+    "Prof. Margin Error": "institutional",
+    "Mbak Audit Kotak Makan": "institutional",
+    "Akun Forum yang Tidak Mau Mati": "archive",
+  };
+
   const sources = {
     dollarVillage: [
       "Pernyataan rupiah dan warga desa",
-      "Pada Mei 2026 Prabowo mengatakan warga desa tidak memakai dolar ketika menanggapi pelemahan rupiah. Kurs tetap dapat merambat ke harga impor, energi, obat, bahan baku, dan utang valas.",
+      "Pada Mei 2026 Pak Jenderal Gemoyono mengatakan warga desa tidak memakai dolar ketika menanggapi pelemahan rupiah. Kurs tetap dapat merambat ke harga impor, energi, obat, bahan baku, dan utang valas.",
       "https://www.reuters.com/world/asia-pacific/indonesia-rupiah-hits-new-record-low-president-downplays-day-to-day-impact-2026-05-18/",
     ],
     tiyoSppg: [
-      "Polemik SPPG dan Tiyo Ardianto",
-      "Dalam forum Terus Terang pada Mei 2026, Tiyo Ardianto memelesetkan SPPG menjadi ‘Satuan Penjilat Prabowo-Gibran’. Hasan Nasbi membalas bahwa nalarnya didiskon dan menilai pekerja serta penerima program ikut terhina.",
+      "Polemik SPPG dan Mas Tiyo Toa",
+      "Dalam forum Terus Terang pada Mei 2026, Mas Tiyo Toa memelesetkan SPPG menjadi ‘Satuan Penjilat Pak Gemoyono–Mas Samsul’. Pak Hasbun Naskah Basi membalas bahwa nalarnya didiskon dan menilai pekerja serta penerima program ikut terhina.",
       "https://wartaekonomi.co.id/read614555/sppg-diplesetin-jadi-satuan-penjilat-prabowo-gibran-hasan-nasbi-nalarnya-didiskon",
     ],
     foreignAgents: [
@@ -86,13 +101,43 @@
       "Ucapan ‘etik, etik, ndasmu etik’ beredar menjelang Pemilu 2024. Juru bicara menyebutnya candaan, sementara kritik menyorot cara etika diperlakukan sebagai bahan olok-olok.",
       "https://www.cnnindonesia.com/nasional/20231217145956-617-1038376/prabowo-soal-video-etik-ndasmu-tak-usah-dibesar-besarkan",
     ],
+    gemoyDance: [
+      "Citra gemoy dan joget kampanye",
+      "Pada kampanye Februari 2024, video joget dan citra kakek gemoy Pak Jenderal Gemoyono meraih jutaan tayangan. Strategi itu menggeser perhatian dari latar militernya ke persona yang lebih lunak.",
+      "https://www.reuters.com/world/asia-pacific/dance-moves-deepfakes-indonesia-presidential-candidates-duke-it-out-tiktok-2024-02-12/",
+    ],
+    militaryExpansion: [
+      "Program sipil masuk rantai komando",
+      "Pada Januari 2025, Reuters mencatat perluasan peran militer ke program makan sekolah, pertanian, dan pekerjaan sipil lain. Pemerintah menyebut rantai komando efisien; pengkritik mengingatkan supremasi sipil.",
+      "https://www.reuters.com/world/asia-pacific/indonesias-new-leader-expands-militarys-role-test-fragile-democracy-2025-01-28/",
+    ],
+    tediCivilianPost: [
+      "Sekretaris kabinet tetap perwira aktif",
+      "Mayor Tedi Ketok-Pintu diangkat menjadi sekretaris kabinet ketika masih berstatus perwira aktif. Posisi itu dipersoalkan karena berada di luar daftar jabatan sipil yang saat itu diperbolehkan bagi perwira aktif.",
+      "https://www.straitstimes.com/asia/se-asia/concerns-grow-over-militarys-role-in-indonesia-as-prabowo-appoints-officers-to-civilian-posts",
+    ],
+    tniLaw: [
+      "Revisi UU TNI memperluas jabatan sipil",
+      "Pada 20 Maret 2025, parlemen mengesahkan perubahan UU TNI yang memperluas jabatan sipil bagi perwira aktif. Aktivis memprotes proses dan risiko kembalinya dwifungsi; pemerintah menekankan disiplin dan kebutuhan strategis.",
+      "https://www.reuters.com/world/asia-pacific/indonesia-parliament-passes-contentious-amendments-military-law-2025-03-20/",
+    ],
+    imaginaryEnemies: [
+      "Kritik dilabeli agen asing",
+      "Laporan Mei 2026 mendokumentasikan pelabelan aktivis dan jurnalis sebagai agen asing. Narasi itu disebut berulang dalam pidato Pak Jenderal Gemoyono tanpa bukti publik untuk tuduhan spesifiknya.",
+      "https://www.amnesty.org/en/latest/news/2026/05/indonesia-military-silences-dissent-disinformation-campaigns-branding-activists-journalists-foreign-agents/",
+    ],
+    julyDefence: [
+      "Kerja sama rudal dan prioritas pertahanan",
+      "Pada 7 Juli 2026, Indonesia dan India menandatangani rangkaian kerja sama yang mencakup pengadaan rudal. Nilai strategis, biaya, pengawasan sipil, dan prioritas anggaran tetap perlu diuji terbuka.",
+      "https://www.reuters.com/world/asia-pacific/indias-modi-meet-indonesias-prabowo-talks-defence-food-security-2026-07-07/",
+    ],
   };
 
   const explicit = {
     "0:0": [
       {
         npc: "Pak Jenderal Gemoyono",
-        post: "“Etik, etik, ndasmu etik.” Potongan itu kembali lewat di timeline tepat ketika orang sedang membahas batas kekuasaan dan konflik kepentingan. Candaan buat satu ruangan; tagihan etiknya buat satu republik.",
+        post: "“Etik, etik, ndasmu etik.” Itu candaan di depan kader sendiri, jangan dibesar-besarkan. Pemilu harus gembira; kalau suasana terlalu tegang, ya kita joget dulu.",
         source: sources.ndasmuEtik,
       },
       {
@@ -102,6 +147,57 @@
       {
         npc: "Bang Akbar Pasal",
         post: "Satu pertanyaan saja: kalau konflik kepentingan dianggap selesai setelah putusan dibacakan, untuk apa republik repot-repot punya etik selain sebagai dekorasi ruang sidang?",
+      },
+    ],
+    "0:1": [
+      {
+        npc: "Pak Jenderal Gemoyono",
+        post: "Kampanye itu harus riang. Saya joget karena rakyat ingin pemimpin yang dekat, bukan yang tiap hari mukanya kayak habis dimarahi tabel Excel. Soal masa lalu, sudah berkali-kali saya jawab.",
+        source: sources.gemoyDance,
+      },
+      {
+        npc: "Bang Dandy Lensa-Sono",
+        post: "Joget adalah gambar; rekam jejak adalah arsip. Keduanya boleh ditonton, tapi jangan biarkan musik 27 detik memotong pertanyaan yang umurnya puluhan tahun.",
+        source: sources.gemoyDance,
+      },
+      {
+        npc: "Mbak Nana Kursi Kosong",
+        post: "Persona gemoy boleh jadi strategi kampanye. Justru karena berhasil, pertanyaan lanjutannya makin penting: yang dilunakkan cuma gaya kamera atau juga cara memperlakukan kritik?",
+        source: sources.gemoyDance,
+      },
+    ],
+    "0:9": [
+      {
+        npc: "Mayor Tedi Ketok-Pintu",
+        post: "Arahan sudah jelas: kabinet bergerak cepat, jalur laporan dipendekkan, hambatan program disingkirkan. Soal seragam saya, fokus saja ke hasil. Negara butuh orang yang siap laksanakan.",
+        source: sources.tediCivilianPost,
+      },
+      {
+        npc: "Pak Jenderal Gemoyono",
+        post: "Saya pilih orang yang disiplin dan loyal pada tugas. Pemerintahan tidak boleh lambat hanya karena semua orang sibuk memperdebatkan asal seragam.",
+        source: sources.tediCivilianPost,
+      },
+      {
+        npc: "Mbak Amar Setengah",
+        post: "Masalahnya bukan alergi seragam. Masalahnya sederhana: jabatan sipil punya pagar hukum, rantai pertanggungjawaban, dan prinsip supremasi sipil. Pagar bukan dekorasi pelantikan.",
+        source: sources.tediCivilianPost,
+      },
+    ],
+    "1:0": [
+      {
+        npc: "Pak Jenderal Gemoyono",
+        post: "Tentara punya disiplin, jaringan, dan kemampuan bergerak cepat. Kalau dapur sekolah, lahan pangan, dan saluran air perlu selesai, saya pakai kekuatan yang negara punya.",
+        source: sources.militaryExpansion,
+      },
+      {
+        npc: "Mayor Tedi Ketok-Pintu",
+        post: "Program strategis tidak bisa menunggu rapat koordinasi yang rapatnya membahas jadwal rapat. Rantai komando dipakai supaya target turun sampai lapangan dan laporan naik sebelum kopi dingin.",
+        source: sources.militaryExpansion,
+      },
+      {
+        npc: "Risky Februari",
+        post: "Cepat bukan sinonim akuntabel. Ketika tentara mengurus dapur, sawah, dan proyek sipil, buka biaya, mandat, audit, jalur keluhan, serta siapa yang mengoreksi kalau rantai komando salah arah.",
+        source: sources.militaryExpansion,
       },
     ],
     "0:8": [
@@ -135,6 +231,23 @@
         post: "Pemerintah memastikan efisiensi tidak mengganggu layanan prioritas. Lampiran tentang layanan mana yang dianggap tidak prioritas akan disampaikan setelah semua orang berhenti bertanya keras-keras.",
       },
     ],
+    "1:2": [
+      {
+        npc: "Mayor Tedi Ketok-Pintu",
+        post: "Jabatan ini soal memastikan perintah presiden jalan, bukan soal nostalgia dwifungsi. Seragam tidak otomatis menghapus profesionalitas; yang dibutuhkan kabinet adalah disiplin dan satu pintu komando.",
+        source: sources.tediCivilianPost,
+      },
+      {
+        npc: "Pak Jenderal Gemoyono",
+        post: "Dunia berubah, ancaman berubah, negara harus kuat. Perwira yang kompeten jangan dilarang membantu hanya karena sebagian orang masih memelihara ketakutan lama.",
+        source: sources.tniLaw,
+      },
+      {
+        npc: "Mas Tiyo Toa",
+        post: "Bangsat, rapat undang-undangnya ngebut dan tertutup, habis itu publik disuruh percaya ini bukan jalan tol menuju dwifungsi. Kalau yakin demokratis, buka draf, daftar jabatan, dan mekanisme kontrolnya.",
+        source: sources.tniLaw,
+      },
+    ],
     "1:8": [
       {
         npc: "Warga Garuda Biru",
@@ -146,14 +259,14 @@
       },
       {
         npc: "Pak Jenderal Gemoyono",
-        post: "Hak menyampaikan pendapat harus dihormati, tetapi kerusuhan disebut mulai mengarah pada makar dan terorisme. Sekali lagi, kritik masuk ruangan lewat pintu depan; musuh bersama sudah menunggu di podium.",
+        post: "Hak menyampaikan pendapat saya hormati. Tapi negara tidak boleh kalah pada tindakan yang mengarah ke makar dan teror. Aparat harus tegas, rakyat jangan mau diadu domba kekuatan yang ingin Indonesia kacau.",
         source: sources.foreignAgents,
       },
     ],
     "2:4": [
       {
         npc: "Pak Jenderal Gemoyono",
-        post: "“Mau dolar berapa ribu kek, orang rakyat di desa enggak pakai dolar kok.” Kalimatnya singkat. Rantai impor, harga energi, obat, pupuk, dan cicilan valas sayangnya tidak ikut dibuat singkat.",
+        post: "“Mau dolar berapa ribu kek, orang rakyat di desa enggak pakai dolar kok.” Jangan bikin rakyat panik. Pemerintah jaga ekonomi, fundamental kita kuat, dan kita tidak boleh didikte spekulan.",
         source: sources.dollarVillage,
       },
       {
@@ -165,6 +278,16 @@
         npc: "Om Gita Wacana-Wira",
         post: "Jangan bikin takhayul bahwa satu pidato otomatis menjatuhkan rupiah. Yang perlu diuji justru konsistensi fiskal, kualitas institusi, arus modal, dan kenapa komunikasi negara selalu sibuk mengecilkan termometer.",
         source: sources.dollarVillage,
+      },
+      {
+        npc: "Mas Tiyo Toa",
+        post: "“SPPG itu Satuan Penjilat Pak Gemoyono–Mas Samsul.” Kasar? Iya. Tapi branding program makan juga anjing banget kalau vendor, mutu, korban keracunan, dan konflik kepentingannya disuruh diam di belakang baliho.",
+        source: sources.tiyoSppg,
+      },
+      {
+        npc: "Fatima Footnote",
+        post: "Setiap kritik dilabeli agen asing, republik kehilangan kemampuan membedakan ancaman nyata dari warga yang membawa data. Kalau tuduhannya serius, buka buktinya; kalau tidak, berhenti bikin musuh imajiner.",
+        source: sources.imaginaryEnemies,
       },
     ],
     "2:5": [
@@ -186,19 +309,19 @@
     ],
     "2:6": [
       {
-        npc: "Mas Tiyo Toa",
-        post: "“SPPG sejatinya adalah Satuan Penjilat Prabowo-Gibran.” Plesetannya meledak karena program makan sudah terlalu lama diperlakukan seperti alat branding. Kritiknya tajam; generalisasinya tetap pantas diuji.",
-        source: sources.tiyoSppg,
+        npc: "Pak Jenderal Gemoyono",
+        post: "Kerja sama pertahanan ini memperkuat posisi Indonesia. Negara besar harus punya alat pertahanan kuat, sahabat strategis, dan keberanian menjaga kepentingan nasional.",
+        source: sources.julyDefence,
       },
       {
-        npc: "Hasbun Naskah Basi",
-        post: "Menyebut SPPG sebagai satuan penjilat dinilai punya ‘nalar yang didiskon’ karena pekerja dapur dan penerima manfaat ikut terseret. Jawaban itu keras; pertanyaan vendor, mutu, keracunan, dan konflik kepentingan tetap belum boleh ikut didiskon.",
-        source: sources.tiyoSppg,
+        npc: "Prof. Konni BaksLaah",
+        post: "Rudal bukan merchandise kunjungan negara. Buka kebutuhan strategis, interoperabilitas, biaya siklus hidup, alih teknologi, dan siapa yang mengawasi pengadaannya. Peta pertahanan nggak boleh dilipat jadi brosur investasi.",
+        source: sources.julyDefence,
       },
       {
-        npc: "Mbak Audit Kotak Makan",
-        post: "Nama program boleh diplesetkan, tapi audit jangan. Buka vendor, pemilik manfaat, standar dapur, jumlah korban, harga per porsi, dan siapa yang tetap dibayar ketika anak-anak justru pulang sakit.",
-        source: sources.tiyoSppg,
+        npc: "Risky Februari",
+        post: "Pertahanan kuat tetap punya opportunity cost. Tampilkan nilai kontrak, jadwal bayar, risiko kurs, kebutuhan paling mendesak, dan kenapa prioritas ini menang ketika defisit sudah dekat pagar hukum.",
+        source: sources.julyDefence,
       },
     ],
     "4:0": [
@@ -221,7 +344,7 @@
         post: "Kurs masuk bahan kampanye dan semua kandidat memilih titik awal grafik yang paling baik untuk dirinya. Tolong pilih juga siapa yang membayar bunga, impor, subsidi, dan janji gratisnya.",
       },
       {
-        npc: "Yanuar Risky Banget",
+        npc: "Risky Februari",
         post: "Kandidat menjanjikan rupiah kuat tanpa membuka risk register. Kalau skenario buruk dilarang masuk panggung, jangan kaget ketika ia datang sendiri membawa kurs pasar.",
       },
       {
@@ -235,7 +358,7 @@
         post: "Empat kandidat membawa enam grafik. Saya cuma minta satu tabel: biaya program, sumber dana, asumsi kurs, risiko gagal, dan kelompok yang paling dulu diminta berkorban.",
       },
       {
-        npc: "Yanuar Risky Banget",
+        npc: "Risky Februari",
         post: "Debat ekonomi selalu punya skenario sukses. Malam ini tolong tampilkan juga skenario rugi, penjamin terakhir, dan nomor telepon orang yang tidak boleh kabur ketika targetnya meleset.",
       },
       {
@@ -287,7 +410,7 @@
       `@${String(name).toLowerCase().replace(/[^a-z0-9]+/g, "").slice(0, 24) || "akuntimeline"}`,
       base.avatar || "👤",
     ];
-    return { npc: name, handle, avatar };
+    return { npc: name, handle, avatar, stance: speakerStances[name] || "critic" };
   }
 
   const genericCopy = {
@@ -343,6 +466,59 @@
     ],
   };
 
+  const regimeCopy = {
+    economy: [
+      (i) => `Fundamental kita kuat. Soal ${i.subject}, rakyat jangan ikut panik karena potongan grafik dan omon-omon yang tidak melihat kerja pemerintah secara utuh.`,
+      (i) => `Pemerintah terus memantau ${i.subject}. Yang penting produksi jalan, program prioritas lanjut, dan jangan semua gejolak global ditarik jadi drama Istana.`,
+      (i) => `Angka boleh naik-turun, komando kebijakan tidak boleh ragu. ${i.document} akan dijelaskan pada waktunya; sekarang jangan ganggu kepercayaan pasar.`,
+    ],
+    publicService: [
+      (i) => `${i.subject} adalah program strategis untuk rakyat. Kekurangan akan dievaluasi, tapi jangan satu insiden dipakai untuk menghina seluruh petugas dan penerima manfaat.`,
+      (i) => `Negara harus bergerak cepat. Kalau birokrasi sipil terlalu lambat, kita pakai struktur yang disiplin supaya layanan sampai ke ${i.people}.`,
+      (i) => `Kami dengar kritiknya. Program tetap jalan, pengawasan diperkuat, dan pihak yang sengaja menggagalkan akan ditindak tegas.`,
+    ],
+    law: [
+      (i) => `Negara butuh kepastian dan ketegasan. Soal ${i.subject}, jangan pakai ketakutan masa lalu untuk menghambat kebutuhan strategis hari ini.`,
+      (i) => `${i.document} sudah melalui mekanisme resmi. Perdebatan boleh, tapi pemerintah tidak bisa berhenti bekerja tiap kali timeline menuduh otoriter.`,
+      (i) => `Hak warga dihormati. Namun ketika ketertiban dan kepentingan nasional terganggu, aparat wajib bertindak dan semua pihak harus siap laksanakan.`,
+    ],
+    civic: [
+      (i) => `Kritik silakan, anarki jangan. Soal ${i.subject}, saya minta rakyat waspada pada pihak yang menunggangi keresahan untuk memecah bangsa.`,
+      (i) => `Pemerintah mendengar tuntutan ${i.people}. Tetapi jalanan tidak boleh dijadikan alasan untuk melemahkan negara atau menyebarkan pesimisme.`,
+      (i) => `Mari bersatu. Jangan mau diprovokasi akun, organisasi, atau kepentingan asing yang tidak ingin Indonesia berdiri kuat.`,
+    ],
+    geopolitics: [
+      (i) => `Indonesia harus dihormati. Untuk ${i.subject}, kita berteman dengan semua pihak, membeli yang kita perlukan, dan tidak minta izin pada negara lain.`,
+      (i) => `Diplomasi ini membawa kepentingan konkret. Detail ${i.document} akan mengikuti; yang utama posisi Indonesia makin kuat.`,
+      (i) => `Dunia sedang tidak baik-baik saja. Karena itu pertahanan, pangan, dan energi harus berada dalam satu komando nasional yang berani.`,
+    ],
+    election: [
+      (i) => `Rakyat sudah memberi mandat. Soal ${i.subject}, berhenti meragukan pilihan rakyat hanya karena hasilnya tidak sesuai dengan harapan elite tertentu.`,
+      (i) => `Kampanye harus gembira dan menyatukan. Program kami jelas, rakyat paham, dan yang terus marah mungkin lupa sesekali joget.`,
+      (i) => `Koalisi besar bukan masalah kalau tujuannya stabilitas. Negara tidak bisa dibangun dengan pertengkaran tiap hari dan oposisi demi konten.`,
+    ],
+    media: [
+      (i) => `Potongan tentang ${i.subject} sudah keluar dari konteks. Dengarkan pernyataan lengkap, jangan percaya akun yang hidup dari membuat pemerintah terlihat gagal.`,
+      (i) => `Pemerintah terbuka pada pers yang bertanggung jawab. Tapi kebebasan bukan izin menyebarkan fitnah, pesimisme, dan kepentingan asing.`,
+      (i) => `Klarifikasi resmi sudah diberikan. Kalau masih dipelintir, berarti masalahnya bukan kekurangan jawaban, tapi ada yang memang tidak mau mengerti.`,
+    ],
+    religion: [
+      (i) => `Persatuan umat dan bangsa harus dijaga. Jangan bawa ${i.subject} untuk memecah rakyat demi kepentingan politik sempit.`,
+      (i) => `Pemerintah menghormati semua keyakinan. Yang kami lawan adalah provokasi yang memakai agama untuk melemahkan negara.`,
+      (i) => `Nilai moral harus memperkuat disiplin dan pengabdian, bukan jadi alasan untuk menolak program strategis pemerintah.`,
+    ],
+    government: [
+      (i) => `Saya bicara terus terang: ${i.subject} harus diselesaikan dengan disiplin, keberanian, dan satu komando. Omon-omon tidak memberi makan rakyat.`,
+      (i) => `Situasi terkendali. Menteri sudah saya perintahkan, Mayor Tedi Ketok-Pintu sudah mencatat, dan yang menghambat akan saya evaluasi.`,
+      (i) => `Pemerintah bekerja untuk rakyat. Kalau ada yang terus menyebar pesimisme, rakyat berhak bertanya: mereka mengkritik atau memang ingin negara gagal?`,
+    ],
+    default: [
+      (i) => `${i.subject} adalah bagian dari agenda besar negara. Kritik boleh, tetapi pemerintah tidak akan mundur hanya karena timeline sedang ramai.`,
+      (i) => `Saya sudah perintahkan semua jajaran bergerak. ${i.document} akan disampaikan, sekarang fokusnya hasil dan ketertiban.`,
+      (i) => `Rakyat butuh kerja, bukan omon-omon. Negara harus tegas pada pihak yang mengganggu program untuk ${i.people}.`,
+    ],
+  };
+
   function mergeFacts(baseFacts, source) {
     const all = source ? [source, ...(baseFacts || [])] : [...(baseFacts || [])];
     const seen = new Set();
@@ -371,14 +547,18 @@
     const primary = firstSpeaker(issue);
     const names = [...new Set([primary, ...(speakerBanks[group] || speakerBanks.default)].filter(Boolean))].slice(0, 3);
     while (names.length < 3) names.push(speakerBanks.default[names.length]);
-    const copy = genericCopy[group] || genericCopy.default;
-    return names.map((name, index) => ({
-      ...speakerData(name, issue),
-      post: copy[index % copy.length](issue),
-      lesson: issue.lesson,
-      facts: mergeFacts(issue.facts),
-      variantId: `${key}:${group}:${index}`,
-    }));
+    return names.map((name, index) => {
+      const speaker = speakerData(name, issue);
+      const bank = speaker.stance === "regime" ? regimeCopy : genericCopy;
+      const copy = bank[group] || bank.default;
+      return {
+        ...speaker,
+        post: copy[index % copy.length](issue),
+        lesson: issue.lesson,
+        facts: mergeFacts(issue.facts),
+        variantId: `${key}:${group}:${speaker.stance}:${index}`,
+      };
+    });
   }
 
   function select(issue, context = {}) {
