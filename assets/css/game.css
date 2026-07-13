@@ -914,6 +914,75 @@ a {
 .mode-option.active small {
   color: #332d16;
 }
+.game-mode-card {
+  align-items: flex-start;
+  border-color: var(--green);
+  background: #0f1914;
+}
+.game-mode-card > div:last-child {
+  width: min(100%, 590px);
+}
+.game-mode-card > div:first-child b {
+  color: var(--green);
+}
+.free-phase-picker {
+  margin-top: 10px;
+  border: 1px solid rgba(77, 225, 141, 0.45);
+  background: #090f0c;
+  padding: 10px;
+}
+.free-phase-picker > b {
+  color: var(--green);
+  font-size: 10px;
+  letter-spacing: 0.6px;
+}
+.free-phase-picker > small {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.4;
+}
+.free-phase-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 5px;
+  margin-top: 7px;
+}
+.free-phase-option {
+  border: 1px solid var(--line);
+  background: #080807;
+  color: var(--muted);
+  padding: 7px 4px;
+  cursor: pointer;
+  font-size: 9px;
+  text-align: center;
+}
+.free-phase-option span {
+  display: block;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 1000;
+}
+.free-phase-option.active {
+  border-color: var(--green);
+  color: #07120c;
+  background: var(--green);
+  box-shadow: 3px 3px 0 #000;
+}
+.free-phase-option.active span {
+  color: #07120c;
+}
+.free-mode-badge {
+  display: inline-block;
+  margin-bottom: 8px;
+  border: 1px solid var(--green);
+  color: var(--green);
+  padding: 4px 7px;
+  font-size: 9px;
+  font-weight: 1000;
+  letter-spacing: 0.7px;
+}
 .mode-toggle-btn {
   width: 100%;
   border: 2px solid var(--yellow);
@@ -1163,6 +1232,19 @@ a {
   color: var(--purple);
   font-size: 9px;
   text-transform: uppercase;
+}
+.cast-card .phase-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 7px;
+}
+.cast-card .phase-list span {
+  border: 1px solid var(--line);
+  color: var(--green);
+  padding: 2px 5px;
+  font-size: 8px;
+  font-weight: 900;
 }
 .comment-list {
   display: grid;
@@ -1862,6 +1944,19 @@ a {
 .deduction-toast{margin-top:10px;padding:10px;border:1px solid var(--line);font-size:11px;line-height:1.45}.deduction-toast.perfect{border-color:#8dffb4;background:rgba(141,255,180,.08)}.deduction-toast.partial{border-color:#f4d34a;background:rgba(244,211,74,.08)}.deduction-toast.miss{border-color:#ff7777;background:rgba(255,119,119,.08)}
 .power-twist{display:inline-block;margin-top:6px;padding:3px 7px;background:rgba(255,159,67,.1);border:1px solid rgba(255,159,67,.4);font:900 9px/1.2 monospace;color:#ffb86b}
 @media(max-width:720px){.crew-specialties span{font-size:8px}.issue-signal{font-size:9px}}
+
+@media (max-width: 760px) {
+  .game-mode-card {
+    display: block;
+  }
+  .game-mode-card > div:last-child {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .free-phase-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
 
 /* Repair release: visible fallback when modular JavaScript cannot boot. */
 .boot-error {

@@ -21,7 +21,7 @@ function testHtml({ expose = false } = {}) {
     assert.ok(game.includes(marker), "game test hook marker must exist");
     game = game.replace(
       marker,
-      '\n  window.__PN_TEST__ = { state, phases, specialEvents, eventChoices };\n})();\n\ndocument.documentElement.dataset.gameReady',
+      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries };\n})();\n\ndocument.documentElement.dataset.gameReady',
     );
   }
 
@@ -65,9 +65,64 @@ test("release references only files that are present", () => {
   required.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), `${file} is missing`));
   assert.doesNotMatch(indexSource, /<style(?:\s|>)/i, "CSS must not be embedded in index.html");
   assert.doesNotMatch(indexSource, /<script(?![^>]+src=)[^>]*>/i, "JavaScript must not be embedded in index.html");
-  assert.match(indexSource, /meta name="version" content="3\.8\.1"/);
+  assert.match(indexSource, /meta name="version" content="3\.9\.0"/);
   assert.match(gameSource, /SAVE_KEY = "perang-narasi-save-v3"/);
+  assert.match(gameSource, /Prof\. Konni BaksLaah/);
+  assert.match(gameSource, /Mas Nadim Makaroni/);
+  assert.doesNotMatch(gameSource, /Konni Bakso-Rie|Nadiem Makarim|\bNadiem\b/);
 });
+
+test("Tokoh catalogue includes every six-phase roster entry", async () => {
+  const { dom, errors } = createDom({ expose: true });
+  await tick(dom.window);
+  const api = dom.window.__PN_TEST__;
+  assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
+
+  for (const [role, group] of [["buzzer", "power"], ["aktivis", "activist"]]) {
+    const catalogue = new Set(api.castEntries(group).map((entry) => entry.name));
+    api.phaseRosters[role].flat().forEach((character) => {
+      assert.ok(catalogue.has(character.name), `${character.name} missing from ${group} catalogue`);
+    });
+  }
+  dom.window.close();
+});
+
+for (const [role, startMoney, jumpMoney] of [
+  ["buzzer", 12000000000, 28000000000],
+  ["aktivis", 650000000, 1600000000],
+]) {
+  test(`Mode Bebas starts and jumps phases for ${role}`, async () => {
+    const { dom, errors } = createDom({ expose: true });
+    const { window } = dom;
+    const { document } = window;
+    await tick(window);
+
+    document.querySelector("#freeModeBtn").click();
+    document.querySelector('[data-free-phase="3"]').click();
+    document.querySelector(`[data-role="${role}"]`).click();
+
+    let state = window.__PN_TEST__.state;
+    assert.equal(state.gameMode, "free");
+    assert.equal(state.phase, 3);
+    assert.equal(state.day, 1);
+    assert.equal(state.money, startMoney);
+    assert.equal(state.career, 36);
+    document.querySelector("#phaseStartBtn").click();
+    await tick(window);
+    assert.ok(!document.querySelector("#freeJumpBtn").classList.contains("hidden"));
+
+    document.querySelector("#freeJumpBtn").click();
+    document.querySelector('[data-jump-phase="5"]').click();
+    state = window.__PN_TEST__.state;
+    assert.equal(state.phase, 5);
+    assert.equal(state.day, 1);
+    assert.equal(state.money, jumpMoney);
+    assert.equal(state.career, 60);
+    assert.ok(document.querySelector("#phaseStartBtn"));
+    assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
+    dom.window.close();
+  });
+}
 
 test("modular build boots and starts a campaign", async () => {
   const { dom, errors } = createDom({ expose: true });

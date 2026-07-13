@@ -1,6 +1,6 @@
 /** Perang Narasi offline cache — SPDX-License-Identifier: GPL-3.0-or-later */
 
-const CACHE_NAME = "perang-narasi-v3.8.1";
+const CACHE_NAME = "perang-narasi-v3.9.0";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -62,4 +62,3 @@ self.addEventListener("fetch", (event) => {
     }),
   );
 });
-

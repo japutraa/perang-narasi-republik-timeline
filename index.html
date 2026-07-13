@@ -17,7 +17,7 @@
     <meta name="author" content="Adrian Janitra Putra" />
     <meta name="creator" content="Adrian Janitra Putra" />
     <meta name="application-name" content="Perang Narasi: Republik Timeline" />
-    <meta name="version" content="3.8.1" />
+    <meta name="version" content="3.9.0" />
     <meta name="theme-color" content="#0b0b0a" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="id_ID" />
@@ -54,7 +54,7 @@
         </div>
         <div>
           <div class="stamp">
-            BUILD 3.8.1 • 13 JULI 2026<br />Tokoh game adalah parodi-komposit • dialog dibuat absurd, bukan kutipan literal
+            BUILD 3.9.0 • 13 JULI 2026<br />Tokoh game adalah parodi-komposit • dialog dibuat absurd, bukan kutipan literal
           </div>
           <label class="switch" style="margin-top: 9px"
             ><input id="soundToggle" type="checkbox" checked /> bunyi kantor
@@ -121,6 +121,41 @@
               </div>
               <input id="quizStartToggle" type="checkbox" checked hidden />
             </div>
+            <div class="settings-card game-mode-card">
+              <div>
+                <b>Mode Permainan</b>
+                <p>
+                  Jalani kronik dari 2024 atau buka sandbox dan lompat ke fase
+                  politik mana saja.
+                </p>
+              </div>
+              <div>
+                <div class="mode-picker" aria-label="Pilihan mode permainan">
+                  <button
+                    type="button"
+                    class="mode-option active"
+                    id="chronicleModeBtn"
+                  >
+                    KRONIK<small>Mulai dari Fase 1 dan ikuti 72 bulan.</small>
+                  </button>
+                  <button type="button" class="mode-option" id="freeModeBtn">
+                    MODE BEBAS<small>Pilih fase awal dan lompat kapan saja.</small>
+                  </button>
+                </div>
+                <div id="freePhasePicker" class="free-phase-picker hidden">
+                  <b>PILIH FASE AWAL</b>
+                  <div class="free-phase-grid">
+                    <button type="button" class="free-phase-option active" data-free-phase="0"><span>01</span>2024</button>
+                    <button type="button" class="free-phase-option" data-free-phase="1"><span>02</span>2025</button>
+                    <button type="button" class="free-phase-option" data-free-phase="2"><span>03</span>2026</button>
+                    <button type="button" class="free-phase-option" data-free-phase="3"><span>04</span>2027</button>
+                    <button type="button" class="free-phase-option" data-free-phase="4"><span>05</span>2028</button>
+                    <button type="button" class="free-phase-option" data-free-phase="5"><span>06</span>2029</button>
+                  </div>
+                  <small>Mode Bebas memakai kondisi sandbox yang disesuaikan dengan fase pilihan.</small>
+                </div>
+              </div>
+            </div>
             <div id="continuePanel" class="continue-panel hidden">
               <div>
                 <b>LANJUTKAN KRONIK</b
@@ -170,7 +205,7 @@
               hanya ingin semuanya marah lebih lama.”
             </blockquote>
             <small
-              >Versi 3.8.1 • Strategic Events • Delayed Consequences • Autosave<br /><span
+              >Versi 3.9.0 • Free Mode • Strategic Events • Delayed Consequences<br /><span
                 class="author-credit"
                 >GNU GPL v3 • Game by
                 <a
@@ -247,6 +282,7 @@
               ><button id="glossaryBtn" class="btn secondary">Kamus</button
               ><button id="careerBtn" class="btn secondary">Karier</button
               ><button id="castBtn" class="btn secondary">Tokoh</button
+              ><button id="freeJumpBtn" class="btn secondary hidden">Lompat Fase</button
               ><button id="saveBtn" class="btn secondary">Simpan</button
               ><button id="resetBtn" class="btn secondary">Menu Utama</button>
             </div>

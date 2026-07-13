@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Strategic Consequences Edition — v3.8.1**  
+> **Free Mode & Parody Cast Edition — v3.9.0**  
 > Game satire politik Indonesia tentang kekuasaan, buzzer, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.8.1-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.9.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -22,8 +22,11 @@ Pemain memilih salah satu dari dua jalur:
 
 Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024 sampai Pemilu 2029. Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya ditandai jelas sebagai **fiksi prediktif**, bukan ramalan atau klaim faktual.
 
-## Fitur v3.8.1
+## Fitur v3.9.0
 
+- Mode **Kronik** untuk campaign penuh dan **Mode Bebas** untuk mulai atau lompat ke fase 2024–2029 mana saja.
+- Daftar Tokoh yang disinkronkan otomatis dari seluruh roster enam fase, lengkap dengan penanda fase kemunculan.
+- Nama karakter dipoles menjadi plesetan yang lebih jelas fiktif—termasuk **Prof. Konni BaksLaah** dan **Mas Nadim Makaroni**—tanpa mengubah atribusi di Arsip Fakta.
 - 72 skenario bulanan dalam enam fase politik.
 - 41 strategic events untuk masing-masing kubu.
 - Empat strategi per event: **328 pilihan** di seluruh kombinasi event dan kubu.
@@ -75,7 +78,7 @@ npm ci
 npm test
 ```
 
-Test memeriksa sintaks JavaScript, kelengkapan file modular, 41 event × 2 kubu × 4 pilihan, dua cabang konsekuensi untuk setiap pilihan, kompatibilitas save v3, dan simulasi campaign penuh untuk kedua kubu.
+Test memeriksa sintaks JavaScript, kelengkapan file modular, sinkronisasi roster Tokoh, Mode Bebas untuk kedua kubu, 41 event × 2 kubu × 4 pilihan, dua cabang konsekuensi untuk setiap pilihan, kompatibilitas save v3, dan simulasi campaign penuh untuk kedua kubu.
 
 ## Deploy ke GitHub Pages
 
@@ -107,4 +110,3 @@ Save memakai key `perang-narasi-save-v3` pada `localStorage`. Tidak ada akun, se
 Copyright © 2026 Adrian Janitra Putra.
 
 Kode dirilis di bawah [GNU General Public License v3.0 or later](LICENSE).
-

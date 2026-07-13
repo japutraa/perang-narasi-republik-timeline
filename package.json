@@ -1,6 +1,6 @@
 {
   "name": "perang-narasi-republik-timeline",
-  "version": "3.8.1",
+  "version": "3.9.0",
   "private": true,
   "description": "Game satire politik Indonesia berbasis browser karya Adrian Janitra Putra.",
   "type": "module",
@@ -17,4 +17,3 @@
     "node": ">=20"
   }
 }
-
