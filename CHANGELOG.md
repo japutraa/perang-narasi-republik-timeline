@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.7.1 — Balanced Monthly Crew Edition
+
+- Membatasi lineup aktif menjadi tepat **tiga kartu karakter per bulan** untuk Buzzer dan Aktivis.
+- Menyamakan jumlah kartu yang terlihat pada kedua kubu agar satu jalur tidak lagi membuat halaman jauh lebih panjang.
+- Merotasi karakter di seluruh fase dan bulan berdasarkan tema isu, kelemahan action, periode kemunculan, serta pemerataan frekuensi tampil.
+- Mengubah pembuka fase agar hanya memperkenalkan lineup bulan pertama, bukan menumpuk seluruh roster tahunan sekaligus.
+- Menambahkan penanda bulan, jumlah kartu aktif, dan informasi rotasi langsung pada panel Tim & Mentor.
+- Menjaga seluruh karakter, ability, context combo, dan save versi 3.x tetap kompatibel.
+
 ## 3.7.0 — Deduction Crew & Power Broker Edition
 
 - Menambahkan mekanik **Sinyal Isu**: pemain membaca tema episode lalu memilih Tim, Mentor, Wildcard, atau Power Card yang paling cocok.

@@ -5,7 +5,7 @@
 **Game satire politik Indonesia tentang kekuasaan, propaganda, aktivisme, dan perebutan perhatian publik.**
 
 [![Play in Browser](https://img.shields.io/badge/PLAY-IN_BROWSER-111111?style=for-the-badge)](https://japutraa.github.io/perang-narasi-republik-timeline/)
-[![Release](https://img.shields.io/badge/release-v3.7.0-555555?style=for-the-badge)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-v3.7.1-555555?style=for-the-badge)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![License: GPL v3](https://img.shields.io/badge/license-GPLv3-777777?style=for-the-badge)](LICENSE)
 
 **Created by [Adrian Janitra Putra](https://github.com/japutraa)**
@@ -48,6 +48,7 @@ Pilihan pemain disimpan secara lokal di browser dan dapat dilanjutkan melalui fi
 - **Dua jalur karier** dengan strategi, sumber daya, dan risiko berbeda.
 - **Campaign enam fase** dengan puluhan episode dan special event.
 - **Action cards kontekstual** yang menyesuaikan isu, fase, posisi pemain, dan karakter yang dipilih. Perfect Match membuka follow-up card khusus serta reward tambahan.
+- **Lineup karakter bulanan yang seimbang**: kedua kubu selalu mendapat tiga kartu aktif, dirotasi sepanjang 72 bulan berdasarkan tema isu dan konteks fase.
 - **Tim & Mentor** dengan kemampuan khusus sekali pakai pada setiap fase. Pemain harus membaca sinyal isu dan memilih tokoh yang paling relevan untuk membuka combo kontekstual.
 - **Ekonomi politik progresif**, termasuk biaya operasi, patronase, donasi, kredit, bunga, bailout, dan risiko bangkrut.
 - **Simulasi engagement** berupa views, likes, reposts, dan komentar.
