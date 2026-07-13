@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Roster Lengkap & Rotasi Antibosen — v3.13.0**  
+> **Hashtag Aman & Metadata Rapi — v3.13.1**  
 > Game satire politik Indonesia tentang kekuasaan, buzzer, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.13.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.13.1-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -22,7 +22,11 @@ Pemain memilih salah satu dari dua jalur:
 
 Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024 sampai Pemilu 2029. Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya berada dalam **Timeline Alternatif**, bukan ramalan atau klaim faktual.
 
-## Fitur v3.13.0
+## Fitur v3.13.1
+
+- Semua judul hashtag panjang kini mendapat titik bungkus alami di batas CamelCase plus fallback `overflow-wrap`, termasuk **#DanantaraPunyaNegaraAtauNegaraPunyaDanantara**.
+- Metadata post dipisah menjadi chip **TIMELINE 3/3** dan **RUN 0608**, sehingga tidak lagi menempel pada hashtag.
+- Label **Timeline Alternatif** disembunyikan dari header post, intro fase, dan layar pembuka; batas fakta dan satire tetap dijelaskan di Arsip Fakta.
 
 - Nama sekretaris kabinet kini konsisten sebagai **Mayor Tedi Ketok-Pintu** di roster, event, timeline, dan katalog Tokoh.
 - Setiap pool fase untuk kedua kubu sekarang berisi minimal sembilan tokoh. Seluruhnya tetap wajib muncul sebelum fase berakhir.

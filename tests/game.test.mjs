@@ -25,7 +25,7 @@ function testHtml({ expose = false } = {}) {
     assert.ok(game.includes(marker), "game test hook marker must exist");
     game = game.replace(
       marker,
-      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries, monthlyRosterSchedule, monthlyRosterFor, voicePostHtml };\n})();\n\ndocument.documentElement.dataset.gameReady',
+      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries, monthlyRosterSchedule, monthlyRosterFor, voicePostHtml, hashtagHtml };\n})();\n\ndocument.documentElement.dataset.gameReady',
     );
   }
 
@@ -75,7 +75,7 @@ test("release references only files that are present", () => {
   required.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), `${file} is missing`));
   assert.doesNotMatch(indexSource, /<style(?:\s|>)/i, "CSS must not be embedded in index.html");
   assert.doesNotMatch(indexSource, /<script(?![^>]+src=)[^>]*>/i, "JavaScript must not be embedded in index.html");
-  assert.match(indexSource, /meta name="version" content="3\.13\.0"/);
+  assert.match(indexSource, /meta name="version" content="3\.13\.1"/);
   assert.match(gameSource, /SAVE_KEY = "perang-narasi-save-v3"/);
   assert.match(gameSource, /Prof\. Konni BaksLaah/);
   assert.match(gameSource, /Mas Nadim Makaroni/);
@@ -89,6 +89,9 @@ test("release references only files that are present", () => {
   assert.match(endingSource, /SULTAN INVOICE, FAKIR NURANI/);
   assert.doesNotMatch(gameSource, /CATATAN ADMIN AKTIVIS|editorial-cut/);
   assert.doesNotMatch(cssSource, /editorial-cut/);
+  assert.doesNotMatch(cssSource, /\.future-label/);
+  assert.match(cssSource, /\.feed-head h2\s*\{[\s\S]*?min-width:\s*0;/);
+  assert.match(cssSource, /\.issue-hashtag\s*\{[\s\S]*?overflow-wrap:\s*anywhere;/);
 });
 
 function displayText(value, seen = new Set()) {
@@ -187,9 +190,11 @@ for (const [role, startMoney, jumpMoney] of [
     assert.equal(state.day, 1);
     assert.equal(state.money, startMoney);
     assert.equal(state.career, 36);
+    assert.doesNotMatch(document.querySelector("#modalContent").textContent, /TIMELINE ALTERNATIF/);
     document.querySelector("#phaseStartBtn").click();
     await tick(window);
     assert.ok(!document.querySelector("#freeJumpBtn").classList.contains("hidden"));
+    assert.doesNotMatch(document.querySelector("#issueTitle").textContent, /TIMELINE ALTERNATIF/);
 
     document.querySelector("#freeJumpBtn").click();
     document.querySelector('[data-jump-phase="5"]').click();
@@ -199,6 +204,7 @@ for (const [role, startMoney, jumpMoney] of [
     assert.equal(state.money, jumpMoney);
     assert.equal(state.career, 60);
     assert.ok(document.querySelector("#phaseStartBtn"));
+    assert.doesNotMatch(document.querySelector("#modalContent").textContent, /TIMELINE ALTERNATIF/);
     assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
     dom.window.close();
   });
@@ -218,7 +224,14 @@ test("modular build boots and starts a campaign", async () => {
   assert.ok(document.querySelector("#startScreen").classList.contains("hidden"));
   assert.ok(!document.querySelector("#gameScreen").classList.contains("hidden"));
   assert.ok(document.querySelectorAll("#cards .action-card").length > 0);
-  assert.match(document.querySelector("#issueTitle").textContent, /TIMELINE \d\/\d • RUN \d{4}/);
+  const issueTitle = document.querySelector("#issueTitle");
+  assert.match(issueTitle.textContent, /TIMELINE \d\/\d • RUN \d{4}/);
+  assert.ok(issueTitle.querySelector(".timeline-meta"));
+  assert.ok(issueTitle.querySelector(".variant-chip"));
+  assert.ok(issueTitle.querySelector(".run-chip"));
+  assert.ok(issueTitle.querySelector(".issue-hashtag"));
+  assert.ok(issueTitle.querySelector(".issue-hashtag wbr"));
+  assert.doesNotMatch(issueTitle.textContent, /TIMELINE ALTERNATIF/);
   assert.doesNotMatch(document.querySelector("#npcName").textContent, /\s(?:&|vs\.?|dan)\s|,/);
   assert.ok(dom.window.localStorage.getItem("perang-narasi-save-v3"));
   dom.window.close();
@@ -270,7 +283,7 @@ test("every month has seeded single-speaker timeline variants", async () => {
   const { dom, errors } = createDom({ expose: true });
   await tick(dom.window);
   assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
-  const { phases } = dom.window.__PN_TEST__;
+  const { phases, hashtagHtml } = dom.window.__PN_TEST__;
   const pack = dom.window.PNTimelineVariants;
   let total = 0;
   let changedBetweenRuns = 0;
@@ -291,6 +304,15 @@ test("every month has seeded single-speaker timeline variants", async () => {
 
   assert.ok(total >= 216, `${total} variants configured`);
   assert.ok(changedBetweenRuns >= 24, `${changedBetweenRuns} months should differ between two runs`);
+  const longHashtags = phases.flatMap((phase) => phase.days.map((issue) => issue.title)).filter((title) => title.length >= 28);
+  assert.ok(longHashtags.includes("#DanantaraPunyaNegaraAtauNegaraPunyaDanantara"));
+  longHashtags.forEach((title) => {
+    const rendered = hashtagHtml(title);
+    const probe = dom.window.document.createElement("span");
+    probe.innerHTML = rendered;
+    assert.equal(probe.textContent, title, `${title} must preserve its copyable text`);
+    if (/[a-z0-9][A-Z]/.test(title)) assert.ok(probe.querySelector("wbr"), `${title} needs safe breakpoints`);
+  });
   const podcastVariants = pack.build(phases[4].days[0], { phaseIndex: 4, dayIndex: 0 });
   assert.equal(
     podcastVariants.map((variant) => variant.npc).join(" | "),

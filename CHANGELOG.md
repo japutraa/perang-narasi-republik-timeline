@@ -2,6 +2,13 @@
 
 Semua perubahan penting pada proyek ini dicatat di sini.
 
+## 3.13.1 — 2026-07-13
+
+- Memperbaiki overflow seluruh hashtag panjang dengan elemen judul khusus, titik putus CamelCase, `min-width: 0`, dan fallback `overflow-wrap: anywhere`.
+- Merapikan metadata run menjadi chip terpisah untuk nomor varian timeline dan kode campaign.
+- Menyembunyikan label **Timeline Alternatif** dari header post, intro fase, serta layar pembuka tanpa mengubah pemisahan internal antara arsip faktual dan skenario satire.
+- Menambah regresi untuk hashtag panjang, teks hashtag yang tetap dapat disalin utuh, struktur metadata, CSS anti-overflow, dan ketiadaan label alternatif pada UI aktif.
+
 ## 3.13.0 — 2026-07-13
 
 - Menyatukan seluruh alias Tedi lama menjadi **Mayor Tedi Ketok-Pintu**, termasuk katalog Tokoh, special event, dan data roster.

@@ -1,5 +1,5 @@
 /**
- * Perang Narasi: Republik Timeline v3.13.0
+ * Perang Narasi: Republik Timeline v3.13.1
  * Copyright (C) 2026 Adrian Janitra Putra
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -4380,7 +4380,7 @@
       title: "Masa Tenang Berisik",
       actor: "Bot-Setyo Generasi Tiga",
       text: "Iklan resmi berhenti; akun anonim, grup keluarga, dan pesan terjadwal mulai lembur.",
-      fact: "Skenario satir tentang pemilu digital di Timeline Alternatif.",
+      fact: "Skenario satir tentang pemilu digital setelah batas arsip faktual.",
       sourceKey: "future",
       choices: {
         buzzer: [
@@ -4932,7 +4932,7 @@
       "Ada spreadsheet baru beredar, nama filenya FINAL_revisi_baru_beneran.xlsx.",
     ],
     [
-      "Timeline alternatif baru mulai, konsultan sudah mengirim invoice nyata.",
+      "Skenario baru mulai, konsultan sudah mengirim invoice nyata.",
       "Akun investasi negara dan akun cuaca mulai saling reply. Aku tidak tenang.",
     ],
     [
@@ -6254,7 +6254,7 @@
       },
       aktivis: {
         transparency: [
-          "Pasang Penanda Timeline Alternatif",
+          "Pasang Penanda Batas Arsip",
           "Buat satire tetap jujur tentang batas pengetahuan.",
         ],
       },
@@ -8216,11 +8216,14 @@
   function showPhaseIntro(first = false) {
     const p = currentPhase(),
       roster = currentRoster();
+    const phaseMeta = /^ARSIP POLITIK/i.test(p.status)
+      ? `${p.period} • ${p.status}`
+      : p.period;
     state.abilityBuffs = (state.abilityBuffs || []).filter(
       (b) => b.phase === state.phase,
     );
     $("#modalContent").innerHTML =
-      `${state.gameMode === "free" ? '<span class="free-mode-badge">MODE BEBAS • FASE DAPAT DIGANTI KAPAN SAJA</span>' : ""}<h2>FASE ${state.phase + 1}/6<br>${p.name}</h2><span class="quiz-kicker">${p.period} • ${p.status}</span><div class="career-line"><b>${state.role === "buzzer" ? p.bRank : p.aRank}</b><p>${first ? state.gameMode === "free" ? "Sandbox dimulai langsung di fase pilihanmu. Dana, statistik, dan karier awal sudah disesuaikan agar ekonomi fase ini tetap bisa dimainkan." : "Kariermu dimulai. Setiap bulan kedua kubu mendapat tiga kartu karakter aktif yang disusun menurut tema timeline." : "Tahun baru, rotasi baru. Tiga tokoh aktif akan berganti tiap bulan agar semua fase tetap ringkas dan setiap kemunculan punya konteks."}</p></div><div class="roster-balance-note">LINEUP PEMBUKA ${currentIssue().month} • 3 KARTU PER KUBU • ROTASI BULANAN</div><div class="crew-intro-grid">${roster.map((c, idx) => `<div class="crew-intro-card ${c.role.includes("WILDCARD") ? "wildcard-intro" : ""}"><span class="roster-role">${c.role.includes("WILDCARD") ? "WILDCARD BULAN" : c.role.includes("POWER CARD") ? "POWER CARD BULAN" : idx === 0 ? "LEAD CREW BULAN" : "CREW BULAN"} • ${c.role}</span><b>${c.icon} ${c.name}</b><small>${c.bio}</small><div class="ability-name">⚡ ${c.ability.name}</div><small>${c.ability.desc}</small></div>`).join("")}</div><div class="lesson"><b>MEKANIK DEDUKSI CREW:</b> baca sinyal isu bulan aktif, lalu pilih tokoh yang spesialisasinya paling nyambung. Match sempurna membuka follow-up card eksklusif dan reward ekstra; salah studio tetap menghabiskan ability serta mengundang roasting nasional.</div><p style="font-size:12px;color:var(--muted)">Tokoh plesetan adalah karakter komposit. Ability adalah mekanik fiksi satir, bukan klaim mengenai tindakan nyata figur yang menjadi inspirasi.</p><button class="btn" id="phaseStartBtn">Masuk Timeline</button>`;
+      `${state.gameMode === "free" ? '<span class="free-mode-badge">MODE BEBAS • FASE DAPAT DIGANTI KAPAN SAJA</span>' : ""}<h2>FASE ${state.phase + 1}/6<br>${p.name}</h2><span class="quiz-kicker">${phaseMeta}</span><div class="career-line"><b>${state.role === "buzzer" ? p.bRank : p.aRank}</b><p>${first ? state.gameMode === "free" ? "Sandbox dimulai langsung di fase pilihanmu. Dana, statistik, dan karier awal sudah disesuaikan agar ekonomi fase ini tetap bisa dimainkan." : "Kariermu dimulai. Setiap bulan kedua kubu mendapat tiga kartu karakter aktif yang disusun menurut tema timeline." : "Tahun baru, rotasi baru. Tiga tokoh aktif akan berganti tiap bulan agar semua fase tetap ringkas dan setiap kemunculan punya konteks."}</p></div><div class="roster-balance-note">LINEUP PEMBUKA ${currentIssue().month} • 3 KARTU PER KUBU • ROTASI BULANAN</div><div class="crew-intro-grid">${roster.map((c, idx) => `<div class="crew-intro-card ${c.role.includes("WILDCARD") ? "wildcard-intro" : ""}"><span class="roster-role">${c.role.includes("WILDCARD") ? "WILDCARD BULAN" : c.role.includes("POWER CARD") ? "POWER CARD BULAN" : idx === 0 ? "LEAD CREW BULAN" : "CREW BULAN"} • ${c.role}</span><b>${c.icon} ${c.name}</b><small>${c.bio}</small><div class="ability-name">⚡ ${c.ability.name}</div><small>${c.ability.desc}</small></div>`).join("")}</div><div class="lesson"><b>MEKANIK DEDUKSI CREW:</b> baca sinyal isu bulan aktif, lalu pilih tokoh yang spesialisasinya paling nyambung. Match sempurna membuka follow-up card eksklusif dan reward ekstra; salah studio tetap menghabiskan ability serta mengundang roasting nasional.</div><p style="font-size:12px;color:var(--muted)">Tokoh plesetan adalah karakter komposit. Ability adalah mekanik fiksi satir, bukan klaim mengenai tindakan nyata figur yang menjadi inspirasi.</p><button class="btn" id="phaseStartBtn">Masuk Timeline</button>`;
     $("#modal").classList.remove("hidden");
     $("#phaseStartBtn").onclick = () => {
       $("#modal").classList.add("hidden");
@@ -8261,8 +8264,14 @@
     } else {
       state.currentRippleNotices = [];
     }
+    const variantIndex = Number(i._variantIndex || 0) + 1;
+    const variantCount = Number(i._variantCount || 1);
+    const runCode = String(state.runSeed || 0).slice(-4).padStart(4, "0");
+    const archiveLabel = /^ARSIP POLITIK/i.test(i.status)
+      ? `<span class="archive-label">${escapeHtml(i.status)}</span> `
+      : "";
     $("#issueTitle").innerHTML =
-      `<span class="future-label">${i.status}</span><span class="variant-chip" title="Campaign baru dapat memilih post lain untuk bulan yang sama">TIMELINE ${Number(i._variantIndex || 0) + 1}/${i._variantCount || 1} • RUN ${String(state.runSeed || 0).slice(-4).padStart(4, "0")}</span>${i.title}`;
+      `<span class="timeline-meta">${archiveLabel}<span class="variant-chip" title="Campaign baru dapat memilih post lain untuk bulan yang sama">TIMELINE <b>${variantIndex}/${variantCount}</b></span> <span class="timeline-divider" aria-hidden="true">•</span> <span class="run-chip" title="Kode run campaign aktif">RUN <b>${runCode}</b></span></span><span class="issue-hashtag">${hashtagHtml(i.title)}</span>`;
     $("#npcAvatar").textContent = i.avatar;
     $("#npcName").textContent = i.npc;
     $("#npcHandle").textContent = i.handle;
@@ -8485,6 +8494,9 @@
   function issueHook(i) {
     return i.title.replace(/^#/, "").replace(/([a-z])([A-Z])/g, "$1 $2");
   }
+  function hashtagHtml(value) {
+    return escapeHtml(String(value || "")).replace(/([a-z0-9])([A-Z])/g, "$1<wbr>$2");
+  }
   function topicJoke(i, persona) {
     const key = i.key;
     const bank = {
@@ -8495,7 +8507,7 @@
       publicfigures:{bapak:"Follower banyak belum tentu bisa benerin pompa air, apalagi negara.",genz:"paid partnership-nya invisible, sinematografinya 4K.",emak:"Artisnya senyum, saya tetap antre gas.",buzzerMagang:"Disclosure kecil ya, nanti brand-nya takut.",warung:"Yang endorse banyak, yang baca aturan satu orang juga belum tentu."},
       diplomacy:{bapak:"Paspor penuh, oleh-oleh kebijakan belum keluar bagasi.",genz:"soft power slay, domestic payoff mana bestie.",ojol:"Presiden terbang terus, saya muter komplek aja bensin mikir.",asn:"Nota diplomatik ada. Nota hasil konkret sedang proses paraf."},
       disaster:{bapak:"Air naik, pejabat turun cuma buat foto.",genz:"disaster response-nya buffering tapi drone shot 4K.",emak:"Saya butuh listrik dan air bersih, bukan caption tabah.",ojol:"Jalan putus, order tetap masuk. Aplikasi lebih optimis dari BNPB."},
-      future:{bapak:"Ramalan politik kayak cuaca: payungnya dijual konsultan.",genz:"timeline alternatif, invoice-nya canon.",emak:"Tahun depan belum datang, tagihannya sudah salam kenal.",warung:"Belum kejadian, tim sukses sudah pesan spanduk."}
+      future:{bapak:"Ramalan politik kayak cuaca: payungnya dijual konsultan.",genz:"skenarionya belum canon, invoice-nya sudah.",emak:"Tahun depan belum datang, tagihannya sudah salam kenal.",warung:"Belum kejadian, tim sukses sudah pesan spanduk."}
     };
     return bank[key]?.[persona] || {
       bapak:"Ini kayak istri nanya uang belanja, bapak jawab klasemen bola.",

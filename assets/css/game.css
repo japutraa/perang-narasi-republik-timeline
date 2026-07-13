@@ -412,11 +412,20 @@ a {
   background: #10100f;
 }
 .feed-head h2 {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
   margin: 0;
   font-size: 21px;
+  line-height: 1.12;
   text-transform: uppercase;
 }
 .live {
+  flex: 0 0 auto;
+  white-space: nowrap;
   color: var(--red);
   font-weight: 1000;
   font-size: 12px;
@@ -1441,6 +1450,26 @@ a {
   .brand h1 {
     letter-spacing: -2px;
   }
+  .feed-head {
+    align-items: flex-start;
+  }
+  .feed-head h2 {
+    gap: 6px;
+    font-size: 18px;
+  }
+  .live {
+    margin-top: 2px;
+    font-size: 9px;
+  }
+  .timeline-meta {
+    gap: 4px;
+  }
+  .archive-label,
+  .variant-chip,
+  .run-chip {
+    padding: 4px 6px;
+    font-size: 8px;
+  }
 }
 
 .continue-panel {
@@ -1472,25 +1501,62 @@ a {
   font-size: 12px;
   margin: 4px 0 8px;
 }
-.future-label {
+.timeline-meta {
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  line-height: 1;
+}
+.archive-label {
   display: inline-block;
-  border: 1px solid var(--purple);
-  color: var(--purple);
-  padding: 3px 6px;
+  border: 1px solid rgba(105, 186, 255, 0.65);
+  color: var(--blue);
+  background: rgba(105, 186, 255, 0.07);
+  padding: 4px 7px;
   font-size: 9px;
   font-weight: 1000;
-  margin-right: 7px;
+  line-height: 1;
 }
 .variant-chip {
   display: inline-block;
-  margin: 0 7px 7px 0;
-  padding: 4px 7px;
-  border: 1px dashed var(--purple);
-  background: rgba(189, 137, 255, .08);
-  color: var(--purple);
-  font: 900 9px/1.1 monospace;
-  letter-spacing: .04em;
+  margin: 0;
+  padding: 5px 7px;
+  border: 1px solid rgba(255, 212, 77, 0.7);
+  background: rgba(255, 212, 77, 0.08);
+  color: var(--yellow);
+  font: 800 8px/1 var(--font);
+  letter-spacing: 0.08em;
   vertical-align: middle;
+}
+.variant-chip b,
+.run-chip b {
+  font-size: 10px;
+  letter-spacing: 0;
+}
+.timeline-divider {
+  color: var(--muted);
+  font: 900 10px/1 var(--font);
+}
+.run-chip {
+  display: inline-block;
+  padding: 5px 7px;
+  border: 1px solid rgba(189, 137, 255, 0.65);
+  background: rgba(189, 137, 255, 0.08);
+  color: var(--purple);
+  font: 800 8px/1 var(--font);
+  letter-spacing: 0.08em;
+}
+.issue-hashtag {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-wrap: balance;
+  text-transform: none;
 }
 .voice-chip {
   display: inline-flex;
