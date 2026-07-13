@@ -1521,20 +1521,6 @@ a {
     serif;
   color: rgba(255, 255, 255, 0.16);
 }
-.editorial-cut {
-  margin: 8px 0 0;
-  border: 1px dashed var(--yellow);
-  border-left: 4px solid var(--yellow);
-  padding: 8px 10px;
-  background: rgba(244, 211, 74, 0.07);
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.45;
-}
-.editorial-cut b {
-  color: var(--yellow);
-  letter-spacing: 0.4px;
-}
 .voice-command {
   border-color: var(--red);
   font-weight: 800;

@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Kronologi Rezim & Roster Tanpa Skip — v3.12.0**  
+> **Roster Lengkap & Rotasi Antibosen — v3.13.0**  
 > Game satire politik Indonesia tentang kekuasaan, buzzer, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.12.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.13.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -22,14 +22,17 @@ Pemain memilih salah satu dari dua jalur:
 
 Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024 sampai Pemilu 2029. Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya berada dalam **Timeline Alternatif**, bukan ramalan atau klaim faktual.
 
-## Fitur v3.12.0
+## Fitur v3.13.0
 
+- Nama sekretaris kabinet kini konsisten sebagai **Mayor Tedi Ketok-Pintu** di roster, event, timeline, dan katalog Tokoh.
+- Setiap pool fase untuk kedua kubu sekarang berisi minimal sembilan tokoh. Seluruhnya tetap wajib muncul sebelum fase berakhir.
+- Scheduler roster melarang tokoh yang sama muncul dua bulan berturut-turut, mengutamakan jeda dua bulan penuh, dan membatasi satu tokoh maksimal lima bulan per fase.
+- Catatan editorial tambahan seperti **Catatan Admin Aktivis** dihapus agar post utama lebih bersih dan suara tokohnya tidak ditimpa penjelasan yang tidak penting.
 - Semua nama politik yang tampil memakai alias parodi. Arsip fakta tetap menyimpan tautan sumber, tetapi kartu game tidak membocorkan nama asli.
 - Persona Pak Jenderal Gemoyono mengikuti waktu: kampanye 2024 memakai joget dan citra gemoy; setelah pelantikan, suaranya berubah menjadi pidato komando, ketertiban, omon-omon, dan musuh bersama.
 - Kronologi faktual dikunci sampai Juli 2026. Agustus 2026–2029 tetap berstatus Timeline Alternatif.
 - Militerisasi menjadi tema utama: sekretaris kabinet perwira aktif, program sipil dalam rantai komando, revisi UU TNI, pelabelan agen asing, serta pengadaan pertahanan dibahas lewat posisi rezim dan kritik aktivis yang terpisah.
 - Seluruh tokoh roster wajib mendapat giliran dalam fase masing-masing sebelum rotasi mengulang; relevansi isu menentukan urutan, bukan menghapus kartu.
-- Kritik editorial kini tampil sebagai **Catatan Admin Aktivis**, terpisah dari ucapan akun utama agar tokoh rezim tidak terdengar mengkritik dirinya sendiri.
 - `Yanuar Risky Banget` diganti menjadi **Risky Februari**.
 - Mode **Kronik** untuk campaign penuh dan **Mode Bebas** untuk mulai atau lompat ke fase 2024–2029 mana saja.
 - Setiap bulan memiliki minimal tiga alternatif post utama: **216+ varian timeline** untuk 72 bulan.

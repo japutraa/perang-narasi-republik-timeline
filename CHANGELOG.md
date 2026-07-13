@@ -2,6 +2,15 @@
 
 Semua perubahan penting pada proyek ini dicatat di sini.
 
+## 3.13.0 — 2026-07-13
+
+- Menyatukan seluruh alias Tedi lama menjadi **Mayor Tedi Ketok-Pintu**, termasuk katalog Tokoh, special event, dan data roster.
+- Melengkapi setiap roster fase menjadi minimal sembilan tokoh agar rotasi tiga kartu per bulan punya cukup wajah untuk berganti.
+- Menambahkan cooldown keras: tokoh yang tampil bulan ini tidak boleh masuk lineup bulan berikutnya. Scheduler tetap mengutamakan jeda dua bulan penuh dan menjaga batas maksimal lima kemunculan per fase.
+- Mempertahankan jaminan coverage: semua tokoh di roster enam fase tetap muncul setidaknya sekali sebelum fasenya selesai.
+- Menghapus blok **Catatan Admin Aktivis** beserta CSS-nya agar post timeline lebih natural dan tidak ditumpuk hint editorial yang tidak perlu.
+- Menambah uji regresi untuk nama Tedi, pool roster minimum, ID duplikat, cooldown antarbulan, batas frekuensi, coverage, dan penghapusan catatan editorial.
+
 ## 3.12.0 — 2026-07-13
 
 - Mengaudit seluruh data yang tampil dan mengganti nama politik asli dengan alias parodi, termasuk kartu fakta, special event, roster, katalog, dan varian timeline.

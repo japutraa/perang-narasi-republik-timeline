@@ -12,6 +12,7 @@ const netizenSource = fs.readFileSync(path.join(root, "assets/js/netizen-pack.js
 const timelineVariantsSource = fs.readFileSync(path.join(root, "assets/js/timeline-variants.js"), "utf8");
 const endingSource = fs.readFileSync(path.join(root, "assets/js/ending-system.js"), "utf8");
 const gameSource = fs.readFileSync(path.join(root, "assets/js/game.js"), "utf8");
+const cssSource = fs.readFileSync(path.join(root, "assets/css/game.css"), "utf8");
 
 function inlineScript(source) {
   return `<script>${source.replaceAll("</script", "<\\\\/script")}</script>`;
@@ -74,7 +75,7 @@ test("release references only files that are present", () => {
   required.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), `${file} is missing`));
   assert.doesNotMatch(indexSource, /<style(?:\s|>)/i, "CSS must not be embedded in index.html");
   assert.doesNotMatch(indexSource, /<script(?![^>]+src=)[^>]*>/i, "JavaScript must not be embedded in index.html");
-  assert.match(indexSource, /meta name="version" content="3\.12\.0"/);
+  assert.match(indexSource, /meta name="version" content="3\.13\.0"/);
   assert.match(gameSource, /SAVE_KEY = "perang-narasi-save-v3"/);
   assert.match(gameSource, /Prof\. Konni BaksLaah/);
   assert.match(gameSource, /Mas Nadim Makaroni/);
@@ -86,6 +87,8 @@ test("release references only files that are present", () => {
   assert.match(timelineVariantsSource, /Satuan Penjilat Pak Gemoyono–Mas Samsul/);
   assert.match(timelineVariantsSource, /fufufafa-memorable-quotes/);
   assert.match(endingSource, /SULTAN INVOICE, FAKIR NURANI/);
+  assert.doesNotMatch(gameSource, /CATATAN ADMIN AKTIVIS|editorial-cut/);
+  assert.doesNotMatch(cssSource, /editorial-cut/);
 });
 
 function displayText(value, seen = new Set()) {
@@ -117,6 +120,7 @@ test("all displayed political figures use parody aliases", async () => {
   assert.equal(leakedName, null, `real political name leaked into display: ${leakedName?.[0]}`);
   assert.match(renderedData, /Risky Februari/);
   assert.match(renderedData, /Mayor Tedi Ketok-Pintu/);
+  assert.doesNotMatch(renderedData, /Mayor Tedi (?!Ketok-Pintu)/);
   dom.window.close();
 });
 
@@ -142,10 +146,21 @@ test("every roster character is scheduled before a phase ends", async () => {
   assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
   for (const role of ["buzzer", "aktivis"]) {
     api.phaseRosters[role].forEach((roster, phaseIndex) => {
+      assert.ok(roster.length >= 9, `${role}/phase ${phaseIndex + 1} needs a broad rotation pool`);
+      assert.equal(new Set(roster.map((character) => character.id)).size, roster.length, `${role}/phase ${phaseIndex + 1} has duplicate crew IDs`);
       const schedule = api.monthlyRosterSchedule(role, phaseIndex);
       assert.equal(schedule.length, 12, `${role}/phase ${phaseIndex + 1} month count`);
-      schedule.forEach((month, monthIndex) => assert.equal(month.length, 3, `${role}/${phaseIndex + 1}/${monthIndex + 1}`));
+      schedule.forEach((month, monthIndex) => {
+        assert.equal(month.length, 3, `${role}/${phaseIndex + 1}/${monthIndex + 1}`);
+        assert.equal(new Set(month.map((character) => character.id)).size, 3, `${role}/${phaseIndex + 1}/${monthIndex + 1} repeats a card`);
+        if (monthIndex > 0) {
+          const previous = new Set(schedule[monthIndex - 1].map((character) => character.id));
+          month.forEach((character) => assert.ok(!previous.has(character.id), `${character.name} appears in consecutive months for ${role}/phase ${phaseIndex + 1}`));
+        }
+      });
       const appeared = new Set(schedule.flat().map((character) => character.id));
+      const appearanceCounts = schedule.flat().reduce((counts, character) => counts.set(character.id, (counts.get(character.id) || 0) + 1), new Map());
+      appearanceCounts.forEach((count, id) => assert.ok(count <= 5, `${id} is overexposed (${count} months) in ${role}/phase ${phaseIndex + 1}`));
       roster.forEach((character) => assert.ok(appeared.has(character.id), `${character.name} skipped in ${role}/phase ${phaseIndex + 1}`));
     });
   }
