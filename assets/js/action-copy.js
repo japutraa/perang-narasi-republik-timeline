@@ -19,6 +19,7 @@
   };
 
   const DOMAIN_RULES = [
+    ["fuel", /\b(pertamax|pertalite|bbm|spbu|bensin|ron 92|ron 95|harga minyak)\b/i],
     ["mbg", /\b(mbg|makan bergizi|sppg|bgn|gizi|dapur|menu|keracunan|porsi)\b/i],
     ["kopdes", /\b(kopdes|koperasi desa|merah putih|gerai koperasi)\b/i],
     ["education", /\b(pendidikan|sekolah|guru|kampus|mahasiswa|beasiswa|riset|akademik|universitas)\b/i],
@@ -39,6 +40,15 @@
   ];
 
   const DOMAIN_LENS = {
+    fuel: {
+      label: "Pompa dan Formula",
+      object: "harga BBM",
+      evidence: "harga sebelum-sesudah, formula BBM, kurs, harga minyak, dan koordinasi regulator",
+      people: "pengemudi, pekerja komuter, keluarga, dan usaha kecil",
+      counter: "sound viral serta konten AI yang lebih ramai daripada papan harga",
+      buzzer: "Feed bisa dibuat glowing; struk di SPBU tetap mencetak angka tanpa filter.",
+      activist: "Pisahkan harga subsidi dan nonsubsidi, buka formulanya, lalu hitung dampak ke mobilitas warga.",
+    },
     mbg: {
       label: "Dapur Anggaran",
       object: "nampan MBG",
@@ -299,6 +309,49 @@
   }
 
   const choose = (items, variantIndex, salt = 0) => items[(Math.max(0, Number(variantIndex) || 0) + salt) % items.length];
+
+  const SPECIAL_ACTION_COPY = {
+    "pertamax-mbg-ai": {
+      buzzer: {
+        meme: [
+          {
+            name: "Naikkan Lagi Sound “MBG: Mas Bahlul Ganteng”",
+            desc: "Dorong remix, dance, dan potongan ‘bolu ketan’ sampai feed membahas kegantengan fiktif lebih lama daripada Pertamax Rp16.250.",
+          },
+          {
+            name: "Sebar Poster AI Bahlul Glowing di SPBU",
+            desc: "Bikin rahang enam-pack, pompa bensin neon, dan slogan energi aman; struk kenaikan harga diperkecil seperti disclaimer paid promote.",
+          },
+          {
+            name: "Banjiri Feed dengan Video Reaction Bolu Ketan",
+            desc: "Kirim kreator untuk pura-pura kaget pada lagu MBG, duet satu sama lain, lalu biarkan pertanyaan formula harga tenggelam di reaction face.",
+          },
+        ],
+      },
+      aktivis: {
+        meme: [
+          {
+            name: "Tempel Struk Rp16.250 ke Sound MBG",
+            desc: "Pakai sound viral sebagai pintu masuk, lalu tampilkan lonjakan Pertamax dan Pertamax Green tanpa mengubah lagu receh menjadi bukti konspirasi.",
+          },
+          {
+            name: "Duet Poster AI dengan Harga Riil SPBU",
+            desc: "Taruh wajah glowing buatan mesin di sebelah papan harga asli; sumber harga tetap lebih besar daripada punchline.",
+          },
+          {
+            name: "Bikin Karaoke Biaya Peluang Pertamax",
+            desc: "Ubah selisih harga menjadi ongkos kerja, kuliah, dan antar jemput; lucu dulu, lalu arahkan penonton ke formula serta tanggal penyesuaian.",
+          },
+        ],
+      },
+    },
+  };
+
+  function specialActionCopy(role, actionId, issue, variantIndex) {
+    const arc = clean(issue?.arc);
+    const variants = SPECIAL_ACTION_COPY[arc]?.[role]?.[actionId];
+    return variants?.length ? variants[(Number(variantIndex) || 0) % variants.length] : null;
+  }
 
   const BUZZER = {
     meme: (h, v) => ({
@@ -574,7 +627,7 @@
     const id = clean(action?.id);
     const factory = (role === "buzzer" ? BUZZER : ACTIVIST)[id];
     if (!factory) return null;
-    const copy = factory(h, variantIndex);
+    const copy = specialActionCopy(role, id, issue, variantIndex) || factory(h, variantIndex);
     const punch = h.lens[role];
     const draftBody = `${copy.name} ${copy.desc}`.toLowerCase();
     const hasIssueAnchor = [h.focusShort, h.evidenceA, h.evidenceB, h.people]

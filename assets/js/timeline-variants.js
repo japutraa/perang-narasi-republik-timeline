@@ -175,6 +175,16 @@
       "Reuters meliput aksi mahasiswa Juni 2026 yang mengkritik prioritas belanja, kenaikan harga bahan bakar, dan tekanan ekonomi. ‘Bangkrut’ digunakan sebagai alarm politik, bukan putusan kepailitan negara.",
       "https://www.reuters.com/world/asia-pacific/students-hold-heading-bankrupt-indonesia-protests-against-prabowos-policies-2026-06-12/",
     ],
+    pertamaxJune2026: [
+      "Pertamax melonjak pada 10 Juni 2026",
+      "Pertamax naik dari Rp12.300 menjadi Rp16.250 per liter dan Pertamax Green dari Rp12.900 menjadi Rp17.000. Perusahaan menyebut penyesuaian mengikuti evaluasi formula harga serta koordinasi dengan pemerintah.",
+      "https://aceh.antaranews.com/berita/406924/hari-ini-pertamina-resmi-naikkan-harga-pertamax-dan-pertamax-green",
+    ],
+    masBahlulSong2026: [
+      "Sound MBG: Mas Bahlul Ganteng membanjiri FYP",
+      "Lagu jenaka ‘MBG: Mas Bahlul Ganteng’ viral lebih dulu pada akhir Mei–awal Juni 2026 dan dipakai dalam banyak konten. Game memperlakukannya sebagai budaya netizen; skenario pengalihan oleh pemain adalah satire, bukan klaim tentang pencipta lagu asli.",
+      "https://bengkulu.antaranews.com/berita/469981/lagu-mas-bahlil-ganteng-viral-di-tiktok-bahlil-sampai-minta-raffi-ahmad-cari-penciptanya?page=all",
+    ],
     fufufafaRepo: [
       "Arsip komentar akun fufufafa",
       "Repository ini mengarsipkan komentar lama akun Kaskus fufufafa untuk kepentingan sejarah. Keterkaitan akun dengan figur politik tertentu tetap diperlakukan game sebagai dugaan yang belum terbukti final.",
@@ -265,6 +275,17 @@
       "Pada 7 Juli 2026, Indonesia dan India menandatangani rangkaian kerja sama yang mencakup pengadaan rudal. Nilai strategis, biaya, pengawasan sipil, dan prioritas anggaran tetap perlu diuji terbuka.",
       "https://www.reuters.com/world/asia-pacific/indias-modi-meet-indonesias-prabowo-talks-defence-food-security-2026-07-07/",
     ],
+  };
+
+  const pertamaxMbgIssue = {
+    title: "#PertamaxNaikBoluKetanTetapJoget",
+    arc: "pertamax-mbg-ai",
+    subject: "Pertamax Rp16.250, formula harga BBM, dan sound MBG Mas Bahlul Ganteng yang memenuhi FYP",
+    document: "harga Pertamax sebelum dan sesudah 10 Juni, formula BBM nonsubsidi, koordinasi regulator, harga minyak, kurs, serta waktu unggahan kampanye digital",
+    people: "pengemudi ojol, pekerja komuter, keluarga, usaha kecil, dan pengguna Pertamax yang membayar selisihnya",
+    counter: "lagu, reaction video, dan poster AI yang membuat wajah menteri lebih ramai daripada formula harga",
+    weak: ["data", "context", "meme", "transparency", "empathy"],
+    resist: ["patriot", "whatabout"],
   };
 
   const explicit = {
@@ -755,6 +776,24 @@
         npc: "Pak Purba-Yey Dompet Negara",
         post: "Negara tidak bangkrut hanya karena satu slogan demonstrasi. Tetapi pemerintah juga tidak otomatis sehat hanya karena memilih indikator yang masih hijau. Neraca makro perlu bertemu struk rumah tangga.",
         source: sources.bankruptStudents,
+      },
+      {
+        npc: "Bahlul Hilir-Hilir",
+        issue: pertamaxMbgIssue,
+        post: "Gini lho, bos. Pertamax itu nonsubsidi dan harganya ikut formula. Tapi timeline malah muter ‘MBG: Mas Bahlul Ganteng’ sampai bolu ketan terasa lebih penting dari papan harga. Saya juga bingung harus klarifikasi energi atau minta royalti.",
+        source: [sources.pertamaxJune2026, sources.masBahlulSong2026],
+      },
+      {
+        npc: "Raymond Cuan-Check",
+        issue: pertamaxMbgIssue,
+        post: "Sound MBG sudah viral sebelum Pertamax melonjak. Begitu harga Rp16.250 muncul, dua timeline bertabrakan: satu menghitung tambahan biaya per bulan, satu lagi sibuk bikin Bahlul glowing pakai AI. Jangan samakan viral dengan approval kebijakan.",
+        source: [sources.pertamaxJune2026, sources.masBahlulSong2026],
+      },
+      {
+        npc: "Panji Pra-Guyon",
+        issue: pertamaxMbgIssue,
+        post: "Setup-nya: Pertamax naik hampir empat ribu. Punchline-nya: feed tetap nyanyi Mas Bahlul Ganteng. Kalau poster AI rahangnya makin tegas sementara formula harga makin kabur, itu bukan komunikasi publik—itu filter kecantikan untuk invoice.",
+        source: [sources.pertamaxJune2026, sources.masBahlulSong2026],
       },
       {
         npc: "Pak Joko Woles",

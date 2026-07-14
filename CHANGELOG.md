@@ -2,6 +2,17 @@
 
 Semua perubahan penting pada proyek ini dicatat di sini.
 
+## 3.20.0 — 2026-07-14
+
+- Membuat kolom komentar action menjadi percakapan bertahap: respons klik pertama, pembacaan pola pada klik kedua, dan teguran saturasi pada klik ketiga memiliki wording serta urutan akun berbeda.
+- Membawa nama action, tema, dokumen, warga terdampak, stance akun utama, dan nama jurus sebelumnya ke thread agar komentar tidak kehilangan konteks ketika kartu dimainkan beruntun.
+- Menambahkan delapan jenis noise acak: numpang jualan, bot judol fiktif, crypto bro, numpang lewat, pemburu pertamax, salah thread, pencari kerja, serta rantai doa/hoaks tante.
+- Mengacak 1–3 komentar noise per gelombang dengan batas ketat, sambil mempertahankan minimal lima respons inti yang tetap membahas action terpilih.
+- Membatasi setiap keluarga action menjadi tiga pemakaian per bulan. Setiap klik memakai pendekatan kontekstual berikutnya, klik keempat ditolak, dan slot kembali terbuka saat bulan berganti.
+- Menambahkan tiga varian timeline Juni 2026 tentang Pertamax Rp16.250, formula harga BBM nonsubsidi, dan sound viral `MBG: Mas Bahlul Ganteng` tanpa mengklaim pencipta lagu sebagai operasi pemerintah.
+- Menulis tiga kartu pengalihan khusus buzzer berupa sound MBG, poster AI Bahlul glowing, dan video reaction bolu ketan; jalur aktivis memperoleh tiga kartu tandingan yang menautkan humor ke struk serta sumber harga.
+- Menambahkan klasifikasi isu BBM serta regresi untuk variasi komentar, batas kartu bulanan, sumber arsip, dan copy khusus arc Pertamax–MBG.
+
 ## 3.19.0 — 2026-07-14
 
 - Mengganti generator action card generik dengan mesin copy kontekstual yang membaca subjek, dokumen, warga terdampak, pembicara, kontra-narasi, dan arc dari post aktif.

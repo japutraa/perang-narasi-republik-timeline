@@ -1,5 +1,5 @@
 /**
- * Perang Narasi: Republik Timeline v3.19.0
+ * Perang Narasi: Republik Timeline v3.20.0
  * Copyright (C) 2026 Adrian Janitra Putra
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -213,12 +213,15 @@
     state.missedPayments = Number(state.missedPayments) || 0;
     state.bankruptcyHistory = state.bankruptcyHistory || [];
     state.monthlyActionVariants = state.monthlyActionVariants || {};
+    Object.entries(state.monthlyActionVariants).forEach(([key, count]) => {
+      if (/^\d+:\d+:[^:]+$/.test(key)) return;
+      const id = key.split(":").at(-1);
+      if (id) state.monthlyActionVariants[`${state.phase}:${state.day}:${id}`] = Math.min(3, Number(count) || 0);
+      delete state.monthlyActionVariants[key];
+    });
+    // Retained only so older v3 saves deserialize cleanly. New releases use
+    // monthlyActionVariants with phase:month:action keys.
     state.phaseActionVariants = state.phaseActionVariants || {};
-    if (!Object.keys(state.phaseActionVariants).length && Object.keys(state.monthlyActionVariants).length) {
-      Object.entries(state.monthlyActionVariants).forEach(([id, count]) => {
-        state.phaseActionVariants[`${state.phase}:${id}`] = Number(count) || 0;
-      });
-    }
     state.lastActionVariant = Number(state.lastActionVariant) || 0;
     state.followUpCards = state.followUpCards || [];
     state.characterMatchLog = state.characterMatchLog || [];
@@ -4743,6 +4746,8 @@
   const netizenPack = window.PNNetizenPack || {
     spamChance: 0,
     noiseSupplementChance: 0,
+    noiseSupplementMin: 0,
+    noiseSupplementMax: 0,
     roughChance: 0,
     spamPersonaIds: [],
     noisePersonaIds: [],
@@ -7025,7 +7030,7 @@
       ],
     },
   };
-  const PHASE_ACTION_VARIANT_LIMIT = 60;
+  const MONTHLY_ACTION_VARIANT_LIMIT = 3;
   const phaseVariantTokens = [
     [
       ["Survei", "pakai angka elektabilitas, sampel, dan margin galat sebagai panggung"],
@@ -7299,15 +7304,15 @@
       ],
     },
   };
-  function phaseActionKey(id) {
-    return `${state.phase}:${id}`;
+  function monthlyActionKey(id) {
+    return `${state.phase}:${state.day}:${id}`;
   }
-  function phaseActionUseCount(id) {
-    state.phaseActionVariants = state.phaseActionVariants || {};
-    return Number(state.phaseActionVariants[phaseActionKey(id)]) || 0;
+  function monthlyActionUseCount(id) {
+    state.monthlyActionVariants = state.monthlyActionVariants || {};
+    return Number(state.monthlyActionVariants[monthlyActionKey(id)]) || 0;
   }
   function maxActionVariants(a) {
-    return PHASE_ACTION_VARIANT_LIMIT;
+    return MONTHLY_ACTION_VARIANT_LIMIT;
   }
 
   const narrativeActionVerbs={
@@ -7395,9 +7400,9 @@
   }
   function minimumActionCost() {
     const i = currentIssue();
-    state.phaseActionVariants = state.phaseActionVariants || {};
+    state.monthlyActionVariants = state.monthlyActionVariants || {};
     const costs = availableActions()
-      .filter((a) => phaseActionUseCount(a.id) < maxActionVariants(a))
+      .filter((a) => monthlyActionUseCount(a.id) < maxActionVariants(a))
       .map((a) => actionCost(a, i));
     return costs.length ? Math.min(...costs) : 0;
   }
@@ -8744,7 +8749,7 @@
     });
     const replyText=voiceReply?.text||fallbackReplyText;
     state.comments.unshift(makeComment(match.score===3?"good":match.score===2?"neutral":"bad",replyText,{avatar:character.icon,handle:`@${character.id.replace(/[^a-z0-9]+/gi,"").toLowerCase()}`,kind:"npc",label:match.label,replyTo:currentIssue().title}));
-    state.comments=state.comments.slice(0,24);
+    state.comments=state.comments.slice(0,36);
     addLog(`${match.label}: ${character.name} memakai ${ability.name}.${follow?` Follow-up “${follow.title}” terbuka.`:""}`,match.score===3?"good":match.score===2?"info":"bad");
     flash(`${character.icon} ${match.label}`);beep(match.score===0?150:match.score===2?420:720,.09);renderCards();render();saveGame(true);
   }
@@ -8995,17 +9000,17 @@
   function renderCards() {
     const i = currentIssue();
     const actions = availableActions();
-    state.phaseActionVariants = state.phaseActionVariants || {};
+    state.monthlyActionVariants = state.monthlyActionVariants || {};
     const hasAvailableFormats = actions.some(
-      (a) => phaseActionUseCount(a.id) < maxActionVariants(a),
+      (a) => monthlyActionUseCount(a.id) < maxActionVariants(a),
     );
     const affordable = actions.some((a) => {
-      const used = phaseActionUseCount(a.id);
+      const used = monthlyActionUseCount(a.id);
       return used < maxActionVariants(a) && state.money >= actionCost(a, i);
     });
     let html = actions
       .map((a) => {
-        const used = phaseActionUseCount(a.id);
+        const used = monthlyActionUseCount(a.id);
         const maxVariants = maxActionVariants(a);
         const exhausted = used >= maxVariants;
         const variantIndex = Math.min(used, Math.max(0, maxVariants - 1));
@@ -9014,12 +9019,17 @@
           v = actionPresentation(a, i, variantIndex),
           disabled = exhausted || state.money < cost || state.resolve <= 0,
           buffs = activeActionBuffs(a);
-        const title = exhausted ? "Pendekatan Ini Udah Habis di Fase Ini" : v.name;
+        const title = exhausted ? "Tiga Jurus Bulan Ini Sudah Habis" : v.name;
         const desc = exhausted
-          ? "Semua pendekatan dari keluarga kartu ini udah dipakai pada fase sekarang. Coba strategi lain sampai tahun berganti."
+          ? "Keluarga kartu ini sudah dipakai tiga kali pada isu bulan sekarang. Coba strategi lain; bulan depan tiga pendekatan kontekstualnya terbuka lagi."
           : v.desc;
         const costText = exhausted ? "SUDAH DIPAKAI" : formatMoney(cost);
-        return `<button class="action-card ${exhausted ? "action-exhausted" : ""}" data-action="${a.id}" data-variant="${used}" ${disabled ? "disabled" : ""}><div class="action-card-head"><h4>${title}</h4><span class="cost">${costText}${exhausted ? "" : `<span class="cost-level">${costLevelLabel()}</span>`}</span></div><p>${desc}</p><div class="tags">${a.tags.map((t) => `<span class="tag">${t}</span>`).join("")}${i.weak.includes(a.id) ? '<span class="tag new">EFEKTIF</span>' : ""}${used > 0 && !exhausted ? '<span class="tag new">PENDEKATAN BARU</span>' : '<span class="tag new">BELUM DIPAKAI</span>'}${buffs.map((b) => `<span class="tag ability-tag">⚡ ${b.sourceName}</span>`).join("")}</div><span class="action-context">${v.context}</span><p style="margin-top:7px;color:var(--ink)">Dampak ±${d}${buffs.length ? " • CREW BOOST" : ""}</p></button>`;
+        const useTag = exhausted
+          ? '<span class="tag new">BATAS 3× BULAN INI</span>'
+          : used > 0
+            ? `<span class="tag new">JURUS ${used + 1}/3</span>`
+            : '<span class="tag new">JURUS 1/3</span>';
+        return `<button class="action-card ${exhausted ? "action-exhausted" : ""}" data-action="${a.id}" data-variant="${used}" ${disabled ? "disabled" : ""}><div class="action-card-head"><h4>${title}</h4><span class="cost">${costText}${exhausted ? "" : `<span class="cost-level">${costLevelLabel()}</span>`}</span></div><p>${desc}</p><div class="tags">${a.tags.map((t) => `<span class="tag">${t}</span>`).join("")}${i.weak.includes(a.id) ? '<span class="tag new">EFEKTIF</span>' : ""}${useTag}${buffs.map((b) => `<span class="tag ability-tag">⚡ ${b.sourceName}</span>`).join("")}</div><span class="action-context">${v.context}</span><p style="margin-top:7px;color:var(--ink)">Dampak ±${d}${buffs.length ? " • CREW BOOST" : ""}</p></button>`;
       })
       .join("");
     const followHtml=activeFollowUpCards().map(card=>{
@@ -9144,6 +9154,7 @@
       issueKey: opts.issueKey || "",
       stance: opts.stance || "",
       reactionMode: opts.reactionMode || "",
+      sequenceStage: Number.isFinite(opts.sequenceStage) ? opts.sequenceStage : null,
       isNoise: Boolean(opts.isNoise || noisePersonaIds.has(personaId)),
     };
   }
@@ -9178,7 +9189,7 @@
     },
   };
   function discussionComment(tone,i,a,selectedDisplay=null){
-    const display=selectedDisplay||actionPresentation(a,i,phaseActionUseCount(a.id));
+    const display=selectedDisplay||actionPresentation(a,i,monthlyActionUseCount(a.id));
     const topic=i.subject||i.title,doc=i.document||"dokumen utuh",people=i.people||"warga",counter=i.counter||"kubu sebelah";
     const angle=actionCommentAngles[state.role]?.[a.id]||{good:"responsnya nyambung",bad:"responsnya muter",ask:"buktinya mana"};
     const choices=tone==="good"
@@ -9217,7 +9228,7 @@
     const pool = topicCommentPool(tone, i),
       base = pool[rnd(0, pool.length - 1)],
       angle = a ? actionCommentAngles[state.role]?.[a.id] : null,
-      display = selectedDisplay || (a ? actionPresentation(a, i, phaseActionUseCount(a.id)) : null),
+      display = selectedDisplay || (a ? actionPresentation(a, i, monthlyActionUseCount(a.id)) : null),
       actionRead = !angle
         ? "tekniknya tetap harus bisa diuji"
         : tone === "good"
@@ -9235,10 +9246,10 @@
     });
   }
 
-  function noiseSupplementComment(i, a, display) {
+  function noiseSupplementComment(i, a, display, forcedPersona = null) {
     const ids = [...noisePersonaIds];
     if (!ids.length) return null;
-    const persona = ids[rnd(0, ids.length - 1)];
+    const persona = forcedPersona || ids[rnd(0, ids.length - 1)];
     return makeComment("neutral", null, {
       persona,
       kind:"noise",
@@ -9248,6 +9259,51 @@
       issueKey:i.key,
       allowNoise:true,
       isNoise:true,
+    });
+  }
+
+  function actionSequenceComment(tone, i, a, display, variantIndex = 0) {
+    const stage = clamp(Number(variantIndex) || 0, 0, 2);
+    const topic = i.subject || i.title;
+    const doc = i.document || "dokumen utuh";
+    const people = i.people || "warga terdampak";
+    const monthEntries = (state.history || []).filter(
+      (entry) => entry.phase === state.phase && entry.day === state.day && entry.action === a.id,
+    );
+    const previous = monthEntries.length > 1
+      ? monthEntries.at(-2)?.label
+      : state.comments.find((comment) => comment.actionId === a.id && comment.actionName !== display.name)?.actionName;
+    const pools = [
+      [
+        { persona:"genz", text:`“${display.name}” baru dilempar dan masih nyentuh ${topic}. Oke, gue tunggu apakah ${doc} ikut naik atau cuma judulnya yang kerja lembur.` },
+        { persona:"bapak", text:`Reaksi pertama untuk “${display.name}”: arahnya masih jelas ke ${topic}. Sekarang jangan pindah gang sebelum bukti dibuka.` },
+        { persona:"ojol", text:`“${display.name}” baru berangkat. Titik jemputnya ${topic}; tujuan akhirnya harus ${people}, jangan muter demi surge engagement.` },
+        { persona:"anakKos", text:`Jurus pertama “${display.name}” masih kebaca nyambung. Tinggal lihat isinya bergizi atau cuma bikin kenyang algoritma.` },
+      ],
+      [
+        { persona:"genz", text:`Admin lanjut dari “${previous || "jurus pertama"}” ke “${display.name}”. At least masih bahas ${topic}, tapi pola framing-nya mulai kelihatan bestie.` },
+        { persona:"warung", text:`Tadi pakai “${previous || "jurus pertama"}”, sekarang “${display.name}”. Di warung namanya nambah bumbu; bahan utamanya tetap ${doc}.` },
+        { persona:"anakpdf", text:`Jurus kedua “${display.name}” dicatat. Jangan ulang kesimpulan lama dengan font baru; buka bagian lain dari ${doc}.` },
+        { persona:"asn", text:`Secara disposisi, “${display.name}” adalah respons kedua untuk ${topic}. Mohon lampirannya jangan sama persis dengan unggahan sebelumnya.` },
+      ],
+      [
+        { persona:"genz", text:`“${display.name}” jadi jurus ketiga bulan ini. Oke cukup, admin 😭 Kalau ${doc} masih belum muncul setelah tiga format, masalahnya bukan kurang konten.` },
+        { persona:"emak", text:`Sudah tiga kali: sekarang “${display.name}”. Saya nggak butuh kemasan keempat; saya butuh jawaban buat ${people}.` },
+        { persona:"warung", text:`“${display.name}” menutup trilogi jurus bulan ini. Gelas kopi sudah tiga, bukti soal ${topic} jangan masih sachet kosong.` },
+        { persona:"buzzerMagang", text:`“${display.name}” itu brief ketiga. Setelah ini template keluarga ${a.id} dikunci; KPI naik, semoga ${doc} nggak ikut terkunci.` },
+      ],
+    ];
+    const selected = pools[stage][rnd(0, pools[stage].length - 1)];
+    return makeComment(tone, selected.text, {
+      persona:selected.persona,
+      kind:"sequence",
+      label:["REAKSI PERTAMA","POLA MULAI KELIHATAN","SATURASI JURUS KETIGA"][stage],
+      replyTo:`“${display.name}”`,
+      actionId:a.id,
+      actionName:display.name,
+      issueKey:i.key,
+      sequenceStage:stage,
+      allowNoise:false,
     });
   }
 
@@ -9521,7 +9577,7 @@
 
   function npcReaction(i, a, good, selectedDisplay = null) {
     const v = getVoiceProfile(i),
-      display = selectedDisplay || actionPresentation(a, i, phaseActionUseCount(a.id)),
+      display = selectedDisplay || actionPresentation(a, i, monthlyActionUseCount(a.id)),
       stance = i.stance || "critic",
       reactionMode = npcReactionMode(i, good),
       topic = i.subject || i.title,
@@ -9547,7 +9603,7 @@
         handle:i.handle,
         issue:i,
         phase:state.phase,
-        seed:`${state.runSeed}:${state.phase}:${state.day}:${i.key}:${a.id}:${reactionMode}`,
+        seed:`${state.runSeed}:${state.phase}:${state.day}:${i.key}:${a.id}:${reactionMode}:${display.name}`,
         mode:reactionMode,
         action:`“${display.name}”`,
         base:rawText,
@@ -9598,20 +9654,29 @@
     const tone = good ? "good" : "bad",
       i = currentIssue(),
       display = selectedDisplay || actionPresentation(a, i, variantIndex);
-    const thread = [
-      npcReaction(i, a, good, display),
-      discussionComment("neutral", i, a, display),
-      discussionComment(tone, i, a, display),
-      contextualComment(tone, i, a, display),
-    ];
-    if (rnd(0, 100) > 48)
-      thread.push(discussionComment(good ? "good" : "bad", i, a, display));
+    const stage = clamp(Number(variantIndex) || 0, 0, 2);
+    const npc = npcReaction(i, a, good, display);
+    const sequence = actionSequenceComment(tone, i, a, display, stage);
+    const neutralRead = discussionComment("neutral", i, a, display);
+    const sideRead = discussionComment(tone, i, a, display);
+    const issueRead = contextualComment(stage === 1 ? "neutral" : tone, i, a, display);
+    const thread = stage === 0
+      ? [npc, sequence, neutralRead, issueRead, sideRead]
+      : stage === 1
+        ? [sequence, sideRead, npc, neutralRead, issueRead]
+        : [sequence, issueRead, neutralRead, npc, sideRead];
     if (Math.random() < (netizenPack.noiseSupplementChance || 0)) {
-      const noise = noiseSupplementComment(i, a, display);
-      if (noise) thread.push(noise);
+      const ids = [...noisePersonaIds].sort(() => Math.random() - 0.5);
+      const minNoise = clamp(Number(netizenPack.noiseSupplementMin) || 1, 1, 3);
+      const maxNoise = clamp(Number(netizenPack.noiseSupplementMax) || 3, minNoise, 3);
+      const noiseCount = Math.min(ids.length, rnd(minNoise, maxNoise));
+      ids.slice(0, noiseCount).forEach((persona) => {
+        const noise = noiseSupplementComment(i, a, display, persona);
+        if (noise) thread.push(noise);
+      });
     }
     state.comments.unshift(...thread);
-    state.comments = state.comments.slice(0, 24);
+    state.comments = state.comments.slice(0, 36);
     const coordinated = clamp(
         Math.round(
           (!good ? 25 : 8) +
@@ -9803,7 +9868,7 @@
     applyEffects(card.reward||{});state.actions++;state.career+=Math.max(4,Math.round(d/6));state.lastAction=card.actionId;card.used=true;
     state.history.push({phase:state.phase,day:state.day,action:`followup:${card.actionId}`,variant:0,label:card.title,character:card.characterName});
     const good=a.int>=0&&a.dem>=0,display={name:card.title,desc:card.desc,context:`Context combo ${card.characterName}`};
-    updateEngagement(a,d,good,display,0);applyActionMarketSignal(a,i,good,display);state.comments.unshift(contextComboCrowdComment(card));state.comments.unshift(followUpCharacterComment(card,good));state.comments=state.comments.slice(0,24);
+    updateEngagement(a,d,good,display,0);applyActionMarketSignal(a,i,good,display);state.comments.unshift(contextComboCrowdComment(card));state.comments.unshift(followUpCharacterComment(card,good));state.comments=state.comments.slice(0,36);
     addLog(`CONTEXT COMBO: ${card.characterName} → ${card.title}. Narasi lawan turun ${d}; extra reward masuk.`,"good");
     flash(`🎯 ${card.title.toUpperCase()}`);beep(760,.1);renderCards();render();saveGame(true);
   }
@@ -9812,8 +9877,8 @@
     const a = actionDefs[state.role].find((x) => x.id === id),
       i = currentIssue();
     if (!a || state.resolve <= 0) return;
-    state.phaseActionVariants = state.phaseActionVariants || {};
-    const currentVariant = phaseActionUseCount(id);
+    state.monthlyActionVariants = state.monthlyActionVariants || {};
+    const currentVariant = monthlyActionUseCount(id);
     if (variantIndex !== currentVariant || currentVariant >= maxActionVariants(a)) {
       renderCards();
       return;
@@ -9849,7 +9914,7 @@
     state.career += Math.max(1, Math.round(d / 8));
     state.lastAction = id;
     state.lastActionVariant = currentVariant;
-    state.phaseActionVariants[phaseActionKey(id)] = currentVariant + 1;
+    state.monthlyActionVariants[monthlyActionKey(id)] = currentVariant + 1;
     state.history.push({
       phase: state.phase,
       day: state.day,
@@ -9865,14 +9930,14 @@
       `${display.name}: narasi lawan turun ${d}. ${good ? "Publik dapet konteks lebih banyak." : "Engagement naik; ruang publik ngirim voice note panjang."}`,
       good ? "good" : "bad",
     );
-    if (phaseActionUseCount(id) < maxActionVariants(a))
+    if (monthlyActionUseCount(id) < maxActionVariants(a))
       addLog(
-        `Action ini udah dicatat sebagai terpakai di fase ${state.phase + 1}. Slotnya langsung diganti varian unik berikutnya (${phaseActionUseCount(id) + 1}/${maxActionVariants(a)}).`,
+        `Jurus ini sudah dipakai bulan ini. Slotnya diganti pendekatan kontekstual berikutnya (${monthlyActionUseCount(id) + 1}/${maxActionVariants(a)}).`,
         "info",
       );
     else
       addLog(
-        "Semua 60 varian keluarga action ini udah habis untuk fase sekarang. Timeline menolak copy-paste sampai roster tahun berikutnya masuk.",
+        "Tiga pendekatan keluarga action ini sudah habis untuk bulan sekarang. Timeline menolak jurus yang sama dipencet untuk keempat kalinya.",
         "info",
       );
     if (consumed.length)

@@ -28,7 +28,7 @@ function testHtml({ expose = false } = {}) {
     assert.ok(game.includes(marker), "game test hook marker must exist");
     game = game.replace(
       marker,
-      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries, monthlyRosterSchedule, monthlyRosterFor, voicePostHtml, hashtagHtml, actionDefs, actionPresentation, currentIssue, updateBreakingTicker, makeComment, discussionComment, contextualComment, npcReaction, npcReactionMode, updateEngagement, advanceMarketSimulation, renderMarketPanel, applyMarketMove };\n})();\n\ndocument.documentElement.dataset.gameReady',
+      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries, monthlyRosterSchedule, monthlyRosterFor, voicePostHtml, hashtagHtml, actionDefs, actionPresentation, currentIssue, updateBreakingTicker, makeComment, discussionComment, contextualComment, npcReaction, npcReactionMode, updateEngagement, monthlyActionUseCount, maxActionVariants, renderCards, playAction, advanceMarketSimulation, renderMarketPanel, applyMarketMove };\n})();\n\ndocument.documentElement.dataset.gameReady',
     );
   }
 
@@ -84,7 +84,7 @@ test("release references only files that are present", () => {
   required.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), `${file} is missing`));
   assert.doesNotMatch(indexSource, /<style(?:\s|>)/i, "CSS must not be embedded in index.html");
   assert.doesNotMatch(indexSource, /<script(?![^>]+src=)[^>]*>/i, "JavaScript must not be embedded in index.html");
-  assert.match(indexSource, /meta name="version" content="3\.19\.0"/);
+  assert.match(indexSource, /meta name="version" content="3\.20\.0"/);
   assert.match(indexSource, /id="usdIdrValue"/);
   assert.match(indexSource, /id="ihsgValue"/);
   assert.match(gameSource, /SAVE_KEY = "perang-narasi-save-v3"/);
@@ -158,9 +158,28 @@ test("comment threads stay tied to the selected card and speaker stance", async 
     assert.equal(comment.issueKey, issue.key);
     assert.ok(comment.text.toLowerCase().includes(display.name.toLowerCase()), `${comment.handle} lost the selected action context`);
   });
-  assert.ok(supplements.length <= 1, "noise must remain a supplement, not the thread");
-  supplements.forEach((comment) => assert.ok(["seller", "judol", "cryptoBro"].includes(comment.persona)));
+  assert.ok(supplements.length <= 3, "noise must remain lively but bounded");
+  supplements.forEach((comment) => assert.ok([
+    "seller", "judol", "cryptoBro", "lewatGan", "firstHunter", "salahThread", "pencariKerja", "botDoa",
+  ].includes(comment.persona)));
   assert.equal(linked.some((comment) => comment.kind === "hint"), false, "future trend chatter must not interrupt an action thread");
+
+  api.updateEngagement(dataAction, 27, false, {
+    name: "Geser Baseline Harga Beras",
+    desc: "Jurus kedua tetap membaca isu yang sama.",
+    context: "Uji komentar action-linked kedua",
+  }, 1);
+  api.updateEngagement(dataAction, 27, false, {
+    name: "Dashboard Beras Tetap Hijau",
+    desc: "Jurus ketiga menutup keluarga kartu bulan ini.",
+    context: "Uji komentar action-linked ketiga",
+  }, 2);
+  const sequence = api.state.comments.filter((comment) => comment.actionId === "data" && comment.kind === "sequence");
+  assert.deepEqual(new Set(sequence.map((comment) => comment.sequenceStage)), new Set([0, 1, 2]));
+  sequence.forEach((comment) => {
+    assert.ok(comment.text.includes(comment.actionName));
+    assert.match(comment.text, /pertama|kedua|ketiga|tiga kali|baru dilempar|baru berangkat|lanjut dari|tadi pakai|trilogi/i);
+  });
 
   const fakeIssue = (stance) => ({
     key: `stance-${stance}`,
@@ -434,6 +453,36 @@ test("modular build boots and starts a campaign", async () => {
   dom.window.close();
 });
 
+test("each action family has exactly three contextual uses per month", async () => {
+  const { dom, errors } = createDom({ expose: true });
+  await tick(dom.window);
+  assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
+  const api = dom.window.__PN_TEST__;
+  api.state.role = "buzzer";
+  api.state.phase = 2;
+  api.state.day = 6;
+  api.state.monthlyActionVariants = {};
+  const meme = api.actionDefs.buzzer.find((action) => action.id === "meme");
+  assert.equal(api.maxActionVariants(meme), 3);
+
+  const issue = api.currentIssue();
+  const names = new Set([0, 1, 2].map((variant) => api.actionPresentation(meme, issue, variant).name));
+  assert.equal(names.size, 3, "the monthly uses must not repeat their title");
+
+  api.state.monthlyActionVariants["2:6:meme"] = 3;
+  assert.equal(api.monthlyActionUseCount("meme"), 3);
+  api.renderCards();
+  const exhausted = dom.window.document.querySelector('[data-action="meme"]');
+  assert.equal(exhausted.disabled, true);
+  assert.match(exhausted.textContent, /Tiga Jurus Bulan Ini Sudah Habis|BATAS 3× BULAN INI/);
+  api.playAction("meme", 3);
+  assert.equal(api.monthlyActionUseCount("meme"), 3, "a fourth click must not be recorded");
+
+  api.state.day = 7;
+  assert.equal(api.monthlyActionUseCount("meme"), 0, "the same family must reopen next month");
+  dom.window.close();
+});
+
 test("Pasar Timeline is deterministic, seeded, and separates factual wording from netizen slang", async () => {
   const { dom, errors } = createDom({ expose: true });
   await tick(dom.window);
@@ -662,6 +711,22 @@ test("Arc 2 rotates real-world program themes and context-aware cards", async ()
   const twoTermPayoff = june2026.filter((variant) => variant.title === "#RemoteSoloMintaDuaPeriode");
   assert.equal(twoTermPayoff.length, 2);
   assert.ok(twoTermPayoff.every((variant) => variant.facts.some((fact) => /8541851/.test(fact[2] || ""))));
+  const pertamaxMbg = june2026.filter((variant) => variant.arc === "pertamax-mbg-ai");
+  assert.equal(pertamaxMbg.length, 3);
+  assert.ok(pertamaxMbg.every((variant) => /Rp16\.250|Pertamax/.test(`${variant.post} ${variant.subject}`)));
+  assert.ok(pertamaxMbg.every((variant) => variant.facts.some((fact) => /406924|470715/.test(fact[2] || ""))));
+  assert.ok(pertamaxMbg.every((variant) => variant.facts.some((fact) => /469981/.test(fact[2] || ""))));
+
+  api.state.role = "buzzer";
+  api.state.phase = 2;
+  const memeAction = api.actionDefs.buzzer.find((action) => action.id === "meme");
+  const viralNames = [0, 1, 2].map((variantIndex) =>
+    api.actionPresentation(memeAction, pertamaxMbg[0], variantIndex).name);
+  assert.deepEqual(viralNames, [
+    "Naikkan Lagi Sound “MBG: Mas Bahlul Ganteng”",
+    "Sebar Poster AI Bahlul Glowing di SPBU",
+    "Banjiri Feed dengan Video Reaction Bolu Ketan",
+  ]);
 
   const governmentRoster = api.phaseRosters.buzzer[1];
   const activistRoster = api.phaseRosters.aktivis[1];
@@ -704,7 +769,7 @@ test("every standard action card is anchored to its active timeline issue", asyn
           for (const action of api.actionDefs[role]) {
             if (action.min > phaseIndex) continue;
             const names = new Set();
-            for (let variantIndex = 0; variantIndex < 4; variantIndex += 1) {
+            for (let variantIndex = 0; variantIndex < 3; variantIndex += 1) {
               const display = api.actionPresentation(action, issue, variantIndex);
               const result = copyEngine.audit({ role, action, issue, variantIndex });
               assert.equal(
@@ -717,7 +782,7 @@ test("every standard action card is anchored to its active timeline issue", asyn
               names.add(display.name);
               audited += 1;
             }
-            assert.equal(names.size, 4, `${role}/${action.id}/${issue.title} repeats its first four approaches`);
+            assert.equal(names.size, 3, `${role}/${action.id}/${issue.title} repeats its three monthly approaches`);
           }
         }
       }

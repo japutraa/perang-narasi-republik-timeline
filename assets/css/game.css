@@ -1321,6 +1321,30 @@ a {
   border-color: var(--yellow);
   background: #201c0d;
 }
+.comment-item.persona-lewatGan,
+.comment-item.persona-salahThread {
+  border-color: #8d98a8;
+  background: #111419;
+}
+.comment-item.persona-firstHunter {
+  border-color: #ffb85c;
+  background: #20170d;
+}
+.comment-item.persona-pencariKerja {
+  border-color: var(--blue);
+  background: #0d1820;
+}
+.comment-item.persona-botDoa {
+  border-color: #e6a8ff;
+  background: #1b1020;
+}
+.comment-item.sequence {
+  border: 2px solid var(--yellow);
+  background: linear-gradient(90deg, rgba(244, 211, 74, .11), transparent 58%), #15140e;
+}
+.comment-tone.sequence {
+  color: var(--yellow);
+}
 .comment-item.persona-rageCitizen {
   border-color: #ff765f;
   background: #1d100e;

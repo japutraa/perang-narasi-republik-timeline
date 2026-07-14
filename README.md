@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Action Card Kontekstual — v3.19.0**  
+> **Kolom Komentar Lebih Rusuh — v3.20.0**  
 > Game satire politik Indonesia tentang kekuasaan, buzzer, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.19.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.20.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -21,6 +21,16 @@ Pemain memilih salah satu dari dua jalur:
 - **Aktivis Timeline → jaringan kampus, masyarakat sipil, watchdog, atau figur publik**
 
 Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024 sampai Pemilu 2029. Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya berada dalam **Timeline Alternatif**, bukan ramalan atau klaim faktual.
+
+## Fitur v3.20.0
+
+- Kolom komentar action kini punya tiga tahap percakapan. Reaksi pertama membaca jurus yang baru dimainkan, reaksi kedua menyebut jurus sebelumnya dan menangkap pola framing, sedangkan reaksi ketiga menegur saturasi serta menuntut bukti atau jawaban konkret.
+- Setiap keluarga action hanya dapat dipakai **maksimal tiga kali per bulan**. Ketiganya memakai judul dan pendekatan berbeda yang membaca tema aktif; setelah itu kartu terkunci sampai bulan berikutnya.
+- Akun utama timeline, pembaca skeptis, warga, dan pengarsip tetap membalas action card yang benar-benar dipilih. Nama kartu, subjek, dokumen, warga terdampak, dan stance akun dibawa bersama agar klik beruntun tidak mencampur konteks.
+- Noise netizen diperluas menjadi akun numpang lewat, pemburu pertamax, salah thread, pencari kerja, rantai doa tante, jualan, bot judol fiktif, dan crypto bro. Setiap gelombang mendapat 1–3 selingan acak; akun ngawur sengaja dipisahkan dari komentar inti.
+- Juni 2026 mendapat tiga varian timeline baru tentang lonjakan Pertamax, formula harga BBM, dan benturan dengan sound viral **MBG: Mas Bahlul Ganteng**. Arsip membedakan fakta harga, budaya netizen, dan skenario pengalihan satiris oleh pemain.
+- Kartu meme buzzer pada arc tersebut memiliki tiga jurus khusus: menaikkan lagi sound MBG, menyebar poster AI Bahlul glowing di SPBU, serta membanjiri feed dengan video reaction bolu ketan. Jalur aktivis mendapat tiga tandingan yang mengembalikan struk, harga, dan biaya peluang ke layar.
+- Regresi baru memastikan batas tiga klik tidak dapat ditembus, keluarga kartu terbuka kembali pada bulan berikutnya, ketiga copy berbeda, komentar bertahap tetap action-linked, dan sumber Pertamax serta lagu MBG ikut terpasang.
 
 ## Fitur v3.19.0
 
