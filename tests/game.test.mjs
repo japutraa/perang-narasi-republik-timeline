@@ -9,6 +9,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const indexSource = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const runtimeSource = fs.readFileSync(path.join(root, "assets/js/runtime.js"), "utf8");
 const netizenSource = fs.readFileSync(path.join(root, "assets/js/netizen-pack.js"), "utf8");
+const characterVoicesSource = fs.readFileSync(path.join(root, "assets/js/character-voices.js"), "utf8");
 const timelineVariantsSource = fs.readFileSync(path.join(root, "assets/js/timeline-variants.js"), "utf8");
 const endingSource = fs.readFileSync(path.join(root, "assets/js/ending-system.js"), "utf8");
 const gameSource = fs.readFileSync(path.join(root, "assets/js/game.js"), "utf8");
@@ -33,6 +34,7 @@ function testHtml({ expose = false } = {}) {
     .replace('<link rel="stylesheet" href="assets/css/game.css" />', "")
     .replace('<script src="assets/js/runtime.js" defer></script>', () => inlineScript(runtimeSource))
     .replace('<script src="assets/js/netizen-pack.js" defer></script>', () => inlineScript(netizenSource))
+    .replace('<script src="assets/js/character-voices.js" defer></script>', () => inlineScript(characterVoicesSource))
     .replace('<script src="assets/js/timeline-variants.js" defer></script>', () => inlineScript(timelineVariantsSource))
     .replace('<script src="assets/js/ending-system.js" defer></script>', () => inlineScript(endingSource))
     .replace('<script src="assets/js/game.js" defer></script>', () => inlineScript(game));
@@ -63,6 +65,7 @@ test("release references only files that are present", () => {
     "assets/css/game.css",
     "assets/js/runtime.js",
     "assets/js/netizen-pack.js",
+    "assets/js/character-voices.js",
     "assets/js/timeline-variants.js",
     "assets/js/ending-system.js",
     "assets/js/game.js",
@@ -75,7 +78,7 @@ test("release references only files that are present", () => {
   required.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), `${file} is missing`));
   assert.doesNotMatch(indexSource, /<style(?:\s|>)/i, "CSS must not be embedded in index.html");
   assert.doesNotMatch(indexSource, /<script(?![^>]+src=)[^>]*>/i, "JavaScript must not be embedded in index.html");
-  assert.match(indexSource, /meta name="version" content="3\.15\.0"/);
+  assert.match(indexSource, /meta name="version" content="3\.16\.0"/);
   assert.match(gameSource, /SAVE_KEY = "perang-narasi-save-v3"/);
   assert.match(gameSource, /Prof\. Konni BaksLaah/);
   assert.match(gameSource, /Mas Nadim Makaroni/);
@@ -253,6 +256,72 @@ test("Tokoh catalogue includes every six-phase roster entry", async () => {
       assert.ok(catalogue.has(character.name), `${character.name} missing from ${group} catalogue`);
     });
   }
+  dom.window.close();
+});
+
+test("character voice engine covers every roster and focal timeline account", async () => {
+  const { dom, errors } = createDom({ expose: true });
+  await tick(dom.window);
+  assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
+  const api = dom.window.__PN_TEST__;
+  const voices = dom.window.PNCharacterVoices;
+  assert.ok(voices, "character voice module did not load");
+
+  const roster = [...new Map(
+    Object.values(api.phaseRosters).flat(2).map((character) => [character.id, character]),
+  ).values()];
+  assert.equal(roster.length, 59);
+  assert.deepEqual(new Set(voices.rosterProfileIds), new Set(roster.map((character) => character.id)));
+
+  const rendered = roster.map((character, index) => {
+    const profile = voices.resolve({ id: character.id, name: character.name });
+    assert.equal(profile.id, character.id, `${character.name} fell through to ${profile.id}`);
+    assert.notEqual(profile.sourceKind, "fallback");
+    if (profile.sourceKind === "researched") {
+      assert.ok(profile.sources.length >= 1, `${character.name} has no public style source`);
+    }
+    const post = voices.renderPost({
+      id: character.id,
+      name: character.name,
+      phase: index % 6,
+      seed: 7001 + index,
+      issue: {
+        subject: "audit anggaran dan tanggung jawab program",
+        document: "kontrak, metodologi, dan laporan audit",
+        people: "warga yang membayar dan menerima layanan",
+      },
+      base: "Program disebut berhasil. Dokumen baru dibuka setelah kritik membesar.",
+    });
+    assert.notEqual(post.profileId, "fallback");
+    assert.notEqual(post.label, "MODE AKUN TIMELINE");
+    assert.ok(post.text.length >= 90, `${character.name} voice is too thin`);
+    return post.text;
+  });
+  assert.ok(new Set(rendered).size >= 57, "roster voices are still collapsing into generic copy");
+
+  const variants = api.phases.flatMap((phase, phaseIndex) => phase.days.flatMap((issue, dayIndex) =>
+    dom.window.PNTimelineVariants.build(issue, { phaseIndex, dayIndex })));
+  const missing = [...new Set(variants
+    .filter((variant) => voices.resolve({ name: variant.npc, handle: variant.handle }).id === "fallback")
+    .map((variant) => variant.npc))];
+  assert.deepEqual(missing, [], `timeline speakers without a fingerprint: ${missing.join(", ")}`);
+
+  const gemoyCampaign = voices.renderPost({
+    id: "gemoyono", phase: 0, seed: 11,
+    issue: { subject: "kampanye", document: "rekam jejak", people: "pemilih" },
+    base: "Kampanye harus riang dan citra dibuat lebih lunak.",
+  }).text;
+  const gemoyGovernment = voices.renderPost({
+    id: "gemoyono", phase: 2, seed: 11,
+    issue: { subject: "program strategis", document: "laporan", people: "warga" },
+    base: "Menteri diminta bergerak cepat dan kritik disebut omon-omon.",
+  }).text;
+  assert.match(gemoyCampaign, /pemilu harus gembira|joget/i);
+  assert.doesNotMatch(gemoyCampaign, /semua jajaran bergerak/i);
+  assert.match(gemoyGovernment, /semua jajaran bergerak|omon-omon/i);
+
+  const displayVoices = displayText(rendered);
+  assert.doesNotMatch(displayVoices, /\b(?:Prabowo|Jokowi|Gibran|Bahlil|Purbaya|Megawati|Puan Maharani|Nadiem|Teddy Indra Wijaya)\b/i);
   dom.window.close();
 });
 

@@ -2,6 +2,16 @@
 
 Semua perubahan penting pada proyek ini dicatat di sini.
 
+## 3.16.0 — 2026-07-14
+
+- Menambahkan mesin Voiceprint Roster terpisah dengan 93 profil suara: seluruh 59 tokoh roster dan semua akun yang dapat menjadi fokus post timeline kini memiliki kosakata, cadence, struktur argumen, pembuka, dan penutup sendiri.
+- Memetakan profil figur publik dari sumber publik berupa pidato, wawancara, podcast, tulisan, kanal resmi, dan unggahan; output tetap berupa parodi orisinal, bukan kutipan atau atribusi palsu.
+- Mengubah post utama berdasarkan cara berpikir karakter—antara lain norma/prosedur untuk ahli hukum, baseline/downside untuk ekonom, urutan lokasi/waktu untuk dokumenteris, variabel/uji untuk teknokrat sains, dan setup/punchline untuk komika.
+- Menyambungkan voiceprint yang sama ke post timeline, respons akun utama terhadap action card, dialog ability beserta hasil match, dan follow-up context combo.
+- Mempertahankan pergantian kronologis Pak Jenderal Gemoyono antara persona joget kampanye dan pidato komando setelah berkuasa.
+- Menambahkan profil khusus untuk 34 focal account non-roster agar generated timeline tidak pernah kembali ke suara akun generik.
+- Menambah regresi coverage 59/59 roster, seluruh focal account, keragaman hasil, sumber profil riset, kronologi persona, dan audit nama asli pada teks hasil render.
+
 ## 3.15.0 — 2026-07-14
 
 - Mengikat setiap komentar inti ke isu aktif serta nama dan ID action card yang benar-benar dipilih; reply chip kini juga menunjukkan kartu yang sedang dibahas.

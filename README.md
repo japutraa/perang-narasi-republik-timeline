@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Arc 2: Dapur, Desa, Anggaran & Dinasti — v3.15.0**  
+> **Voiceprint Roster — v3.16.0**  
 > Game satire politik Indonesia tentang kekuasaan, buzzer, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.15.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.16.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -22,7 +22,16 @@ Pemain memilih salah satu dari dua jalur:
 
 Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024 sampai Pemilu 2029. Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya berada dalam **Timeline Alternatif**, bukan ramalan atau klaim faktual.
 
-## Fitur v3.15.0
+## Fitur v3.16.0
+
+- Mesin **Voiceprint Roster** baru memberi seluruh 59 kartu karakter pola suara tersendiri: kosakata, panjang kalimat, cara membuka argumen, jenis bukti, ritme, dan tusukan penutup tidak lagi berasal dari satu suara admin generik.
+- Total 93 profil suara mencakup roster dan seluruh akun yang dapat menjadi post utama timeline, termasuk akun institusi, warga, bot, auditor, pollster, dan figur komposit. Tidak ada focal speaker yang jatuh ke fallback pada 233 varian bulanan.
+- Profil figur yang terinspirasi tokoh publik disusun dari pidato, wawancara panjang, podcast, tulisan, dan unggahan publik. Semua kalimat game tetap merupakan tulisan parodi orisinal—bukan kutipan palsu atau klaim bahwa figur asli pernah mengucapkannya.
+- Gaya kini mengubah struktur argumen, bukan sekadar menempel catchphrase: ahli hukum memakai norma–kewenangan–prosedur, ekonom memakai baseline–arus kas–downside, dokumenteris memakai lokasi–tanggal–pelaku–akibat, ahli gizi memakai bahan–porsi–suhu–higiene, dan komika memakai setup–target kuasa–punchline.
+- Voiceprint yang sama dipakai konsisten pada empat titik: post utama timeline, balasan akun setelah action card, dialog ability, dan komentar follow-up context combo.
+- Persona Pak Jenderal Gemoyono tetap kronologis: fase kampanye memakai kegembiraan dan joget, sedangkan fase pemerintahan memakai perintah, komando, hasil, omon-omon, dan musuh bersama.
+- Modul baru `assets/js/character-voices.js` memisahkan karakterisasi dari mesin game agar penambahan arc tidak kembali mencampur semua tokoh menjadi satu suara.
+- Tes regresi mengaudit 59/59 roster, semua focal speaker timeline, sumber profil berbasis riset, keragaman output, kronologi persona, dan kebocoran nama asli pada teks yang dirender.
 
 - Kolom komentar kini dibangun dari tiga konteks sekaligus: isu bulan aktif, nama/varian action card yang benar-benar dipilih, dan posisi akun yang membalas.
 - Setiap komentar inti menyebut kartu yang sedang ditanggapi dan menyimpan metadata `actionId`, `actionName`, serta `issueKey`; komentar lama tetap jelas membalas kartu yang mana.
@@ -89,6 +98,7 @@ Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024
 ├── index.html                 # markup dan antarmuka
 ├── assets/
 │   ├── css/game.css           # seluruh stylesheet
+│   ├── js/character-voices.js # 93 voiceprint + sumber gaya + renderer dialog
 │   ├── js/game.js             # data naratif + mesin permainan
 │   ├── js/ending-system.js    # skor, moral, utang, pangkat, dan pemilu
 │   ├── js/netizen-pack.js     # persona komentar dan spam satir
@@ -124,7 +134,7 @@ npm ci
 npm test
 ```
 
-Lima belas test memeriksa sintaks JavaScript, kelengkapan file modular, koherensi komentar untuk seluruh action dan stance akun, audit alias politik, 216+ varian satu-tokoh, perbedaan seed antarrun, coverage seluruh roster, Mode Bebas untuk kedua kubu, 42 event × 2 kubu × 4 pilihan, evaluator ending, kompatibilitas save v3, dan simulasi campaign penuh untuk kedua kubu.
+Enam belas test memeriksa sintaks JavaScript, kelengkapan file modular, 59/59 voiceprint roster beserta seluruh focal account timeline, koherensi komentar untuk seluruh action dan stance akun, audit alias politik, 216+ varian satu-tokoh, perbedaan seed antarrun, coverage seluruh roster, Mode Bebas untuk kedua kubu, 42 event × 2 kubu × 4 pilihan, evaluator ending, kompatibilitas save v3, dan simulasi campaign penuh untuk kedua kubu.
 
 ## Deploy ke GitHub Pages
 

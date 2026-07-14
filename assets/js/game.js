@@ -1,5 +1,5 @@
 /**
- * Perang Narasi: Republik Timeline v3.15.0
+ * Perang Narasi: Republik Timeline v3.16.0
  * Copyright (C) 2026 Adrian Janitra Putra
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -6030,6 +6030,13 @@
     "Pemilu lagi. Republik menekan refresh, cache lamanya belum dibersihin."
   ];
   function getVoiceProfile(i) {
+    const fingerprint = window.PNCharacterVoices?.resolve?.({
+      id: i.characterId || i.voiceId,
+      name: i.npc,
+      handle: i.handle,
+      key: i.key,
+    });
+    if (fingerprint && fingerprint.id !== "fallback") return fingerprint;
     if (/Jenderal Gemoyono|@gemoyono|Gemoyono/i.test(`${i.npc} ${i.handle}`)) {
       if (state.phase === 0) return {
         label: "MODE GEMOY • JOGET DULU",
@@ -6058,9 +6065,20 @@
       .trim();
   }
   function voicePostHtml(i) {
-    const v = getVoiceProfile(i);
-    const body = loosenPost(i.post);
-    const copy = `${v.prefix}${body} ${v.suffix}`.replace(/\s+/g," ").trim();
+    const rendered = window.PNCharacterVoices?.renderPost?.({
+      id: i.characterId || i.voiceId,
+      name: i.npc,
+      handle: i.handle,
+      key: i.key,
+      issue: i,
+      phase: state.phase,
+      seed: `${state.runSeed}:${state.phase}:${state.day}:${i.variantId || i.key || i.npc}`,
+      base: i.post,
+    });
+    if (rendered) {
+      return `<span class="voice-chip">${escapeHtml(rendered.label)}</span><div class="voice-copy ${escapeHtml(rendered.className)}">${escapeHtml(rendered.text)}</div>`;
+    }
+    const v = getVoiceProfile(i), body = loosenPost(i.post), copy = `${v.prefix}${body} ${v.suffix}`.replace(/\s+/g," ").trim();
     return `<span class="voice-chip">${v.label}</span><div class="voice-copy ${v.className}">${escapeHtml(copy)}</div>`;
   }
   const phaseActionFlavor = {
@@ -8453,11 +8471,22 @@
     state.characterMatchLog=state.characterMatchLog||[];
     state.characterMatchLog.push({phase:state.phase,day:state.day,character:character.name,score:match.score,label:match.label,themes:match.overlap,followUp:follow?.title||null});
     state.abilityLog.push({phase:state.phase,day:state.day,character:character.name,ability:ability.name,match:match.label});
-    const replyText=match.score===3
+    const fallbackReplyText=match.score===3
       ? `${ability.quote} Pas banget sama ${currentIssue().subject||currentIssue().title}. Gue buka follow-up “${follow?.title}”. Bonus konteks cair; admin akhirnya milih narasumber berdasarkan tema, bukan jumlah follower.`
       : match.score===2
         ? `${ability.quote} Masih nyambung, tapi belum combo sempurna. Isunya punya satu kaki di spesialisasi gue; kaki satunya masih naik ojol.`
         : `${ability.quote} Eh, ini salah studio. Gue datang bawa ${inferredCharacterThemes(character).slice(0,2).map(t=>themeLabels[t]||t).join(" dan ")}, timeline lagi bahas ${issueThemes().slice(0,2).map(t=>themeLabels[t]||t).join(" dan ")}. Ability tetap kepakai. Netizen sudah bikin meme salah narasumber.`;
+    const voiceReply=window.PNCharacterVoices?.renderAbility?.({
+      id:character.id,
+      name:character.name,
+      issue:currentIssue(),
+      phase:state.phase,
+      seed:`${state.runSeed}:${state.phase}:${state.day}:${character.id}:${ability.name}`,
+      base:ability.quote,
+      matchScore:match.score,
+      followTitle:follow?.title,
+    });
+    const replyText=voiceReply?.text||fallbackReplyText;
     state.comments.unshift(makeComment(match.score===3?"good":match.score===2?"neutral":"bad",replyText,{avatar:character.icon,handle:`@${character.id.replace(/[^a-z0-9]+/gi,"").toLowerCase()}`,kind:"npc",label:match.label,replyTo:currentIssue().title}));
     state.comments=state.comments.slice(0,24);
     addLog(`${match.label}: ${character.name} memakai ${ability.name}.${follow?` Follow-up “${follow.title}” terbuka.`:""}`,match.score===3?"good":match.score===2?"info":"bad");
@@ -8483,7 +8512,7 @@
       (b) => b.phase === state.phase,
     );
     $("#modalContent").innerHTML =
-      `${state.gameMode === "free" ? '<span class="free-mode-badge">MODE BEBAS • FASE DAPAT DIGANTI KAPAN SAJA</span>' : ""}<h2>FASE ${state.phase + 1}/6<br>${p.name}</h2><span class="quiz-kicker">${phaseMeta}</span><div class="career-line"><b>${state.role === "buzzer" ? p.bRank : p.aRank}</b><p>${first ? state.gameMode === "free" ? "Sandbox dimulai langsung di fase pilihanmu. Dana, statistik, dan karier awal sudah disesuaikan agar ekonomi fase ini tetap bisa dimainkan." : "Kariermu dimulai. Setiap bulan kedua kubu mendapat tiga kartu karakter aktif yang disusun menurut tema timeline." : "Tahun baru, rotasi baru. Tiga tokoh aktif akan berganti tiap bulan agar semua fase tetap ringkas dan setiap kemunculan punya konteks."}</p></div><div class="roster-balance-note">LINEUP PEMBUKA ${currentIssue().month} • 3 KARTU PER KUBU • ROTASI BULANAN</div><div class="crew-intro-grid">${roster.map((c, idx) => `<div class="crew-intro-card ${c.role.includes("WILDCARD") ? "wildcard-intro" : ""}"><span class="roster-role">${c.role.includes("WILDCARD") ? "WILDCARD BULAN" : c.role.includes("POWER CARD") ? "POWER CARD BULAN" : idx === 0 ? "LEAD CREW BULAN" : "CREW BULAN"} • ${c.role}</span><b>${c.icon} ${c.name}</b><small>${c.bio}</small><div class="ability-name">⚡ ${c.ability.name}</div><small>${c.ability.desc}</small></div>`).join("")}</div><div class="lesson"><b>MEKANIK DEDUKSI CREW:</b> baca sinyal isu bulan aktif, lalu pilih tokoh yang spesialisasinya paling nyambung. Match sempurna membuka follow-up card eksklusif dan reward ekstra; salah studio tetap menghabiskan ability serta mengundang roasting nasional.</div><p style="font-size:12px;color:var(--muted)">Tokoh plesetan adalah karakter komposit. Ability adalah mekanik fiksi satir, bukan klaim mengenai tindakan nyata figur yang menjadi inspirasi.</p><button class="btn" id="phaseStartBtn">Masuk Timeline</button>`;
+      `${state.gameMode === "free" ? '<span class="free-mode-badge">MODE BEBAS • FASE DAPAT DIGANTI KAPAN SAJA</span>' : ""}<h2>FASE ${state.phase + 1}/6<br>${p.name}</h2><span class="quiz-kicker">${phaseMeta}</span><div class="career-line"><b>${state.role === "buzzer" ? p.bRank : p.aRank}</b><p>${first ? state.gameMode === "free" ? "Sandbox dimulai langsung di fase pilihanmu. Dana, statistik, dan karier awal sudah disesuaikan agar ekonomi fase ini tetap bisa dimainkan." : "Kariermu dimulai. Setiap bulan kedua kubu mendapat tiga kartu karakter aktif yang disusun menurut tema timeline." : "Tahun baru, rotasi baru. Tiga tokoh aktif akan berganti tiap bulan agar semua fase tetap ringkas dan setiap kemunculan punya konteks."}</p></div><div class="roster-balance-note">LINEUP PEMBUKA ${currentIssue().month} • 3 KARTU PER KUBU • ROTASI BULANAN</div><div class="crew-intro-grid">${roster.map((c, idx) => `<div class="crew-intro-card ${c.role.includes("WILDCARD") ? "wildcard-intro" : ""}"><span class="roster-role">${c.role.includes("WILDCARD") ? "WILDCARD BULAN" : c.role.includes("POWER CARD") ? "POWER CARD BULAN" : idx === 0 ? "LEAD CREW BULAN" : "CREW BULAN"} • ${c.role}</span><b>${c.icon} ${c.name}</b><small>${c.bio}</small><div class="ability-name">⚡ ${c.ability.name}</div><small>${c.ability.desc}</small></div>`).join("")}</div><div class="lesson"><b>MEKANIK DEDUKSI CREW:</b> baca sinyal isu bulan aktif, lalu pilih tokoh yang spesialisasinya paling nyambung. Match sempurna membuka follow-up card eksklusif dan reward ekstra; salah studio tetap menghabiskan ability serta mengundang roasting nasional.</div><p style="font-size:12px;color:var(--muted)">Tokoh plesetan adalah karakter satir; sebagian komposit, sebagian terinspirasi pola komunikasi publik. Semua dialog dan ability ditulis sebagai fiksi parodi, bukan kutipan atau klaim tindakan nyata.</p><button class="btn" id="phaseStartBtn">Masuk Timeline</button>`;
     $("#modal").classList.remove("hidden");
     $("#phaseStartBtn").onclick = () => {
       $("#modal").classList.add("hidden");
@@ -9163,7 +9192,19 @@
       hook = pickFreshNpcReply(hooks, `${i.key}:${a.id}:${reactionMode}:hook`),
       tone = positiveModes.has(reactionMode) ? (reactionMode === "cautious" || reactionMode === "verify" || reactionMode === "archiveGood" ? "neutral" : "good") : "bad",
       stanceLabels = {regime:"PEMERINTAH",critic:"PENGKRITIK",institutional:"INSTITUSI",archive:"ARSIP"},
-      text = fillNpcTemplate(lead, vars) + " " + fillNpcTemplate(hook, vars);
+      rawText = fillNpcTemplate(lead, vars) + " " + fillNpcTemplate(hook, vars),
+      voiceReply = window.PNCharacterVoices?.renderReply?.({
+        id:i.characterId||i.voiceId,
+        name:i.npc,
+        handle:i.handle,
+        issue:i,
+        phase:state.phase,
+        seed:`${state.runSeed}:${state.phase}:${state.day}:${i.key}:${a.id}:${reactionMode}`,
+        mode:reactionMode,
+        action:`“${display.name}”`,
+        base:rawText,
+      }),
+      text = voiceReply?.text || rawText;
     return makeComment(tone, text, {
       avatar:i.avatar,
       handle:i.handle,
@@ -9356,7 +9397,18 @@
       `Ini baru context combo: “${card.title}”. ${people} nggak dijadikan figuran, dan dokumen nggak disimpan di slide cadangan.`
     ];
     const lines=voicePools[card.characterId]||generic;
-    return makeComment(good?"good":"bad",pickFreshNpcReply(lines,`follow:${card.characterId}:${i.key}:${card.actionId}`),{
+    const rawLine=pickFreshNpcReply(lines,`follow:${card.characterId}:${i.key}:${card.actionId}`);
+    const voiceLine=window.PNCharacterVoices?.renderReply?.({
+      id:card.characterId,
+      name:card.characterName,
+      issue:i,
+      phase:state.phase,
+      seed:`${state.runSeed}:${state.phase}:${state.day}:follow:${card.characterId}:${i.key}:${card.actionId}`,
+      mode:"follow-up",
+      action:`“${card.title}”`,
+      base:rawLine,
+    });
+    return makeComment(good?"good":"bad",voiceLine?.text||rawLine,{
       avatar:card.characterIcon,
       handle:`@${card.characterId.replace(/[^a-z0-9]+/gi,"").toLowerCase()}`,
       kind:"npc",
