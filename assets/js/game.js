@@ -1,5 +1,5 @@
 /**
- * Perang Narasi: Republik Timeline v3.16.0
+ * Perang Narasi: Republik Timeline v3.17.0
  * Copyright (C) 2026 Adrian Janitra Putra
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -73,6 +73,7 @@
     runSeed: 0,
     specialties: [],
     history: [],
+    timelineSpeakerHistory: [],
     career: 0,
     lastAction: null,
     postMetrics: { reposts: 0, likes: 0, replies: 0, views: 0 },
@@ -182,6 +183,9 @@
     state.crisisHistory = state.crisisHistory || [];
     state.specialties = state.specialties || [];
     state.history = state.history || [];
+    state.timelineSpeakerHistory = Array.isArray(state.timelineSpeakerHistory)
+      ? state.timelineSpeakerHistory
+      : [];
     state.abilityUses = state.abilityUses || {};
     const legacyCrewKeys = [
       ["aktivis:1:" + ["ti", "yo-mahasiswa"].join(""), "aktivis:1:togar-toa"],
@@ -5516,6 +5520,38 @@
       "HASIL BELUM FINAL, BUDAYA DEMOKRASI SUDAH TERLANJUR DIUJI",
     ],
   ];
+  function tickerTitle(title) {
+    return String(title || "ISU BULAN INI")
+      .replace(/^#/, "")
+      .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+      .replace(/([A-Za-z])(\d)/g, "$1 $2")
+      .replace(/(\d)([A-Za-z])/g, "$1 $2")
+      .replace(/\s+/g, " ")
+      .trim()
+      .toLocaleUpperCase("id-ID");
+  }
+  function seededBreakingItems(issue, phaseIndex) {
+    const runSeed = Number(state.runSeed) || 1;
+    const hashValue = window.PNTimelineVariants?.hash || ((value) => {
+      let output = 2166136261;
+      for (const char of String(value))
+        output = Math.imul(output ^ char.charCodeAt(0), 16777619);
+      return output >>> 0;
+    });
+    const seedKey = `${runSeed}:${phaseIndex}:${state.day}:${issue?._variantId || "base"}`;
+    const leadTemplates = [
+      (name, title) => `${name} NAIK DI TIMELINE: ${title}`,
+      (name, title) => `${title} RAMAI SETELAH POSTINGAN ${name}`,
+      (name, title) => `UPDATE ${title}: ${name} JADI AKUN UTAMA`,
+    ];
+    const name = String(issue?.npc || "AKUN WARGA").toLocaleUpperCase("id-ID");
+    const title = tickerTitle(issue?.title);
+    const lead = leadTemplates[hashValue(`${seedKey}:lead`) % leadTemplates.length](name, title);
+    const sideHeadlines = [...phaseTickers[phaseIndex]]
+      .sort((a, b) => hashValue(`${seedKey}:${a}`) - hashValue(`${seedKey}:${b}`))
+      .slice(0, 2);
+    return [lead, ...sideHeadlines];
+  }
   function updateBreakingTicker(menu = false) {
     const el = $("#breakingTicker");
     if (!el) return;
@@ -5524,10 +5560,12 @@
       0,
       phaseTickers.length - 1,
     );
-    const items = menu ? menuTicker : phaseTickers[phaseIndex];
+    const issue = !menu && state.role ? currentIssue() : null;
+    const items = menu ? menuTicker : seededBreakingItems(issue, phaseIndex);
+    const runCode = String(state.runSeed || 0).slice(-4).padStart(4, "0");
     const prefix = menu
       ? "REPUBLIK TIMELINE"
-      : `BREAKING ${phases[phaseIndex].period}`;
+      : `BREAKING ${phases[phaseIndex].period} • RUN ${runCode}`;
     el.textContent = `${prefix}: ${items.join(" • ")} • `;
     el.style.animation = "none";
     void el.offsetWidth;
@@ -7996,6 +8034,24 @@
   function currentPhase() {
     return phases[state.phase];
   }
+  function timelineSpeakerContext() {
+    const currentMonth = state.phase * 12 + state.day;
+    const records = (state.timelineSpeakerHistory || [])
+      .filter((entry) => Number(entry.monthIndex) < currentMonth)
+      .sort((a, b) => Number(b.monthIndex) - Number(a.monthIndex));
+    const speakerCounts = records.reduce((counts, entry) => {
+      if (entry.npc) counts[entry.npc] = (counts[entry.npc] || 0) + 1;
+      return counts;
+    }, {});
+    const locked = (state.timelineSpeakerHistory || []).find(
+      (entry) => Number(entry.phase) === state.phase && Number(entry.day) === state.day,
+    );
+    return {
+      recentSpeakers: records.slice(0, 4).map((entry) => entry.npc),
+      speakerCounts,
+      lockedVariantId: locked?.variantId || null,
+    };
+  }
   function currentIssue() {
     const base = currentPhase().days[state.day - 1];
     return window.PNTimelineVariants?.select
@@ -8003,8 +8059,29 @@
           seed: state.runSeed || 1,
           phaseIndex: state.phase,
           dayIndex: state.day - 1,
+          ...timelineSpeakerContext(),
         })
       : base;
+  }
+  function rememberTimelineSpeaker(issue) {
+    if (!issue?._variantId) return;
+    const record = {
+      phase: state.phase,
+      day: state.day,
+      monthIndex: state.phase * 12 + state.day,
+      npc: issue.npc,
+      variantId: issue._variantId,
+      title: issue.title,
+    };
+    const history = state.timelineSpeakerHistory || (state.timelineSpeakerHistory = []);
+    const existing = history.findIndex(
+      (entry) => Number(entry.phase) === state.phase && Number(entry.day) === state.day,
+    );
+    if (existing >= 0) history[existing] = record;
+    else history.push(record);
+    state.timelineSpeakerHistory = history
+      .sort((a, b) => Number(a.monthIndex) - Number(b.monthIndex))
+      .slice(-72);
   }
   function beep(f = 420, d = 0.05) {
     if (!state.sound) return;
@@ -8164,6 +8241,7 @@
       runSeed: createRunSeed(),
       specialties: [],
       history: [],
+      timelineSpeakerHistory: [],
       career: startPhase * 12,
       lastAction: null,
       postMetrics: { reposts: 0, likes: 0, replies: 0, views: 0 },
@@ -8548,6 +8626,7 @@
   }
   function loadIssue(preserve = false) {
     const i = currentIssue();
+    rememberTimelineSpeaker(i);
     let rippleNotices = [];
     if (!preserve) {
       state.resolve = 100;
@@ -10625,6 +10704,7 @@
       runSeed: 0,
       specialties: [],
       history: [],
+      timelineSpeakerHistory: [],
       career: 0,
       quizDeck: [],
       quizPositionDeck: [],

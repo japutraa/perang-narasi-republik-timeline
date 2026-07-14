@@ -2,6 +2,16 @@
 
 Semua perubahan penting pada proyek ini dicatat di sini.
 
+## 3.17.0 — 2026-07-14
+
+- Mengubah Breaking Update menjadi tiga headline berbasis seed: headline utama mengikuti akun dan hashtag timeline aktif, sedangkan dua headline samping dipilih deterministik dari fase berjalan.
+- Menambahkan kode run pada ticker agar hubungan antara campaign seed dan susunan breaking news mudah dikenali.
+- Menyimpan riwayat pembicara per bulan dan mengunci `variantId` yang sudah terpilih agar reload tidak mengubah timeline.
+- Menambahkan cooldown berbobot untuk empat bulan terakhir serta penalti frekuensi global; akun yang baru muncul atau sudah terlalu dominan tidak lagi langsung dipilih lagi.
+- Memperluas bank ekonomi, pemerintah, hukum, sipil, geopolitik, pemilu, media, agama, layanan publik, dan default menjadi 6–10 akun relevan per kelompok.
+- Menambah bulan non-arsip menjadi enam kandidat dan menaikkan total menjadi 380 varian timeline tanpa mengubah varian arsip khusus serta kronologinya.
+- Menambahkan regresi ticker untuk seed yang sama/berbeda dan simulasi rotasi empat seed × 72 bulan, termasuk batas pembicara dominan serta batas khusus Feri Latih-Hitung dan Bang Akbar Pasal.
+
 ## 3.16.0 — 2026-07-14
 
 - Menambahkan mesin Voiceprint Roster terpisah dengan 93 profil suara: seluruh 59 tokoh roster dan semua akun yang dapat menjadi fokus post timeline kini memiliki kosakata, cadence, struktur argumen, pembuka, dan penutup sendiri.

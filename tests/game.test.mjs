@@ -26,7 +26,7 @@ function testHtml({ expose = false } = {}) {
     assert.ok(game.includes(marker), "game test hook marker must exist");
     game = game.replace(
       marker,
-      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries, monthlyRosterSchedule, monthlyRosterFor, voicePostHtml, hashtagHtml, actionDefs, actionPresentation, currentIssue, makeComment, discussionComment, contextualComment, npcReaction, npcReactionMode, updateEngagement };\n})();\n\ndocument.documentElement.dataset.gameReady',
+      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries, monthlyRosterSchedule, monthlyRosterFor, voicePostHtml, hashtagHtml, actionDefs, actionPresentation, currentIssue, updateBreakingTicker, makeComment, discussionComment, contextualComment, npcReaction, npcReactionMode, updateEngagement };\n})();\n\ndocument.documentElement.dataset.gameReady',
     );
   }
 
@@ -78,7 +78,7 @@ test("release references only files that are present", () => {
   required.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), `${file} is missing`));
   assert.doesNotMatch(indexSource, /<style(?:\s|>)/i, "CSS must not be embedded in index.html");
   assert.doesNotMatch(indexSource, /<script(?![^>]+src=)[^>]*>/i, "JavaScript must not be embedded in index.html");
-  assert.match(indexSource, /meta name="version" content="3\.16\.0"/);
+  assert.match(indexSource, /meta name="version" content="3\.17\.0"/);
   assert.match(gameSource, /SAVE_KEY = "perang-narasi-save-v3"/);
   assert.match(gameSource, /Prof\. Konni BaksLaah/);
   assert.match(gameSource, /Mas Nadim Makaroni/);
@@ -417,6 +417,7 @@ test("modular build boots and starts a campaign", async () => {
   assert.doesNotMatch(issueTitle.textContent, /TIMELINE ALTERNATIF/);
   assert.doesNotMatch(document.querySelector("#npcName").textContent, /\s(?:&|vs\.?|dan)\s|,/);
   assert.ok(dom.window.localStorage.getItem("perang-narasi-save-v3"));
+  assert.equal(dom.window.__PN_TEST__.state.timelineSpeakerHistory.length, 1);
   dom.window.close();
 });
 
@@ -521,6 +522,61 @@ test("every month has seeded single-speaker timeline variants", async () => {
     .find((variant) => variant.npc === "Pak Jenderal Gemoyono");
   assert.equal(presidentialGemoy.stance, "regime");
   assert.match(presidentialGemoy.post, /negara|perwira|strategis/i);
+  dom.window.close();
+});
+
+test("breaking ticker follows the run seed and timeline speaker rotation has cooldown", async () => {
+  const { dom, errors } = createDom({ expose: true });
+  await tick(dom.window);
+  assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
+  const api = dom.window.__PN_TEST__;
+  const pack = dom.window.PNTimelineVariants;
+
+  api.state.role = "aktivis";
+  api.state.phase = 2;
+  api.state.day = 5;
+  api.state.runSeed = 104729;
+  api.state.timelineSpeakerHistory = [];
+  const active = api.currentIssue();
+  api.updateBreakingTicker(false);
+  const firstTicker = dom.window.document.querySelector("#breakingTicker").textContent;
+  api.updateBreakingTicker(false);
+  assert.equal(dom.window.document.querySelector("#breakingTicker").textContent, firstTicker);
+  assert.match(firstTicker, /RUN 4729/);
+  assert.ok(firstTicker.includes(active.npc.toLocaleUpperCase("id-ID")));
+
+  const tickerRuns = new Set();
+  for (const seed of [104729, 130363, 161803, 271828, 314159]) {
+    api.state.runSeed = seed;
+    api.state.timelineSpeakerHistory = [];
+    api.updateBreakingTicker(false);
+    tickerRuns.add(dom.window.document.querySelector("#breakingTicker").textContent);
+  }
+  assert.ok(tickerRuns.size >= 3, `only ${tickerRuns.size} seeded breaking ticker layouts`);
+
+  for (const seed of [104729, 130363, 161803, 271828]) {
+    const recent = [];
+    const counts = {};
+    const selected = [];
+    api.phases.forEach((phase, phaseIndex) => phase.days.forEach((issue, dayIndex) => {
+      const item = pack.select(issue, {
+        phaseIndex,
+        dayIndex,
+        seed,
+        recentSpeakers: [...recent].reverse().slice(0, 4),
+        speakerCounts: counts,
+      });
+      assert.notEqual(item.npc, recent.at(-1), `${item.npc} repeats immediately at ${phaseIndex + 1}/${dayIndex + 1}`);
+      selected.push(item.npc);
+      recent.push(item.npc);
+      counts[item.npc] = (counts[item.npc] || 0) + 1;
+    }));
+    const ranked = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    assert.ok(new Set(selected).size >= 28, `seed ${seed} only rotates ${new Set(selected).size} speakers`);
+    assert.ok(ranked[0][1] <= 6, `${ranked[0][0]} dominates seed ${seed} with ${ranked[0][1]} months`);
+    assert.ok((counts["Feri Latih-Hitung"] || 0) <= 5, `Feri Latih-Hitung overexposed for seed ${seed}`);
+    assert.ok((counts["Bang Akbar Pasal"] || 0) <= 5, `Bang Akbar Pasal overexposed for seed ${seed}`);
+  }
   dom.window.close();
 });
 

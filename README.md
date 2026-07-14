@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Voiceprint Roster — v3.16.0**  
+> **Seeded Rotation — v3.17.0**  
 > Game satire politik Indonesia tentang kekuasaan, buzzer, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.16.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.17.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -22,10 +22,16 @@ Pemain memilih salah satu dari dua jalur:
 
 Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024 sampai Pemilu 2029. Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya berada dalam **Timeline Alternatif**, bukan ramalan atau klaim faktual.
 
-## Fitur v3.16.0
+## Fitur v3.17.0
+
+- Kolom **Breaking Update** sekarang dibentuk dari seed campaign, fase, bulan, dan varian post aktif. Headline utama selalu menyebut akun serta isu timeline yang sedang dimainkan; dua berita samping dipilih konsisten untuk run tersebut, bukan menampilkan seluruh daftar fase yang sama pada setiap campaign.
+- Riwayat pembicara timeline disimpan per bulan. Selector memberi penalti besar pada empat pembicara terakhir dan pada akun yang sudah terlalu sering muncul, tetapi tetap mempertahankan varian terpilih ketika save dimuat ulang.
+- Bank topik diperluas menjadi 6–10 kandidat relevan per kelompok isu. Feri Latih-Hitung, Bang Akbar Pasal, dan akun populer lain tidak lagi otomatis menguasai isu ekonomi, hukum, atau media hanya karena berada di urutan awal array.
+- Bulan non-arsip kini memiliki enam kandidat pembicara; totalnya menjadi **380 varian timeline** untuk 72 bulan. Voiceprint tetap dipakai untuk membedakan struktur dan nada tiap akun.
+- Regresi baru mensimulasikan empat seed penuh: tidak boleh ada pembicara yang tampil dua bulan berturut-turut, minimal 28 akun berbeda harus muncul per run, dan satu akun dibatasi maksimal enam bulan pada sampel pengujian.
 
 - Mesin **Voiceprint Roster** baru memberi seluruh 59 kartu karakter pola suara tersendiri: kosakata, panjang kalimat, cara membuka argumen, jenis bukti, ritme, dan tusukan penutup tidak lagi berasal dari satu suara admin generik.
-- Total 93 profil suara mencakup roster dan seluruh akun yang dapat menjadi post utama timeline, termasuk akun institusi, warga, bot, auditor, pollster, dan figur komposit. Tidak ada focal speaker yang jatuh ke fallback pada 233 varian bulanan.
+- Total 93 profil suara mencakup roster dan seluruh akun yang dapat menjadi post utama timeline, termasuk akun institusi, warga, bot, auditor, pollster, dan figur komposit. Tidak ada focal speaker yang jatuh ke fallback pada 380 varian bulanan.
 - Profil figur yang terinspirasi tokoh publik disusun dari pidato, wawancara panjang, podcast, tulisan, dan unggahan publik. Semua kalimat game tetap merupakan tulisan parodi orisinal—bukan kutipan palsu atau klaim bahwa figur asli pernah mengucapkannya.
 - Gaya kini mengubah struktur argumen, bukan sekadar menempel catchphrase: ahli hukum memakai norma–kewenangan–prosedur, ekonom memakai baseline–arus kas–downside, dokumenteris memakai lokasi–tanggal–pelaku–akibat, ahli gizi memakai bahan–porsi–suhu–higiene, dan komika memakai setup–target kuasa–punchline.
 - Voiceprint yang sama dipakai konsisten pada empat titik: post utama timeline, balasan akun setelah action card, dialog ability, dan komentar follow-up context combo.
@@ -65,7 +71,7 @@ Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024
 - Seluruh tokoh roster wajib mendapat giliran dalam fase masing-masing sebelum rotasi mengulang; relevansi isu menentukan urutan, bukan menghapus kartu.
 - `Yanuar Risky Banget` diganti menjadi **Risky Februari**.
 - Mode **Kronik** untuk campaign penuh dan **Mode Bebas** untuk mulai atau lompat ke fase 2024–2029 mana saja.
-- Setiap bulan memiliki minimal tiga alternatif post utama: **233 varian timeline** untuk 72 bulan, termasuk 49 varian di Arc 2.
+- Setiap bulan memiliki minimal tiga alternatif post utama: **380 varian timeline** untuk 72 bulan, termasuk 49 varian Arc 2.
 - Seed campaign menentukan varian yang muncul dan ikut tersimpan di save. Reload mempertahankan timeline yang sama; campaign baru menyusun kombinasi lain.
 - Setiap post utama hanya berfokus pada satu akun/tokoh. Panel ramai tetap boleh muncul sebagai special event, bukan sebagai satu tweet keroyokan.
 - Varian arsip memakai pernyataan kontroversial yang terdokumentasi, termasuk komentar rupiah–dolar, polemik SPPG, narasi agen asing, serta arsip fufufafa; kutipan, parafrasa, dan satire dibedakan lewat kartu sumber.
@@ -102,7 +108,7 @@ Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024
 │   ├── js/game.js             # data naratif + mesin permainan
 │   ├── js/ending-system.js    # skor, moral, utang, pangkat, dan pemilu
 │   ├── js/netizen-pack.js     # persona komentar dan spam satir
-│   ├── js/timeline-variants.js # 233 post bulanan, speaker, seed, sumber
+│   ├── js/timeline-variants.js # 380 post bulanan, speaker, seed, cooldown
 │   ├── js/runtime.js          # boot diagnostics + registrasi offline
 │   └── icons/icon.svg         # ikon lokal
 ├── manifest.webmanifest       # metadata PWA
@@ -134,7 +140,7 @@ npm ci
 npm test
 ```
 
-Enam belas test memeriksa sintaks JavaScript, kelengkapan file modular, 59/59 voiceprint roster beserta seluruh focal account timeline, koherensi komentar untuk seluruh action dan stance akun, audit alias politik, 216+ varian satu-tokoh, perbedaan seed antarrun, coverage seluruh roster, Mode Bebas untuk kedua kubu, 42 event × 2 kubu × 4 pilihan, evaluator ending, kompatibilitas save v3, dan simulasi campaign penuh untuk kedua kubu.
+Tujuh belas test memeriksa sintaks JavaScript, kelengkapan file modular, 59/59 voiceprint roster beserta seluruh focal account timeline, koherensi komentar untuk seluruh action dan stance akun, audit alias politik, 380 varian satu-tokoh, ticker berbasis seed, cooldown serta batas frekuensi pembicara, coverage seluruh roster, Mode Bebas untuk kedua kubu, 42 event × 2 kubu × 4 pilihan, evaluator ending, kompatibilitas save v3, dan simulasi campaign penuh untuk kedua kubu.
 
 ## Deploy ke GitHub Pages
 

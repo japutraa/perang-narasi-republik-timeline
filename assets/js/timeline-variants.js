@@ -48,19 +48,86 @@
     "Mbak Orang Tua Grup Kelas": ["@bekaljanganbikinrawat", "👩‍👧"],
     "Warga Garuda Biru": ["@demokrasidarurat", "🚨"],
     "Akun Forum yang Tidak Mau Mati": ["@fufufafa_archive", "👻"],
+    "Pak Yus-Ribet Pasal Berjalan": ["@pasalberjalan", "📜"],
+    "Prof. Ferry Ambyar-Sari": ["@desainkuasa", "🏛️"],
+    "Bu Bibitri Susah-Tidur": ["@hukumbahasawaras", "🗂️"],
+    "Prof. Uceng Monitor": ["@monitorlembaga", "🖥️"],
+    "Bang Haris Azar-Nalar": ["@hakorangkonkret", "✊"],
+    "BEM UI: Mimin Pernyataan Sikap": ["@miminpernyataansikap", "📢"],
+    "Mimin Warga Tidak Lupa": ["@receiptwarga", "🧷"],
+    "Kak Referensi": ["@tautandulu", "🔗"],
+    "Ferry Ir-Why-Nih": ["@premisdulu", "🧠"],
+    "Roy Sur-Yoyo": ["@forensikdariscreenshot", "🔎"],
+    "Guru Gembung-Bul": ["@barayabelajar", "🧑‍🏫"],
+    "Rocky Gunung Berisik": ["@akalsehatberisik", "⛰️"],
+    "Panji Pra-Guyon": ["@setupdulukawan", "🎤"],
+    "Andovi da Toa-Speaker": ["@toadialog", "📣"],
+    "Raymond Cuan-Check": ["@cekunitekonomi", "💹"],
+    "Ainun Na-Geek Data Warga": ["@databisadipakai", "💾"],
+    "Andita Filsuf Uta-Mikir": ["@buktidanempati", "🌱"],
+    "Bossman Mardi-Gitu": ["@papanbesarglobal", "🌐"],
+    "Jerom Poling Data": ["@cobahitungbareng", "➗"],
+    "Jenderal Syaf-Ribet Semua Urusan": ["@komandotertib", "🪖"],
+    "Mbak Mute-Ya Hafalan": ["@pesanterkendali", "🎛️"],
+    "Pak ROI-san Rugi-Selalu": ["@pipelineinvestasi", "📉"],
+    "Pak E-Rick Tohired": ["@kpidulu", "🏁"],
+    "Pak Nus-Ruwet Wahid": ["@petanyadiluruskan", "🗺️"],
+    "Mbak Puanorama Senayan": ["@paluagenda", "🔨"],
+    "Bu Mega-Watt Merah": ["@garislama", "🔌"],
+    "Pak Deskoordinasi Senyap": ["@koordinasidulu", "🤝"],
   };
 
   const speakerBanks = {
-    economy: ["Feri Latih-Hitung", "Risky Februari", "Pak Purba-Yey Dompet Negara"],
-    government: ["Pak Jenderal Gemoyono", "Mayor Tedi Ketok-Pintu", "Hasbun Naskah Basi"],
-    law: ["Bang Akbar Pasal", "Mbak Amar Setengah", "Mbak Pintu Rapat"],
-    civic: ["Mas Tiyo Toa", "Fatima Footnote", "Bang Dandy Lensa-Sono"],
-    geopolitics: ["Om Gita Wacana-Wira", "Om Diplo Peta Dunia", "Menlu Sunyi Gono-Gini"],
-    election: ["Prof. Margin Error", "Mas Hendro Satir-IO", "Mbak Peta Keluarga"],
-    media: ["Bang Akbar Pasal", "Bang Dandy Lensa-Sono", "Mbak Nana Kursi Kosong"],
-    religion: ["Ustaz Feli-Xi-Auw", "Fatima Footnote", "Warga Garuda Biru"],
-    publicService: ["Mbak Audit Kotak Makan", "dr. Tan Sehat-Yen", "Bu Nanik Nasi-Doyang"],
-    default: ["Warga Garuda Biru", "Fatima Footnote", "Hasbun Naskah Basi"],
+    economy: [
+      "Feri Latih-Hitung", "Risky Februari", "Pak Purba-Yey Dompet Negara",
+      "Om Gita Wacana-Wira", "Raymond Cuan-Check", "Ainun Na-Geek Data Warga",
+      "Prof. Renal Disrupsi", "Jerom Poling Data", "Andita Filsuf Uta-Mikir",
+    ],
+    government: [
+      "Pak Jenderal Gemoyono", "Mayor Tedi Ketok-Pintu", "Hasbun Naskah Basi",
+      "Bahlul Hilir-Hilir", "Jenderal Syaf-Ribet Semua Urusan", "Mbak Mute-Ya Hafalan",
+      "Pak ROI-san Rugi-Selalu", "Pak E-Rick Tohired", "Pak Nus-Ruwet Wahid",
+    ],
+    law: [
+      "Bang Akbar Pasal", "Mbak Amar Setengah", "Mbak Pintu Rapat",
+      "Pak Yus-Ribet Pasal Berjalan", "Prof. Ferry Ambyar-Sari", "Bu Bibitri Susah-Tidur",
+      "Prof. Uceng Monitor", "Bang Haris Azar-Nalar", "Mbak Nana Kursi Kosong",
+    ],
+    civic: [
+      "Mas Tiyo Toa", "Fatima Footnote", "Bang Dandy Lensa-Sono",
+      "Bang Haris Azar-Nalar", "BEM UI: Mimin Pernyataan Sikap", "Mimin Warga Tidak Lupa",
+      "Kak Referensi", "Andovi da Toa-Speaker", "Panji Pra-Guyon", "Guru Gembung-Bul",
+    ],
+    geopolitics: [
+      "Om Gita Wacana-Wira", "Om Diplo Peta Dunia", "Menlu Sunyi Gono-Gini",
+      "Bossman Mardi-Gitu", "Andita Filsuf Uta-Mikir", "Jenderal Syaf-Ribet Semua Urusan",
+      "Rocky Gunung Berisik", "Fatima Footnote",
+    ],
+    election: [
+      "Prof. Margin Error", "Mas Hendro Satir-IO", "Mbak Peta Keluarga",
+      "Mbak Nana Kursi Kosong", "Bang Akbar Pasal", "Mbak Puanorama Senayan",
+      "Bu Mega-Watt Merah", "Pak Deskoordinasi Senyap", "Mimin Warga Tidak Lupa",
+    ],
+    media: [
+      "Bang Akbar Pasal", "Bang Dandy Lensa-Sono", "Mbak Nana Kursi Kosong",
+      "Mbak Mute-Ya Hafalan", "Ferry Ir-Why-Nih", "Roy Sur-Yoyo",
+      "Panji Pra-Guyon", "Andovi da Toa-Speaker", "Akun Forum yang Tidak Mau Mati",
+      "Mimin Warga Tidak Lupa",
+    ],
+    religion: [
+      "Ustaz Feli-Xi-Auw", "Fatima Footnote", "Warga Garuda Biru",
+      "Guru Gembung-Bul", "Bang Haris Azar-Nalar", "Kak Referensi",
+    ],
+    publicService: [
+      "Mbak Audit Kotak Makan", "dr. Tan Sehat-Yen", "Bu Nanik Nasi-Doyang",
+      "Mbak Bendahara Desa", "Bu Guru Honorer", "Mbak Orang Tua Grup Kelas",
+      "Ainun Na-Geek Data Warga", "Andita Filsuf Uta-Mikir", "Jerom Poling Data",
+    ],
+    default: [
+      "Warga Garuda Biru", "Fatima Footnote", "Hasbun Naskah Basi",
+      "Mimin Warga Tidak Lupa", "Kak Referensi", "Ferry Ir-Why-Nih",
+      "Ainun Na-Geek Data Warga", "Mbak Nana Kursi Kosong",
+    ],
   };
 
   // The account must speak from its own political position. Regime accounts
@@ -78,6 +145,13 @@
     "Prof. Margin Error": "institutional",
     "Mbak Audit Kotak Makan": "institutional",
     "Akun Forum yang Tidak Mau Mati": "archive",
+    "Jenderal Syaf-Ribet Semua Urusan": "regime",
+    "Mbak Mute-Ya Hafalan": "regime",
+    "Pak ROI-san Rugi-Selalu": "regime",
+    "Pak E-Rick Tohired": "regime",
+    "Pak Nus-Ruwet Wahid": "regime",
+    "Mbak Puanorama Senayan": "institutional",
+    "Pak Deskoordinasi Senyap": "institutional",
   };
 
   const sources = {
@@ -941,6 +1015,15 @@
     });
   }
 
+  const variantEdges = [
+    (i) => `Mulai dari baseline, tanggal, dan pihak yang menandatangani ${i.document}.`,
+    (i) => `Kalau jawabannya serius, sebut tenggat, penanggung jawab, dan ukuran gagalnya.`,
+    (i) => `Buka juga siapa yang menanggung biaya ketika target untuk ${i.people} meleset.`,
+    (i) => `Jangan potong percakapan sebelum pertanyaan kedua dan lampirannya ikut naik.`,
+    (i) => `Catat klaim hari ini; tiga bulan lagi publik berhak membandingkannya dengan hasil.`,
+    (i) => `Kalau datanya berubah, koreksi terbuka—bukan diam-diam mengganti grafik lama.`,
+  ];
+
   function build(issue, context = {}) {
     const key = `${Number(context.phaseIndex) || 0}:${Number(context.dayIndex) || 0}`;
     const special = explicit[key];
@@ -957,25 +1040,52 @@
 
     const group = topicGroup(issue);
     const primary = firstSpeaker(issue);
-    const names = [...new Set([primary, ...(speakerBanks[group] || speakerBanks.default)].filter(Boolean))].slice(0, 3);
-    while (names.length < 3) names.push(speakerBanks.default[names.length]);
+    const pool = [...new Set([primary, ...(speakerBanks[group] || speakerBanks.default)].filter(Boolean))];
+    const ranked = pool.sort((a, b) =>
+      hash(`${key}:${group}:${a}`) - hash(`${key}:${group}:${b}`),
+    );
+    const names = primary
+      ? [primary, ...ranked.filter((name) => name !== primary)].slice(0, 6)
+      : ranked.slice(0, 6);
+    while (names.length < 3) {
+      const fallback = speakerBanks.default.find((name) => !names.includes(name));
+      if (!fallback) break;
+      names.push(fallback);
+    }
     return names.map((name, index) => {
       const speaker = speakerData(name, issue);
       const bank = speaker.stance === "regime" ? regimeCopy : genericCopy;
       const copy = bank[group] || bank.default;
       return {
         ...speaker,
-        post: copy[index % copy.length](issue),
+        post: `${copy[index % copy.length](issue)} ${variantEdges[index % variantEdges.length](issue)}`,
         lesson: issue.lesson,
         facts: mergeFacts(issue.facts),
-        variantId: `${key}:${group}:${speaker.stance}:${index}`,
+        variantId: `${key}:${group}:${speaker.stance}:${hash(name).toString(36)}`,
       };
     });
   }
 
   function select(issue, context = {}) {
     const variants = build(issue, context);
-    const index = hash(`${Number(context.seed) || 1}:${context.phaseIndex}:${context.dayIndex}`) % variants.length;
+    const lockedIndex = context.lockedVariantId
+      ? variants.findIndex((variant) => variant.variantId === context.lockedVariantId)
+      : -1;
+    const recent = Array.isArray(context.recentSpeakers) ? context.recentSpeakers : [];
+    const counts = context.speakerCounts && typeof context.speakerCounts === "object"
+      ? context.speakerCounts
+      : {};
+    const seedKey = `${Number(context.seed) || 1}:${context.phaseIndex}:${context.dayIndex}`;
+    const scores = variants.map((variant, index) => {
+      const recency = recent.indexOf(variant.npc);
+      const cooldownPenalty = recency < 0 ? 0 : (recent.length - recency + 1) * 100000000;
+      const frequencyPenalty = (Number(counts[variant.npc]) || 0) * 1000000;
+      const seedTieBreak = hash(`${seedKey}:${variant.variantId}`) % 1000000;
+      return { index, score: cooldownPenalty + frequencyPenalty + seedTieBreak };
+    });
+    const index = lockedIndex >= 0
+      ? lockedIndex
+      : scores.sort((a, b) => a.score - b.score || a.index - b.index)[0].index;
     return {
       ...issue,
       ...variants[index],
@@ -985,5 +1095,5 @@
     };
   }
 
-  window.PNTimelineVariants = Object.freeze({ build, select, hash, sources });
+  window.PNTimelineVariants = Object.freeze({ build, select, hash, sources, topicGroup });
 })();
