@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Seeded Rotation — v3.17.0**  
+> **Pasar Timeline — v3.18.0**  
 > Game satire politik Indonesia tentang kekuasaan, buzzer, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.17.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.18.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -21,6 +21,19 @@ Pemain memilih salah satu dari dua jalur:
 - **Aktivis Timeline → jaringan kampus, masyarakat sipil, watchdog, atau figur publik**
 
 Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024 sampai Pemilu 2029. Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya berada dalam **Timeline Alternatif**, bukan ramalan atau klaim faktual.
+
+## Fitur v3.18.0
+
+- Sidebar baru **Pasar Timeline** menampilkan simulasi USD/IDR dan IHSG beserta perubahan bulanannya, label natural seperti *rupiah melemah*, *rupiah anjlok*, dan *IHSG ambles*, serta alasan dominan di balik pergerakan.
+- Angka pasar bersifat deterministik per seed. Januari 2024–Juli 2026 memakai jangkar editorial dari arsip pasar; Agustus 2026–Desember 2029 menjadi cabang simulasi yang dipengaruhi risiko global, utang, kredibilitas, integritas, demokrasi, dan pilihan pemain.
+- Action card ekonomi, fiskal, geopolitik, transparansi, dan pasar memberi sinyal kecil—bukan tombol ajaib. Special event dapat mengubah **Risiko Podium**, jumlah lawatan, kuitansi diplomasi, kurs, dan IHSG; akibat tertunda juga dapat kembali menggerakkan pasar.
+- Event **Pidato Panjang, Rupiah Pendek Napas** kini punya delapan strategi khusus lintas kedua role: propaganda desa, briefing teknis, double-down podium, konferensi lintas lembaga, event study pidato, hingga audit omon-omon terhadap APBN.
+- Event baru **Negeri Membara, Boarding Pass Tetap Menyala** mengangkat kritik diplomat di X terhadap rencana kunjungan ke Tiongkok saat protes Agustus 2025. Tokohnya tetap memakai plesetan **Om Diplo Peta Dunia** dan pilihan pemain menguji prioritas domestik, delegasi, biaya, serta hasil lawatan.
+- Event **Agustus Membara** sekarang menghubungkan korban, bahasa terorisme/makar, respons aparat, rupiah, dan IHSG tanpa mengklaim satu pidato sebagai sebab tunggal gerak pasar.
+- Kartu fakta event sekarang dapat diklik langsung. Sumber baru mencakup perjalanan luar negeri, kritik lawatan saat krisis, pidato kenegaraan, tekanan rupiah, trading halt, dan isu transparansi IHSG.
+- Seluruh event 2027–2029 dibersihkan dari deskripsi generik berulang seperti “naikkan distribusi”. Wording sekarang menyebut dokumen, aktor, uang, konflik kepentingan, target kritik, dan tindak lanjut sesuai kasusnya.
+- Jumlah special event menjadi **43**, dengan **344 pilihan** dan **688 cabang akibat tertunda** lintas dua role. Panel karier dan rapor akhir ikut mencatat Risiko Podium, lawatan, USD/IDR simulasi, serta IHSG simulasi.
+- Modul `assets/js/market-sim.js` memisahkan model pasar dari mesin utama agar UI, data jangkar, label, dan rumus seed dapat diuji tanpa menumpuk semua kode di satu file.
 
 ## Fitur v3.17.0
 

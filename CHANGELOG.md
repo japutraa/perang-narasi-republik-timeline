@@ -2,6 +2,17 @@
 
 Semua perubahan penting pada proyek ini dicatat di sini.
 
+## 3.18.0 — 2026-07-14
+
+- Menambahkan panel Pasar Timeline berisi simulasi seed-based USD/IDR dan IHSG, delta bulanan, status natural, alasan pergerakan, serta modal audit enam bulan terakhir.
+- Memisahkan mesin pasar ke `assets/js/market-sim.js`, memakai jangkar arsip sampai Juli 2026 dan cabang simulasi penuh setelahnya.
+- Menghubungkan pasar dengan utang, kredibilitas, integritas, demokrasi, Risiko Podium, kuitansi diplomasi, action card kontekstual, special event, dan akibat tertunda.
+- Menambahkan event `passport-during-fire` tentang kritik diplomat terhadap lawatan Tiongkok saat protes Agustus 2025, menggunakan karakter plesetan Om Diplo Peta Dunia.
+- Memperluas event podium-rupiah menjadi empat pilihan khusus per role serta memperbarui event Agustus Membara dengan pidato, musuh bersama, rupiah, dan IHSG.
+- Menambahkan kartu sumber klik langsung pada special event dan arsip Reuters/Bisnis tentang lawatan, kritik diplomasi, pidato, protes, rupiah, trading halt, MSCI, dan IHSG.
+- Mengganti filler event 2027–2029 dengan deskripsi yang menyebut bukti, uang, kewenangan, konflik kepentingan, pihak terdampak, serta jalur tindak lanjut yang sesuai konteks.
+- Memperbarui regresi menjadi 43 event, 344 pilihan, 688 cabang tertunda, termasuk determinisme pasar, seed berbeda, label rupiah/IHSG, dan integrasi panel.
+
 ## 3.17.0 — 2026-07-14
 
 - Mengubah Breaking Update menjadi tiga headline berbasis seed: headline utama mengikuti akun dan hashtag timeline aktif, sedangkan dua headline samping dipilih deterministik dari fase berjalan.

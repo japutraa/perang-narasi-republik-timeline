@@ -17,7 +17,7 @@
     <meta name="author" content="Adrian Janitra Putra" />
     <meta name="creator" content="Adrian Janitra Putra" />
     <meta name="application-name" content="Perang Narasi: Republik Timeline" />
-    <meta name="version" content="3.17.0" />
+    <meta name="version" content="3.18.0" />
     <meta name="theme-color" content="#0b0b0a" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="id_ID" />
@@ -54,7 +54,7 @@
         </div>
         <div>
           <div class="stamp">
-            BUILD 3.17.0 • 14 JULI 2026<br />Semua nama politik adalah plesetan • arsip faktual berhenti di Juli 2026
+            BUILD 3.18.0 • 14 JULI 2026<br />Semua nama politik adalah plesetan • arsip faktual berhenti di Juli 2026
           </div>
           <label class="switch" style="margin-top: 9px"
             ><input id="soundToggle" type="checkbox" checked /> bunyi kantor
@@ -207,7 +207,7 @@
               hanya ingin semuanya marah lebih lama.”
             </blockquote>
             <small
-              >Versi 3.17.0 • Seeded Rotation<br /><span
+              >Versi 3.18.0 • Pasar Timeline<br /><span
                 class="author-credit"
                 >GNU GPL v3 • Game by
                 <a
@@ -236,6 +236,20 @@
                 <div id="calendarLabel" class="calendar-label">
                   JANUARI 2024
                 </div>
+                <section class="market-sim" id="marketSim" aria-label="Simulasi pasar timeline">
+                  <div class="market-sim-head">
+                    <b>PASAR TIMELINE</b><span id="marketMode">ARSIP + SIMULASI</span>
+                  </div>
+                  <div class="market-row" id="usdRow">
+                    <span>USD/IDR</span><strong id="usdIdrValue">—</strong><small id="usdIdrDelta">—</small>
+                  </div>
+                  <div class="market-row" id="ihsgRow">
+                    <span>IHSG</span><strong id="ihsgValue">—</strong><small id="ihsgDelta">—</small>
+                  </div>
+                  <div class="market-status" id="marketStatus">PASAR BELUM BUKA</div>
+                  <p id="marketCause">Angka akan dibentuk oleh seed dan keputusan campaign.</p>
+                  <button type="button" id="marketInfoBtn">KENAPA GERAK?</button>
+                </section>
                 <div id="rank" class="rank">—</div>
                 <p id="objective" class="objective"></p>
                 <div class="money-label" id="moneyLabel">DANA OPERASI</div>
@@ -404,6 +418,7 @@
     <script src="assets/js/character-voices.js" defer></script>
     <script src="assets/js/timeline-variants.js" defer></script>
     <script src="assets/js/ending-system.js" defer></script>
+    <script src="assets/js/market-sim.js" defer></script>
     <script src="assets/js/game.js" defer></script>
   </body>
 </html>

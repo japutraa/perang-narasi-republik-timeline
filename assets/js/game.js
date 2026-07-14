@@ -1,5 +1,5 @@
 /**
- * Perang Narasi: Republik Timeline v3.17.0
+ * Perang Narasi: Republik Timeline v3.18.0
  * Copyright (C) 2026 Adrian Janitra Putra
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -109,6 +109,12 @@
     resolvedRipples: [],
     currentRippleNotices: [],
     eventOutcomeProfile: { positive: 0, negative: 0, neutral: 0, mixed: 0 },
+    market: null,
+    marketHistory: [],
+    marketSignals: { usd: 0, ihsg: 0, cause: "" },
+    podiumRisk: 0,
+    foreignTrips: 0,
+    diplomacyReceipts: 0,
   };
 
   const SAVE_KEY = "perang-narasi-save-v3";
@@ -223,6 +229,12 @@
     state.resolvedRipples = state.resolvedRipples || [];
     state.currentRippleNotices = [];
     state.eventOutcomeProfile = state.eventOutcomeProfile || { positive: 0, negative: 0, neutral: 0, mixed: 0 };
+    state.market = state.market && Number.isFinite(Number(state.market.usdIdr)) ? state.market : null;
+    state.marketHistory = Array.isArray(state.marketHistory) ? state.marketHistory : [];
+    state.marketSignals = state.marketSignals || { usd: 0, ihsg: 0, cause: "" };
+    state.podiumRisk = clamp(Number(state.podiumRisk) || 0, 0, 100);
+    state.foreignTrips = Math.max(0, Number(state.foreignTrips) || 0);
+    state.diplomacyReceipts = clamp(Number(state.diplomacyReceipts) || 0, -100, 100);
     state.runSeed = Number(state.runSeed) >>> 0 || createRunSeed();
     $("#startScreen").classList.add("hidden");
     $("#gameScreen").classList.remove("hidden");
@@ -5077,6 +5089,78 @@
     ],
   ];
   sources.prabowo2026 = prabowo2026Sources;
+  sources.marketTimeline = [
+    [
+      "Rupiah rekor lemah",
+      "Pada Mei 2026 rupiah sempat menyentuh Rp17.670 per dolar. Reuters mencatat tekanan energi global, arus modal, transparansi pasar, independensi bank sentral, dan rencana belanja pemerintah.",
+      "https://www.reuters.com/world/asia-pacific/indonesia-rupiah-hits-new-record-low-president-downplays-day-to-day-impact-2026-05-18/",
+    ],
+    [
+      "IHSG dan transparansi pasar",
+      "Pada Mei 2026 IHSG melemah hampir 2% setelah perubahan indeks MSCI. Isu free float, kepemilikan terkonsentrasi, dan transparansi ikut dibaca investor.",
+      "https://www.reuters.com/world/asia-pacific/indonesian-stocks-slide-after-msci-removes-six-companies-its-index-review-2026-05-13/",
+    ],
+    [
+      "Trading halt Maret 2025",
+      "IHSG sempat melemah sampai 7,1% dan perdagangan dihentikan sementara. Kekhawatiran fiskal dan pertumbuhan ikut menekan sentimen.",
+      "https://www.reuters.com/markets/asia/indonesia-economic-fundamentals-strong-despite-market-falls-minister-says-2025-03-18/",
+    ],
+  ];
+  sources.foreignTrips = [
+    [
+      "Lawatan pertama setelah pelantikan",
+      "Perjalanan luar negeri pertama presiden baru mencakup Tiongkok, Amerika Serikat, Peru, Brasil, dan Inggris; hasil diplomasi tetap perlu dipisahkan dari banyaknya foto pertemuan.",
+      "https://www.reuters.com/world/asia-pacific/indonesias-prabowo-visit-china-us-first-foreign-trip-newspaper-says-2024-10-29/",
+    ],
+    [
+      "Kritik saat negeri memanas",
+      "Seorang mantan wakil menteri luar negeri menulis di X agar rencana kunjungan ke Tiongkok dibatalkan atau diwakilkan menteri luar negeri karena presiden perlu berada di tengah krisis domestik.",
+      "https://kabar24.bisnis.com/read/20250830/15/1907027/situasi-indonesia-panas-dino-patti-djalal-minta-prabowo-tidak-ke-china",
+    ],
+    [
+      "Batal, lalu tetap berangkat",
+      "Rencana perjalanan sempat dibatalkan saat protes meluas. Beberapa hari kemudian presiden tetap menghadiri parade militer di Beijing ketika demonstrasi masih berlangsung.",
+      "https://www.reuters.com/world/china/with-brooms-hand-symbol-change-indonesian-women-join-jakarta-protests-2025-09-03/",
+    ],
+  ];
+  sources.augustSpeechMarket = [
+    [
+      "Pidato negara dan pasar",
+      "Saat pidato kenegaraan Agustus 2025 dimulai, IHSG sempat menguat sekitar 1,1% lalu ditutup melemah 0,4%; rupiah juga melemah sekitar 0,3%. Pergerakan intrahari tidak membuktikan satu pidato sebagai sebab tunggal.",
+      "https://www.reuters.com/business/environment/indonesia-crack-down-illegal-exploitation-resources-president-says-2025-08-15/",
+    ],
+    [
+      "Protes mengguncang rupiah dan saham",
+      "Pada 29 Agustus 2025 rupiah dan saham melemah ketika protes politik membesar; bank sentral menyatakan siap melakukan stabilisasi.",
+      "https://www.reuters.com/world/asia-pacific/indonesia-stocks-rupiah-dive-political-unrest-jolts-investors-2025-08-29/",
+    ],
+  ];
+
+  specialEvents.push({
+    id: "passport-during-fire",
+    phase: 1,
+    after: 8,
+    icon: "✈️",
+    title: "Negeri Membara, Boarding Pass Tetap Menyala",
+    actor: "Om Diplo Peta Dunia & Admin Karpet Merah",
+    text: "Protes membesar, korban jatuh, dan rencana terbang ke parade militer masih masuk kalender. Om Diplo Peta Dunia menulis: wakilkan saja ke menlu; presiden perlu ada di rumah ketika rakyat lagi pedih. Istana sempat mengabarkan batal, lalu pesawat tetap berangkat ketika asap protes belum benar-benar hilang.",
+    fact: "Kritik di X itu terdokumentasi pada 30 Agustus 2025. Rencana perjalanan sempat dibatalkan, tetapi kunjungan ke Beijing akhirnya tetap dilakukan pada 3 September saat aksi masih berjalan.",
+    sourceKey: "foreignTrips",
+    choices: {
+      buzzer: [
+        ["Upload karpet merah, mute suara sirene", "Jadikan kehadiran di parade sebagai bukti dunia segan. Ongkos, mandat, krisis domestik, dan hasil pertemuan dipotong dari video.", { reach: 13, credibility: -9, integrity: -11, democracy: -7, heat: 15, money: -68000000 }, "Foto pemimpin dunia lengkap. Jawaban kenapa presiden pergi saat warga berduka tetap ketinggalan di lounge.", { strategy: "DIPLOMASI SEBAGAI KONTEN", outlook: "negative", podiumRisk: 7, foreignTrip: 1, receipts: -8, market: { usd: 24, ihsg: -38, cause: "Krisis domestik dijawab dengan montage lawatan; pasar membaca prioritas dan kredibilitas." } }],
+        ["Buka tujuan, biaya, delegasi, dan hasil", "Terbitkan kenapa kepala negara harus hadir, apa yang tak bisa diwakilkan, biaya perjalanan, agenda bilateral, serta hasil yang dapat ditagih setelah pulang.", { reach: 1, credibility: 13, integrity: 12, democracy: 8, network: 6, heat: -8, money: -26000000 }, "Pesawatnya tetap terbang, tapi publik akhirnya dapat manifest kebijakan—bukan cuma manifest penumpang.", { strategy: "DIPLOMACY RECEIPTS", outlook: "positive", podiumRisk: -4, foreignTrip: 1, receipts: 14, market: { usd: -17, ihsg: 31, cause: "Tujuan, biaya, delegasi, dan hasil lawatan dibuka untuk diperiksa." } }],
+        ["Tunda keberangkatan, hadapi krisis", "Kirim menteri luar negeri, temui keluarga korban dan kelompok sipil, lalu jelaskan syarat kapan agenda luar negeri dilanjutkan.", { reach: 2, credibility: 12, integrity: 14, democracy: 13, network: 3, heat: -13, money: -18000000 }, "Ternyata mendelegasikan satu parade tidak membuat republik otomatis dikucilkan dunia.", { strategy: "PRIORITAS DOMESTIK", outlook: "positive", podiumRisk: -7, foreignTrip: 0, receipts: 7, market: { usd: -21, ihsg: 37, cause: "Krisis domestik diberi prioritas dan jalur diplomasi tetap berjalan lewat delegasi." } }],
+        ["Berangkat kilat, pulang bawa ledger", "Batasi perjalanan, hilangkan agenda kosmetik, dan rilis daftar komitmen yang punya nilai, tenggat, penanggung jawab, serta kepentingan domestik.", { reach: 5, credibility: 7, integrity: 7, democracy: 4, network: 8, heat: -2, money: -36000000 }, "Masih kontroversial, tapi setidaknya lawatan nggak dinilai pakai jumlah karpet yang diinjak.", { strategy: "LAWATAN BERSYARAT", outlook: "mixed", podiumRisk: -2, foreignTrip: 1, receipts: 10, market: { usd: -8, ihsg: 14, cause: "Lawatan dipangkas dan hasilnya diberi tenggat yang dapat diaudit." } }],
+      ],
+      aktivis: [
+        ["Bikin tracker paspor versus krisis", "Susun tanggal lawatan, kejadian domestik, biaya, agenda, delegasi, perjanjian, dan tindak lanjut; kritik prioritasnya tanpa mengarang isi kepala.", { reach: 8, credibility: 14, integrity: 13, democracy: 10, network: 7, heat: 2, money: -12000000 }, "Nah, ini baru sakit: itinerary-nya ketemu kalender korban dan kolom hasil yang banyak kosong.", { strategy: "AUDIT ITINERARY", outlook: "positive", podiumRisk: -3, foreignTrip: 1, receipts: 9, market: { usd: -11, ihsg: 19, cause: "Audit publik membedakan lawatan penting, agenda kosmetik, dan hasil yang belum terbukti." } }],
+        ["Bilang semua diplomasi cuma jalan-jalan", "Samakan perundingan penting, bantuan kemanusiaan, dan parade simbolik supaya punchline lebih gampang.", { reach: 12, credibility: -8, integrity: -7, democracy: -2, heat: 13, money: -3000000 }, "Kritiknya ramai, analisisnya ditolak imigrasi karena semua tujuan dianggap satu negara.", { strategy: "GENERALISASI MURAH", outlook: "negative", podiumRisk: 4, foreignTrip: 1, receipts: -5, market: { usd: 13, ihsg: -18, cause: "Debat lawatan berubah jadi fanwar tanpa ukuran hasil atau prioritas." } }],
+        ["Angkat kritik Om Diplo, cek hasil akhirnya", "Jadikan unggahan diplomat-kritikus sebagai pintu masuk, lalu verifikasi keputusan istana, keberangkatan aktual, dan hasil pertemuannya.", { reach: 7, credibility: 13, integrity: 14, democracy: 9, network: 8, heat: -1, money: -10000000 }, "Tweet-nya nggak dijadikan kitab suci. Kronologi dan hasil akhirnya ikut dibuka.", { strategy: "KRITIK + VERIFIKASI", outlook: "positive", podiumRisk: -4, foreignTrip: 1, receipts: 8, market: { usd: -10, ihsg: 18, cause: "Kritik publik diuji bersama keputusan aktual dan hasil lawatan." } }],
+        ["Tuntut protokol lawatan saat krisis", "Usulkan ambang kapan presiden tinggal, kapan cukup diwakilkan, siapa memegang kendali domestik, dan bagaimana hasil lawatan dilaporkan.", { reach: 3, credibility: 11, integrity: 12, democracy: 12, network: 10, heat: -6, money: -15000000 }, "Akhirnya debatnya bukan ‘boleh terbang atau tidak’, tapi siapa bertanggung jawab ketika dua agenda sama-sama genting.", { strategy: "PROTOKOL KRISIS", outlook: "positive", podiumRisk: -5, foreignTrip: 0, receipts: 11, market: { usd: -15, ihsg: 25, cause: "Protokol krisis memperjelas delegasi, kendali domestik, dan akuntabilitas lawatan." } }],
+      ],
+    },
+  });
 
   Object.assign(phases[2].days[4], {
     title: "#PakGemoyonoPidatoRupiahCariPintu",
@@ -5114,12 +5198,28 @@
           "Potong pidato jadi klip heroik. Abaikan harga impor, energi, obat, bahan baku, dan utang valas yang tetap masuk kampung tanpa paspor.",
           { reach: 14, credibility: -10, integrity: -12, democracy: -6, heat: 15, money: -85000000 },
           "Anjing, dolarnya memang nggak dipakai beli gorengan. Minyak, pupuk, obat, dan ongkosnya yang datang duluan.",
+          { strategy: "PODIUM JADI TAMENG", outlook: "negative", podiumRisk: 15, market: { usd: 54, ihsg: -82, cause: "Klip podium meremehkan transmisi dolar dan mengganti jawaban ekonomi dengan musuh bersama." } },
         ],
         [
           "Berhenti cari musuh, buka langkah stabilisasi",
           "Akui tekanan pasar, jelaskan transmisi ke harga, buka asumsi APBN, dan biarkan BI bicara tanpa disulih suara podium.",
           { reach: 2, credibility: 14, integrity: 13, democracy: 10, heat: -12, money: -42000000 },
           "Ternyata nasionalisme nggak mati cuma karena pemerintah bilang: iya, ini masalah dan ini datanya.",
+          { strategy: "BRIEFING TEKNIS", outlook: "positive", podiumRisk: -14, receipts: 5, market: { usd: -43, ihsg: 74, cause: "Asumsi fiskal, transmisi harga, dan ruang bicara bank sentral dibuka tanpa kambing hitam." } },
+        ],
+        [
+          "Pidato lagi, volume lebih keras",
+          "Ulangi fundamental kuat, tuduh spekulan, lalu tambah cerita swasembada tanpa tabel waktu, harga, atau risiko.",
+          { reach: 11, credibility: -8, integrity: -10, democracy: -7, heat: 17, money: -62000000 },
+          "Mic-nya aman, Bang. Yang ambles kepercayaan karena pertanyaan kurs dijawab pakai daftar musuh.",
+          { strategy: "DOUBLE DOWN PODIUM", outlook: "negative", podiumRisk: 18, market: { usd: 67, ihsg: -97, cause: "Pidato berikutnya menaikkan volume, bukan kepastian kebijakan." } },
+        ],
+        [
+          "Ganti monolog dengan konferensi lintas lembaga",
+          "Presiden membuka konteks, lalu menkeu dan bank sentral menjawab angka, skenario, batas intervensi, serta siapa menanggung pelemahan kurs.",
+          { reach: 4, credibility: 13, integrity: 12, democracy: 11, network: 5, heat: -10, money: -38000000 },
+          "Akhirnya satu podium punya lebih dari satu suara dan nggak semua pertanyaan diperlakukan seperti pembangkangan.",
+          { strategy: "PODIUM BERBAGI KUASA", outlook: "positive", podiumRisk: -17, receipts: 7, market: { usd: -51, ihsg: 88, cause: "Konferensi lintas lembaga memberi angka, skenario, dan batas kewenangan yang dapat diuji." } },
         ],
       ],
       aktivis: [
@@ -5128,15 +5228,79 @@
           "Punchline-nya enak, analisisnya malas. Korelasi dipaksa jadi tombol sebab-akibat supaya poster lebih galak.",
           { reach: 13, credibility: -9, integrity: -7, democracy: -2, heat: 14, money: -4000000 },
           "Kritik boleh pedas. Takhayul pasar tetap takhayul, Bangsat.",
+          { strategy: "MEME SEBAB-AKIBAT", outlook: "negative", podiumRisk: 7, market: { usd: 19, ihsg: -24, cause: "Kritik berubah jadi takhayul pasar; substansi fiskal dan institusi ikut hilang." } },
         ],
         [
           "Bongkar kebijakan, bukan mitos podium",
           "Hubungkan fiskal, independensi BI, arus modal, harga impor, dan bahasa presiden yang meremehkan dampak pada warga.",
           { reach: 7, credibility: 14, integrity: 12, democracy: 10, network: 8, heat: 1, money: -16000000 },
           "Ini lebih sakit daripada meme: ada data, ada warga, dan nggak ada musuh asing imajiner buat dijadikan kambing hitam.",
+          { strategy: "BEDAH TRANSMISI", outlook: "positive", podiumRisk: -9, market: { usd: -27, ihsg: 43, cause: "Kritik menghubungkan fiskal, arus modal, energi, independensi bank sentral, dan biaya hidup." } },
+        ],
+        [
+          "Bikin tracker ‘habis pidato, pasar bagaimana?’",
+          "Catat waktu pidato, isi kebijakan, kurs, IHSG, minyak, dolar global, dan berita lain; tandai korelasi tanpa menyulapnya jadi sebab tunggal.",
+          { reach: 9, credibility: 15, integrity: 14, democracy: 8, network: 6, heat: 2, money: -13000000 },
+          "Netizen masih boleh bilang anjlok. Spreadsheet-nya memastikan kita tahu anjlok bareng apa.",
+          { strategy: "PODIUM EVENT STUDY", outlook: "positive", podiumRisk: -11, market: { usd: -31, ihsg: 48, cause: "Tracker memisahkan timing pidato, isi kebijakan, dan shock pasar lain." } },
+        ],
+        [
+          "Sambungkan podium ke audit APBN",
+          "Ambil setiap klaim pidato—pangan, energi, desa, program gratis—lalu cocokkan dengan anggaran, impor, cadangan devisa, dan hasil aktual.",
+          { reach: 6, credibility: 14, integrity: 15, democracy: 11, network: 9, heat: -3, money: -18000000 },
+          "Omon-omonnya sekarang punya faktur. Kalau klaimnya benar, datanya selamat; kalau nggak, ya kelihatan bangsatnya di kolom selisih.",
+          { strategy: "AUDIT OMON-OMON", outlook: "positive", podiumRisk: -13, receipts: 6, market: { usd: -38, ihsg: 62, cause: "Klaim podium dicocokkan dengan APBN, impor, cadangan devisa, dan hasil program." } },
         ],
       ],
     },
+  });
+
+  const augustFireEvent = specialEvents.find(event => event.id === "august-fire");
+  if (augustFireEvent) {
+    augustFireEvent.text = "Protes tunjangan DPR dan biaya hidup membesar setelah pengemudi ojol tewas ditabrak kendaraan taktis. Pak Gemoyono naik podium: duka disebut, lalu terorisme, makar, dan musuh bersama ikut masuk. Rupiah serta IHSG ikut bergejolak; timeline langsung bikin hukum ekonomi sendiri: setiap mic menyala, pasar katanya cari pintu keluar.";
+    augustFireEvent.fact = "Pasar memang melemah ketika protes membesar, tetapi timing bukan bukti sebab tunggal. Risiko politik, respons aparat, arus modal, kebijakan fiskal, dan kondisi global bergerak bersamaan.";
+    augustFireEvent.facts = sources.augustSpeechMarket;
+    augustFireEvent.choices.buzzer[0][4] = { strategy: "FRAME KETERTIBAN", outlook: "negative", podiumRisk: 13, market: { usd: 42, ihsg: -66, cause: "Duka dan tuntutan warga dihapus; podium hanya menyisakan kerusuhan serta musuh bersama." } };
+    augustFireEvent.choices.buzzer[1][4] = { strategy: "AKUNTABILITAS KRISIS", outlook: "positive", podiumRisk: -12, market: { usd: -34, ihsg: 57, cause: "Korban diakui, investigasi dibuka, dan hak protes dipisahkan dari tindak kekerasan." } };
+    augustFireEvent.choices.aktivis[0][4] = { strategy: "RAW FOOTAGE DUMP", outlook: "negative", podiumRisk: 5, market: { usd: 15, ihsg: -21, cause: "Bukti, rumor, dan trauma dicampur; ketidakpastian publik bertambah." } };
+    augustFireEvent.choices.aktivis[1][4] = { strategy: "ARSIP AMAN KORBAN", outlook: "positive", podiumRisk: -7, market: { usd: -18, ihsg: 30, cause: "Bukti diverifikasi, korban dilindungi, dan tuntutan tetap dapat diperiksa." } };
+  }
+
+  const futureEventFacts = {
+    "danantara-audit": "Aset publik yang dikonsolidasikan tetap butuh mandat, batas risiko, beneficial ownership, audit, dan jalur koreksi yang bisa dilihat warga.",
+    "identity-wave": "Ketika dalil masuk kalender kampanye, yang diuji bukan iman warga melainkan penggunaan otoritas agama, iklan, target audiens, dan hak kelompok yang tidak ikut arus mayoritas.",
+    "climate-budget": "Banjir tidak membaca slogan. Anggaran adaptasi, peta risiko, tata ruang, perlindungan sosial, dan siapa yang dipindahkan menentukan siapa menanggung air paling tinggi.",
+    "asset-bill": "RUU perampasan aset hanya berguna bila standar bukti, kontrol pengadilan, hak pihak ketiga, transparansi penyitaan, dan pengembalian aset sama kuatnya dengan judul konferensi pers.",
+    "opposition-platform": "Oposisi diuji dari alternatif anggaran, mekanisme internal, konflik kepentingan, dan kesediaan dikritik—bukan dari seberapa marah warna PowerPoint-nya.",
+    "candidate-podcast": "Durasi dua jam tidak otomatis berarti jawaban lengkap. Transkrip, costing, rekam kebijakan, dan pertanyaan lanjutan membuat obrolan kandidat bisa ditagih.",
+    "dynasty-2": "Nama belakang bukan delik. Akses istimewa, donor, pencalonan, fasilitas, konflik kepentingan, dan kompetisi yang timpang tetap perlu dibuka.",
+    "ai-clone": "Klon suara dan video membuat autentikasi, provenance, hak koreksi, waktu respons, serta tanggung jawab platform menjadi infrastruktur pemilu.",
+    "fufufafa-return": "Isi cache lama tetap dapat dinilai sebagai jejak digital, tetapi kepemilikan akun tidak diperlakukan sebagai fakta final. Mas Samsul dan semua pihak tetap dinilai dari bukti, bukan silsilah screenshot.",
+    "campaign-money": "Affiliate politik membutuhkan disclosure pembayaran, sponsor, donor, iklan terarah, kontrak kreator, dan batas antara dukungan organik dengan kerja berbayar.",
+    "neutrality-test": "Netralitas aparat diuji lewat perintah, fasilitas, pengerahan, penanganan laporan, sanksi, dan rasa aman pemilih—bukan pose formal di depan spanduk.",
+    "many-candidates": "Lebih banyak kandidat memperluas pilihan sekaligus menambah beban debat, pembiayaan, disinformasi, dan kemungkinan putaran kedua.",
+    "influencer-panel": "Audiens besar bukan mandat. Panel politik perlu disclosure kepentingan, sumber primer, koreksi, dan ruang bagi orang yang menanggung kebijakan tetapi tidak punya subscriber.",
+    "election-documentary": "Dokumenter lima tahun dapat menjaga ingatan publik bila metode, sumber, hak jawab, koreksi, dan rantai arsipnya ikut dibuka.",
+    "quiet-period": "Masa tenang digital diuji oleh iklan gelap, akun anonim, pesan terjadwal, deepfake, serta kemampuan platform dan pengawas merespons tanpa mematikan kritik.",
+    "open-ballot": "Kotak suara bukan epilog. Rekap, sengketa, putaran kedua, transfer kekuasaan, dan pengawasan warga tetap menentukan apakah hasil pemilu punya legitimasi.",
+  };
+  specialEvents.forEach(event => {
+    if (futureEventFacts[event.id]) event.fact = futureEventFacts[event.id];
+    if (event.phase < 3) return;
+    ["buzzer", "aktivis"].forEach(role => {
+      (event.choices[role] || []).forEach((choice, index) => {
+        if (/Naikkan distribusi dan tutup ruang pertanyaan/i.test(choice[1])) choice[1] = `Dorong frame “${choice[0]}” pada isu ${event.title}, potong bagian yang meminta bukti, lalu biarkan volume menggantikan jawaban.`;
+        if (/Dorong isu menjadi viral meski bukti/i.test(choice[1])) choice[1] = `Jadikan “${choice[0]}” sebagai serangan utama pada ${event.title} sebelum dokumen, target kritik, dan batas klaimnya beres.`;
+        if (/Publikasikan dasar keputusan, batas kewenangan/i.test(choice[1])) choice[1] = `Buka dokumen, pihak yang memutuskan, uang, konflik kepentingan, tenggat, dan mekanisme koreksi yang relevan dengan ${event.title}.`;
+        if (/Verifikasi, dokumentasikan, lalu bangun koalisi/i.test(choice[1])) choice[1] = `Verifikasi klaim ${event.title}, simpan dokumennya, cari pihak yang terdampak, lalu tentukan jalur hukum, politik, atau organisasi yang bisa menindaklanjuti.`;
+        if (choice[3] === "“Views naik. Jawaban masih dicari.”") choice[3] = `“${choice[0]} masuk FYP. Pertanyaan soal ${event.title} masih disuruh ambil nomor antrean.”`;
+        if (choice[3] === "“Aneh, transparansi ternyata bisa dipakai.”") choice[3] = `“Anjing, lampiran ${event.title} akhirnya dibuka. Ternyata negara nggak bubar cuma karena warga boleh membaca.”`;
+        if (choice[3] === "“Keras, tapi siapa yang harus bertanggung jawab?”") choice[3] = `“Galaknya dapat. Sekarang siapa yang memutuskan, siapa yang untung, dan siapa yang bisa dimintai tanggung jawab soal ${event.title}?”`;
+        if (choice[3] === "“Thread ini punya dokumen dan langkah lanjut.”") choice[3] = `“Utas ${event.title} ini punya dokumen, batas klaim, orang terdampak, dan alamat tindak lanjut. Tumben lengkap.”`;
+        if (!choice[4]) choice[4] = {};
+        choice[4].strategy = choice[4].strategy || (index === 0 ? role === "buzzer" ? "PANGGUNG CEPAT" : "ESKALASI VIRAL" : "BUKTI + TINDAK LANJ");
+      });
+    });
   });
 
   // Historical spine through July 2026. From August 2026 onward the existing
@@ -8275,6 +8439,12 @@
       resolvedRipples: [],
       currentRippleNotices: [],
       eventOutcomeProfile: { positive: 0, negative: 0, neutral: 0, mixed: 0 },
+      market: null,
+      marketHistory: [],
+      marketSignals: { usd: 0, ihsg: 0, cause: "" },
+      podiumRisk: startPhase >= 2 ? 12 : 0,
+      foreignTrips: startPhase >= 2 ? 14 : startPhase >= 1 ? 5 : 0,
+      diplomacyReceipts: 0,
     });
     resetQuizDeck();
     $("#startScreen").classList.add("hidden");
@@ -8597,6 +8767,96 @@
       loadIssue();
     };
   }
+  function marketMonthIndex() {
+    return state.phase * 12 + Math.max(0, state.day - 1);
+  }
+  function marketStats() {
+    return {
+      credibility: state.credibility,
+      integrity: state.integrity,
+      democracy: state.democracy,
+      debt: state.debt,
+      podiumRisk: state.podiumRisk,
+      diplomacyReceipts: state.diplomacyReceipts,
+    };
+  }
+  function advanceMarketSimulation(force = false) {
+    const engine = window.PNMarketSim;
+    if (!engine || !state.role) return null;
+    const index = marketMonthIndex();
+    if (!force && state.market?.monthIndex === index) return state.market;
+    const previous = state.market;
+    const signals = state.marketSignals || { usd: 0, ihsg: 0, cause: "" };
+    state.market = engine.snapshot({
+      index,
+      seed: state.runSeed || 1,
+      stats: marketStats(),
+      signals,
+      previous,
+    });
+    state.marketHistory = Array.isArray(state.marketHistory) ? state.marketHistory : [];
+    state.marketHistory.push({ ...state.market, phase: state.phase, day: state.day });
+    state.marketHistory = state.marketHistory.slice(-72);
+    state.marketSignals = {
+      usd: Math.round((Number(signals.usd) || 0) * 0.25),
+      ihsg: Math.round((Number(signals.ihsg) || 0) * 0.25),
+      cause: "",
+    };
+    return state.market;
+  }
+  function marketTone() {
+    const market = state.market || {};
+    const bad = (market.usdDelta || 0) > 0 && (market.ihsgDelta || 0) < 0;
+    const good = (market.usdDelta || 0) < 0 && (market.ihsgDelta || 0) > 0;
+    return bad ? "bad" : good ? "good" : "neutral";
+  }
+  function signedMarketDelta(value, suffix = "") {
+    const number = Math.round(Number(value) || 0);
+    if (!number) return `• 0${suffix}`;
+    return `${number > 0 ? "▲" : "▼"} ${Math.abs(number).toLocaleString("id-ID")}${suffix}`;
+  }
+  function renderMarketPanel() {
+    const engine = window.PNMarketSim;
+    if (!engine || !state.market || !$("#marketSim")) return;
+    const market = state.market, labels = engine.labels(market), tone = marketTone();
+    $("#usdIdrValue").textContent = Math.round(market.usdIdr).toLocaleString("id-ID");
+    $("#ihsgValue").textContent = Math.round(market.ihsg).toLocaleString("id-ID");
+    $("#usdIdrDelta").textContent = signedMarketDelta(market.usdDelta);
+    $("#ihsgDelta").textContent = signedMarketDelta(market.ihsgDelta);
+    $("#usdRow").className = `market-row ${(market.usdDelta || 0) > 0 ? "bad" : (market.usdDelta || 0) < 0 ? "good" : ""}`;
+    $("#ihsgRow").className = `market-row ${(market.ihsgDelta || 0) < 0 ? "bad" : (market.ihsgDelta || 0) > 0 ? "good" : ""}`;
+    $("#marketMode").textContent = market.archive ? "ARSIP + SIMULASI" : "SIMULASI SEED";
+    $("#marketStatus").className = `market-status ${tone === "neutral" ? "" : tone}`;
+    $("#marketStatus").textContent = `${labels.usd} • ${labels.ihsg}`;
+    $("#marketCause").textContent = market.cause || "Pasar membaca data, kebijakan, dan risiko; bukan tepuk tangan semata.";
+    $("#marketInfoBtn").onclick = showMarketInfo;
+  }
+  function showMarketInfo() {
+    const market = state.market || {}, labels = window.PNMarketSim?.labels(market) || {};
+    const history = (state.marketHistory || []).slice(-6).reverse();
+    $("#modalContent").innerHTML = `<h2>📉 Pasar Timeline</h2><p>Ini <b>simulasi game</b>, bukan feed trading dan bukan ramalan. Sampai Juli 2026, arahnya memakai jangkar arsip; sesudah itu seed, risiko global, dan keputusan campaign membentuk cabang baru.</p><div class="ending-score"><div><strong>Rp${Math.round(market.usdIdr || 0).toLocaleString("id-ID")}</strong>USD/IDR</div><div><strong>${Math.round(market.ihsg || 0).toLocaleString("id-ID")}</strong>IHSG</div><div><strong>${Math.round(state.podiumRisk || 0)}</strong>Risiko Podium</div><div><strong>${state.foreignTrips || 0}</strong>Lawatan</div></div><div class="lesson"><b>${labels.usd || "RUPIAH DATAR"} • ${labels.ihsg || "IHSG DATAR"}</b><br>${escapeHtml(market.cause || "Belum ada sinyal dominan.")}<br><small>“Setelah pidato” tidak otomatis berarti “karena pidato”. Game menilai isi kebijakan, fiskal, komunikasi, arus modal, energi global, tata kelola pasar, dan independensi institusi.</small></div>${eventFactLinks({ facts: sources.marketTimeline })}<div class="career-line"><b>ENAM BULAN TERAKHIR</b><ul>${history.map(item => `<li>${timelineLabel(item.monthIndex)}: USD/IDR <b>${Math.round(item.usdIdr).toLocaleString("id-ID")}</b> • IHSG <b>${Math.round(item.ihsg).toLocaleString("id-ID")}</b></li>`).join("") || "<li>Belum ada histori.</li>"}</ul></div><button class="btn" id="closeMarketInfo">Tutup</button>`;
+    $("#modal").classList.remove("hidden");
+    $("#closeMarketInfo").onclick = () => $("#modal").classList.add("hidden");
+  }
+  function applyMarketMove(move = {}, fallbackCause = "Pasar membaca sinyal baru dari timeline.") {
+    if (!state.market || !move) return;
+    const oldUsd = state.market.usdIdr, oldIhsg = state.market.ihsg;
+    state.market.usdIdr = clamp(Math.round(oldUsd + (Number(move.usd) || 0)), 13500, 25000);
+    state.market.ihsg = clamp(Math.round(oldIhsg + (Number(move.ihsg) || 0)), 2500, 12500);
+    state.market.usdDelta = (state.market.usdDelta || 0) + state.market.usdIdr - oldUsd;
+    state.market.ihsgDelta = (state.market.ihsgDelta || 0) + state.market.ihsg - oldIhsg;
+    state.market.cause = move.cause || fallbackCause;
+    renderMarketPanel();
+  }
+  function applyActionMarketSignal(action, issue, good, display) {
+    const context = `${issue.key} ${issue.arc || ""} ${issue.subject || ""} ${issue.title || ""}`.toLowerCase();
+    if (!/rupiah|ihsg|pasar|fiskal|anggaran|ekonomi|danantara|invest|transparan|dolar|utang|geopolit|lawatan|pidato/.test(context)) return;
+    const evidence = (action.tags || []).some(tag => ["data", "budget", "transparency", "context", "law"].includes(tag));
+    const move = good && evidence
+      ? { usd: -8, ihsg: 12, cause: `${display.name} memberi sinyal kecil bahwa bukti dan institusi masih dipakai.` }
+      : { usd: 11, ihsg: -16, cause: `${display.name} menambah noise kebijakan. Pasar tidak membaca meme sebagai reformasi.` };
+    applyMarketMove(move);
+  }
   function seedPostMetrics() {
     const i = currentIssue(),
       base = Math.max(
@@ -8626,6 +8886,7 @@
   }
   function loadIssue(preserve = false) {
     const i = currentIssue();
+    advanceMarketSimulation();
     rememberTimelineSpeaker(i);
     let rippleNotices = [];
     if (!preserve) {
@@ -9534,7 +9795,7 @@
     applyEffects(card.reward||{});state.actions++;state.career+=Math.max(4,Math.round(d/6));state.lastAction=card.actionId;card.used=true;
     state.history.push({phase:state.phase,day:state.day,action:`followup:${card.actionId}`,variant:0,label:card.title,character:card.characterName});
     const good=a.int>=0&&a.dem>=0,display={name:card.title,desc:card.desc,context:`Context combo ${card.characterName}`};
-    updateEngagement(a,d,good,display,0);state.comments.unshift(contextComboCrowdComment(card));state.comments.unshift(followUpCharacterComment(card,good));state.comments=state.comments.slice(0,24);
+    updateEngagement(a,d,good,display,0);applyActionMarketSignal(a,i,good,display);state.comments.unshift(contextComboCrowdComment(card));state.comments.unshift(followUpCharacterComment(card,good));state.comments=state.comments.slice(0,24);
     addLog(`CONTEXT COMBO: ${card.characterName} → ${card.title}. Narasi lawan turun ${d}; extra reward masuk.`,"good");
     flash(`🎯 ${card.title.toUpperCase()}`);beep(760,.1);renderCards();render();saveGame(true);
   }
@@ -9590,6 +9851,7 @@
     });
     const good = a.int >= 0 && a.dem >= 0;
     updateEngagement(a, d, good, display, currentVariant);
+    applyActionMarketSignal(a, i, good, display);
     const consumed = consumeActionBuffs(a);
     addLog(
       `${display.name}: narasi lawan turun ${d}. ${good ? "Publik dapet konteks lebih banyak." : "Engagement naik; ruang publik ngirim voice note panjang."}`,
@@ -9664,6 +9926,7 @@
         ? "DANA OPERASI / INVOICE"
         : "KAS GERAKAN / DONASI";
     $("#money").textContent = formatMoney(state.money);
+    renderMarketPanel();
     const debtPanel = $("#debtPanel");
     if (debtPanel) {
       const hasDebt = (state.debt || 0) > 0;
@@ -10100,7 +10363,7 @@
   function eventDomain(e) {
     const text = `${e.id} ${e.sourceKey || ""} ${e.title} ${e.actor || ""}`.toLowerCase();
     if (/fufu|film|document|podcast|influencer|clone|redaksi|communication|dirty|threat|quiet/.test(text)) return "media";
-    if (/ppn|mbg|finance|bankrupt|danantara|asset|budget|faktur|purbaya|climate|campaign-money/.test(text)) return "economy";
+    if (/ppn|mbg|finance|bankrupt|danantara|asset|budget|faktur|purbaya|climate|campaign-money|rupiah|ihsg|market|pasar|podium/.test(text)) return "economy";
     if (/tni|protest|gelap|pati|august|17plus8|demonstration|ham|psn|ylbhi|kabur|teror/.test(text)) return "civic";
     if (/election|round|ballot|candidate|dynasty|neutrality|bansos|campaign|open-ballot|many-candidates/.test(text)) return "election";
     return "governance";
@@ -10160,6 +10423,13 @@
   function normalizeEventChoice(e, choice, index, role, domain) {
     const meta = { ...(choice[4] || {}) };
     meta.outlook = meta.outlook || classifyEventEffects(choice[2]);
+    if (domain === "economy" && !meta.market) {
+      meta.market = meta.outlook === "positive"
+        ? { usd: -18, ihsg: 28, cause: `${e.title}: bukti, risiko, dan jalur koreksi dibuka.` }
+        : meta.outlook === "negative"
+          ? { usd: 23, ihsg: -34, cause: `${e.title}: panggung menang, kepastian kebijakan dan tata kelola kalah.` }
+          : { usd: 5, ihsg: -7, cause: `${e.title}: pasar masih membaca kompromi dan biaya yang belum selesai.` };
+    }
     meta.strategy = meta.strategy || (index === 0 ? "ESKALASI CEPAT" : index === 1 ? "JALUR INSTITUSIONAL" : "JALUR ALTERNATIF");
     meta.risk = meta.risk || defaultEventRisk(choice[2]);
     if (meta.threshold) meta.threshold = clamp(meta.threshold + (eventHash(`${e.id}:${role}:${index}:threshold`) % 9) - 4, 35, 75);
@@ -10230,6 +10500,8 @@
       const passed = test.max !== undefined ? value <= test.max : value >= (test.min || 0);
       const outcome = passed ? ripple.delayed.success : ripple.delayed.failure;
       applyEffects(outcome.effects || {});
+      if (outcome.tone === "good") applyMarketMove({ usd: -6, ihsg: 10, cause: `${ripple.eventTitle}: tindak lanjut lama akhirnya dapat dibuktikan.` });
+      if (outcome.tone === "bad") applyMarketMove({ usd: 8, ihsg: -13, cause: `${ripple.eventTitle}: janji lama kembali sebagai biaya kredibilitas.` });
       if (outcome.buff) state.abilityBuffs.push({ ...outcome.buff, phase: state.phase, sourceId: ripple.eventId, sourceName: ripple.eventTitle, abilityName: outcome.title, consume: true });
       const notice = { rippleId: ripple.id, eventId: ripple.eventId, eventTitle: ripple.eventTitle, choice: ripple.choice, strategy: ripple.strategy, tone: outcome.tone, title: outcome.title, text: outcome.text, effects: outcome.effects || {}, test: { stat: test.stat, threshold: test.max ?? test.min, value, passed } };
       notices.push(notice);
@@ -10246,6 +10518,13 @@
     if (!notices.length) return "";
     return notices.map(n => `<div class="ripple-banner ${n.tone}"><b>↳ AKIBAT PILIHAN LAMA • ${n.eventTitle}</b><br>${n.title}: ${n.text}<br><small>${n.test.stat.toUpperCase()} ${Math.round(n.test.value)} diuji terhadap ambang ${n.test.threshold}. ${eventEffectPreview(n.effects)}</small></div>`).join("");
   }
+  function eventFactLinks(e) {
+    const facts = (Array.isArray(e.facts) && e.facts.length ? e.facts : sources[e.sourceKey] || [])
+      .filter(item => Array.isArray(item) && item[2])
+      .slice(0, 4);
+    if (!facts.length) return "";
+    return `<div class="event-fact-links">${facts.map(item => `<a class="event-fact-link" href="${item[2]}" target="_blank" rel="noopener noreferrer"><b>${escapeHtml(item[0])} ↗</b>${escapeHtml(item[1])}</a>`).join("")}</div>`;
+  }
   function showSpecialEvent(e) {
     const choices = eventChoices(e, state.role);
     const eventText = typeof e.text === "function" ? e.text() : e.text;
@@ -10256,7 +10535,7 @@
         ? `<div class="legacy-signal"><b>JEJAK PILIHAN 2024:</b> ${state.fufuArchive?.mode || "tidak tercatat pada save lama"}</div>`
         : "";
     $("#modalContent").innerHTML =
-      `<span class="special-ribbon">${ghost ? "DIGITAL GHOST EVENT" : "SPECIAL EVENT • DILEMA STRATEGIS"}</span><h2>${e.icon} ${e.title}</h2><div class="event-card ${ghost ? "digital-ghost" : ""}"><h3>${e.actor}</h3>${ghost ? '<div class="ghost-handle">@fufufafa • KASKUS CACHE • STATUS PEMILIK: BELUM TERVERIFIKASI FINAL</div>' : ""}<p>${eventText}</p><div class="event-source"><b>Konteks dunia nyata:</b> ${eventFact}</div>${eventScenarioBrief(e)}${legacy}</div><p>Pilih strategi. Tidak semua dampak muncul sekarang; kondisi beberapa bulan mendatang ikut menentukan apakah keputusanmu berhasil, gagal, atau berubah menjadi kompromi kosong.</p><div class="choice-grid">${choices.map((c, i) => { const meta = c[4]; return `<button class="choice-card event-choice-card outcome-${meta.outlook}" data-event-choice="${i}"><span class="choice-strategy">${meta.strategy} • ${eventOutlookLabels[meta.outlook] || meta.outlook.toUpperCase()}</span><h3>${String.fromCharCode(65 + i)}. ${c[0]}</h3><small>${c[1]}</small><div class="choice-impact-preview">${eventEffectPreview(c[2])}</div><div class="choice-risk"><b>RISIKO:</b> ${meta.risk}</div><div class="choice-delay"><b>AKIBAT TERTUNDA:</b> ${meta.delayed.hint}</div></button>`; }).join("")}</div><div class="source-disclaimer">Tokoh dan dialog di event adalah parodi-komposit. Klaim faktual diringkas di Arsip Fakta dan tidak menyatakan motif pribadi atau identitas akun yang belum terbukti.</div>`;
+      `<span class="special-ribbon">${ghost ? "DIGITAL GHOST EVENT" : "SPECIAL EVENT • DILEMA STRATEGIS"}</span><h2>${e.icon} ${e.title}</h2><div class="event-card ${ghost ? "digital-ghost" : ""}"><h3>${e.actor}</h3>${ghost ? '<div class="ghost-handle">@fufufafa • KASKUS CACHE • STATUS PEMILIK: BELUM TERVERIFIKASI FINAL</div>' : ""}<p>${eventText}</p><div class="event-source"><b>Arsip yang dipakai:</b> ${eventFact}</div>${eventFactLinks(e)}${eventScenarioBrief(e)}${legacy}</div><p>Pilih strategi. Tidak semua dampak muncul sekarang; kondisi beberapa bulan mendatang ikut menentukan apakah keputusanmu berhasil, gagal, atau berubah menjadi kompromi kosong.</p><div class="choice-grid">${choices.map((c, i) => { const meta = c[4]; return `<button class="choice-card event-choice-card outcome-${meta.outlook}" data-event-choice="${i}"><span class="choice-strategy">${meta.strategy} • ${eventOutlookLabels[meta.outlook] || meta.outlook.toUpperCase()}</span><h3>${String.fromCharCode(65 + i)}. ${c[0]}</h3><small>${c[1]}</small><div class="choice-impact-preview">${eventEffectPreview(c[2])}</div><div class="choice-risk"><b>RISIKO:</b> ${meta.risk}</div><div class="choice-delay"><b>AKIBAT TERTUNDA:</b> ${meta.delayed.hint}</div></button>`; }).join("")}</div><div class="source-disclaimer">Tokoh dan dialog di event adalah parodi-komposit. Klaim faktual diringkas di Arsip Fakta dan tidak menyatakan motif pribadi atau identitas akun yang belum terbukti.</div>`;
     $("#modal").classList.remove("hidden");
     document
       .querySelectorAll("[data-event-choice]")
@@ -10270,6 +10549,13 @@
       );
   }
 
+  function applyEventMechanics(e, meta = {}, choice) {
+    state.podiumRisk = clamp((Number(state.podiumRisk) || 0) + (Number(meta.podiumRisk) || 0), 0, 100);
+    state.foreignTrips = Math.max(0, (Number(state.foreignTrips) || 0) + (Number(meta.foreignTrip) || 0));
+    state.diplomacyReceipts = clamp((Number(state.diplomacyReceipts) || 0) + (Number(meta.receipts) || 0), -100, 100);
+    if (meta.market) applyMarketMove(meta.market, `${e.title}: ${choice?.[0] || "keputusan event"}.`);
+  }
+
   function resolveSpecialEvent(e, c) {
     const scaledEffects = { ...c[2] };
     if ((scaledEffects.money || 0) < 0) {
@@ -10278,6 +10564,7 @@
     }
     applyEffects(scaledEffects);
     const meta = c[4] || {};
+    applyEventMechanics(e, meta, c);
     state.eventOutcomeProfile = state.eventOutcomeProfile || { positive: 0, negative: 0, neutral: 0, mixed: 0 };
     state.eventOutcomeProfile[meta.outlook || "neutral"] = (state.eventOutcomeProfile[meta.outlook || "neutral"] || 0) + 1;
     let legacyNote = "";
@@ -10330,6 +10617,10 @@
     state.comments.unshift(
       makeComment(meta.outlook === "positive" ? "good" : meta.outlook === "negative" ? "bad" : "neutral", c[3], {
         persona: e.id.startsWith("fufufafa") ? "forumGhost" : undefined,
+        actionId: `event:${e.id}`,
+        actionName: c[0],
+        issueKey: e.id,
+        allowNoise: false,
       }),
     );
     state.postMetrics.views += rnd(120000, 900000) * (state.phase + 1);
@@ -10473,7 +10764,7 @@
             .join("")
         : "<li>Belum ada crew ability yang dipakai. Mereka masih menatapmu dari sidebar.</li>";
     $("#modalContent").innerHTML =
-      `<h2>Riwayat Karier</h2><div class="career-line"><b>${state.role === "buzzer" ? "Dari relawan menuju mesin kekuasaan" : "Dari utas menuju institusi publik"}</b><ul>${path}</ul></div><p>Poin karier: <b>${state.career}</b>. Angka ini ngukur seberapa jauh kamu naik, bukan seberapa sehat republiknya.</p><div class="career-line"><b>Jejak Special Event</b><ul>${events}</ul></div><div class="career-line"><b>⏳ Konsekuensi yang Masih Menunggu</b><ul>${pendingRipples}</ul></div><div class="crew-history"><b>⚡ Crew Ability yang Sudah Dipakai</b><ul>${crew}</ul></div><button class="btn" id="closeCareer">Tutup</button>`;
+      `<h2>Riwayat Karier</h2><div class="career-line"><b>${state.role === "buzzer" ? "Dari relawan menuju mesin kekuasaan" : "Dari utas menuju institusi publik"}</b><ul>${path}</ul></div><p>Poin karier: <b>${state.career}</b>. Angka ini ngukur seberapa jauh kamu naik, bukan seberapa sehat republiknya.</p><div class="career-line"><b>📉 Jejak Podium, Lawatan & Pasar</b><p>Risiko podium <b>${Math.round(state.podiumRisk || 0)}/100</b> • lawatan tercatat <b>${state.foreignTrips || 0}</b> • kuitansi diplomasi <b>${Math.round(state.diplomacyReceipts || 0)}</b>.</p><small>USD/IDR simulasi ${Math.round(state.market?.usdIdr || 0).toLocaleString("id-ID")} • IHSG simulasi ${Math.round(state.market?.ihsg || 0).toLocaleString("id-ID")}. Ini bukan data trading langsung.</small></div><div class="career-line"><b>Jejak Special Event</b><ul>${events}</ul></div><div class="career-line"><b>⏳ Konsekuensi yang Masih Menunggu</b><ul>${pendingRipples}</ul></div><div class="crew-history"><b>⚡ Crew Ability yang Sudah Dipakai</b><ul>${crew}</ul></div><button class="btn" id="closeCareer">Tutup</button>`;
     $("#modal").classList.remove("hidden");
     $("#closeCareer").onclick = () => $("#modal").classList.add("hidden");
   }
@@ -10660,7 +10951,7 @@
     state.finalReport = report;
     clearSave();
     $("#modalContent").innerHTML =
-      `<div class="finale-stage"><div class="finale-content"><span class="finale-kicker">${modeLabel} • ${state.eventHistory.length} EVENT • ${(state.crisisHistory || []).length} KRISIS • ${state.bailoutCount || 0} BAILOUT</span>${crashDetail ? `<div class="crash-verdict"><b>${crashDetail[0]}</b><br>${crashDetail[1]}</div>` : ""}<h2>${report.performance.title}</h2><p>${report.performance.text}</p><div class="report-grade"><span>NILAI KINERJA</span><strong>${report.performance.score}/100</strong><b>${report.performance.grade}</b></div><div class="ending-score"><div><strong>${Math.round(state.reach)}</strong>Jangkauan</div><div><strong>${report.performance.civic}</strong>Kerja Sipil</div><div><strong>${report.morality.score}</strong>Moral</div><div><strong>${report.finance.solvency.toFixed(0)}</strong>Solvabilitas</div><div><strong>${formatMoney(report.finance.debt)}</strong>Utang</div></div><div class="report-grid"><div class="report-card moral"><b>🧭 ${report.morality.title}</b><p>${report.morality.text}</p>${state.role === "buzzer" ? `<small>Kas akhir ${formatMoney(report.finance.cash)} ikut dihitung sebagai tekanan moral. Saldo besar tidak otomatis salah; saldo besar tanpa kuitansi dan integritas adalah cerita lain.</small>` : ""}</div><div class="report-card finance"><b>💳 ${report.finance.title}</b><p>${report.finance.text}</p><small>${report.finance.missed} telat bayar • ${report.finance.bailouts} bailout • beban utang ${report.finance.debtLoad.toFixed(0)}% dari limit</small></div><div class="report-card decisions"><b>🗂️ PILIHANMU, BUKAN CUMA STAT AKHIR</b><p>${report.decisions.positive} keputusan positif, ${report.decisions.negative} keputusan negatif, ${report.decisions.goodRipples} akibat baik, dan ${report.decisions.badRipples} akibat buruk.</p><small>Strategi substantif ${report.decisions.substantive} • strategi panggung ${report.decisions.spectacle}</small></div><div class="report-card election"><b>🗳️ EFEK KE PEMILU 2029</b><p>${report.election.headline}</p><small>${report.election.winner.reason}</small></div></div><div class="lesson"><b>${eventLegacy.title}</b><br>${eventLegacy.text}</div><p><b>Republik sudah menilai kerja, moral, utang, dan pilihanmu.</b> Sekarang buka hasil lengkap kotak suara.</p><button class="btn" id="electionNight">Buka Hasil Pemilu 2029</button></div></div>`;
+      `<div class="finale-stage"><div class="finale-content"><span class="finale-kicker">${modeLabel} • ${state.eventHistory.length} EVENT • ${(state.crisisHistory || []).length} KRISIS • ${state.bailoutCount || 0} BAILOUT</span>${crashDetail ? `<div class="crash-verdict"><b>${crashDetail[0]}</b><br>${crashDetail[1]}</div>` : ""}<h2>${report.performance.title}</h2><p>${report.performance.text}</p><div class="report-grade"><span>NILAI KINERJA</span><strong>${report.performance.score}/100</strong><b>${report.performance.grade}</b></div><div class="ending-score"><div><strong>${Math.round(state.reach)}</strong>Jangkauan</div><div><strong>${report.performance.civic}</strong>Kerja Sipil</div><div><strong>${report.morality.score}</strong>Moral</div><div><strong>${report.finance.solvency.toFixed(0)}</strong>Solvabilitas</div><div><strong>${formatMoney(report.finance.debt)}</strong>Utang</div><div><strong>Rp${Math.round(state.market?.usdIdr || 0).toLocaleString("id-ID")}</strong>USD/IDR Simulasi</div><div><strong>${Math.round(state.market?.ihsg || 0).toLocaleString("id-ID")}</strong>IHSG Simulasi</div></div><div class="report-grid"><div class="report-card moral"><b>🧭 ${report.morality.title}</b><p>${report.morality.text}</p>${state.role === "buzzer" ? `<small>Kas akhir ${formatMoney(report.finance.cash)} ikut dihitung sebagai tekanan moral. Saldo besar tidak otomatis salah; saldo besar tanpa kuitansi dan integritas adalah cerita lain.</small>` : ""}</div><div class="report-card finance"><b>💳 ${report.finance.title}</b><p>${report.finance.text}</p><small>${report.finance.missed} telat bayar • ${report.finance.bailouts} bailout • beban utang ${report.finance.debtLoad.toFixed(0)}% dari limit</small></div><div class="report-card decisions"><b>🗂️ PILIHANMU, BUKAN CUMA STAT AKHIR</b><p>${report.decisions.positive} keputusan positif, ${report.decisions.negative} keputusan negatif, ${report.decisions.goodRipples} akibat baik, dan ${report.decisions.badRipples} akibat buruk.</p><small>Strategi substantif ${report.decisions.substantive} • strategi panggung ${report.decisions.spectacle}</small></div><div class="report-card election"><b>🗳️ EFEK KE PEMILU 2029</b><p>${report.election.headline}</p><small>${report.election.winner.reason}</small></div></div><div class="lesson"><b>${eventLegacy.title}</b><br>${eventLegacy.text}</div><p><b>Republik sudah menilai kerja, moral, utang, pasar simulasi, dan pilihanmu.</b> Sekarang buka hasil lengkap kotak suara.</p><button class="btn" id="electionNight">Buka Hasil Pemilu 2029</button></div></div>`;
     $("#modal").classList.remove("hidden");
     $("#electionNight").onclick = () => showElectionNight(report);
     beep(110, 0.25);
@@ -10742,6 +11033,12 @@
       resolvedRipples: [],
       currentRippleNotices: [],
       eventOutcomeProfile: { positive: 0, negative: 0, neutral: 0, mixed: 0 },
+      market: null,
+      marketHistory: [],
+      marketSignals: { usd: 0, ihsg: 0, cause: "" },
+      podiumRisk: 0,
+      foreignTrips: 0,
+      diplomacyReceipts: 0,
     });
     syncQuizToggles();
     syncGameModeControls();

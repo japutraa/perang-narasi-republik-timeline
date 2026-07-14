@@ -12,6 +12,7 @@ const netizenSource = fs.readFileSync(path.join(root, "assets/js/netizen-pack.js
 const characterVoicesSource = fs.readFileSync(path.join(root, "assets/js/character-voices.js"), "utf8");
 const timelineVariantsSource = fs.readFileSync(path.join(root, "assets/js/timeline-variants.js"), "utf8");
 const endingSource = fs.readFileSync(path.join(root, "assets/js/ending-system.js"), "utf8");
+const marketSource = fs.readFileSync(path.join(root, "assets/js/market-sim.js"), "utf8");
 const gameSource = fs.readFileSync(path.join(root, "assets/js/game.js"), "utf8");
 const cssSource = fs.readFileSync(path.join(root, "assets/css/game.css"), "utf8");
 
@@ -26,7 +27,7 @@ function testHtml({ expose = false } = {}) {
     assert.ok(game.includes(marker), "game test hook marker must exist");
     game = game.replace(
       marker,
-      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries, monthlyRosterSchedule, monthlyRosterFor, voicePostHtml, hashtagHtml, actionDefs, actionPresentation, currentIssue, updateBreakingTicker, makeComment, discussionComment, contextualComment, npcReaction, npcReactionMode, updateEngagement };\n})();\n\ndocument.documentElement.dataset.gameReady',
+      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries, monthlyRosterSchedule, monthlyRosterFor, voicePostHtml, hashtagHtml, actionDefs, actionPresentation, currentIssue, updateBreakingTicker, makeComment, discussionComment, contextualComment, npcReaction, npcReactionMode, updateEngagement, advanceMarketSimulation, renderMarketPanel, applyMarketMove };\n})();\n\ndocument.documentElement.dataset.gameReady',
     );
   }
 
@@ -37,6 +38,7 @@ function testHtml({ expose = false } = {}) {
     .replace('<script src="assets/js/character-voices.js" defer></script>', () => inlineScript(characterVoicesSource))
     .replace('<script src="assets/js/timeline-variants.js" defer></script>', () => inlineScript(timelineVariantsSource))
     .replace('<script src="assets/js/ending-system.js" defer></script>', () => inlineScript(endingSource))
+    .replace('<script src="assets/js/market-sim.js" defer></script>', () => inlineScript(marketSource))
     .replace('<script src="assets/js/game.js" defer></script>', () => inlineScript(game));
 }
 
@@ -68,6 +70,7 @@ test("release references only files that are present", () => {
     "assets/js/character-voices.js",
     "assets/js/timeline-variants.js",
     "assets/js/ending-system.js",
+    "assets/js/market-sim.js",
     "assets/js/game.js",
     "assets/icons/icon.svg",
     "manifest.webmanifest",
@@ -78,7 +81,9 @@ test("release references only files that are present", () => {
   required.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), `${file} is missing`));
   assert.doesNotMatch(indexSource, /<style(?:\s|>)/i, "CSS must not be embedded in index.html");
   assert.doesNotMatch(indexSource, /<script(?![^>]+src=)[^>]*>/i, "JavaScript must not be embedded in index.html");
-  assert.match(indexSource, /meta name="version" content="3\.17\.0"/);
+  assert.match(indexSource, /meta name="version" content="3\.18\.0"/);
+  assert.match(indexSource, /id="usdIdrValue"/);
+  assert.match(indexSource, /id="ihsgValue"/);
   assert.match(gameSource, /SAVE_KEY = "perang-narasi-save-v3"/);
   assert.match(gameSource, /Prof\. Konni BaksLaah/);
   assert.match(gameSource, /Mas Nadim Makaroni/);
@@ -418,6 +423,35 @@ test("modular build boots and starts a campaign", async () => {
   assert.doesNotMatch(document.querySelector("#npcName").textContent, /\s(?:&|vs\.?|dan)\s|,/);
   assert.ok(dom.window.localStorage.getItem("perang-narasi-save-v3"));
   assert.equal(dom.window.__PN_TEST__.state.timelineSpeakerHistory.length, 1);
+  assert.ok(dom.window.__PN_TEST__.state.market.usdIdr >= 13500);
+  assert.ok(dom.window.__PN_TEST__.state.market.ihsg >= 2500);
+  assert.match(document.querySelector("#usdIdrValue").textContent, /\d/);
+  assert.match(document.querySelector("#ihsgValue").textContent, /\d/);
+  assert.doesNotMatch(document.querySelector("#marketStatus").textContent, /RUPIAH TURUN/i);
+  dom.window.close();
+});
+
+test("Pasar Timeline is deterministic, seeded, and separates factual wording from netizen slang", async () => {
+  const { dom, errors } = createDom({ expose: true });
+  await tick(dom.window);
+  assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
+  const engine = dom.window.PNMarketSim;
+  const input = {
+    index: 38,
+    seed: 8675309,
+    stats: { credibility: 42, integrity: 38, democracy: 44, debt: 3000000000, podiumRisk: 61, diplomacyReceipts: -12 },
+    signals: { usd: 30, ihsg: -45, cause: "Pidato panjang, lampiran pendek." },
+  };
+  const first = engine.snapshot(input);
+  const repeat = engine.snapshot(input);
+  const otherRun = engine.snapshot({ ...input, seed: 8675311 });
+  assert.deepEqual(first, repeat);
+  assert.notDeepEqual([first.usdIdr, first.ihsg], [otherRun.usdIdr, otherRun.ihsg]);
+  assert.equal(first.archive, false);
+  const labels = engine.labels({ usdIdr: 18000, usdDelta: 320, ihsg: 6200, ihsgDelta: -190 });
+  assert.equal(labels.usd, "RUPIAH ANJLOK");
+  assert.equal(labels.ihsg, "IHSG AMBLES");
+  assert.doesNotMatch(`${labels.usd} ${labels.ihsg} ${marketSource}`, /RUPIAH TURUN/i);
   dom.window.close();
 });
 
@@ -428,7 +462,17 @@ test("all strategic events expose four choices and two delayed branches", async 
   assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
   assert.equal(api.phases.length, 6);
   assert.equal(api.phases.reduce((sum, phase) => sum + phase.days.length, 0), 72);
-  assert.equal(api.specialEvents.length, 42);
+  assert.equal(api.specialEvents.length, 43);
+  const tripEvent = api.specialEvents.find((event) => event.id === "passport-during-fire");
+  assert.ok(tripEvent);
+  assert.equal(tripEvent.sourceKey, "foreignTrips");
+  assert.match(tripEvent.text, /Om Diplo Peta Dunia/);
+  assert.ok(tripEvent.choices.buzzer.every((choice) => choice[4]?.market));
+  assert.ok(tripEvent.choices.aktivis.every((choice) => choice[4]?.market));
+  assert.doesNotMatch(
+    api.specialEvents.filter((event) => event.phase >= 3).map((event) => event.fact).join("\n"),
+    /Skenario fiksi|FIKSI PREDIKTIF|PROYEKSI FIKSI/i,
+  );
   assert.doesNotMatch(
     api.phases.flatMap((phase) => phase.days.map((day) => day.post)).join("\n"),
     /FIKSI PREDIKTIF:|FIKSI PEMILU:|PROYEKSI FIKSI:/,
@@ -458,8 +502,8 @@ test("all strategic events expose four choices and two delayed branches", async 
     }
   }
 
-  assert.equal(choices, 336);
-  assert.equal(delayedBranches, 672);
+  assert.equal(choices, 344);
+  assert.equal(delayedBranches, 688);
   dom.window.close();
 });
 
@@ -728,9 +772,9 @@ for (const role of ["buzzer", "aktivis"]) {
     assert.equal(state.phase, 5);
     assert.equal(state.day, 12);
     assert.equal(state.eventHistory.length, state.configuredEvents);
-    assert.equal(state.eventHistory.length, 42);
+    assert.equal(state.eventHistory.length, 43);
     assert.equal(state.narrativeRipples.length, 0);
-    assert.equal(state.resolvedRipples.length, 42);
+    assert.equal(state.resolvedRipples.length, 43);
     assert.ok(state.finalReport);
     assert.ok(state.finalReport.performance.score >= 0 && state.finalReport.performance.score <= 100);
     assert.equal(state.finalReport.election.candidates.reduce((sum, candidate) => sum + candidate.vote, 0), 100);
