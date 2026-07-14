@@ -1,5 +1,5 @@
 /**
- * Perang Narasi: Republik Timeline v3.20.0
+ * Perang Narasi: Republik Timeline v3.20.1
  * Copyright (C) 2026 Adrian Janitra Putra
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -4736,7 +4736,7 @@
       closers: [" Hashtag final menyusul setelah approval.", " Tolong like, KPI gue tinggal dua persen.", " Kalau salah hapus, kalau benar invoice.", " Jangan bilang siapa-siapa kita upload jam yang sama."],
     },
     npc: {
-      label: "AKUN ASLI",
+      label: "PEMILIK POST",
       avatars: ["👤"],
       handles: ["@akun_asli"],
       openers: [""],
@@ -8747,8 +8747,8 @@
       matchScore:match.score,
       followTitle:follow?.title,
     });
-    const replyText=voiceReply?.text||fallbackReplyText;
-    state.comments.unshift(makeComment(match.score===3?"good":match.score===2?"neutral":"bad",replyText,{avatar:character.icon,handle:`@${character.id.replace(/[^a-z0-9]+/gi,"").toLowerCase()}`,kind:"npc",label:match.label,replyTo:currentIssue().title}));
+    const replyText=voiceReply?.text||fallbackReplyText,identity=characterCommentIdentity(character,currentIssue());
+    state.comments.unshift(makeComment(match.score===3?"good":match.score===2?"neutral":"bad",replyText,{avatar:identity.avatar,handle:identity.handle,kind:"npc",label:`${identity.sameAsPost?"TOKOH YANG SAMA":"TOKOH KARTU"} • ${match.label}`,replyTo:currentIssue().title}));
     state.comments=state.comments.slice(0,36);
     addLog(`${match.label}: ${character.name} memakai ${ability.name}.${follow?` Follow-up “${follow.title}” terbuka.`:""}`,match.score===3?"good":match.score===2?"info":"bad");
     flash(`${character.icon} ${match.label}`);beep(match.score===0?150:match.score===2?420:720,.09);renderCards();render();saveGame(true);
@@ -9480,6 +9480,71 @@
     return picked;
   }
 
+  const npcActionReferencePools = {
+    meme: ["Meme yang dipilih", "Cara membungkus isu ini", "Format recehnya", "Potongan viral ini"],
+    patriot: ["Bungkus nasionalismenya", "Cara membawa simbol negara", "Nada bela negaranya", "Ajakan persatuannya"],
+    data: ["Grafik yang dipilih", "Cara menyusun angkanya", "Potongan datanya", "Dashboard ini"],
+    whatabout: ["Pengalihan ke kubu sebelah", "Perbandingan masa lalunya", "Jurus ‘dulu juga’ ini", "Cara memindahkan pertanyaannya"],
+    endorse: ["Dukungan figur publiknya", "Cara meminjam audiens kreator", "Konten kolaborasinya", "Endorsement ini"],
+    podcast: ["Obrolan panjangnya", "Format podcast ini", "Cara memanjangkan jawabannya", "Percakapan dua jamnya"],
+    attack: ["Serangan ke pembawa pesannya", "Cara membedah pengkritiknya", "Quote-tweet personal ini", "Upaya menggeser sasaran kritiknya"],
+    concert: ["Panggung besarnya", "Cara memobilisasi kerumunan", "Festival komunikasinya", "Pertunjukan ini"],
+    transparency: ["Dokumen yang dibuka", "Langkah transparansinya", "Rilis data utuhnya", "Pengakuan terbukanya"],
+    context: ["Kronologi yang disusun", "Video utuhnya", "Cara mengembalikan konteks", "Urutan kejadian ini"],
+    empathy: ["Kesaksian warga yang dibawa", "Cara memberi ruang korban", "Cerita lapangannya", "Pendekatan manusianya"],
+    network: ["Jaringan yang digerakkan", "Pembagian kerja lapangannya", "Posko yang dibangun", "Koordinasi komunitasnya"],
+    law: ["Cara membaca pasalnya", "Uji dasar hukumnya", "Pembacaan amar dan pertimbangannya", "Jalur hukum yang dipilih"],
+    film: ["Footage yang dibuka", "Dokumenter pendeknya", "Cara menyusun bukti visual", "Arsip gambar ini"],
+  };
+  function npcActionReference(a, display, issue) {
+    const pool = npcActionReferencePools[a.id] || ["Respons ini", "Cara yang dipilih", "Langkah komunikasinya"];
+    return pickFreshNpcReply(pool, `action-ref:${issue.key}:${a.id}:${display.name}`);
+  }
+  function ensureNpcIssueAnchor(text, vars, key) {
+    const body = String(text || "").toLowerCase();
+    const anchors = [vars.topic, vars.doc, vars.people]
+      .map((value) => String(value || "").toLowerCase())
+      .filter(Boolean);
+    if (anchors.some((anchor) => body.includes(anchor))) return text;
+    const bridges = [
+      `Untuk ${vars.topic}, yang tetap harus diuji itu ${vars.doc}.`,
+      `Balik ke ${vars.topic}: ${vars.people} masih menunggu jawaban yang bisa dicek.`,
+      `Apa pun formatnya, ukuran kasus ${vars.topic} tetap ${vars.doc}, bukan volume timeline.`,
+      `Jangan sampai ${vars.people} hilang dari pembahasan ${vars.topic}.`,
+    ];
+    return `${text} ${pickFreshNpcReply(bridges, `issue-anchor:${key}`)}`;
+  }
+  function shortActionReplyTarget(name) {
+    const compact = String(name || "action card")
+      .split(/\s+—\s+|:\s+/)[0]
+      .trim();
+    return `“${compact.length > 62 ? compact.slice(0, 59).trimEnd() + "…" : compact}”`;
+  }
+  function characterCommentIdentity(character, issue = currentIssue()) {
+    const input = typeof character === "string" ? { id: character, name: character } : character || {};
+    const voices = window.PNCharacterVoices;
+    const profile = voices?.resolve?.({ id: input.id, name: input.name, handle: input.handle });
+    const postProfile = voices?.resolve?.({
+      id: issue?.characterId || issue?.voiceId,
+      name: issue?.npc,
+      handle: issue?.handle,
+      key: issue?.key,
+    });
+    const sameAsPost = Boolean(
+      profile && postProfile && profile.id !== "fallback" && profile.id === postProfile.id,
+    );
+    const aliasHandle = profile?.aliases?.find((alias) => /^@[a-z0-9_]+$/i.test(alias));
+    const fallbackId = String(input.id || input.name || "tokoh")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "");
+    return {
+      handle: sameAsPost && issue?.handle ? issue.handle : aliasHandle || `@${fallbackId || "tokoh"}`,
+      avatar: sameAsPost && issue?.avatar ? issue.avatar : input.icon || "👤",
+      sameAsPost,
+      profileId: profile?.id || "fallback",
+    };
+  }
+
   const npcStanceReplyPools = {
     regime: {
       support: [
@@ -9584,7 +9649,8 @@
       doc = i.document || "dokumen utuh",
       people = i.people || "warga yang kena dampaknya",
       angle = actionCommentAngles[state.role]?.[a.id] || {good:"responsnya nyambung",bad:"responsnya muter",ask:"buktinya mana"},
-      vars = {action:`“${display.name}”`,topic,doc,people},
+      actionRef = npcActionReference(a, display, i),
+      vars = {action:actionRef,topic,doc,people},
       stancePool = npcStanceReplyPools[stance] || npcStanceReplyPools.critic,
       leadLines = stancePool[reactionMode] || npcStanceReplyPools.critic[good ? "support" : "oppose"],
       lead = pickFreshNpcReply(leadLines, `${i.key}:${v.className}:${stance}:${reactionMode}`),
@@ -9597,6 +9663,7 @@
       tone = positiveModes.has(reactionMode) ? (reactionMode === "cautious" || reactionMode === "verify" || reactionMode === "archiveGood" ? "neutral" : "good") : "bad",
       stanceLabels = {regime:"PEMERINTAH",critic:"PENGKRITIK",institutional:"INSTITUSI",archive:"ARSIP"},
       rawText = fillNpcTemplate(lead, vars) + " " + fillNpcTemplate(hook, vars),
+      anchoredText = ensureNpcIssueAnchor(rawText, vars, `${i.key}:${a.id}:${reactionMode}:${display.name}`),
       voiceReply = window.PNCharacterVoices?.renderReply?.({
         id:i.characterId||i.voiceId,
         name:i.npc,
@@ -9605,16 +9672,17 @@
         phase:state.phase,
         seed:`${state.runSeed}:${state.phase}:${state.day}:${i.key}:${a.id}:${reactionMode}:${display.name}`,
         mode:reactionMode,
-        action:`“${display.name}”`,
-        base:rawText,
+        action:actionRef,
+        base:anchoredText,
+        naturalReply:true,
       }),
-      text = voiceReply?.text || rawText;
+      text = voiceReply?.text || anchoredText;
     return makeComment(tone, text, {
       avatar:i.avatar,
       handle:i.handle,
       kind:"npc",
-      label:`AKUN ASLI • ${stanceLabels[stance] || "PENGKRITIK"}`,
-      replyTo:`“${display.name}”`,
+      label:`PEMILIK POST • ${stanceLabels[stance] || "PENGKRITIK"}`,
+      replyTo:shortActionReplyTarget(display.name),
       actionId:a.id,
       actionName:display.name,
       issueKey:i.key,
@@ -9821,11 +9889,12 @@
       action:`“${card.title}”`,
       base:rawLine,
     });
+    const identity=characterCommentIdentity({id:card.characterId,name:card.characterName,icon:card.characterIcon},i);
     return makeComment(good?"good":"bad",voiceLine?.text||rawLine,{
-      avatar:card.characterIcon,
-      handle:`@${card.characterId.replace(/[^a-z0-9]+/gi,"").toLowerCase()}`,
+      avatar:identity.avatar,
+      handle:identity.handle,
       kind:"npc",
-      label:"CONTEXT COMBO",
+      label:`${identity.sameAsPost?"TOKOH YANG SAMA":"TOKOH KARTU"} • CONTEXT COMBO`,
       replyTo:`“${card.title}”`,
       actionId:card.actionId,
       actionName:card.title,

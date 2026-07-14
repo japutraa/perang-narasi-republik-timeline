@@ -374,13 +374,48 @@
     return {profileId:profile.id,label:profile.label,className:profile.className,text:clean(`${opener} ${quote} ${tail} ${follow}`),sourceKind:profile.sourceKind};
   }
 
+  const naturalReplyOpeners = Object.freeze({
+    support: ["Nah, bagian ini masuk.", "Oke, ini lebih dekat ke pokok masalah.", "Yang ini ada gunanya:"],
+    cautious: ["Saya tahan tepuk tangannya dulu.", "Arahnya masuk, tapi cek satu hal:", "Oke, jangan buru-buru dianggap selesai."],
+    verify: ["Kami cek substansinya.", "Secara metode, titik ujinya ada di sini:", "Catatan verifikasinya begini:"],
+    defend: ["Saya jawab lurus.", "Dari sisi pemerintah, konteksnya begini:", "Jangan campur cara menyampaikan dengan isi kebijakannya."],
+    resist: ["Tunggu dulu.", "Saya keberatan pada kesimpulannya.", "Kritiknya boleh masuk, tapi konteks ini jangan hilang:"],
+    condemn: ["Nggak, ini sudah lewat batas.", "Kritik keras bukan izin menyerang orang.", "Bagian ini harus ditolak:"],
+    correct: ["Sebentar, metodenya meleset.", "Kita satu kubu kritik, bukan satu kubu asal hantam.", "Yang ini perlu dikoreksi:"],
+    oppose: ["Nah, ini justru masalahnya.", "Saya nggak beli pengalihannya.", "Yang ditanya warga belum dijawab:"],
+    archiveGood: ["[ARSIP DIBUKA]", "Jejak baiknya saya simpan.", "Oke, versi ini masuk cache:"],
+    archiveBad: ["[SCREENSHOT TERSIMPAN]", "Pengalihannya ikut masuk arsip.", "Cache mencatat bagian yang hilang:"],
+    reply: ["Saya tanggapi substansinya.", "Masuk. Sekarang lihat isinya.", "Oke, poinnya begini:"],
+  });
+
+  const naturalReplyClosers = Object.freeze({
+    support: ["Jangan berhenti setelah unggahannya ramai.", "Bukti tetap harus tahan diperiksa kubu sebelah.", "Kalau datanya berubah, koreksinya juga harus kelihatan."],
+    cautious: ["Satu unggahan belum sama dengan perubahan cara kerja.", "Saya tunggu data mentah dan versi koreksinya.", "Bagus kalau benar; berbahaya kalau cuma jeda iklan."],
+    verify: ["Repost bukan metode verifikasi.", "Statusnya belum final sebelum orang lain bisa menguji.", "Lampiran lengkap lebih berguna daripada centang biru."],
+    defend: ["Kritik silakan, ukuran hasilnya jangan hilang.", "Komunikasi boleh tegas; pertanggungjawaban tetap wajib.", "Kalau ada yang belum beres, pihak terkait harus menjawab."],
+    resist: ["Perbaiki programnya, jangan tulis vonis sebelum datanya datang.", "Kemarahan bukan pembanding metodologis.", "Buka konteks penuh lalu kita berdebat di angka yang sama."],
+    condemn: ["Serang kebijakannya, bukan manusianya.", "Fitnah tetap bukan bukti walau engagement-nya tinggi.", "Warga tidak butuh kebencian baru."],
+    correct: ["Jangan meniru mesin yang sedang kita kritik.", "Balik ke bukti sebelum gerakan kehilangan pijakan.", "Metode buruk tetap buruk meski niatnya melawan rezim."],
+    oppose: ["Yang diminta jawaban, bukan pengelolaan emosi.", "Slogannya boleh ramai; pertanyaannya jangan dikubur.", "Persepsi diurus, masalahnya masih duduk di ruang tunggu."],
+    archiveGood: ["Versi, tanggal, dan koreksinya tetap satu folder.", "Kalau narasinya berubah, jejak hari ini masih ada.", "Ingatan algoritma pendek; URL arsip jangan ikut pendek."],
+    archiveBad: ["Hapus unggahan tidak menghapus urutan kejadian.", "Ramai boleh lewat, timestamp tetap tinggal.", "Besok ganti narasi pun screenshot ini masih punya tanggal."],
+    reply: ["Sekarang buka buktinya.", "Jangan berhenti di caption.", "Sisanya biar dokumen yang bicara."],
+  });
+
   function renderReply(context = {}) {
     const profile = resolve(context);
     const vars = contextVars(context);
     const seed = `${context.seed || "reply"}:${profile.id}:${vars.topic}:${context.mode || "reply"}`;
-    const opener = fill(pick(profile.replyOpeners, `${seed}:open`), vars);
+    const mode = context.mode || "reply";
+    const openerPool = context.naturalReply
+      ? [...(profile.replyOpeners || []), ...(naturalReplyOpeners[mode] || naturalReplyOpeners.reply)]
+      : profile.replyOpeners;
+    const closerPool = context.naturalReply
+      ? [...(profile.closers || []), ...(naturalReplyClosers[mode] || naturalReplyClosers.reply)]
+      : profile.closers;
+    const opener = fill(pick(openerPool, `${seed}:open`), vars);
     const body = clean(context.base || context.text || "");
-    const closer = fill(pick(profile.closers, `${seed}:close`), vars);
+    const closer = fill(pick(closerPool, `${seed}:close`), vars);
     return {profileId:profile.id,label:profile.label,className:profile.className,text:clean(`${opener} ${body} ${closer}`),sourceKind:profile.sourceKind};
   }
 

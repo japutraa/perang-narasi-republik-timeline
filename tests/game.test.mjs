@@ -28,7 +28,7 @@ function testHtml({ expose = false } = {}) {
     assert.ok(game.includes(marker), "game test hook marker must exist");
     game = game.replace(
       marker,
-      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries, monthlyRosterSchedule, monthlyRosterFor, voicePostHtml, hashtagHtml, actionDefs, actionPresentation, currentIssue, updateBreakingTicker, makeComment, discussionComment, contextualComment, npcReaction, npcReactionMode, updateEngagement, monthlyActionUseCount, maxActionVariants, renderCards, playAction, advanceMarketSimulation, renderMarketPanel, applyMarketMove };\n})();\n\ndocument.documentElement.dataset.gameReady',
+      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries, monthlyRosterSchedule, monthlyRosterFor, voicePostHtml, hashtagHtml, actionDefs, actionPresentation, currentIssue, updateBreakingTicker, makeComment, discussionComment, contextualComment, npcReaction, npcReactionMode, characterCommentIdentity, updateEngagement, monthlyActionUseCount, maxActionVariants, renderCards, playAction, advanceMarketSimulation, renderMarketPanel, applyMarketMove };\n})();\n\ndocument.documentElement.dataset.gameReady',
     );
   }
 
@@ -84,7 +84,7 @@ test("release references only files that are present", () => {
   required.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), `${file} is missing`));
   assert.doesNotMatch(indexSource, /<style(?:\s|>)/i, "CSS must not be embedded in index.html");
   assert.doesNotMatch(indexSource, /<script(?![^>]+src=)[^>]*>/i, "JavaScript must not be embedded in index.html");
-  assert.match(indexSource, /meta name="version" content="3\.20\.0"/);
+  assert.match(indexSource, /meta name="version" content="3\.20\.1"/);
   assert.match(indexSource, /id="usdIdrValue"/);
   assert.match(indexSource, /id="ihsgValue"/);
   assert.match(gameSource, /SAVE_KEY = "perang-narasi-save-v3"/);
@@ -156,7 +156,13 @@ test("comment threads stay tied to the selected card and speaker stance", async 
   core.forEach((comment) => {
     assert.equal(comment.actionName, display.name);
     assert.equal(comment.issueKey, issue.key);
-    assert.ok(comment.text.toLowerCase().includes(display.name.toLowerCase()), `${comment.handle} lost the selected action context`);
+    if (comment.kind === "npc") {
+      assert.doesNotMatch(comment.text, new RegExp(display.name, "i"), "the post owner must not parrot the full card title");
+      assert.match(comment.label, /^PEMILIK POST •/);
+      assert.equal(comment.replyTo, "“Crop Grafik Harga Beras”");
+    } else {
+      assert.ok(comment.text.toLowerCase().includes(display.name.toLowerCase()), `${comment.handle} lost the selected action context`);
+    }
   });
   assert.ok(supplements.length <= 3, "noise must remain lively but bounded");
   supplements.forEach((comment) => assert.ok([
@@ -213,6 +219,7 @@ test("comment threads stay tied to the selected card and speaker stance", async 
   assert.equal(archive.reactionMode, "archiveBad");
   [regimeAlly, criticOpponent, criticAlly, regimeOpponent, institution, archive].forEach((comment) => {
     assert.match(comment.text, /audit vendor dapur sekolah|kontrak dan hasil uji laboratorium|murid dan orang tua/i);
+    assert.match(comment.label, /^PEMILIK POST •/);
     assert.equal(comment.isNoise, false);
   });
 
@@ -227,11 +234,28 @@ test("comment threads stay tied to the selected card and speaker stance", async 
         assert.equal(reply.actionName, actionDisplay.name);
         assert.equal(reply.stance, stance);
         assert.ok(reply.reactionMode, `${role}/${action.id}/${stance} has no reaction mode`);
-        assert.match(reply.text, new RegExp(actionDisplay.name, "i"));
+        assert.doesNotMatch(reply.text, new RegExp(actionDisplay.name, "i"));
+        assert.match(reply.text, /audit vendor dapur sekolah|kontrak dan hasil uji laboratorium|murid dan orang tua/i);
         assert.equal(reply.isNoise, false);
       }
     }
   }
+
+  const dandyCard = { id: "dandhy", name: "Bang Dandy Lensa-Sono", icon: "🎥" };
+  const dandyPost = {
+    key: "arsip-dandy",
+    npc: "Bang Dandy Lensa-Sono",
+    handle: "@arsiptayang",
+    avatar: "🎬",
+  };
+  const sameDandy = api.characterCommentIdentity(dandyCard, dandyPost);
+  assert.deepEqual(
+    { handle: sameDandy.handle, avatar: sameDandy.avatar, sameAsPost: sameDandy.sameAsPost },
+    { handle: "@arsiptayang", avatar: "🎬", sameAsPost: true },
+  );
+  const offPostDandy = api.characterCommentIdentity(dandyCard, fakeIssue("critic"));
+  assert.equal(offPostDandy.handle, "@arsiptayang", "Dandy must keep one canonical handle outside his own post too");
+  assert.equal(offPostDandy.sameAsPost, false);
 
   dom.window.close();
 });
@@ -332,6 +356,27 @@ test("character voice engine covers every roster and focal timeline account", as
     .filter((variant) => voices.resolve({ name: variant.npc, handle: variant.handle }).id === "fallback")
     .map((variant) => variant.npc))];
   assert.deepEqual(missing, [], `timeline speakers without a fingerprint: ${missing.join(", ")}`);
+
+  const identityOverlaps = [];
+  variants.forEach((variant) => {
+    const postProfile = voices.resolve({
+      id: variant.characterId || variant.voiceId,
+      name: variant.npc,
+      handle: variant.handle,
+      key: variant.key,
+    });
+    roster.forEach((character) => {
+      const cardProfile = voices.resolve({ id: character.id, name: character.name });
+      if (postProfile.id === "fallback" || postProfile.id !== cardProfile.id) return;
+      const identity = api.characterCommentIdentity(character, variant);
+      assert.equal(identity.sameAsPost, true, `${character.name} was not recognized as ${variant.npc}`);
+      assert.equal(identity.handle, variant.handle, `${character.name}/${variant.npc} split into two handles`);
+      assert.equal(identity.avatar, variant.avatar, `${character.name}/${variant.npc} split into two avatars`);
+      identityOverlaps.push(`${character.name} → ${variant.npc} ${variant.handle}`);
+    });
+  });
+  assert.ok(identityOverlaps.length >= 20, `only ${identityOverlaps.length} roster/timeline identities were cross-audited`);
+  assert.ok(new Set(identityOverlaps.map((entry) => entry.split(" → ")[0])).size >= 10, "identity audit covers too few distinct roster characters");
 
   const gemoyCampaign = voices.renderPost({
     id: "gemoyono", phase: 0, seed: 11,

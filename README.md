@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Kolom Komentar Lebih Rusuh — v3.20.0**  
+> **Identitas Tokoh Konsisten — v3.20.1**  
 > Game satire politik Indonesia tentang kekuasaan, buzzer, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.20.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.20.1-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -21,6 +21,16 @@ Pemain memilih salah satu dari dua jalur:
 - **Aktivis Timeline → jaringan kampus, masyarakat sipil, watchdog, atau figur publik**
 
 Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024 sampai Pemilu 2029. Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya berada dalam **Timeline Alternatif**, bukan ramalan atau klaim faktual.
+
+## Fitur v3.20.1
+
+- Balasan pemilik post tidak lagi membeo judul action card lengkap. Mesin mengubahnya menjadi rujukan percakapan seperti *cara membaca pasalnya*, *grafik yang dipilih*, *footage yang dibuka*, atau *pengalihan ke kubu sebelah*.
+- Voiceprint pemilik post mendapat variasi pembuka dan penutup berdasarkan posisi respons: mendukung, memverifikasi, membela, menolak, mengoreksi, atau mengarsipkan. Catchphrase karakter tetap bisa muncul, tetapi bukan lagi awalan wajib setiap klik.
+- Label membingungkan **AKUN ASLI** diganti menjadi **PEMILIK POST**. Nama action lengkap tetap tersimpan sebagai metadata, sementara chip balasan hanya menampilkan judul pendek agar tidak mengulang subjek panjang dua kali.
+- Identitas tokoh kartu memakai resolver kanonis. Bila tokoh kartu dan pemilik post adalah orang yang sama, nama akun, handle, serta avatar mengikuti post aktif dan komentar diberi label **TOKOH YANG SAMA**.
+- Mas Dandi kini konsisten memakai `@arsiptayang` ketika muncul sebagai post utama, ability, maupun context combo. Tokoh lain yang memiliki alias handle kanonis memakai aturan yang sama.
+- Guard konteks memastikan setiap balasan pemilik post tetap menyebut isu, dokumen, atau warga terdampak meski variasi respons action tertentu terlalu singkat.
+- Regresi identitas menyapu seluruh varian timeline dan seluruh 59 kartu roster. Setiap overlap profil wajib dikenali sebagai tokoh yang sama serta menghasilkan handle dan avatar milik post aktif.
 
 ## Fitur v3.20.0
 

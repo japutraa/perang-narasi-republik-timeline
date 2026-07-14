@@ -2,6 +2,18 @@
 
 Semua perubahan penting pada proyek ini dicatat di sini.
 
+## 3.20.1 — 2026-07-14
+
+- Menghapus kewajiban balasan pemilik post untuk mengulang judul action card lengkap di dalam isi komentar.
+- Menambahkan rujukan action yang natural dan spesifik per keluarga kartu, seperti pembacaan pasal, grafik, footage, kronologi, kesaksian, panggung, atau pengalihan.
+- Memperluas pembuka serta penutup voiceprint berdasarkan mode dukungan, pembelaan, verifikasi, koreksi, penolakan, resistensi, dan arsip.
+- Mengganti label `AKUN ASLI` menjadi `PEMILIK POST` agar jelas bahwa akun tersebut adalah pembuat post timeline, bukan klaim akun nyata atau terverifikasi.
+- Memendekkan chip `membalas` tanpa membuang metadata action lengkap.
+- Menambahkan resolver identitas tokoh lintas timeline, ability, dan context combo. Tokoh yang sama memakai handle serta avatar post aktif dan diberi label `TOKOH YANG SAMA`.
+- Menyatukan identitas Mas Dandi pada handle kanonis `@arsiptayang` serta menambahkan regresi identitas untuk mencegah persona ganda.
+- Menambahkan context guard agar respons singkat tetap membawa isu, dokumen, atau kelompok terdampak.
+- Memperluas regresi dari satu contoh Mas Dandi menjadi audit seluruh varian timeline × 59 kartu roster; setiap profil yang overlap wajib memakai handle dan avatar post aktif.
+
 ## 3.20.0 — 2026-07-14
 
 - Membuat kolom komentar action menjadi percakapan bertahap: respons klik pertama, pembacaan pola pada klik kedua, dan teguran saturasi pada klik ketiga memiliki wording serta urutan akun berbeda.
