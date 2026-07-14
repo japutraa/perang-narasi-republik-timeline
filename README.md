@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Hashtag Aman & Metadata Rapi — v3.13.1**  
+> **Arc 2: Dapur, Desa, Anggaran & Dinasti — v3.14.0**  
 > Game satire politik Indonesia tentang kekuasaan, buzzer, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.13.1-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.14.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -22,7 +22,15 @@ Pemain memilih salah satu dari dua jalur:
 
 Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024 sampai Pemilu 2029. Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya berada dalam **Timeline Alternatif**, bukan ramalan atau klaim faktual.
 
-## Fitur v3.13.1
+## Fitur v3.14.0
+
+- Arc 2 (2025) dibangun ulang dengan rangkaian isu yang saling terhubung: peluncuran dan ekspansi MBG, BGN dan keamanan pangan, efisiensi Rp306,7 triliun, pendidikan yang berebut ruang anggaran, KopDes Merah Putih, protes Agustus, serta konsolidasi keluarga politik menuju 2029.
+- Juli dan Agustus memakai **varian isu penuh**, bukan sekadar copy berbeda. Seed run dapat memilih KopDes atau konsolidasi partai keluarga pada Juli, lalu konflik anggaran pendidikan–MBG atau protes tunjangan pada Agustus.
+- Action card membaca `subject`, `document`, dan `people` dari varian yang terpilih. Kartu audit Juli, misalnya, berubah antara akta serta arus kas koperasi dan struktur partai serta hasil kongres.
+- Menambahkan dua tokoh roster kontekstual: **Bu Nanik Nasi-Doyang** di sisi pemerintah dan **dr. Tan Sehat-Yen** di sisi aktivis. Keduanya baru tersedia pada September 2025 agar sesuai waktu pelantikan, investigasi keamanan pangan, dan audiensi gizi.
+- Timeline September–Desember membahas permintaan maaf dan investigasi badan gizi, kritik burger/spaghetti dan pangan lokal, sertifikasi dapur, Rp223 triliun MBG dalam anggaran pendidikan 2026, serta audit akhir tahun program populis.
+- Peluncuran 80.081 KopDes diperbaiki ke Juli 2025. Pemanasan jaringan keluarga ditempatkan pada kongres partai Juli 2025; dukungan dua periode yang eksplisit tetap diperlakukan sebagai perkembangan Juni 2026, bukan dimundurkan secara palsu.
+- Audit nama asli diperluas ke dua tokoh baru dan keluarga politik terkait. Semua tampilan game tetap memakai alias parodi; nama faktual hanya hidup di URL sumber dan aturan sanitasi internal.
 
 - Semua judul hashtag panjang kini mendapat titik bungkus alami di batas CamelCase plus fallback `overflow-wrap`, termasuk **#DanantaraPunyaNegaraAtauNegaraPunyaDanantara**.
 - Metadata post dipisah menjadi chip **TIMELINE 3/3** dan **RUN 0608**, sehingga tidak lagi menempel pada hashtag.
@@ -39,7 +47,7 @@ Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024
 - Seluruh tokoh roster wajib mendapat giliran dalam fase masing-masing sebelum rotasi mengulang; relevansi isu menentukan urutan, bukan menghapus kartu.
 - `Yanuar Risky Banget` diganti menjadi **Risky Februari**.
 - Mode **Kronik** untuk campaign penuh dan **Mode Bebas** untuk mulai atau lompat ke fase 2024–2029 mana saja.
-- Setiap bulan memiliki minimal tiga alternatif post utama: **216+ varian timeline** untuk 72 bulan.
+- Setiap bulan memiliki minimal tiga alternatif post utama: **233 varian timeline** untuk 72 bulan, termasuk 49 varian di Arc 2.
 - Seed campaign menentukan varian yang muncul dan ikut tersimpan di save. Reload mempertahankan timeline yang sama; campaign baru menyusun kombinasi lain.
 - Setiap post utama hanya berfokus pada satu akun/tokoh. Panel ramai tetap boleh muncul sebagai special event, bukan sebagai satu tweet keroyokan.
 - Varian arsip memakai pernyataan kontroversial yang terdokumentasi, termasuk komentar rupiah–dolar, polemik SPPG, narasi agen asing, serta arsip fufufafa; kutipan, parafrasa, dan satire dibedakan lewat kartu sumber.
@@ -75,7 +83,7 @@ Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024
 │   ├── js/game.js             # data naratif + mesin permainan
 │   ├── js/ending-system.js    # skor, moral, utang, pangkat, dan pemilu
 │   ├── js/netizen-pack.js     # persona komentar dan spam satir
-│   ├── js/timeline-variants.js # 216+ post bulanan, speaker, seed, sumber
+│   ├── js/timeline-variants.js # 233 post bulanan, speaker, seed, sumber
 │   ├── js/runtime.js          # boot diagnostics + registrasi offline
 │   └── icons/icon.svg         # ikon lokal
 ├── manifest.webmanifest       # metadata PWA

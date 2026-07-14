@@ -25,7 +25,7 @@ function testHtml({ expose = false } = {}) {
     assert.ok(game.includes(marker), "game test hook marker must exist");
     game = game.replace(
       marker,
-      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries, monthlyRosterSchedule, monthlyRosterFor, voicePostHtml, hashtagHtml };\n})();\n\ndocument.documentElement.dataset.gameReady',
+      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries, monthlyRosterSchedule, monthlyRosterFor, voicePostHtml, hashtagHtml, actionDefs, actionPresentation };\n})();\n\ndocument.documentElement.dataset.gameReady',
     );
   }
 
@@ -75,10 +75,12 @@ test("release references only files that are present", () => {
   required.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), `${file} is missing`));
   assert.doesNotMatch(indexSource, /<style(?:\s|>)/i, "CSS must not be embedded in index.html");
   assert.doesNotMatch(indexSource, /<script(?![^>]+src=)[^>]*>/i, "JavaScript must not be embedded in index.html");
-  assert.match(indexSource, /meta name="version" content="3\.13\.1"/);
+  assert.match(indexSource, /meta name="version" content="3\.14\.0"/);
   assert.match(gameSource, /SAVE_KEY = "perang-narasi-save-v3"/);
   assert.match(gameSource, /Prof\. Konni BaksLaah/);
   assert.match(gameSource, /Mas Nadim Makaroni/);
+  assert.match(gameSource, /Bu Nanik Nasi-Doyang/);
+  assert.match(gameSource, /dr\. Tan Sehat-Yen/);
   assert.doesNotMatch(gameSource, /Konni Bakso-Rie/);
   assert.doesNotMatch(gameSource, /Purba-Yaya|Felix Si-Auw|Dandhy Lensono|Akbar Fasal|Gita Wira-Wacana|Latah-Hitung/);
   assert.match(netizenSource, /BOT JUDOL NYASAR/);
@@ -118,11 +120,13 @@ test("all displayed political figures use parody aliases", async () => {
     cast: [...api.castEntries("power"), ...api.castEntries("activist")],
     variants,
   });
-  const realNamePattern = /\b(?:Prabowo|Jokowi|Joko Widodo|Gibran|Nadiem|Teddy Indra Wijaya|Bahlil|Hasan Nasbi|Purbaya Yudhi Sadewa|Sri Mulyani|Puan Maharani|Megawati Soekarnoputri|Connie(?: Rahakundini Bakrie| Bakrie)?|Anies Baswedan|Ganjar Pranowo|Tiyo Ardianto|Yanuar Nugroho|Yanuar Risky Banget)\b/i;
+  const realNamePattern = /\b(?:Prabowo|Jokowi|Joko Widodo|Gibran|Kaesang(?: Pangarep)?|Nadiem|Teddy Indra Wijaya|Bahlil|Hasan Nasbi|Purbaya Yudhi Sadewa|Sri Mulyani|Puan Maharani|Megawati Soekarnoputri|Connie(?: Rahakundini Bakrie| Bakrie)?|Nanik(?: Sudaryati)? S\.? Deyang|Tan Shot Yen|Anies Baswedan|Ganjar Pranowo|Tiyo Ardianto|Yanuar Nugroho|Yanuar Risky Banget)\b/i;
   const leakedName = renderedData.match(realNamePattern);
   assert.equal(leakedName, null, `real political name leaked into display: ${leakedName?.[0]}`);
   assert.match(renderedData, /Risky Februari/);
   assert.match(renderedData, /Mayor Tedi Ketok-Pintu/);
+  assert.match(renderedData, /Bu Nanik Nasi-Doyang/);
+  assert.match(renderedData, /dr\. Tan Sehat-Yen/);
   assert.doesNotMatch(renderedData, /Mayor Tedi (?!Ketok-Pintu)/);
   dom.window.close();
 });
@@ -304,7 +308,12 @@ test("every month has seeded single-speaker timeline variants", async () => {
 
   assert.ok(total >= 216, `${total} variants configured`);
   assert.ok(changedBetweenRuns >= 24, `${changedBetweenRuns} months should differ between two runs`);
-  const longHashtags = phases.flatMap((phase) => phase.days.map((issue) => issue.title)).filter((title) => title.length >= 28);
+  const variantTitles = phases.flatMap((phase, phaseIndex) => phase.days.flatMap((issue, dayIndex) =>
+    pack.build(issue, { phaseIndex, dayIndex }).map((variant) => variant.title || issue.title)));
+  const longHashtags = [...new Set([
+    ...phases.flatMap((phase) => phase.days.map((issue) => issue.title)),
+    ...variantTitles,
+  ])].filter((title) => title.length >= 28);
   assert.ok(longHashtags.includes("#DanantaraPunyaNegaraAtauNegaraPunyaDanantara"));
   longHashtags.forEach((title) => {
     const rendered = hashtagHtml(title);
@@ -333,6 +342,61 @@ test("every month has seeded single-speaker timeline variants", async () => {
     .find((variant) => variant.npc === "Pak Jenderal Gemoyono");
   assert.equal(presidentialGemoy.stance, "regime");
   assert.match(presidentialGemoy.post, /negara|perwira|strategis/i);
+  dom.window.close();
+});
+
+test("Arc 2 rotates real-world program themes and context-aware cards", async () => {
+  const { dom, errors } = createDom({ expose: true });
+  await tick(dom.window);
+  assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
+  const api = dom.window.__PN_TEST__;
+  const pack = dom.window.PNTimelineVariants;
+  const arc = api.phases[1];
+
+  assert.match(arc.days.map((issue) => `${issue.title} ${issue.subject}`).join("\n"), /KopDes/i);
+  assert.match(arc.days.map((issue) => `${issue.title} ${issue.subject}`).join("\n"), /anggaran pendidikan/i);
+  assert.match(arc.days.map((issue) => `${issue.title} ${issue.subject}`).join("\n"), /keamanan pangan MBG/i);
+  assert.match(arc.days.map((issue) => `${issue.title} ${issue.subject}`).join("\n"), /2029/i);
+
+  const july = pack.build(arc.days[6], { phaseIndex: 1, dayIndex: 6 });
+  assert.deepEqual(new Set(july.map((variant) => variant.title)), new Set([
+    "#DelapanPuluhRibuKopDesSiapaNgitung",
+    "#RemoteSoloPindahKeGajahKecil",
+  ]));
+  assert.ok(july.every((variant) => variant.facts.some((fact) => /2025/.test(fact.join(" ")))));
+
+  const august = pack.build(arc.days[7], { phaseIndex: 1, dayIndex: 7 });
+  assert.deepEqual(new Set(august.map((variant) => variant.title)), new Set([
+    "#AnggaranPendidikanDimakanDefinisi",
+    "#TunjanganNaikRakyatDisuruhEfisien",
+  ]));
+
+  const september = pack.build(arc.days[8], { phaseIndex: 1, dayIndex: 8 });
+  assert.ok(september.some((variant) => variant.npc === "Bu Nanik Nasi-Doyang"));
+  assert.ok(september.some((variant) => variant.npc === "dr. Tan Sehat-Yen"));
+  assert.ok(september.every((variant) => variant.facts.length >= 3));
+
+  const june2026 = pack.build(api.phases[2].days[5], { phaseIndex: 2, dayIndex: 5 });
+  const twoTermPayoff = june2026.filter((variant) => variant.title === "#RemoteSoloMintaDuaPeriode");
+  assert.equal(twoTermPayoff.length, 2);
+  assert.ok(twoTermPayoff.every((variant) => variant.facts.some((fact) => /8541851/.test(fact[2] || ""))));
+
+  const governmentRoster = api.phaseRosters.buzzer[1];
+  const activistRoster = api.phaseRosters.aktivis[1];
+  assert.equal(governmentRoster.find((character) => character.id === "nanik-nasi-doyang")?.availableFrom, 9);
+  assert.equal(activistRoster.find((character) => character.id === "tan-sehat-yen")?.availableFrom, 9);
+
+  api.state.role = "aktivis";
+  api.state.phase = 1;
+  const dataAction = api.actionDefs.aktivis.find((action) => action.id === "data");
+  const cardNames = july.map((variant) => api.actionPresentation(
+    dataAction,
+    { ...arc.days[6], ...variant },
+    0,
+  ).name);
+  assert.ok(cardNames.some((name) => /akta koperasi|target gerai/i.test(name)));
+  assert.ok(cardNames.some((name) => /struktur partai|hasil kongres/i.test(name)));
+
   dom.window.close();
 });
 

@@ -2,6 +2,16 @@
 
 Semua perubahan penting pada proyek ini dicatat di sini.
 
+## 3.14.0 — 2026-07-14
+
+- Membangun ulang Arc 2 dengan tema MBG/BGN, keamanan pangan, efisiensi anggaran, pendidikan, KopDes Merah Putih, protes Agustus, dan konsolidasi keluarga politik menuju 2029.
+- Menambahkan 49 varian Arc 2 dan 233 varian total, termasuk varian isu penuh yang dapat mengubah judul, subjek, dokumen, warga terdampak, efektivitas kartu, dan sumber berdasarkan seed run—bukan hanya mengganti pembicara.
+- Memperbaiki kronologi peluncuran 80.081 KopDes ke Juli 2025 serta memisahkan pemanasan politik 2025 dari dukungan dua periode yang baru eksplisit pada Juni 2026.
+- Menambahkan **Bu Nanik Nasi-Doyang** ke roster pemerintah dan **dr. Tan Sehat-Yen** ke roster aktivis mulai September 2025, lengkap dengan ability, follow-up card, tema, serta rotasi wajib.
+- Menambahkan sumber untuk pemotongan Rp306,7 triliun, Indonesia Gelap, ekspansi dan krisis keamanan pangan MBG, kritik menu pangan lokal, anggaran pendidikan 2026, KopDes, kongres partai keluarga, dan protes Agustus.
+- Memperluas audit alias agar nama asli kedua tokoh baru dan keluarga politik tidak muncul pada data yang ditampilkan.
+- Menambahkan tes regresi untuk keragaman isu Arc 2, kronologi sumber, roster baru, dan action card yang berubah antara isu KopDes serta dinasti 2029.
+
 ## 3.13.1 — 2026-07-13
 
 - Memperbaiki overflow seluruh hashtag panjang dengan elemen judul khusus, titik putus CamelCase, `min-width: 0`, dan fallback `overflow-wrap: anywhere`.
