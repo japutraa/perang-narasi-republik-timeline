@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Pasar Timeline — v3.18.0**  
+> **Action Card Kontekstual — v3.19.0**  
 > Game satire politik Indonesia tentang kekuasaan, buzzer, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.18.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.19.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -21,6 +21,15 @@ Pemain memilih salah satu dari dua jalur:
 - **Aktivis Timeline → jaringan kampus, masyarakat sipil, watchdog, atau figur publik**
 
 Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024 sampai Pemilu 2029. Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya berada dalam **Timeline Alternatif**, bukan ramalan atau klaim faktual.
+
+## Fitur v3.19.0
+
+- Seluruh action card standar kini membaca post timeline yang benar-benar aktif: subjek, dokumen, warga terdampak, akun pembicara, kontra-narasi, dan arc. Kartu MBG menyebut dapur, vendor, porsi, serta hasil uji; kartu pasar menyebut rupiah/IHSG; kartu militer membahas kewenangan, pengadaan, dan supremasi sipil.
+- Judul, deskripsi, dan baris konteks berubah bersama seed timeline. Empat pendekatan awal setiap keluarga kartu juga memiliki manuver berbeda, bukan judul sama dengan embel-embel edisi acak.
+- Strategi buzzer sekarang terang-terangan menunjukkan fakta mana yang dikaburkan. Strategi aktivis menunjukkan bukti serta kelompok terdampak yang harus dijaga.
+- Wording disejajarkan dengan mekanik moral. Kartu serangan pribadi aktivis kembali terdengar sebagai doxxing/ad hominem yang kotor dan sesuai dengan penalti integritasnya; transparansi tetap menjadi opsi substantif bagi kedua kubu.
+- Wildcard, ability tokoh, dan follow-up perfect match tidak digeneralisasi ulang. Copy khusus karakter tetap mendapat prioritas.
+- Modul baru `assets/js/action-copy.js` memisahkan klasifikasi isu dan penulisan kartu dari mesin utama. Regresi mengaudit lebih dari 5.000 kombinasi role, action, fase, varian post, dan pendekatan untuk mencegah template generik kembali muncul.
 
 ## Fitur v3.18.0
 
@@ -117,9 +126,11 @@ Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024
 ├── index.html                 # markup dan antarmuka
 ├── assets/
 │   ├── css/game.css           # seluruh stylesheet
+│   ├── js/action-copy.js      # copy action card berbasis konteks timeline
 │   ├── js/character-voices.js # 93 voiceprint + sumber gaya + renderer dialog
 │   ├── js/game.js             # data naratif + mesin permainan
 │   ├── js/ending-system.js    # skor, moral, utang, pangkat, dan pemilu
+│   ├── js/market-sim.js       # simulasi seed-based USD/IDR dan IHSG
 │   ├── js/netizen-pack.js     # persona komentar dan spam satir
 │   ├── js/timeline-variants.js # 380 post bulanan, speaker, seed, cooldown
 │   ├── js/runtime.js          # boot diagnostics + registrasi offline
@@ -153,7 +164,7 @@ npm ci
 npm test
 ```
 
-Tujuh belas test memeriksa sintaks JavaScript, kelengkapan file modular, 59/59 voiceprint roster beserta seluruh focal account timeline, koherensi komentar untuk seluruh action dan stance akun, audit alias politik, 380 varian satu-tokoh, ticker berbasis seed, cooldown serta batas frekuensi pembicara, coverage seluruh roster, Mode Bebas untuk kedua kubu, 42 event × 2 kubu × 4 pilihan, evaluator ending, kompatibilitas save v3, dan simulasi campaign penuh untuk kedua kubu.
+Sembilan belas test memeriksa sintaks JavaScript, kelengkapan file modular, lebih dari 5.000 kombinasi action card kontekstual, 59/59 voiceprint roster beserta seluruh focal account timeline, koherensi komentar untuk seluruh action dan stance akun, audit alias politik, 380 varian satu-tokoh, ticker berbasis seed, cooldown serta batas frekuensi pembicara, coverage seluruh roster, Mode Bebas untuk kedua kubu, 43 event × 2 kubu × 4 pilihan, evaluator ending, kompatibilitas save v3, dan simulasi campaign penuh untuk kedua kubu.
 
 ## Deploy ke GitHub Pages
 

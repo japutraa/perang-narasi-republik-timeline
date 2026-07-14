@@ -1,5 +1,5 @@
 /**
- * Perang Narasi: Republik Timeline v3.18.0
+ * Perang Narasi: Republik Timeline v3.19.0
  * Copyright (C) 2026 Adrian Janitra Putra
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -7323,6 +7323,14 @@
     aktivis:{context:"Klip 12 detik dikembalikan ke habitat aslinya: video penuh dan kronologi.",data:"Angka disuruh kerja, bukan cuma berdiri cantik di carousel.",empathy:"Warga jadi manusia, bukan B-roll yang dipelankan pakai piano.",meme:"Receh boleh. Sumber primer tetap harus diajak nongkrong.",network:"Timeline diubah jadi posko, bukan cuma tempat semua orang bilang ‘gas’.",law:"Pasal diterjemahkan ke bahasa manusia tanpa cosplay hakim.",film:"Kamera dipakai buat arsip, bukan cuma bikin kemarahan kelihatan sinematik.",attack:"Yang dibongkar kuasa dan konflik kepentingan, bukan ukuran sepatu keluarga.",transparency:"Gerakan ikut buka dompet dan salahnya sendiri. Suasana langsung canggung tapi sehat."}
   };
   function actionPresentation(a,i,variantIndex=0){
+    const contextual = window.PNActionCopy?.present?.({
+      role: state.role,
+      action: a,
+      issue: i,
+      phaseIndex: state.phase,
+      variantIndex,
+    });
+    if (contextual) return contextual;
     const verbs=narrativeActionVerbs[state.role]?.[a.id]||["Respons terhadap"];
     const verb=verbs[variantIndex%verbs.length];
     let object=i.subject||i.title.replace(/^#/,"");

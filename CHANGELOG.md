@@ -2,6 +2,16 @@
 
 Semua perubahan penting pada proyek ini dicatat di sini.
 
+## 3.19.0 — 2026-07-14
+
+- Mengganti generator action card generik dengan mesin copy kontekstual yang membaca subjek, dokumen, warga terdampak, pembicara, kontra-narasi, dan arc dari post aktif.
+- Menambahkan klasifikasi isu untuk MBG, KopDes, pendidikan, militer, diplomasi, pasar, aset negara, fiskal, pemilu, hukum, protes, lingkungan, energi, media, pengadaan, kesejahteraan, dan agama.
+- Menulis ulang seluruh keluarga kartu kedua role: judul serta deskripsi kini menyebut objek kasus yang dimainkan, bukan template lintas isu.
+- Menambahkan baris `TARGET NARASI / YANG DIKABURKAN` pada strategi manipulatif dan `BUKTI BULAN INI / DAMPAK` pada strategi substantif.
+- Menyelaraskan copy dengan konsekuensi moral: serangan pribadi aktivis sekarang jelas berupa doxxing/ad hominem dan tidak lagi terdengar seperti investigasi konflik kepentingan yang etis.
+- Mempertahankan prioritas copy khusus wildcard, ability tokoh, dan perfect-match follow-up.
+- Memisahkan mesin ke `assets/js/action-copy.js` serta menambahkan audit otomatis atas lebih dari 5.000 kombinasi kartu-timeline, termasuk variasi pendekatan, jangkar isu, panjang copy, dan larangan template lama.
+
 ## 3.18.0 — 2026-07-14
 
 - Menambahkan panel Pasar Timeline berisi simulasi seed-based USD/IDR dan IHSG, delta bulanan, status natural, alasan pergerakan, serta modal audit enam bulan terakhir.

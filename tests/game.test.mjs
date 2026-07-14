@@ -13,6 +13,7 @@ const characterVoicesSource = fs.readFileSync(path.join(root, "assets/js/charact
 const timelineVariantsSource = fs.readFileSync(path.join(root, "assets/js/timeline-variants.js"), "utf8");
 const endingSource = fs.readFileSync(path.join(root, "assets/js/ending-system.js"), "utf8");
 const marketSource = fs.readFileSync(path.join(root, "assets/js/market-sim.js"), "utf8");
+const actionCopySource = fs.readFileSync(path.join(root, "assets/js/action-copy.js"), "utf8");
 const gameSource = fs.readFileSync(path.join(root, "assets/js/game.js"), "utf8");
 const cssSource = fs.readFileSync(path.join(root, "assets/css/game.css"), "utf8");
 
@@ -39,6 +40,7 @@ function testHtml({ expose = false } = {}) {
     .replace('<script src="assets/js/timeline-variants.js" defer></script>', () => inlineScript(timelineVariantsSource))
     .replace('<script src="assets/js/ending-system.js" defer></script>', () => inlineScript(endingSource))
     .replace('<script src="assets/js/market-sim.js" defer></script>', () => inlineScript(marketSource))
+    .replace('<script src="assets/js/action-copy.js" defer></script>', () => inlineScript(actionCopySource))
     .replace('<script src="assets/js/game.js" defer></script>', () => inlineScript(game));
 }
 
@@ -71,6 +73,7 @@ test("release references only files that are present", () => {
     "assets/js/timeline-variants.js",
     "assets/js/ending-system.js",
     "assets/js/market-sim.js",
+    "assets/js/action-copy.js",
     "assets/js/game.js",
     "assets/icons/icon.svg",
     "manifest.webmanifest",
@@ -81,7 +84,7 @@ test("release references only files that are present", () => {
   required.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), `${file} is missing`));
   assert.doesNotMatch(indexSource, /<style(?:\s|>)/i, "CSS must not be embedded in index.html");
   assert.doesNotMatch(indexSource, /<script(?![^>]+src=)[^>]*>/i, "JavaScript must not be embedded in index.html");
-  assert.match(indexSource, /meta name="version" content="3\.18\.0"/);
+  assert.match(indexSource, /meta name="version" content="3\.19\.0"/);
   assert.match(indexSource, /id="usdIdrValue"/);
   assert.match(indexSource, /id="ihsgValue"/);
   assert.match(gameSource, /SAVE_KEY = "perang-narasi-save-v3"/);
@@ -675,6 +678,64 @@ test("Arc 2 rotates real-world program themes and context-aware cards", async ()
   ).name);
   assert.ok(cardNames.some((name) => /akta koperasi|target gerai/i.test(name)));
   assert.ok(cardNames.some((name) => /struktur partai|hasil kongres/i.test(name)));
+
+  dom.window.close();
+});
+
+test("every standard action card is anchored to its active timeline issue", async () => {
+  const { dom, errors } = createDom({ expose: true });
+  await tick(dom.window);
+  assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
+  const api = dom.window.__PN_TEST__;
+  const pack = dom.window.PNTimelineVariants;
+  const copyEngine = dom.window.PNActionCopy;
+  let audited = 0;
+
+  for (let phaseIndex = 0; phaseIndex < api.phases.length; phaseIndex += 1) {
+    const phase = api.phases[phaseIndex];
+    for (let dayIndex = 0; dayIndex < phase.days.length; dayIndex += 1) {
+      const base = phase.days[dayIndex];
+      const built = pack.build(base, { phaseIndex, dayIndex });
+      const issues = built.length ? built : [base];
+      for (const issue of issues) {
+        for (const role of ["buzzer", "aktivis"]) {
+          api.state.role = role;
+          api.state.phase = phaseIndex;
+          for (const action of api.actionDefs[role]) {
+            if (action.min > phaseIndex) continue;
+            const names = new Set();
+            for (let variantIndex = 0; variantIndex < 4; variantIndex += 1) {
+              const display = api.actionPresentation(action, issue, variantIndex);
+              const result = copyEngine.audit({ role, action, issue, variantIndex });
+              assert.equal(
+                result.ok,
+                true,
+                `${role}/${action.id}/${phaseIndex + 1}/${dayIndex + 1}: ${result.problems.join(", ")}\n${JSON.stringify(display)}`,
+              );
+              assert.doesNotMatch(display.desc, /bikin isu gampang dibagikan|nyambung langsung ke|kalau berhasil, timeline berubah/i);
+              assert.match(display.context, /TARGET NARASI|BUKTI BULAN INI|CATATAN MORAL/);
+              names.add(display.name);
+              audited += 1;
+            }
+            assert.equal(names.size, 4, `${role}/${action.id}/${issue.title} repeats its first four approaches`);
+          }
+        }
+      }
+    }
+  }
+
+  assert.ok(audited > 5000, `only ${audited} contextual cards were audited`);
+
+  api.state.role = "aktivis";
+  api.state.phase = 1;
+  const mbgIssue = pack.build(api.phases[1].days[8], { phaseIndex: 1, dayIndex: 8 })
+    .find((issue) => /MBG|dapur|gizi/i.test(`${issue.subject} ${issue.post}`));
+  const data = api.actionDefs.aktivis.find((action) => action.id === "data");
+  const attack = api.actionDefs.aktivis.find((action) => action.id === "attack");
+  const mbgData = api.actionPresentation(data, mbgIssue, 0);
+  const mbgAttack = api.actionPresentation(attack, mbgIssue, 0);
+  assert.match(`${mbgData.name} ${mbgData.desc}`, /vendor|dapur|gizi|porsi|kontrak|uji/i);
+  assert.match(`${mbgAttack.name} ${mbgAttack.desc} ${mbgAttack.context}`, /kehidupan pribadi|aib|integritas|CATATAN MORAL/i);
 
   dom.window.close();
 });

@@ -1,6 +1,6 @@
 /** Perang Narasi offline cache — SPDX-License-Identifier: GPL-3.0-or-later */
 
-const CACHE_NAME = "perang-narasi-v3.18.0";
+const CACHE_NAME = "perang-narasi-v3.19.0";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -11,6 +11,7 @@ const APP_SHELL = [
   "./assets/js/timeline-variants.js",
   "./assets/js/ending-system.js",
   "./assets/js/market-sim.js",
+  "./assets/js/action-copy.js",
   "./assets/js/game.js",
   "./assets/icons/icon.svg",
   "./manifest.webmanifest",
