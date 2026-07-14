@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Arc 2: Dapur, Desa, Anggaran & Dinasti — v3.14.0**  
+> **Arc 2: Dapur, Desa, Anggaran & Dinasti — v3.15.0**  
 > Game satire politik Indonesia tentang kekuasaan, buzzer, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.14.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-3.15.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -22,7 +22,16 @@ Pemain memilih salah satu dari dua jalur:
 
 Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024 sampai Pemilu 2029. Bagian 2024 hingga Juli 2026 mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode setelahnya berada dalam **Timeline Alternatif**, bukan ramalan atau klaim faktual.
 
-## Fitur v3.14.0
+## Fitur v3.15.0
+
+- Kolom komentar kini dibangun dari tiga konteks sekaligus: isu bulan aktif, nama/varian action card yang benar-benar dipilih, dan posisi akun yang membalas.
+- Setiap komentar inti menyebut kartu yang sedang ditanggapi dan menyimpan metadata `actionId`, `actionName`, serta `issueKey`; komentar lama tetap jelas membalas kartu yang mana.
+- Akun post utama merespons menurut stance: akun pemerintah mendukung atau membela strategi buzzer sendiri, pengkritik menantangnya, institusi memverifikasi metode, dan akun arsip menyimpan jejak. Akun tidak lagi mendadak menyerang posisi politiknya sendiri.
+- Respons silang juga konsisten: akun pemerintah dapat menahan atau mengecam action aktivis, sementara pengkritik dapat mendukung action substantif tetapi mengoreksi doxxing, ad hominem, atau metode toksik dari kubunya sendiri.
+- Persona warga marah dan arsip forum tetap memakai isi komentar yang kontekstual; gaya persona tidak lagi menimpa teks khusus action dengan stok kalimat acak.
+- Noise OOT dipisahkan menjadi suplemen acak maksimal satu akun per gelombang komentar, terbatas pada bot judol fiktif, akun numpang jualan, dan crypto bro. Bisikan tren yang tidak terkait dihapus dari thread action.
+- Komentar pembuka sebelum pemain memilih kartu sekarang juga membahas isu aktif, bukan mengambil kalimat generik lintas topik.
+- Tes regresi memainkan seluruh keluarga action untuk kedua kubu melawan empat stance akun dan memastikan komentar non-noise selalu membawa konteks kartu yang dipilih.
 
 - Arc 2 (2025) dibangun ulang dengan rangkaian isu yang saling terhubung: peluncuran dan ekspansi MBG, BGN dan keamanan pangan, efisiensi Rp306,7 triliun, pendidikan yang berebut ruang anggaran, KopDes Merah Putih, protes Agustus, serta konsolidasi keluarga politik menuju 2029.
 - Juli dan Agustus memakai **varian isu penuh**, bukan sekadar copy berbeda. Seed run dapat memilih KopDes atau konsolidasi partai keluarga pada Juli, lalu konflik anggaran pendidikan–MBG atau protes tunjangan pada Agustus.
@@ -115,7 +124,7 @@ npm ci
 npm test
 ```
 
-Tiga belas test memeriksa sintaks JavaScript, kelengkapan file modular, audit alias politik, 216+ varian satu-tokoh, perbedaan seed antarrun, coverage seluruh roster, Mode Bebas untuk kedua kubu, 42 event × 2 kubu × 4 pilihan, evaluator ending, kompatibilitas save v3, dan simulasi campaign penuh untuk kedua kubu.
+Lima belas test memeriksa sintaks JavaScript, kelengkapan file modular, koherensi komentar untuk seluruh action dan stance akun, audit alias politik, 216+ varian satu-tokoh, perbedaan seed antarrun, coverage seluruh roster, Mode Bebas untuk kedua kubu, 42 event × 2 kubu × 4 pilihan, evaluator ending, kompatibilitas save v3, dan simulasi campaign penuh untuk kedua kubu.
 
 ## Deploy ke GitHub Pages
 

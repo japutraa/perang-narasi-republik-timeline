@@ -1302,6 +1302,13 @@ a {
 .comment-tone.npc {
   color: var(--purple);
 }
+.comment-tone.noise {
+  color: #ff9f43;
+}
+.comment-item.noise {
+  opacity: .9;
+  border-style: dashed;
+}
 .comment-item.persona-seller {
   border-color: #ff8fd8;
   background: #20101d;

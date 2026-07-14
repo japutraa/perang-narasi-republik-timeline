@@ -103,10 +103,12 @@
 
   window.PNNetizenPack = Object.freeze({
     spamChance: 0.085,
+    noiseSupplementChance: 0.34,
     roughChance: 0.09,
     fufuChance: 0.065,
     fufuSource: "https://github.com/fufufufafafa/fufufafa-memorable-quotes",
     spamPersonaIds: ["seller", "judol", "cryptoBro"],
+    noisePersonaIds: ["seller", "judol", "cryptoBro"],
     personas,
     comments,
   });

@@ -25,7 +25,7 @@ function testHtml({ expose = false } = {}) {
     assert.ok(game.includes(marker), "game test hook marker must exist");
     game = game.replace(
       marker,
-      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries, monthlyRosterSchedule, monthlyRosterFor, voicePostHtml, hashtagHtml, actionDefs, actionPresentation };\n})();\n\ndocument.documentElement.dataset.gameReady',
+      '\n  window.__PN_TEST__ = { state, phases, phaseRosters, specialEvents, eventChoices, castEntries, monthlyRosterSchedule, monthlyRosterFor, voicePostHtml, hashtagHtml, actionDefs, actionPresentation, currentIssue, makeComment, discussionComment, contextualComment, npcReaction, npcReactionMode, updateEngagement };\n})();\n\ndocument.documentElement.dataset.gameReady',
     );
   }
 
@@ -75,7 +75,7 @@ test("release references only files that are present", () => {
   required.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), `${file} is missing`));
   assert.doesNotMatch(indexSource, /<style(?:\s|>)/i, "CSS must not be embedded in index.html");
   assert.doesNotMatch(indexSource, /<script(?![^>]+src=)[^>]*>/i, "JavaScript must not be embedded in index.html");
-  assert.match(indexSource, /meta name="version" content="3\.14\.0"/);
+  assert.match(indexSource, /meta name="version" content="3\.15\.0"/);
   assert.match(gameSource, /SAVE_KEY = "perang-narasi-save-v3"/);
   assert.match(gameSource, /Prof\. Konni BaksLaah/);
   assert.match(gameSource, /Mas Nadim Makaroni/);
@@ -94,6 +94,116 @@ test("release references only files that are present", () => {
   assert.doesNotMatch(cssSource, /\.future-label/);
   assert.match(cssSource, /\.feed-head h2\s*\{[\s\S]*?min-width:\s*0;/);
   assert.match(cssSource, /\.issue-hashtag\s*\{[\s\S]*?overflow-wrap:\s*anywhere;/);
+});
+
+test("comment threads stay tied to the selected card and speaker stance", async () => {
+  const { dom, errors } = createDom({ expose: true });
+  await tick(dom.window);
+  assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
+  const api = dom.window.__PN_TEST__;
+
+  const custom = api.makeComment(
+    "bad",
+    "Kartu Uji Crop Grafik membahas audit vendor, bukan isu lain.",
+    { persona: "rageCitizen", actionId: "data", actionName: "Kartu Uji Crop Grafik", issueKey: "uji-komentar" },
+  );
+  assert.match(custom.text, /Kartu Uji Crop Grafik/i, "a contextual body must not be replaced by a persona's stock line");
+  assert.match(custom.text, /audit vendor/i);
+  assert.equal(custom.isNoise, false);
+
+  const noise = api.makeComment("neutral", null, {
+    persona: "judol",
+    kind: "noise",
+    isNoise: true,
+    actionId: "data",
+    actionName: "Kartu Uji Crop Grafik",
+    issueKey: "uji-komentar",
+  });
+  assert.equal(noise.isNoise, true);
+  assert.equal(noise.persona, "judol");
+
+  api.state.role = "buzzer";
+  api.state.phase = 0;
+  api.state.day = 1;
+  api.state.runSeed = 1817;
+  api.state.comments = [];
+  api.state.postMetrics = { views: 0, likes: 0, reposts: 0, replies: 0 };
+  api.state.actionBuffs = [];
+  const issue = api.currentIssue();
+  const dataAction = api.actionDefs.buzzer.find((action) => action.id === "data");
+  const display = {
+    name: "Crop Grafik Harga Beras",
+    desc: "Pilih potongan angka yang paling nyaman.",
+    context: "Uji komentar action-linked",
+  };
+  api.updateEngagement(dataAction, 27, false, display, 0);
+
+  const linked = api.state.comments.filter((comment) => comment.actionId === "data");
+  const core = linked.filter((comment) => !comment.isNoise);
+  const supplements = linked.filter((comment) => comment.isNoise);
+  assert.ok(core.length >= 4, "each action needs a coherent core thread");
+  core.forEach((comment) => {
+    assert.equal(comment.actionName, display.name);
+    assert.equal(comment.issueKey, issue.key);
+    assert.ok(comment.text.toLowerCase().includes(display.name.toLowerCase()), `${comment.handle} lost the selected action context`);
+  });
+  assert.ok(supplements.length <= 1, "noise must remain a supplement, not the thread");
+  supplements.forEach((comment) => assert.ok(["seller", "judol", "cryptoBro"].includes(comment.persona)));
+  assert.equal(linked.some((comment) => comment.kind === "hint"), false, "future trend chatter must not interrupt an action thread");
+
+  const fakeIssue = (stance) => ({
+    key: `stance-${stance}`,
+    title: "#AuditDapur",
+    subject: "audit vendor dapur sekolah",
+    document: "kontrak dan hasil uji laboratorium",
+    people: "murid dan orang tua",
+    npc: stance === "regime" ? "Pak Jenderal Gemoyono" : stance === "archive" ? "Akun Forum yang Tidak Mau Mati" : "Fatima Footnote",
+    handle: `@${stance}`,
+    avatar: "👤",
+    stance,
+  });
+  const badDisplay = { name: "Crop Grafik Vendor", desc: "", context: "" };
+  const goodAction = api.actionDefs.aktivis.find((action) => action.id === "data");
+  const goodDisplay = { name: "Buka Kontrak Vendor", desc: "", context: "" };
+
+  api.state.role = "buzzer";
+  const regimeAlly = api.npcReaction(fakeIssue("regime"), dataAction, false, badDisplay);
+  const criticOpponent = api.npcReaction(fakeIssue("critic"), dataAction, false, badDisplay);
+  assert.equal(regimeAlly.reactionMode, "defend", "a regime account must not denounce its own buzzer tactic");
+  assert.equal(criticOpponent.reactionMode, "oppose", "a critic must challenge a manipulative buzzer tactic");
+
+  api.state.role = "aktivis";
+  const criticAlly = api.npcReaction(fakeIssue("critic"), goodAction, true, goodDisplay);
+  const regimeOpponent = api.npcReaction(fakeIssue("regime"), goodAction, true, goodDisplay);
+  const institution = api.npcReaction(fakeIssue("institutional"), goodAction, true, goodDisplay);
+  const archive = api.npcReaction(fakeIssue("archive"), dataAction, false, badDisplay);
+  assert.equal(criticAlly.reactionMode, "support");
+  assert.equal(regimeOpponent.reactionMode, "resist");
+  assert.equal(institution.reactionMode, "verify");
+  assert.equal(archive.reactionMode, "archiveBad");
+  [regimeAlly, criticOpponent, criticAlly, regimeOpponent, institution, archive].forEach((comment) => {
+    assert.match(comment.text, /audit vendor dapur sekolah|kontrak dan hasil uji laboratorium|murid dan orang tua/i);
+    assert.equal(comment.isNoise, false);
+  });
+
+  for (const role of ["buzzer", "aktivis"]) {
+    api.state.role = role;
+    for (const action of api.actionDefs[role]) {
+      const good = action.int >= 0 && action.dem >= 0;
+      for (const stance of ["regime", "critic", "institutional", "archive"]) {
+        const actionDisplay = { name: `Uji ${role} ${action.id}`, desc: "", context: "" };
+        const reply = api.npcReaction(fakeIssue(stance), action, good, actionDisplay);
+        assert.equal(reply.actionId, action.id);
+        assert.equal(reply.actionName, actionDisplay.name);
+        assert.equal(reply.stance, stance);
+        assert.ok(reply.reactionMode, `${role}/${action.id}/${stance} has no reaction mode`);
+        assert.match(reply.text, new RegExp(actionDisplay.name, "i"));
+        assert.equal(reply.isNoise, false);
+      }
+    }
+  }
+
+  dom.window.close();
 });
 
 function displayText(value, seen = new Set()) {

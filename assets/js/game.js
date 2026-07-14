@@ -1,5 +1,5 @@
 /**
- * Perang Narasi: Republik Timeline v3.14.0
+ * Perang Narasi: Republik Timeline v3.15.0
  * Copyright (C) 2026 Adrian Janitra Putra
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -4726,8 +4726,10 @@
   };
   const netizenPack = window.PNNetizenPack || {
     spamChance: 0,
+    noiseSupplementChance: 0,
     roughChance: 0,
     spamPersonaIds: [],
+    noisePersonaIds: [],
     personas: {},
     comments: {},
   };
@@ -4740,6 +4742,9 @@
     bad: ["genz","fanwar","millennial","conspiracy","bapak","buzzerMagang","warung","emak","rageCitizen"],
     neutral: ["bapak","genz","millennial","conspiracy","emak","anakpdf","ojol","anakKos","asn","warung","rageCitizen"],
   };
+  const noisePersonaIds = new Set(
+    netizenPack.noisePersonaIds || netizenPack.spamPersonaIds || [],
+  );
   const topicCommentTemplates = {
     election: {
       good: [
@@ -8497,7 +8502,14 @@
       reposts: Math.round((base * rnd(5, 18)) / 1000),
       replies: Math.round((base * rnd(3, 14)) / 1000),
     };
-    state.comments = [makeComment("neutral")];
+    const openingPool = topicCommentPool("neutral", i);
+    state.comments = [
+      makeComment("neutral", openingPool[rnd(0, openingPool.length - 1)], {
+        replyTo: i.handle,
+        issueKey: i.key,
+        allowNoise: false,
+      }),
+    ];
     state.lastImpact = {
       organic: 68,
       coordinated: 12,
@@ -8691,7 +8703,11 @@
     const choosePersona = () => {
       if (opts.persona) return opts.persona;
       if (opts.kind === "npc") return "npc";
-      if (Math.random() < (netizenPack.spamChance || 0) && netizenPack.spamPersonaIds?.length)
+      if (
+        opts.allowNoise === true &&
+        Math.random() < (netizenPack.spamChance || 0) &&
+        netizenPack.spamPersonaIds?.length
+      )
         return netizenPack.spamPersonaIds[rnd(0, netizenPack.spamPersonaIds.length - 1)];
       if (Math.random() < (netizenPack.roughChance || 0)) return "rageCitizen";
       if (Math.random() < (netizenPack.fufuChance || 0)) return "forumGhost";
@@ -8701,9 +8717,11 @@
       return pool[rnd(0, pool.length - 1)];
     };
     const pickBase = (persona) =>
-      persona?.bodies?.length
+      custom != null
+        ? custom
+        : persona?.bodies?.length
         ? persona.bodies[rnd(0, persona.bodies.length - 1)]
-        : custom || commentTemplates[tone][rnd(0, commentTemplates[tone].length - 1)];
+        : commentTemplates[tone][rnd(0, commentTemplates[tone].length - 1)];
     let personaId = choosePersona();
     let persona = commenterPersonas[personaId] || commenterPersonas.millennial;
     let raw = pickBase(persona);
@@ -8744,6 +8762,12 @@
       label: opts.label || persona.label,
       persona: personaId,
       replyTo: opts.replyTo || "",
+      actionId: opts.actionId || "",
+      actionName: opts.actionName || "",
+      issueKey: opts.issueKey || "",
+      stance: opts.stance || "",
+      reactionMode: opts.reactionMode || "",
+      isNoise: Boolean(opts.isNoise || noisePersonaIds.has(personaId)),
     };
   }
   function issueHook(i) {
@@ -8751,29 +8775,6 @@
   }
   function hashtagHtml(value) {
     return escapeHtml(String(value || "")).replace(/([a-z0-9])([A-Z])/g, "$1<wbr>$2");
-  }
-  function topicJoke(i, persona) {
-    const key = i.key;
-    const bank = {
-      mbg:{bapak:"Yang bergizi programnya, yang diet transparansinya.",genz:"menunya slay, audit vendornya masih shy.",emak:"Anak saya makan pakai mulut, bukan pakai infografik.",ojol:"Kotak makannya gratis, ongkir kebijakannya siapa yang nombok?",anakKos:"Porsi protein nasional, anak kos tetap topping kerupuk.",warung:"Menu berubah tiap hari, vendor kok itu-itu lagi."},
-      finance:{bapak:"Kalau grafiknya naik terus, cicilan bapak kok nggak ikut optimis?",genz:"rupiahnya lagi healing tanpa izin kantor.",emak:"Indeks boleh hijau, harga cabai saya merah menyala.",ojol:"IHSG turun, bensin naik, rating driver disuruh stabil.",anakKos:"Fundamental kuat, dompet gue fundamentalnya tinggal resleting.",asn:"Secara indikator aman. Secara grup kantor, semua nanya THR."},
-      budget:{bapak:"Anggaran dipotong rapi, struk warung tetap panjang.",genz:"efisiensi core, rakyat nombok era.",emak:"Yang gratis katanya program, yang bayar tetap dompet rumah.",warung:"Negara efisien, gelas kopi tetap harus dicuci sendiri.",asn:"Pagu dipotong, target tetap. Ini namanya senam administrasi."},
-      tni:{bapak:"Bapak hormat seragam, tapi rapat warga tetap butuh notulen sipil.",genz:"checks and balances jangan jadi check-in barak bestie.",emak:"Yang saya mau aman itu anak pulang sekolah, bukan kritik disuruh tiarap.",ojol:"Kalau semua dikomando, orderan nyasar lapor ke siapa?",asn:"Mohon jangan semua urusan diberi disposisi 'siap laksanakan'."},
-      publicfigures:{bapak:"Follower banyak belum tentu bisa benerin pompa air, apalagi negara.",genz:"paid partnership-nya invisible, sinematografinya 4K.",emak:"Artisnya senyum, saya tetap antre gas.",buzzerMagang:"Disclosure kecil ya, nanti brand-nya takut.",warung:"Yang endorse banyak, yang baca aturan satu orang juga belum tentu."},
-      diplomacy:{bapak:"Paspor penuh, oleh-oleh kebijakan belum keluar bagasi.",genz:"soft power slay, domestic payoff mana bestie.",ojol:"Presiden terbang terus, saya muter komplek aja bensin mikir.",asn:"Nota diplomatik ada. Nota hasil konkret sedang proses paraf."},
-      disaster:{bapak:"Air naik, pejabat turun cuma buat foto.",genz:"disaster response-nya buffering tapi drone shot 4K.",emak:"Saya butuh listrik dan air bersih, bukan caption tabah.",ojol:"Jalan putus, order tetap masuk. Aplikasi lebih optimis dari BNPB."},
-      future:{bapak:"Ramalan politik kayak cuaca: payungnya dijual konsultan.",genz:"skenarionya belum canon, invoice-nya sudah.",emak:"Tahun depan belum datang, tagihannya sudah salam kenal.",warung:"Belum kejadian, tim sukses sudah pesan spanduk."}
-    };
-    return bank[key]?.[persona] || {
-      bapak:"Ini kayak istri nanya uang belanja, bapak jawab klasemen bola.",
-      genz:"packaging-nya slay, logikanya masih loading.",
-      emak:"Admin menang debat, saya tetap menang antrean pasar.",
-      ojol:"Yang penting jangan muter lebih jauh dari rute aplikasi.",
-      anakKos:"Gue paham setengah. Setengah lagi kalah sama suara rice cooker.",
-      asn:"Mohon tidak dijadikan bahan rapat Senin pagi.",
-      warung:"Gorengan dingin, debatnya tetap panas.",
-      buzzerMagang:"Brief-nya nyambung dikit, KPI-nya aman banyak."
-    }[persona] || "Timeline rame, substansi lagi cari parkir.";
   }
   const actionCommentAngles = {
     buzzer: {
@@ -8824,18 +8825,53 @@
       buzzerMagang:tone==="good"?`Brief gue bilang serang, tapi ${an} malah buka data. Bahaya sih, publik bisa kebiasaan minta bukti.`:tone==="bad"?`${an} sesuai brief banget. Pertanyaan ${topic} nggak dijawab, tapi KPI reply naik. Semoga invoice cair.`:`Gue magang doang, tapi ${angle.ask}? Admin senior belum balas.`
     };
     let body=t[persona]||`${an} bikin timeline rame. ${angle.ask}.`;
-    if(rnd(0,100)>66) body+=` ${topicJoke(i,persona)}`;
-    return makeComment(tone,body,{persona,replyTo:i.handle});
+    if (!body.includes(display.name)) body = `Soal ${an}: ${body}`;
+    return makeComment(tone,body,{
+      persona,
+      replyTo:an,
+      actionId:a.id,
+      actionName:display.name,
+      issueKey:i.key,
+      allowNoise:false,
+    });
   }
 
   function contextualComment(tone, i, a = null, selectedDisplay = null) {
     const pool = topicCommentPool(tone, i),
       base = pool[rnd(0, pool.length - 1)],
       angle = a ? actionCommentAngles[state.role]?.[a.id] : null,
-      suffix = angle && selectedDisplay && rnd(0, 100) > 52
-        ? ` Soal “${selectedDisplay.name}”, ${angle.ask}.`
-        : "";
-    return makeComment(tone, base + suffix, { replyTo: i.handle });
+      display = selectedDisplay || (a ? actionPresentation(a, i, phaseActionUseCount(a.id)) : null),
+      actionRead = !angle
+        ? "tekniknya tetap harus bisa diuji"
+        : tone === "good"
+          ? angle.good
+          : tone === "bad"
+            ? angle.bad
+            : angle.ask,
+      suffix = display ? ` Buat “${display.name}”, ${actionRead}.` : "";
+    return makeComment(tone, base + suffix, {
+      replyTo:display ? `“${display.name}”` : i.handle,
+      actionId:a?.id || "",
+      actionName:display?.name || "",
+      issueKey:i.key,
+      allowNoise:false,
+    });
+  }
+
+  function noiseSupplementComment(i, a, display) {
+    const ids = [...noisePersonaIds];
+    if (!ids.length) return null;
+    const persona = ids[rnd(0, ids.length - 1)];
+    return makeComment("neutral", null, {
+      persona,
+      kind:"noise",
+      replyTo:`“${display.name}”`,
+      actionId:a.id,
+      actionName:display.name,
+      issueKey:i.key,
+      allowNoise:true,
+      isNoise:true,
+    });
   }
 
   const npcVoiceReplyPools = {
@@ -9010,39 +9046,136 @@
     state.npcReplyMemory = state.npcReplyMemory.slice(0, 64);
     return picked;
   }
+
+  const npcStanceReplyPools = {
+    regime: {
+      support: [
+        "{action} kami terima. Ini membantu menjelaskan {topic}; {doc} juga harus dibuka biar kerja pemerintah nggak cuma menang di caption.",
+        "Baik, {action} sejalan dengan penjelasan kami soal {topic}. Detail {doc} jangan berhenti di podium—publik perlu bisa memeriksanya.",
+        "{action} masuk. Pemerintah nggak rugi karena jawabannya lebih terang; {people} justru perlu tahu apa yang sudah dan belum beres.",
+      ],
+      defend: [
+        "{action} dipakai supaya kerja pemerintah soal {topic} nggak tenggelam oleh potongan viral. Jangan semua strategi komunikasi disebut manipulasi; {doc} tetap kami proses.",
+        "Kami berdiri di belakang {action}. Narasi harus tegas saat isu {topic} dipelintir, meski detail {doc} tetap wajib dijelaskan oleh pihak terkait.",
+        "{action} itu cara kami menjaga fokus publik pada agenda untuk {people}. Kritik silakan, tapi jangan pura-pura komunikasi politik hidup di ruang hampa.",
+      ],
+      resist: [
+        "{action} kami catat, tapi jangan jadikan satu unggahan soal {topic} sebagai vonis seluruh program. Cocokkan klaimnya dengan {doc}, bukan cuma dengan kemarahan timeline.",
+        "Silakan pakai {action}, tapi konteks pemerintah soal {topic} jangan dipotong. {people} butuh perbaikan program, bukan kesimpulan yang sudah ditulis sebelum verifikasi.",
+        "{action} boleh jadi masukan. Pemerintah tetap akan menguji isinya terhadap {doc}; volume kritik bukan pengganti ketepatan data.",
+      ],
+      condemn: [
+        "{action} bukan koreksi kalau berubah jadi serangan yang nggak menjawab {topic}. Bawa {doc}; jangan cuma bawa amarah dan target personal.",
+        "Kami menolak {action} kalau caranya mengorbankan orang demi engagement. Debatkan {topic}, bukan bikin kebencian baru untuk {people}.",
+        "{action} melewati batas. Kritik kebijakan boleh keras, tapi fitnah dan serangan pribadi tetap nggak otomatis jadi bukti.",
+      ],
+    },
+    critic: {
+      support: [
+        "Nah, {action} nyambung sama {topic}. Sekarang jangan berhenti di format: tempel {doc}, jelaskan batas klaim, dan kasih ruang koreksi.",
+        "Gue dukung {action} karena {people} akhirnya nggak cuma jadi latar foto. Bukti soal {topic} tetap harus bisa dicek orang yang nggak satu kubu.",
+        "{action} arahnya benar. Biar kritiknya tahan bantah, {doc}, kronologi, dan siapa yang bertanggung jawab harus tetap kelihatan.",
+      ],
+      correct: [
+        "Gue kritik rezim, tapi {action} tetap ngawur kalau nggak menjawab {topic}. Jangan tiru mesin propaganda yang lagi kita lawan.",
+        "{action} mungkin viral, tapi {people} nggak butuh gerakan yang menukar bukti dengan serangan personal. Balik ke {doc}.",
+        "Nggak. {action} bikin kritik kehilangan pijakan. Soal {topic}, kita harus lebih disiplin daripada akun yang sedang kita bongkar.",
+      ],
+      cautious: [
+        "Kalau {action} benar-benar membuka {doc}, bagus. Gue cek dulu apakah bagian yang bikin pemerintah nggak nyaman ikut dibuka.",
+        "{action} patut diapresiasi sejauh menjawab {topic}. Transparansi bukan satu unggahan; koreksi dan data mentahnya juga harus hidup.",
+        "Oke, {action} bisa jadi langkah benar. Tapi {people} perlu bukti bahwa ini perubahan cara kerja, bukan jeda iklan sebelum narasi lama balik.",
+      ],
+      oppose: [
+        "{action} kelihatan seperti upaya mengaburkan {topic}. Yang kami tanya {doc}; yang datang malah teknik buat mengelola emosi publik.",
+        "Gue menolak {action}. Kalau strategi ini kuat, harusnya bisa menjawab dampaknya ke {people} tanpa lari ke slogan atau aib orang.",
+        "{action} justru membuktikan masalahnya: energi habis untuk mengatur persepsi, sementara jawaban soal {topic} masih disuruh menunggu.",
+      ],
+    },
+    institutional: {
+      verify: [
+        "{action} relevan untuk menilai {topic}, tapi kesimpulannya baru sah setelah metode, periode, dan {doc} bisa diuji ulang.",
+        "Kami catat {action} sebagai respons substantif. Berikutnya, buka indikator serta mekanisme koreksi agar {people} nggak diminta percaya begitu saja.",
+        "{action} menjawab sebagian pertanyaan. Statusnya tetap perlu diverifikasi terhadap {doc}, bukan ditetapkan oleh jumlah repost.",
+      ],
+      correct: [
+        "{action} belum memenuhi standar pembuktian untuk {topic}. Klaim, sumber, dan kesimpulan bercampur; silakan kembali dengan {doc} yang utuh.",
+        "Kami nggak menilai kubunya. Kami menilai {action}: metodenya belum cukup untuk menyimpulkan dampak ke {people}.",
+        "{action} menghasilkan perhatian, bukan verifikasi. Soal {topic}, prosedur dan datanya masih bolong.",
+      ],
+    },
+    archive: {
+      archiveGood: [
+        "[CACHE] {action} tersimpan bersama {doc}. Bagus—kalau narasi soal {topic} berubah besok, versi hari ini masih punya tanggal.",
+        "[ARSIP MASUK] {action}, sumber, dan koreksinya kami simpan. {people} nggak boleh dipaksa mengandalkan ingatan algoritma.",
+        "{action} masuk cache. Identitas boleh diperdebatkan; jejak klaim tentang {topic} tetap harus bisa dibandingkan.",
+      ],
+      archiveBad: [
+        "[CACHE] {action} ikut tersimpan. Pengalihan soal {topic} tetap pengalihan meski unggahannya nanti dihapus.",
+        "[ARSIP MASUK] {action} ramai, {doc} tetap nggak muncul. Screenshot mencatat dua-duanya.",
+        "{action} boleh mencoba mengubur isu. Cache tetap menyimpan pertanyaan {people} yang belum dijawab.",
+      ],
+    },
+  };
+
+  const npcDefensiveActionHooks = {
+    meme:["Bahasa ringan dibutuhkan supaya pesan sampai; jangan setiap meme diperlakukan seperti pengakuan salah.","Humor kami pakai untuk distribusi, bukan sebagai dokumen kebijakan."],
+    patriot:["Simbol kebangsaan dipakai untuk menyatukan dukungan, bukan menurut kami untuk melarang pertanyaan.","Negara perlu bahasa bersama saat percakapan sengaja dibuat pecah."],
+    data:["Kami memilih angka yang paling relevan dengan capaian; pembanding lain akan dijelaskan pada forum teknis.","Data resmi tetap data resmi meski pengkritik ingin grafik yang lebih muram."],
+    whatabout:["Rekam jejak pemerintah lama relevan karena standar nggak boleh berubah hanya saat lawan berkuasa.","Perbandingan sejarah diperlukan supaya kritik hari ini nggak pura-pura lahir tanpa konteks."],
+    endorse:["Figur publik berhak menyampaikan dukungan; publik juga berhak menilai hubungan dan kepentingannya.","Jangkauan besar dipakai untuk menjelaskan program, bukan otomatis berarti pengikutnya kehilangan nalar."],
+    podcast:["Format panjang memberi ruang konteks; bukan semua jawaban harus dipaksa muat dalam klip 20 detik.","Dua jam pembicaraan tetap lebih utuh daripada potongan yang sengaja mencari kemarahan."],
+    attack:["Rekam jejak pengkritik kami anggap relevan untuk menguji konsistensi, bukan alasan meninggalkan substansi.","Yang menyerang kredibilitas pemerintah juga harus siap kredibilitasnya diperiksa."],
+    concert:["Panggung besar dipakai agar program dikenal luas; evaluasi teknis tetap berjalan di jalurnya.","Mobilisasi publik bukan pengganti laporan, tapi laporan tanpa publik juga gampang dikubur."],
+    transparency:["Kalau data dibuka, koreksi juga harus diterima; itu konsekuensi komunikasi yang dewasa.","Pengakuan masalah bukan kelemahan selama tindak lanjutnya bisa diukur."],
+  };
+
+  function npcReactionMode(i, good) {
+    const stance = i.stance || "critic";
+    if (stance === "institutional") return good ? "verify" : "correct";
+    if (stance === "archive") return good ? "archiveGood" : "archiveBad";
+    if (stance === "regime") {
+      if (state.role === "buzzer") return good ? "support" : "defend";
+      return good ? "resist" : "condemn";
+    }
+    if (state.role === "aktivis") return good ? "support" : "correct";
+    return good ? "cautious" : "oppose";
+  }
+
   function npcReaction(i, a, good, selectedDisplay = null) {
     const v = getVoiceProfile(i),
       display = selectedDisplay || actionPresentation(a, i, phaseActionUseCount(a.id)),
-      toneKey = good ? "good" : "bad",
+      stance = i.stance || "critic",
+      reactionMode = npcReactionMode(i, good),
       topic = i.subject || i.title,
       doc = i.document || "dokumen utuh",
       people = i.people || "warga yang kena dampaknya",
       angle = actionCommentAngles[state.role]?.[a.id] || {good:"responsnya nyambung",bad:"responsnya muter",ask:"buktinya mana"},
       vars = {action:`“${display.name}”`,topic,doc,people},
-      voicePool = npcVoiceReplyPools[v.className] || npcVoiceReplyPools["voice-citizen"],
-      voiceLine = pickFreshNpcReply(voicePool[toneKey], `${i.key}:${v.className}:${toneKey}`),
-      hooks = npcActionHooks[a.id]?.[toneKey] || [good ? angle.good + "." : angle.bad + "."],
-      hook = pickFreshNpcReply(hooks, `${i.key}:${a.id}:${toneKey}:hook`);
-    let text = fillNpcTemplate(voiceLine, vars) + " " + fillNpcTemplate(hook, vars);
-    if (rnd(0, 100) > 78) text += " " + topicJoke(i, ["bapak","genz","emak","warung"][rnd(0,3)]);
-    return makeComment(good ? "good" : "bad", text, {
-      avatar:i.avatar,handle:i.handle,kind:"npc",label:"AKUN ASLI",replyTo:`“${display.name}”`,
-    });
-  }
-  function trendHintComment() {
-    const persona = ["conspiracy", "genz", "bapak", "millennial"][rnd(0, 3)];
-    return makeComment("neutral", nextTrendHint(), {
-      avatar: "📡",
-      handle: [
-        "@radarwarung",
-        "@adminjam3pagi",
-        "@bocoranparkiran",
-        "@trendbesok",
-        "@omkonspirasi",
-      ][rnd(0, 4)],
-      kind: "hint",
-      label: "BISIKAN TREND",
-      persona,
+      stancePool = npcStanceReplyPools[stance] || npcStanceReplyPools.critic,
+      leadLines = stancePool[reactionMode] || npcStanceReplyPools.critic[good ? "support" : "oppose"],
+      lead = pickFreshNpcReply(leadLines, `${i.key}:${v.className}:${stance}:${reactionMode}`),
+      positiveModes = new Set(["support","cautious","verify","archiveGood"]),
+      hookKey = positiveModes.has(reactionMode) ? "good" : "bad",
+      hooks = reactionMode === "defend"
+        ? npcDefensiveActionHooks[a.id] || [angle.good + "."]
+        : npcActionHooks[a.id]?.[hookKey] || [(hookKey === "good" ? angle.good : angle.bad) + "."],
+      hook = pickFreshNpcReply(hooks, `${i.key}:${a.id}:${reactionMode}:hook`),
+      tone = positiveModes.has(reactionMode) ? (reactionMode === "cautious" || reactionMode === "verify" || reactionMode === "archiveGood" ? "neutral" : "good") : "bad",
+      stanceLabels = {regime:"PEMERINTAH",critic:"PENGKRITIK",institutional:"INSTITUSI",archive:"ARSIP"},
+      text = fillNpcTemplate(lead, vars) + " " + fillNpcTemplate(hook, vars);
+    return makeComment(tone, text, {
+      avatar:i.avatar,
+      handle:i.handle,
+      kind:"npc",
+      label:`AKUN ASLI • ${stanceLabels[stance] || "PENGKRITIK"}`,
+      replyTo:`“${display.name}”`,
+      actionId:a.id,
+      actionName:display.name,
+      issueKey:i.key,
+      stance,
+      reactionMode,
+      allowNoise:false,
     });
   }
 
@@ -9082,11 +9215,13 @@
       discussionComment(tone, i, a, display),
       contextualComment(tone, i, a, display),
     ];
-    if (rnd(0, 100) > 58) thread.push(makeComment("neutral", topicJoke(i, ["bapak", "genz", "emak"][rnd(0,2)]), { persona: ["bapak", "genz", "emak"][rnd(0,2)], replyTo: i.handle }));
-    if (rnd(0, 100) > 62) thread.push(trendHintComment());
-    state.comments.unshift(...thread);
     if (rnd(0, 100) > 48)
-      state.comments.unshift(discussionComment(good ? "good" : "bad", i, a, display));
+      thread.push(discussionComment(good ? "good" : "bad", i, a, display));
+    if (Math.random() < (netizenPack.noiseSupplementChance || 0)) {
+      const noise = noiseSupplementComment(i, a, display);
+      if (noise) thread.push(noise);
+    }
+    state.comments.unshift(...thread);
     state.comments = state.comments.slice(0, 24);
     const coordinated = clamp(
         Math.round(
@@ -9221,7 +9356,17 @@
       `Ini baru context combo: “${card.title}”. ${people} nggak dijadikan figuran, dan dokumen nggak disimpan di slide cadangan.`
     ];
     const lines=voicePools[card.characterId]||generic;
-    return makeComment(good?"good":"bad",pickFreshNpcReply(lines,`follow:${card.characterId}:${i.key}:${card.actionId}`),{avatar:card.characterIcon,handle:`@${card.characterId.replace(/[^a-z0-9]+/gi,"").toLowerCase()}`,kind:"npc",label:"CONTEXT COMBO",replyTo:`“${card.title}”`});
+    return makeComment(good?"good":"bad",pickFreshNpcReply(lines,`follow:${card.characterId}:${i.key}:${card.actionId}`),{
+      avatar:card.characterIcon,
+      handle:`@${card.characterId.replace(/[^a-z0-9]+/gi,"").toLowerCase()}`,
+      kind:"npc",
+      label:"CONTEXT COMBO",
+      replyTo:`“${card.title}”`,
+      actionId:card.actionId,
+      actionName:card.title,
+      issueKey:i.key,
+      allowNoise:false,
+    });
   }
   function contextComboCrowdComment(card){
     const i=currentIssue(),topic=i.subject||i.title,doc=i.document||"dokumen utuh";
@@ -9234,7 +9379,17 @@
       {avatar:"🛵",handle:"@orderanseret",label:"ABANG OJOL",text:`Ini baru rute benar: isu ${topic}, tokohnya nyambung, action-nya nggak muter tiga kecamatan. Bintang lima kalau hasilnya juga nyampe.`}
     ];
     const x=pools[rnd(0,pools.length-1)];
-    return makeComment("good",x.text,{avatar:x.avatar,handle:x.handle,kind:"persona",label:x.label,replyTo:`“${card.title}”`});
+    return makeComment("good",x.text,{
+      avatar:x.avatar,
+      handle:x.handle,
+      kind:"persona",
+      label:x.label,
+      replyTo:`“${card.title}”`,
+      actionId:card.actionId,
+      actionName:card.title,
+      issueKey:i.key,
+      allowNoise:false,
+    });
   }
 
   function playFollowUpAction(cardId){

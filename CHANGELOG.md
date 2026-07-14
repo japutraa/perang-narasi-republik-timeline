@@ -2,6 +2,17 @@
 
 Semua perubahan penting pada proyek ini dicatat di sini.
 
+## 3.15.0 — 2026-07-14
+
+- Mengikat setiap komentar inti ke isu aktif serta nama dan ID action card yang benar-benar dipilih; reply chip kini juga menunjukkan kartu yang sedang dibahas.
+- Memperbaiki bug persona `rageCitizen` dan `forumGhost` yang sebelumnya dapat menimpa komentar kontekstual dengan stok kalimat acak.
+- Menambahkan mesin respons stance-aware untuk akun post utama: pemerintah, pengkritik, institusi, dan arsip kini bereaksi berbeda terhadap action buzzer maupun aktivis.
+- Memastikan akun pemerintah tidak mendadak mengecam strategi buzzer sendiri, akun pengkritik tidak mendadak memuji propaganda, dan tiap kubu masih dapat mengoreksi metode toksik dari pihaknya sendiri.
+- Menambahkan hook khusus untuk pembelaan sembilan strategi buzzer serta respons verifikasi, resistensi, koreksi, oposisi, dan pengarsipan yang tetap merujuk isu aktif.
+- Memisahkan noise OOT sebagai suplemen acak maksimal satu akun per gelombang, terbatas pada akun jualan, bot judol fiktif, dan crypto bro; bisikan tren dihapus dari thread action.
+- Mengubah komentar pembuka menjadi issue-aware dan menambahkan metadata komentar untuk kebutuhan rendering, debugging, serta pengujian.
+- Menambahkan regresi seluruh action × kedua kubu × empat stance, sekaligus memastikan komentar non-noise tidak kehilangan nama kartu atau konteks isu.
+
 ## 3.14.0 — 2026-07-14
 
 - Membangun ulang Arc 2 dengan tema MBG/BGN, keamanan pangan, efisiensi anggaran, pendidikan, KopDes Merah Putih, protes Agustus, dan konsolidasi keluarga politik menuju 2029.
