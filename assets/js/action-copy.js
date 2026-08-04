@@ -19,6 +19,11 @@
   };
 
   const DOMAIN_RULES = [
+    ["prosecution", /\b(jampidsus|kejaksaan|jaksa|febrie|asuransi asabri|tersangka|penggeledahan|penahanan|barang bukti|rantai penguasaan|tim 9)\b/i],
+    ["centralBank", /\b(bank indonesia|gubernur bi|bank sentral|jisdor|independensi bi|fit and proper|uji kelayakan|perry|destry)\b/i],
+    ["shadowCabinet", /\b(kabinet bayangan|shadow cabinet|shadow hearing|rapor alternatif|dashboard pengawasan|menteri bayangan)\b/i],
+    ["press", /\b(londo ireng|wartawan|jurnalis|kebebasan pers|aji|organisasi masyarakat sipil|lsm|ng?o)\b/i],
+    ["nuclear", /\b(nuklir|senjata atom|iran|nonproliferasi|iaea|pengayaan uranium|weaponization)\b/i],
     ["fuel", /\b(pertamax|pertalite|bbm|spbu|bensin|ron 92|ron 95|harga minyak)\b/i],
     ["mbg", /\b(mbg|makan bergizi|sppg|bgn|gizi|dapur|menu|keracunan|porsi)\b/i],
     ["kopdes", /\b(kopdes|koperasi desa|merah putih|gerai koperasi)\b/i],
@@ -40,6 +45,51 @@
   ];
 
   const DOMAIN_LENS = {
+    prosecution: {
+      label: "Berkas yang Berbalik Arah",
+      object: "kasus Jampidsus",
+      evidence: "surat penetapan, kronologi penggeledahan, daftar barang bukti, rantai penguasaan, bantahan, dan putusan pengadilan",
+      people: "saksi, tersangka, penyidik, pegawai kejaksaan, dan publik yang membutuhkan proses adil",
+      counter: "perang institusi serta bocoran tanpa dokumen yang mengubah perkara menjadi fanwar penegak hukum",
+      buzzer: "Seragam boleh berganti posisi; nomor barang bukti tetap harus nyambung dari penyitaan sampai persidangan.",
+      activist: "Jangan tukar due process dengan rasa puas. Buka dasar perkara, rantai bukti, konflik kewenangan, dan hak semua pihak.",
+    },
+    centralBank: {
+      label: "Kursi Gubernur, Kurs Bergerak",
+      object: "independensi Bank Indonesia",
+      evidence: "surat pengunduran diri, alasan resmi, proses pencalonan, rekam kebijakan, keputusan moneter, JISDOR, dan komunikasi lintas lembaga",
+      people: "penabung, pekerja, pelaku usaha, importir, debitur, dan rumah tangga yang menanggung pelemahan rupiah",
+      counter: "klaim stabilitas yang menghapus pertanyaan siapa menjaga jarak antara bank sentral dan kepentingan politik",
+      buzzer: "Pasar bisa diberi caption tenang; ia tetap membaca prosedur, orang yang dipilih, dan seberapa bebas rem moneter dipakai.",
+      activist: "Uji calon gubernur dari mandat, rekam jejak, konflik kepentingan, dan keberanian berbeda pendapat—bukan dari aura di ruang fit and proper.",
+    },
+    shadowCabinet: {
+      label: "Rapor dari Luar Istana",
+      object: "Kabinet Bayangan",
+      evidence: "manifesto, 15 portofolio, metodologi rapor, shadow hearing, dashboard, sumber dana, dan konflik kepentingan anggotanya",
+      people: "warga, peneliti, aktivis, pejabat yang dinilai, serta kelompok yang tidak punya akses ke ruang kabinet",
+      counter: "ejekan kabinet tandingan yang menghindari pengujian bukti dan alternatif kebijakan",
+      buzzer: "Kalau rapornya disebut cosplay sebelum dibaca, dashboard kosong pemerintah ikut lolos tanpa ujian.",
+      activist: "Oposisi sipil juga harus dapat diaudit: buka metode, dana, koreksi, bukti, dan ukuran kapan kritiknya sendiri gagal.",
+    },
+    press: {
+      label: "Mikrofon dan Stempel Musuh",
+      object: "pelabelan terhadap pers dan masyarakat sipil",
+      evidence: "rekaman pidato utuh, konteks istilah, pihak yang ditunjuk, koreksi, permintaan maaf, serta dampak pada keselamatan pers",
+      people: "jurnalis, pengamat, aktivis, organisasi sipil, narasumber, dan warga yang membutuhkan informasi bebas",
+      counter: "nasionalisme yang dipakai untuk mengubah pertanyaan publik menjadi bukti pengkhianatan",
+      buzzer: "Begitu pengkritik diberi kostum penjajah, pemerintah bebas skip halaman yang berisi jawabannya.",
+      activist: "Kritik pidatonya secara utuh, catat siapa yang ditunjuk, tuntut koreksi, dan jangan membalas pelabelan dengan doxxing.",
+    },
+    nuclear: {
+      label: "Podium Nonproliferasi",
+      object: "klaim senjata nuklir",
+      evidence: "transkrip pidato, laporan safeguards IAEA, status pengayaan, bukti weaponization, posisi negara kawasan, dan doktrin bebas aktif",
+      people: "warga yang menanggung risiko salah kalkulasi diplomatik, keamanan regional, dan perlombaan senjata",
+      counter: "bahasa ancaman yang mencampur program nuklir, kemampuan pengayaan, dan senjata yang benar-benar terverifikasi",
+      buzzer: "Satu kata ‘dikatakan’ tidak boleh menjadi bunker untuk klaim geopolitik yang nggak punya lampiran.",
+      activist: "Bedakan bahan, kemampuan, program, dan senjata; lalu cocokkan setiap klaim dengan laporan pengawas internasional.",
+    },
     fuel: {
       label: "Pompa dan Formula",
       object: "harga BBM",

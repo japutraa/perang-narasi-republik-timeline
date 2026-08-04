@@ -1,13 +1,13 @@
 /**
  * Pasar Timeline — deterministic USD/IDR and IHSG simulation.
- * Historical anchors are editorial approximations, not live market data.
+ * Historical anchors are dated editorial snapshots, not a live market feed.
  * Copyright (C) 2026 Adrian Janitra Putra
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 (function (global) {
   "use strict";
 
-  const ARCHIVE_END_INDEX = 30; // July 2026
+  const ARCHIVE_END_INDEX = 31; // August 2026; latest available close is 3 August
   const anchors = [
     { index: 0, usd: 15400, ihsg: 7200, note: "Awal 2024: pasar masih membaca pemilu dan arah transisi." },
     { index: 11, usd: 16100, ihsg: 7080, note: "Akhir 2024: kurs dan saham membawa sisa ketidakpastian transisi." },
@@ -17,7 +17,8 @@
     { index: 25, usd: 16888, ihsg: 7923, note: "Februari 2026: isu transparansi pasar dan fiskal memicu aksi jual." },
     { index: 28, usd: 17670, ihsg: 6900, note: "Mei 2026: rupiah menyentuh rekor lemah dan saham kembali tertekan." },
     { index: 29, usd: 17850, ihsg: 6600, note: "Juni 2026: energi global, arus modal, dan kredibilitas kebijakan masih dibaca pasar." },
-    { index: 30, usd: 17900, ihsg: 6300, note: "Juli 2026: angka menjadi titik berangkat simulasi, bukan data pasar langsung." },
+    { index: 30, usd: 17900, ihsg: 6300, note: "Juli 2026: pasar masih membaca fiskal, energi global, dan ketidakpastian institusi." },
+    { index: 31, usd: 17991, ihsg: 6234.5, note: "Data terakhir tersedia 3 Agustus 2026: JISDOR Rp17.991 per US$ dan IHSG ditutup 6.234,50." },
   ];
 
   const clamp = (number, min, max) => Math.max(min, Math.min(max, number));
@@ -40,8 +41,8 @@
     const previous = [...anchors].reverse().find((anchor) => anchor.index <= safeIndex) || anchors[0];
     if (safeIndex <= ARCHIVE_END_INDEX) {
       return {
-        usd: Math.round(interpolate(previous, next, safeIndex, "usd")),
-        ihsg: Math.round(interpolate(previous, next, safeIndex, "ihsg")),
+        usd: Number(interpolate(previous, next, safeIndex, "usd").toFixed(2)),
+        ihsg: Number(interpolate(previous, next, safeIndex, "ihsg").toFixed(2)),
         note: next.note,
         archive: true,
       };
@@ -50,7 +51,7 @@
     return {
       usd: Math.round(anchors.at(-1).usd * (1 + monthsAhead * 0.0018)),
       ihsg: Math.round(anchors.at(-1).ihsg * (1 + monthsAhead * 0.0025)),
-      note: "Sesudah Juli 2026, arah pasar sepenuhnya dibentuk oleh seed, risiko global, dan pilihan di dalam game.",
+      note: "Sesudah Agustus 2026, arah pasar sepenuhnya dibentuk oleh seed, risiko global, dan pilihan di dalam game.",
       archive: false,
     };
   }
@@ -64,11 +65,13 @@
     const podiumRisk = clamp(Number(stats.podiumRisk) || 0, 0, 100);
     const receipts = clamp(Number(stats.diplomacyReceipts) || 0, -100, 100);
     const policyRisk = credibilityGap * 5 + integrityGap * 2 + democracyGap * 2 + debtBillions * 8 + podiumRisk * 3 - receipts * 1.5;
-    const futureScale = index > ARCHIVE_END_INDEX ? 1 : 0.38;
-    const usdJitter = noise(seed, index, "usd") * (index > ARCHIVE_END_INDEX ? 135 : 38);
-    const ihsgJitter = noise(seed, index, "ihsg") * (index > ARCHIVE_END_INDEX ? 95 : 28);
-    const usd = clamp(Math.round(base.usd + (policyRisk + (Number(signals.usd) || 0)) * futureScale + usdJitter), 13500, 25000);
-    const ihsg = clamp(Math.round(base.ihsg - (policyRisk * 1.3 - (Number(signals.ihsg) || 0)) * futureScale + ihsgJitter), 2500, 12500);
+    const futureScale = index > ARCHIVE_END_INDEX ? 1 : 0;
+    const usdJitter = index > ARCHIVE_END_INDEX ? noise(seed, index, "usd") * 135 : 0;
+    const ihsgJitter = index > ARCHIVE_END_INDEX ? noise(seed, index, "ihsg") * 95 : 0;
+    const usdRaw = base.usd + (policyRisk + (Number(signals.usd) || 0)) * futureScale + usdJitter;
+    const ihsgRaw = base.ihsg - (policyRisk * 1.3 - (Number(signals.ihsg) || 0)) * futureScale + ihsgJitter;
+    const usd = clamp(base.archive ? Number(usdRaw.toFixed(2)) : Math.round(usdRaw), 13500, 25000);
+    const ihsg = clamp(base.archive ? Number(ihsgRaw.toFixed(2)) : Math.round(ihsgRaw), 2500, 12500);
     const oldUsd = Number(previous?.usdIdr) || usd;
     const oldIhsg = Number(previous?.ihsg) || ihsg;
     return {
@@ -78,6 +81,7 @@
       ihsgDelta: ihsg - oldIhsg,
       cause: signals.cause || base.note,
       archive: base.archive,
+      asOf: index === ARCHIVE_END_INDEX ? "3 Agustus 2026" : "",
       monthIndex: index,
     };
   }

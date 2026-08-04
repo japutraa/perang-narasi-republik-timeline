@@ -84,7 +84,7 @@ test("release references only files that are present", () => {
   required.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), `${file} is missing`));
   assert.doesNotMatch(indexSource, /<style(?:\s|>)/i, "CSS must not be embedded in index.html");
   assert.doesNotMatch(indexSource, /<script(?![^>]+src=)[^>]*>/i, "JavaScript must not be embedded in index.html");
-  assert.match(indexSource, /meta name="version" content="3\.20\.1"/);
+  assert.match(indexSource, /meta name="version" content="3\.21\.0"/);
   assert.match(indexSource, /id="usdIdrValue"/);
   assert.match(indexSource, /id="ihsgValue"/);
   assert.match(gameSource, /SAVE_KEY = "perang-narasi-save-v3"/);
@@ -158,12 +158,13 @@ test("comment threads stay tied to the selected card and speaker stance", async 
     assert.equal(comment.issueKey, issue.key);
     if (comment.kind === "npc") {
       assert.doesNotMatch(comment.text, new RegExp(display.name, "i"), "the post owner must not parrot the full card title");
-      assert.match(comment.label, /^PEMILIK POST •/);
+      assert.match(comment.label, /^(PEMERINTAH|PENGKRITIK|INSTITUSI|ARSIP)$/);
       assert.equal(comment.replyTo, "“Crop Grafik Harga Beras”");
     } else {
       assert.ok(comment.text.toLowerCase().includes(display.name.toLowerCase()), `${comment.handle} lost the selected action context`);
     }
   });
+  core.forEach((comment) => assert.doesNotMatch(comment.label || "", /TOKOH YANG SAMA|TOKOH KARTU|PEMILIK POST/));
   assert.ok(supplements.length <= 3, "noise must remain lively but bounded");
   supplements.forEach((comment) => assert.ok([
     "seller", "judol", "cryptoBro", "lewatGan", "firstHunter", "salahThread", "pencariKerja", "botDoa",
@@ -219,7 +220,7 @@ test("comment threads stay tied to the selected card and speaker stance", async 
   assert.equal(archive.reactionMode, "archiveBad");
   [regimeAlly, criticOpponent, criticAlly, regimeOpponent, institution, archive].forEach((comment) => {
     assert.match(comment.text, /audit vendor dapur sekolah|kontrak dan hasil uji laboratorium|murid dan orang tua/i);
-    assert.match(comment.label, /^PEMILIK POST •/);
+    assert.match(comment.label, /^(PEMERINTAH|PENGKRITIK|INSTITUSI|ARSIP)$/);
     assert.equal(comment.isNoise, false);
   });
 
@@ -549,6 +550,44 @@ test("Pasar Timeline is deterministic, seeded, and separates factual wording fro
   assert.equal(labels.usd, "RUPIAH ANJLOK");
   assert.equal(labels.ihsg, "IHSG AMBLES");
   assert.doesNotMatch(`${labels.usd} ${labels.ihsg} ${marketSource}`, /RUPIAH TURUN/i);
+  const augustActual = engine.snapshot({
+    index: 31,
+    seed: 123,
+    stats: { credibility: 1, integrity: 1, democracy: 1, debt: 999000000000, podiumRisk: 100 },
+    signals: { usd: 999, ihsg: -999, cause: "Sinyal campaign tidak boleh menulis ulang arsip." },
+  });
+  assert.equal(augustActual.usdIdr, 17991);
+  assert.equal(augustActual.ihsg, 6234.5);
+  assert.equal(augustActual.asOf, "3 Agustus 2026");
+  assert.equal(augustActual.archive, true);
+  dom.window.close();
+});
+
+test("4 August 2026 archive covers the trust crisis and projects its downstream arcs", async () => {
+  const { dom, errors } = createDom({ expose: true });
+  await tick(dom.window);
+  assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
+  const api = dom.window.__PN_TEST__;
+  const august = api.phases[2].days[7];
+  assert.equal(august.status, "ARSIP • 4 AGUSTUS 2026");
+  assert.match(august.subject, /Jampidsus.*londo ireng.*nuklir.*Kabinet Bayangan.*independensi BI/i);
+  assert.match(august.facts.map((fact) => fact[0]).join(" "), /Jampidsus|Gubernur BI|Kabinet Bayangan/i);
+  const variants = dom.window.PNTimelineVariants.build(august, { phaseIndex: 2, dayIndex: 7 });
+  assert.ok(variants.length >= 12);
+  assert.match(variants.map((variant) => `${variant.title} ${variant.post}`).join("\n"), /Jampidsus|londo ireng|nuklir|Kabinet Bayangan|gubernur BI|kepala BGN/i);
+  assert.ok(variants.every((variant) => variant.facts.length >= 1));
+  assert.equal(api.phases[2].days[8].status, "TIMELINE ALTERNATIF");
+  assert.match(api.phases[2].days.slice(8).map((issue) => issue.subject).join("\n"), /Kabinet Bayangan.*gubernur BI.*barang bukti.*pidato/is);
+  const newEvents = [
+    "august-2026-trust-collision",
+    "shadow-cabinet-first-report",
+    "rupiah-bi-fit-proper",
+    "jampidsus-evidence-chain",
+    "nuclear-speech-correction-protocol",
+  ];
+  newEvents.forEach((id) => assert.ok(api.specialEvents.some((event) => event.id === id), id));
+  const visibleLabels = gameSource.match(/TOKOH YANG SAMA|TOKOH KARTU|PEMILIK POST/g) || [];
+  assert.deepEqual(visibleLabels, [], "technical identity labels must stay internal, not player-visible");
   dom.window.close();
 });
 
@@ -559,7 +598,7 @@ test("all strategic events expose four choices and two delayed branches", async 
   assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
   assert.equal(api.phases.length, 6);
   assert.equal(api.phases.reduce((sum, phase) => sum + phase.days.length, 0), 72);
-  assert.equal(api.specialEvents.length, 43);
+  assert.equal(api.specialEvents.length, 48);
   const tripEvent = api.specialEvents.find((event) => event.id === "passport-during-fire");
   assert.ok(tripEvent);
   assert.equal(tripEvent.sourceKey, "foreignTrips");
@@ -599,8 +638,8 @@ test("all strategic events expose four choices and two delayed branches", async 
     }
   }
 
-  assert.equal(choices, 344);
-  assert.equal(delayedBranches, 688);
+  assert.equal(choices, 384);
+  assert.equal(delayedBranches, 768);
   dom.window.close();
 });
 
@@ -635,7 +674,7 @@ test("every month has seeded single-speaker timeline variants", async () => {
     ...phases.flatMap((phase) => phase.days.map((issue) => issue.title)),
     ...variantTitles,
   ])].filter((title) => title.length >= 28);
-  assert.ok(longHashtags.includes("#DanantaraPunyaNegaraAtauNegaraPunyaDanantara"));
+  assert.ok(longHashtags.includes("#DindingEmasPodiumNuklirKursiMundur"));
   longHashtags.forEach((title) => {
     const rendered = hashtagHtml(title);
     const probe = dom.window.document.createElement("span");
@@ -655,7 +694,8 @@ test("every month has seeded single-speaker timeline variants", async () => {
   assert.ok(julyVariants.some((variant) => /kerja sama pertahanan|rudal/i.test(variant.post)));
   assert.ok(julyVariants.every((variant) => variant.facts.some((fact) => /2026-07-07/.test(fact[2] || ""))));
   assert.equal(phases[2].days[6].status, "ARSIP POLITIK 2026");
-  assert.equal(phases[2].days[7].status, "TIMELINE ALTERNATIF");
+  assert.equal(phases[2].days[7].status, "ARSIP • 4 AGUSTUS 2026");
+  assert.equal(phases[2].days[8].status, "TIMELINE ALTERNATIF");
 
   const campaignGemoy = pack.build(phases[0].days[1], { phaseIndex: 0, dayIndex: 1 });
   assert.ok(campaignGemoy.some((variant) => variant.npc === "Pak Jenderal Gemoyono" && /joget/i.test(variant.post)));
@@ -943,9 +983,9 @@ for (const role of ["buzzer", "aktivis"]) {
     assert.equal(state.phase, 5);
     assert.equal(state.day, 12);
     assert.equal(state.eventHistory.length, state.configuredEvents);
-    assert.equal(state.eventHistory.length, 43);
+    assert.equal(state.eventHistory.length, 48);
     assert.equal(state.narrativeRipples.length, 0);
-    assert.equal(state.resolvedRipples.length, 43);
+    assert.equal(state.resolvedRipples.length, 48);
     assert.ok(state.finalReport);
     assert.ok(state.finalReport.performance.score >= 0 && state.finalReport.performance.score <= 100);
     assert.equal(state.finalReport.election.candidates.reduce((sum, candidate) => sum + candidate.vote, 0), 100);

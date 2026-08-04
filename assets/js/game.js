@@ -1,5 +1,5 @@
 /**
- * Perang Narasi: Republik Timeline v3.20.1
+ * Perang Narasi: Republik Timeline v3.21.0
  * Copyright (C) 2026 Adrian Janitra Putra
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -4736,7 +4736,7 @@
       closers: [" Hashtag final menyusul setelah approval.", " Tolong like, KPI gue tinggal dua persen.", " Kalau salah hapus, kalau benar invoice.", " Jangan bilang siapa-siapa kita upload jam yang sama."],
     },
     npc: {
-      label: "PEMILIK POST",
+      label: "AKUN TIMELINE",
       avatars: ["👤"],
       handles: ["@akun_asli"],
       openers: [""],
@@ -5058,7 +5058,7 @@
         .trim();
       if (issue.post)
         issue.post = issue.post.charAt(0).toUpperCase() + issue.post.slice(1);
-      if (phaseIndex >= 3 || (phaseIndex === 2 && dayIndex >= 7))
+      if (phaseIndex >= 3 || (phaseIndex === 2 && dayIndex >= 8))
         issue.status = "TIMELINE ALTERNATIF";
       else if (phaseIndex === 2)
         issue.status = "ARSIP POLITIK 2026";
@@ -5095,6 +5095,21 @@
   ];
   sources.prabowo2026 = prabowo2026Sources;
   sources.marketTimeline = [
+    [
+      "Jangkar aktual 3 Agustus 2026",
+      "Data terakhir yang tersedia saat pembaruan 4 Agustus: JISDOR Rp17.991 per dolar AS dan IHSG ditutup pada 6.234,50. Game tidak mengarang angka penutupan 4 Agustus sebelum perdagangan selesai.",
+      "https://www.bi.go.id/id/statistik/informasi-kurs/jisdor/default.aspx",
+    ],
+    [
+      "Penutupan IHSG 3 Agustus 2026",
+      "IHSG ditutup pada 6.234,50. Mulai September 2026, angka dalam campaign kembali menjadi simulasi deterministik, bukan data pasar aktual.",
+      "https://finance.yahoo.com/quote/%5EJKSE/",
+    ],
+    [
+      "Independensi BI setelah gubernur mundur",
+      "Perry Warjiyo mengundurkan diri dengan alasan pribadi. Kekhawatiran tentang independensi BI, koordinasi fiskal-moneter, dan arah kebijakan ikut dibaca pasar; motif yang tidak dikonfirmasi tidak diperlakukan sebagai fakta.",
+      "https://www.reuters.com/world/asia-pacific/policy-tensions-grew-before-sudden-resignation-indonesias-central-bank-chief-2026-07-28/",
+    ],
     [
       "Rupiah rekor lemah",
       "Pada Mei 2026 rupiah sempat menyentuh Rp17.670 per dolar. Reuters mencatat tekanan energi global, arus modal, transparansi pasar, independensi bank sentral, dan rencana belanja pemerintah.",
@@ -5138,6 +5153,28 @@
       "Protes mengguncang rupiah dan saham",
       "Pada 29 Agustus 2025 rupiah dan saham melemah ketika protes politik membesar; bank sentral menyatakan siap melakukan stabilisasi.",
       "https://www.reuters.com/world/asia-pacific/indonesia-stocks-rupiah-dive-political-unrest-jolts-investors-2025-08-29/",
+    ],
+  ];
+  sources.jampidsusAugust2026 = window.PNTimelineVariants?.sources?.jampidsusAugust2026 || [];
+  sources.londoIreng2026 = [window.PNTimelineVariants?.sources?.londoIreng2026].filter(Boolean);
+  sources.nuclearSpeech2026 = window.PNTimelineVariants?.sources?.nuclearSpeech2026 || [];
+  sources.shadowCabinet2026 = window.PNTimelineVariants?.sources?.shadowCabinet2026 || [];
+  sources.augustMarket2026 = window.PNTimelineVariants?.sources?.augustMarket2026 || [];
+  sources.resignationWave2026 = [
+    [
+      "Pimpinan regulator pasar mundur setelah gejolak",
+      "Pada akhir Januari 2026, ketua OJK, pimpinan pengawasan pasar modal, dan direktur utama BEI mengundurkan diri setelah peringatan MSCI mengenai transparansi memicu gejolak besar. Pergantian orang tidak menggantikan reformasi kepemilikan, free float, dan pengawasan perdagangan.",
+      "https://www.reuters.com/world/asia-pacific/indonesia-markets-face-cautious-open-after-msci-warning-sparks-80-billion-rout-2026-01-30/",
+    ],
+    [
+      "Kepala BGN mundur setelah enam pekan",
+      "Nanik Sudaryati Deyang mengundurkan diri sebagai kepala BGN pada 22 Juli 2026 dengan alasan kesehatan setelah sekitar enam pekan menjabat. Sudaryono ditunjuk menggantikannya di tengah masalah tata kelola dan keamanan program MBG.",
+      "https://www.reuters.com/world/asia-pacific/chief-indonesias-troubled-free-meals-agency-resigns-health-grounds-2026-07-22/",
+    ],
+    [
+      "Gubernur BI mengundurkan diri",
+      "Perry Warjiyo mengundurkan diri dengan alasan pribadi; Destry Damayanti menjadi pelaksana tugas. Kejadian itu memperpanjang perhatian publik pada kesinambungan kebijakan dan independensi institusi ekonomi.",
+      "https://www.reuters.com/world/asia-pacific/bank-indonesia-governor-perry-warjiyo-steps-down-government-says-2026-07-27/",
     ],
   ];
 
@@ -5260,6 +5297,125 @@
     },
   });
 
+  specialEvents.push(
+    {
+      id: "august-2026-trust-collision",
+      phase: 2,
+      after: 7,
+      icon: "🧱",
+      title: "Dinding Emas, Podium Panas, Kursi Berjatuhan",
+      actor: "Mbak Amar Setengah, Om Diplo Peta Dunia & Prof. Ferry Ambyar-Sari",
+      text: "Agustus dibuka seperti tab browser yang lupa ditutup: mantan Jampidsus ditahan dan rumahnya digeledah, kepala BGN serta gubernur BI mundur, regulator pasar masih membawa bekas gelombang pengunduran diri Januari, presiden melabeli pengkritik ‘londo ireng’ lalu bicara nuklir tanpa lampiran teknis, sementara aktivis meluncurkan Kabinet Bayangan dengan lima belas meja pengawasan. Negara punya banyak podium; publik mulai membangun meja audit sendiri.",
+      fact: "Semua peristiwa di atas terdokumentasi sampai 4 Agustus 2026. Alasan resmi pengunduran diri, status tersangka, kritik terhadap pidato, dan kekhawatiran pasar tetap dibedakan dari dugaan motif, putusan bersalah, serta hubungan sebab-akibat yang belum terbukti.",
+      facts: [
+        ...sources.jampidsusAugust2026,
+        ...sources.resignationWave2026,
+        ...sources.londoIreng2026,
+        ...sources.nuclearSpeech2026,
+        ...sources.shadowCabinet2026,
+        ...sources.augustMarket2026,
+      ],
+      choices: {
+        buzzer: [
+          ["Bikin montage ‘negara sedang bersih-bersih’", "Campur pengunduran diri, penetapan tersangka, pergantian pejabat, dan pidato patriotik menjadi video 42 detik. Due process, alasan resmi, serta rantai bukti dipotong supaya beat drop tidak terlambat.", { reach: 15, credibility: -11, integrity: -13, democracy: -9, heat: 17, money: -76000000 }, "Editannya gagah. Bedanya tersangka, terdakwa, bersalah, mundur, dan diberhentikan ikut terhapus oleh transisi api.", { strategy: "MONTAGE BERSIH-BERSIH", outlook: "negative", podiumRisk: 9, market: { usd: 44, ihsg: -71, cause: "Krisis institusi dibalas dengan montage kemenangan tanpa prosedur atau kepastian kebijakan." } }],
+          ["Pisahkan enam krisis, buka enam ledger", "Terbitkan kronologi Jampidsus, pergantian BGN, proses calon gubernur BI, transkrip pidato, laporan nuklir, dan jawaban atas Kabinet Bayangan sebagai enam berkas berbeda dengan PIC serta tenggat.", { reach: 3, credibility: 16, integrity: 15, democracy: 13, network: 6, heat: -12, money: -52000000 }, "Admin akhirnya belajar bahwa satu tagar tidak cukup menampung enam krisis dan dua belas lampiran.", { strategy: "LEDGER KRISIS", outlook: "positive", podiumRisk: -12, receipts: 8, market: { usd: -39, ihsg: 66, cause: "Pemerintah memisahkan perkara hukum, transisi institusi, pidato, dan data pasar dengan tenggat terbuka." } }],
+          ["Viral-kan ‘menteri bayangan rasa cosplay’", "Serang nama, foto, dan gelar anggota sebelum manifesto, metode, dashboard, atau sumber dananya dibaca. Selipkan klip ‘londo ireng’ sebagai kode bahwa kritik berasal dari kepentingan asing.", { reach: 14, credibility: -10, integrity: -14, democracy: -13, heat: 18, money: -61000000 }, "Kabinet Bayangan ditertawakan. Kabinet asli tetap belum mengunggah dashboard yang dijadikan bahan tertawaan.", { strategy: "DELEGITIMASI SIPIL", outlook: "negative", podiumRisk: 12, market: { usd: 31, ihsg: -48, cause: "Pengawasan sipil dibalas pelabelan; pertanyaan kebijakan dan independensi institusi tetap kosong." } }],
+          ["Tarik ucapan, koreksi nuklir, hentikan stempel musuh", "Akui bahwa istilah terhadap pers merusak ruang publik, bedakan program nuklir dari senjata terverifikasi, lalu jadwalkan konferensi pers dengan hak tanya lanjut dan ahli yang boleh mengoreksi presiden.", { reach: -1, credibility: 17, integrity: 18, democracy: 17, network: 4, heat: -16, money: -33000000 }, "Plot twist nasional: podium dipakai untuk koreksi, bukan untuk menjelaskan kenapa semua orang lain salah dengar.", { strategy: "KOREKSI PODIUM", outlook: "positive", podiumRisk: -19, receipts: 11, market: { usd: -45, ihsg: 73, cause: "Koreksi faktual dan perlindungan ruang kritik menurunkan risiko komunikasi serta ketidakpastian institusi." } }],
+        ],
+        aktivis: [
+          ["Bangun dashboard ‘siapa mundur, siapa mengganti’", "Catat jabatan, tanggal, alasan resmi, dasar hukum pengganti, konflik kepentingan, status tindak lanjut, dan dampak kebijakan. Jangan menyulap semua pengunduran diri menjadi satu teori konspirasi.", { reach: 9, credibility: 16, integrity: 16, democracy: 13, network: 11, heat: 1, money: -17000000 }, "Timeline masih ribut. Minimal sekarang setiap kursi kosong punya tanggal, dokumen, dan kolom ‘siapa bertanggung jawab sesudahnya’.", { strategy: "TURNOVER TRACKER", outlook: "positive", podiumRisk: -4, market: { usd: -21, ihsg: 36, cause: "Pergantian pejabat dibaca lewat prosedur, kesinambungan kebijakan, dan konflik kepentingan yang dapat diuji." } }],
+          ["Jadikan status tersangka sebagai ending perkara", "Rayakan penahanan, sebar bocoran, dan pangkas hak jawab karena target dianggap sudah pasti bersalah. Kasusnya viral, due process ikut dikubur di bawah rasa puas.", { reach: 14, credibility: -12, integrity: -15, democracy: -11, heat: 19, money: -5000000 }, "Kritik penegak hukum berubah menjadi fanclub penahanan. Besok ketika prosedurnya dipakai ke kawan sendiri, semua pura-pura kaget.", { strategy: "VONIS TIMELINE", outlook: "negative", podiumRisk: 3, market: { usd: 16, ihsg: -24, cause: "Perkara hukum berubah menjadi vonis massa; kredibilitas pengawasan ikut rusak." } }],
+          ["Bikin fact-check nuklir dan pidato side-by-side", "Tampilkan transkrip, status safeguards IAEA, perbedaan material–pengayaan–weaponization–senjata, serta respons AJI terhadap pelabelan pers. Koreksi klaim tanpa mengarang motif pribadi.", { reach: 11, credibility: 17, integrity: 17, democracy: 12, network: 9, heat: 3, money: -14000000 }, "Empat istilah teknis akhirnya selamat dari satu klip podium. Kolom komentar tetap perang, footnote-nya minimal tidak ikut meledak.", { strategy: "FACT-CHECK PODIUM", outlook: "positive", podiumRisk: -13, receipts: 7, market: { usd: -19, ihsg: 29, cause: "Kritik memisahkan ucapan, bukti teknis, dan dampak diplomatik tanpa membuat klaim baru." } }],
+          ["Paksa Kabinet Bayangan ikut diaudit", "Dukung shadow hearing sambil meminta metode, sumber data, pendanaan, konflik kepentingan, hak jawab, versi koreksi, dan ukuran kegagalan untuk setiap portofolio.", { reach: 7, credibility: 15, integrity: 18, democracy: 16, network: 14, heat: -5, money: -21000000 }, "Oposisinya tumbuh gigi dan cermin sekaligus. Menyebalkan bagi pemerintah, agak menyebalkan juga bagi aktivis—berarti desainnya mulai sehat.", { strategy: "OPOSISI YANG BISA DIAUDIT", outlook: "positive", podiumRisk: -6, market: { usd: -23, ihsg: 39, cause: "Pengawasan sipil memperoleh metode, hak jawab, dan mekanisme koreksi yang dapat dipercaya." } }],
+        ],
+      },
+    },
+    {
+      id: "shadow-cabinet-first-report",
+      phase: 2,
+      after: 8,
+      icon: "🌓",
+      title: "Rapor Bayangan Pertama, Lampiran Jangan Ikut Gelap",
+      actor: "Prof. Ferry Ambyar-Sari & Bu Bibitri Susah-Tidur",
+      text: "Tiga bulan setelah diluncurkan, Kabinet Bayangan menyiapkan rapor pertamanya. Pemerintah berharap metodologinya tipis; aktivis berharap dashboard-nya tidak berubah menjadi katalog wajah pakar dengan PDF yang tak bisa dicari.",
+      fact: "Peluncuran, lima belas portofolio, shadow hearing, dan target pengawasan adalah fakta Juli 2026. Isi rapor, respons pemerintah, serta pengaruhnya setelah itu merupakan cabang proyeksi game mulai September.",
+      facts: sources.shadowCabinet2026,
+      choices: {
+        buzzer: [
+          ["Jawab rapor per indikator", "Buka data pemerintah, tandai yang disetujui, bantah yang lemah, dan beri tenggat koreksi pada indikator yang memang merah.", { reach: 3, credibility: 14, integrity: 13, democracy: 14, heat: -9, money: -39000000 }, "Rapor bayangan akhirnya dibalas rapor kerja, bukan foto rapat dengan ekspresi prihatin.", { strategy: "REBUTTAL BERLAMPIRAN", outlook: "positive", podiumRisk: -6 }],
+          ["Serang gelar menteri bayangan", "Banjiri feed dengan meme kabinet cosplay dan potong halaman metodologi agar tidak ikut terlihat.", { reach: 14, credibility: -10, integrity: -12, democracy: -11, heat: 16, money: -58000000 }, "Memenya menang. Nilai merah di dashboard tetap merah dan sekarang punya screenshot serangan sebagai lampiran.", { strategy: "COSPLAY COUNTER", outlook: "negative", podiumRisk: 8 }],
+        ],
+        aktivis: [
+          ["Terbitkan data, metode, dan log koreksi", "Setiap nilai membawa sumber, tanggal akses, hak jawab, konflik kepentingan, serta catatan perubahan setelah pemerintah memberi bukti baru.", { reach: 7, credibility: 16, integrity: 17, democracy: 16, network: 12, heat: -4, money: -24000000 }, "Rapor pertama bisa diperiksa, termasuk oleh orang yang tidak suka hasilnya. Sangat tidak nyaman. Sangat berguna.", { strategy: "RAPOR REPRODUCIBLE", outlook: "positive" }],
+          ["Kasih semua menteri nilai merah", "Buat visual yang galak dan mudah viral, lalu abaikan indikator yang justru membaik karena nuansa dianggap melemahkan oposisi.", { reach: 13, credibility: -11, integrity: -13, democracy: -5, heat: 15, money: -9000000 }, "Semua merah membuat tidak ada yang benar-benar merah. Dashboard berubah jadi poster demo dengan login.", { strategy: "MERAH TOTAL", outlook: "negative" }],
+        ],
+      },
+    },
+    {
+      id: "rupiah-bi-fit-proper",
+      phase: 2,
+      after: 9,
+      icon: "🏦",
+      title: "Fit and Proper, Jangan Fit untuk Pemerintah Saja",
+      actor: "Feri Latih-Hitung, Risky Februari & Komisi Kalkulator",
+      text: "Nama calon gubernur BI masuk DPR. Semua mengaku independen, pro-pertumbuhan, pro-stabilitas, dan kebetulan punya definisi berbeda tentang kapan bank sentral boleh berkata tidak kepada pemerintah.",
+      fact: "Pengunduran diri Perry, penunjukan pelaksana tugas, prosedur pencalonan, dan kekhawatiran independensi adalah fakta Juli–Agustus 2026. Kandidat serta hasil uji berikutnya adalah proyeksi bercabang.",
+      facts: sources.augustMarket2026,
+      choices: {
+        buzzer: [
+          ["Buka hearing dan conflict register", "Publikasikan transkrip, rekam voting, relasi kandidat, pandangan tentang inflasi–kurs–likuiditas, serta skenario ketika presiden meminta kebijakan yang berisiko.", { reach: 2, credibility: 16, integrity: 15, democracy: 13, heat: -10, money: -28000000 }, "Calonnya belum tentu populer. Setidaknya pasar dan warga tahu di mana tulang punggungnya diuji.", { strategy: "FIT + PROPER TERBUKA", outlook: "positive", market: { usd: -62, ihsg: 101, cause: "Proses calon gubernur BI membuka rekam kebijakan, konflik kepentingan, dan batas koordinasi fiskal-moneter." } }],
+          ["Jual kandidat sebagai satu tim pertumbuhan", "Tekankan loyalitas, percepatan kredit, dan keselarasan agenda; hapus simulasi inflasi, kurs, serta hak berbeda pendapat dari potongan hearing.", { reach: 11, credibility: -12, integrity: -11, democracy: -8, heat: 13, money: -47000000 }, "Satu tim memang ringkas. Rem, gas, dan dashboard sekarang dipegang tangan yang sama.", { strategy: "MONETER SATU KOMANDO", outlook: "negative", market: { usd: 93, ihsg: -127, cause: "Pemilihan gubernur BI dibingkai sebagai loyalitas agenda; pasar membaca risiko independensi." } }],
+        ],
+        aktivis: [
+          ["Buat matriks independensi kandidat", "Bandingkan rekam keputusan, konflik kepentingan, jawaban atas skenario tekanan politik, dan komitmen publik yang bisa ditagih setelah terpilih.", { reach: 6, credibility: 15, integrity: 16, democracy: 12, network: 8, heat: -2, money: -13000000 }, "Bukan fancam ekonom. Ini tabel siapa pernah memilih apa ketika rupiah, inflasi, dan kekuasaan meminta arah berbeda.", { strategy: "INDEPENDENCE SCORECARD", outlook: "positive", market: { usd: -37, ihsg: 59, cause: "Pengawasan publik memberi biaya reputasi pada konflik kepentingan dan janji independensi kosong." } }],
+          ["Anggap semua calon boneka", "Putuskan kesimpulan sebelum hearing, serang keluarga kandidat, dan abaikan perbedaan rekam kebijakan karena sinisme dianggap bukti kecerdasan.", { reach: 12, credibility: -10, integrity: -12, democracy: -6, heat: 15, money: -5000000 }, "Semua disebut boneka; tali, pemilik, keputusan, dan buktinya nggak ada yang sempat dipetakan.", { strategy: "SINISME TANPA UJI", outlook: "negative", market: { usd: 22, ihsg: -31, cause: "Kritik kehilangan bukti dan tidak membantu publik menilai calon bank sentral." } }],
+        ],
+      },
+    },
+    {
+      id: "jampidsus-evidence-chain",
+      phase: 2,
+      after: 10,
+      icon: "📦",
+      title: "Barang Bukti Punya Nomor, Bocoran Punya Fanbase",
+      actor: "Mbak Amar Setengah, Prof. Uceng Monitor & Tim Penyidik Silang",
+      text: "Perkara mantan Jampidsus masuk fase pembuktian. Tiap institusi membawa kronologi, kuasa hukum membawa keberatan, dan timeline membawa folder bernama FINAL_BENERAN_7.zip yang isinya belum tentu final atau benar.",
+      fact: "Penetapan tersangka, penahanan, penggeledahan, dan pergantian Jampidsus adalah arsip faktual. Kekuatan barang bukti, putusan pengadilan, dan hasil konflik kelembagaan setelah Agustus merupakan proyeksi yang tidak menetapkan bersalah.",
+      facts: sources.jampidsusAugust2026,
+      choices: {
+        buzzer: [
+          ["Buka chain-of-custody dan batas kewenangan", "Terbitkan log penyitaan, pengakses, pemeriksaan forensik, dasar yurisdiksi, serta mekanisme menggugat tanpa membocorkan data saksi.", { reach: 1, credibility: 16, integrity: 17, democracy: 14, heat: -12, money: -36000000 }, "Berkasnya nggak jadi konten heroik. Justru itu tanda ia mungkin bisa bertahan di ruang sidang.", { strategy: "BUKTI TAHAN SIDANG", outlook: "positive" }],
+          ["Lempar bocoran sebelum eksepsi", "Pilih chat, foto uang, dan potongan BAP yang paling meyakinkan; biarkan publik mengunci vonis sebelum hakim membaca kewenangan.", { reach: 15, credibility: -12, integrity: -15, democracy: -13, heat: 19, money: -44000000 }, "Menang trending, kalah rantai bukti. Bocorannya viral; perkara pokok sekarang ikut terkontaminasi.", { strategy: "TRIAL BY LEAK", outlook: "negative" }],
+        ],
+        aktivis: [
+          ["Pantau perkara tanpa memilih seragam", "Buat kronologi klaim, bantahan, putusan sela, chain-of-custody, dan hak pihak terkait; koreksi unggahan ketika dokumen baru membantah thread lama.", { reach: 7, credibility: 16, integrity: 17, democracy: 15, network: 10, heat: -3, money: -15000000 }, "Nggak ada institusi idola, cuma standar bukti yang dipaksa konsisten. Timeline agak sepi, arsipnya kuat.", { strategy: "DUE PROCESS WATCH", outlook: "positive" }],
+          ["Pilih institusi jagoan", "Anggap satu seragam selalu benar, seragam lain selalu sabotase, lalu jadikan setiap bocoran amunisi fanwar.", { reach: 13, credibility: -11, integrity: -13, democracy: -10, heat: 18, money: -4000000 }, "Pengawasan berubah jadi derby penegak hukum. Korban, perkara pokok, dan standar bukti duduk di tribun paling belakang.", { strategy: "FANCLUB INSTITUSI", outlook: "negative" }],
+        ],
+      },
+    },
+    {
+      id: "nuclear-speech-correction-protocol",
+      phase: 2,
+      after: 11,
+      icon: "☢️",
+      title: "Satu Kata Podium, Seribu Nota Diplomatik",
+      actor: "Pak Jenderal Gemoyono, Om Diplo Peta Dunia & Menlu Sunyi Gono-Gini",
+      text: "Pidato akhir tahun kembali bicara ancaman global. Tim diplomasi mengusulkan protokol baru: klaim teknis harus melewati fact sheet sebelum mic menyala. Tim konten khawatir protokol itu menghilangkan spontanitas, padahal pasar dan kedutaan lebih khawatir spontanitasnya tetap ada.",
+      fact: "Ucapan nuklir 1 Agustus dan status safeguards IAEA adalah arsip. Protokol koreksi, respons regional, dan pengaruh pidato berikutnya merupakan proyeksi game.",
+      facts: sources.nuclearSpeech2026,
+      choices: {
+        buzzer: [
+          ["Pasang fact sheet dan tombol koreksi", "Klaim keamanan, ekonomi, serta negara lain membawa sumber, tingkat kepastian, dan prosedur koreksi 24 jam jika podium meleset.", { reach: -1, credibility: 17, integrity: 16, democracy: 12, heat: -12, money: -26000000 }, "Pidatonya masih panjang. Setidaknya sekarang footnote bisa mengejar sebelum nota protes tiba.", { strategy: "PODIUM DENGAN QA", outlook: "positive", podiumRisk: -18, receipts: 13, market: { usd: -33, ihsg: 55, cause: "Protokol sumber dan koreksi menurunkan risiko komunikasi kebijakan serta salah kalkulasi diplomatik." } }],
+          ["Naikkan volume patriotik", "Pertahankan improvisasi, sebut kritik terlalu teknis, dan jadikan tiap koreksi sebagai bukti presiden sedang diserang kepentingan asing.", { reach: 14, credibility: -13, integrity: -12, democracy: -11, heat: 18, money: -59000000 }, "Mic aman. Kredibilitas teknis dan staf diplomasi diminta kerja lembur tanpa uang makan.", { strategy: "OMON-OMON DETERRENCE", outlook: "negative", podiumRisk: 19, receipts: -14, market: { usd: 58, ihsg: -83, cause: "Pidato teknis tanpa verifikasi memperbesar risiko diplomatik dan ketidakpastian kebijakan." } }],
+        ],
+        aktivis: [
+          ["Audit klaim lintas dua belas pidato", "Bangun basis data tanggal, transkrip, klaim terukur, sumber, koreksi, hasil lawatan, kurs, IHSG, serta faktor pembanding agar pola bisa diuji tanpa takhayul.", { reach: 9, credibility: 17, integrity: 17, democracy: 13, network: 11, heat: 0, money: -18000000 }, "Meme ‘habis pidato rupiah anjlok’ masih hidup. Sekarang dia punya event study yang bisa bilang kapan lucu dan kapan menyesatkan.", { strategy: "PODIUM LEDGER", outlook: "positive", podiumRisk: -11, market: { usd: -25, ihsg: 42, cause: "Audit membedakan timing, isi kebijakan, koreksi, dan shock pasar lain." } }],
+          ["Potong semua pidato jadi kompilasi marah", "Susun klip paling menyebalkan tanpa tanggal, konteks, kebijakan, atau koreksi. Punchline kuat; kemampuan menguji pola hilang.", { reach: 15, credibility: -10, integrity: -9, democracy: -4, heat: 17, money: -7000000 }, "Kompilasinya lucu tiga menit. Setelah itu tidak ada yang tahu ucapan mana memicu kebijakan, nota diplomatik, atau cuma trending dua jam.", { strategy: "RAGE COMPILATION", outlook: "negative", podiumRisk: 6, market: { usd: 11, ihsg: -16, cause: "Kritik pidato kehilangan tanggal, konteks, dan mekanisme sebab-akibat." } }],
+        ],
+      },
+    },
+  );
+
   const augustFireEvent = specialEvents.find(event => event.id === "august-fire");
   if (augustFireEvent) {
     augustFireEvent.text = "Protes tunjangan DPR dan biaya hidup membesar setelah pengemudi ojol tewas ditabrak kendaraan taktis. Pak Gemoyono naik podium: duka disebut, lalu terorisme, makar, dan musuh bersama ikut masuk. Rupiah serta IHSG ikut bergejolak; timeline langsung bikin hukum ekonomi sendiri: setiap mic menyala, pasar katanya cari pintu keluar.";
@@ -5308,9 +5464,10 @@
     });
   });
 
-  // Historical spine through July 2026. From August 2026 onward the existing
-  // alternative-timeline engine remains deliberately projective.
+  // Historical spine through 4 August 2026. September 2026 onward remains a
+  // deliberately projective branch rather than a claim about future events.
   const chronologySources = window.PNTimelineVariants?.sources || {};
+  const chronologyFactList = (value) => !value ? [] : Array.isArray(value[0]) ? value : [value];
   Object.assign(phases[0].days[9], {
     title: "#KabinetBaruPintuKomando",
     subject: "pelantikan, kabinet besar, dan perwira aktif di pusat kendali sipil",
@@ -5582,6 +5739,156 @@
     people: "warga pembayar pajak, prajurit, pekerja industri pertahanan, serta generasi yang mewarisi cicilan",
     counter: "patriotisme kosong yang menganggap pertanyaan biaya sebagai penghinaan negara",
     facts: [chronologySources.julyDefence].filter(Boolean),
+    teaser: "DindingEmasPodiumNuklirKursiMundur",
+  });
+  const patchIssueWithDiscussion = (phaseIndex, dayIndex, patch) => {
+    const issue = phases[phaseIndex].days[dayIndex];
+    Object.assign(issue, patch);
+    const voiceIndex = (phaseIndex * 12 + dayIndex) % discussionVoice.good.length;
+    issue.discussion = {
+      good: discussionVoice.good[voiceIndex](issue),
+      bad: discussionVoice.bad[voiceIndex](issue),
+      neutral: discussionVoice.neutral[voiceIndex](issue),
+    };
+  };
+  patchIssueWithDiscussion(2, 7, {
+    key: "august-2026-trust-crisis",
+    title: "#DindingEmasPodiumNuklirKursiMundur",
+    avatar: "🧱",
+    npc: "Mbak Amar Setengah",
+    handle: "@pasalbelumselesai",
+    post: "Mantan Jampidsus menjadi tersangka dan rumahnya digeledah; kepala BGN serta gubernur BI mundur; bekas gelombang pengunduran diri regulator pasar belum hilang; pidato ‘londo ireng’ dan klaim nuklir memantik koreksi; aktivis membentuk Kabinet Bayangan. Satu bulan, banyak kursi, lebih banyak pertanyaan yang tidak muat di satu klarifikasi.",
+    lesson: "Pisahkan fakta, status hukum, alasan resmi, kritik, dan dugaan motif. Uji pergantian pejabat lewat prosedur serta kesinambungan; uji pidato lewat transkrip dan bukti teknis; uji pengawasan sipil lewat metode yang juga terbuka untuk koreksi.",
+    subject: "kasus Jampidsus, gelombang pejabat mundur, pidato 'londo ireng', klaim nuklir, Kabinet Bayangan, independensi BI, dan krisis kepercayaan Agustus 2026",
+    document: "surat pengunduran diri dan pengganti, dasar penetapan tersangka, log barang bukti, transkrip pidato, laporan IAEA, manifesto Kabinet Bayangan, JISDOR, serta penutupan IHSG",
+    people: "saksi, tersangka, pegawai lembaga, jurnalis, aktivis, penabung, pekerja, pelaku usaha, dan warga yang menanggung keputusan institusi",
+    counter: "montage bersih-bersih, stempel musuh asing, dan satu pidato yang dipakai untuk menenggelamkan enam krisis berbeda",
+    weak: ["law", "data", "context", "transparency", "network", "diplomacy"],
+    resist: ["patriot", "attack", "whatabout", "meme"],
+    heat: 100,
+    month: "AGUSTUS 2026",
+    status: "ARSIP • 4 AGUSTUS 2026",
+    teaser: "RaporBayanganPertama",
+    arc: "agustus-2026-krisis-kepercayaan",
+    facts: [
+      ...chronologyFactList(chronologySources.jampidsusAugust2026),
+      ...chronologyFactList(chronologySources.londoIreng2026),
+      ...chronologyFactList(chronologySources.nuclearSpeech2026),
+      ...chronologyFactList(chronologySources.shadowCabinet2026),
+      ...chronologyFactList(chronologySources.augustMarket2026),
+      ...sources.resignationWave2026,
+    ],
+  });
+  patchIssueWithDiscussion(2, 8, {
+    key: "shadow-cabinet-report",
+    title: "#RaporBayanganPertama",
+    avatar: "🌓",
+    npc: "Prof. Ferry Ambyar-Sari",
+    handle: "@desainkuasa",
+    post: "PROYEKSI: Kabinet Bayangan menerbitkan rapor pertama dengan dashboard yang bisa diklik. Pemerintah menemukan dua angka salah, tujuh nilai merah, dan satu masalah baru: membantah metodologi ternyata menuntut pemerintah membuka datanya sendiri.",
+    lesson: "Pengawasan sipil menjadi kuat bila metode, sumber, dana, konflik kepentingan, hak jawab, versi koreksi, dan ukuran kegagalannya dapat diperiksa oleh pihak yang setuju maupun tidak.",
+    subject: "rapor pertama Kabinet Bayangan, metode pengawasan sipil, dan respons pemerintah berbasis indikator",
+    document: "dashboard 15 portofolio, dataset, metodologi skor, hak jawab, log koreksi, sumber dana, konflik kepentingan, serta lampiran tanggapan pemerintah",
+    people: "warga dan kelompok terdampak yang membutuhkan oposisi berbukti, pejabat yang dinilai, peneliti, jurnalis, dan organisasi sipil",
+    counter: "meme kabinet cosplay serta nilai merah total yang sama-sama menghindari pengujian metode",
+    weak: ["data", "transparency", "law", "network"],
+    resist: ["attack", "meme", "whatabout"],
+    heat: 91,
+    status: "TIMELINE ALTERNATIF",
+    teaser: "FitProperJanganFitKePemerintah",
+    arc: "proyeksi-kabinet-bayangan",
+    facts: chronologyFactList(chronologySources.shadowCabinet2026),
+  });
+  patchIssueWithDiscussion(2, 9, {
+    key: "bi-fit-proper",
+    title: "#FitProperJanganFitKePemerintah",
+    avatar: "🏦",
+    npc: "Risky Februari",
+    handle: "@riskyfebruari",
+    post: "PROYEKSI: DPR menguji calon gubernur BI. Semua kandidat membawa visi pertumbuhan; cuma satu yang membawa skenario ketika presiden meminta gas, rupiah butuh rem, dan tepuk tangan komisi mulai terdengar seperti instruksi.",
+    lesson: "Independensi diuji ketika koordinasi berubah menjadi tekanan. Buka rekam kebijakan, relasi, konflik kepentingan, jawaban skenario, voting, serta komitmen yang dapat ditagih setelah kandidat terpilih.",
+    subject: "pemilihan gubernur BI, independensi bank sentral, tekanan pertumbuhan, rupiah, inflasi, dan kredibilitas institusi",
+    document: "daftar calon, transkrip uji kelayakan, conflict register, rekam keputusan, simulasi inflasi dan kurs, voting DPR, serta komunikasi fiskal-moneter",
+    people: "pekerja, penabung, debitur, importir, pelaku usaha, rumah tangga, dan investor yang menanggung kualitas kebijakan moneter",
+    counter: "loyalitas satu tim yang dipakai menggantikan hak bank sentral untuk berbeda pendapat",
+    weak: ["data", "budget", "transparency", "law"],
+    resist: ["patriot", "meme", "attack"],
+    heat: 94,
+    status: "TIMELINE ALTERNATIF",
+    teaser: "BarangBuktiPunyaNomor",
+    arc: "proyeksi-independensi-bi",
+    facts: chronologyFactList(chronologySources.augustMarket2026),
+  });
+  patchIssueWithDiscussion(2, 10, {
+    key: "jampidsus-evidence-chain",
+    title: "#BarangBuktiPunyaNomor",
+    avatar: "📦",
+    npc: "Prof. Uceng Monitor",
+    handle: "@monitorlembaga",
+    post: "PROYEKSI: Perkara mantan Jampidsus masuk pembuktian. Bocoran punya fanbase, tiap institusi punya kronologi, dan chain-of-custody baru mendadak terkenal setelah satu folder bertajuk FINAL_BENERAN_7.zip beredar tanpa halaman tanda tangan.",
+    lesson: "Status tersangka bukan vonis. Uji dasar kewenangan, rantai penguasaan, autentikasi, hak tersangka dan saksi, putusan sela, serta kemampuan perkara bertahan setelah headline pergi.",
+    subject: "pembuktian perkara mantan Jampidsus, rantai penguasaan barang bukti, konflik kewenangan, dan due process",
+    document: "surat perintah, berita acara, nomor barang bukti, log akses, hasil forensik, eksepsi, putusan sela, perlindungan saksi, dan versi koreksi kronologi",
+    people: "saksi, tersangka, kuasa hukum, penyidik, pegawai kejaksaan, korban perkara pokok, dan publik",
+    counter: "trial by leak dan fanwar antarlembaga yang menjadikan prosedur sebagai musuh",
+    weak: ["law", "data", "transparency", "context"],
+    resist: ["attack", "patriot", "whatabout"],
+    heat: 96,
+    status: "TIMELINE ALTERNATIF",
+    teaser: "PodiumPakaiQualityAssurance",
+    arc: "proyeksi-jampidsus-pembuktian",
+    facts: chronologyFactList(chronologySources.jampidsusAugust2026),
+  });
+  patchIssueWithDiscussion(2, 11, {
+    key: "podium-correction-protocol",
+    title: "#PodiumPakaiQualityAssurance",
+    avatar: "🎙️",
+    npc: "Om Diplo Peta Dunia",
+    handle: "@strategicpayoff",
+    post: "PROYEKSI: Setelah satu tahun pidato panjang dan beberapa klarifikasi yang lebih panjang, tim diplomasi mengusulkan fact sheet sebelum podium. Klaim ekonomi, nuklir, serta negara lain harus punya sumber, tingkat kepastian, dan tombol koreksi 24 jam.",
+    lesson: "Komunikasi pemimpin adalah instrumen kebijakan. Audit transkrip, klaim terukur, sumber, koreksi, tindak lanjut, efek diplomatik, serta pasar tanpa menyulap korelasi waktu menjadi sebab tunggal.",
+    subject: "protokol verifikasi pidato presiden, koreksi klaim teknis, kebebasan pers, diplomasi, rupiah, dan IHSG",
+    document: "transkrip pidato, fact sheet lintas lembaga, daftar klaim dan koreksi, laporan IAEA, nota diplomatik, hasil lawatan, JISDOR, serta data IHSG",
+    people: "warga, jurnalis, diplomat, pelaku usaha, penabung, negara mitra, dan staf yang harus memperbaiki konsekuensi satu kalimat podium",
+    counter: "patriotisme yang menganggap verifikasi teknis sebagai upaya membungkam presiden",
+    weak: ["data", "context", "diplomacy", "transparency"],
+    resist: ["patriot", "attack", "meme"],
+    heat: 92,
+    status: "TIMELINE ALTERNATIF",
+    teaser: "KepercayaanInstitusiMasukStressTest",
+    arc: "proyeksi-protokol-pidato",
+    facts: [
+      ...chronologyFactList(chronologySources.nuclearSpeech2026),
+      ...chronologyFactList(chronologySources.londoIreng2026),
+      ...chronologyFactList(chronologySources.augustMarket2026),
+    ],
+  });
+  patchIssueWithDiscussion(3, 0, {
+    title: "#KepercayaanInstitusiMasukStressTest",
+    post: "PROYEKSI: Tahun baru tidak menghapus turnover lama. Gubernur BI definitif, Jampidsus baru, kepala BGN baru, regulator pasar, serta Kabinet Bayangan memasuki stress test serentak: apakah prosedur, dashboard, dan koreksi bertahan ketika angka mulai bergerak berlawanan dengan pidato?",
+    lesson: "Pergantian personal baru bermakna bila institusi mempertahankan data, batas kewenangan, memori kebijakan, koreksi, dan kemampuan berbeda pendapat setelah perhatian publik pindah.",
+    subject: "stress test kepercayaan institusi setelah gelombang pengunduran diri dan krisis komunikasi 2026",
+    document: "target 100 hari pejabat baru, keputusan moneter, audit BGN, progres perkara Jampidsus, reformasi pasar, rapor Kabinet Bayangan, dan log koreksi pidato",
+    people: "warga, pekerja lembaga, penabung, penerima MBG, saksi perkara, pers, dan organisasi masyarakat sipil",
+    counter: "wajah baru yang diperlakukan sebagai reformasi tanpa indikator kelembagaan",
+    teaser: "IndependensiBukanFontDiSlide",
+    arc: "proyeksi-2027-warisan-agustus",
+  });
+  patchIssueWithDiscussion(4, 0, {
+    post: "PROYEKSI: Kandidat 2029 mulai masuk podcast membawa kata ‘independensi’. Publik punya arsip baru untuk mengujinya: siapa membela BI ketika ditekan, siapa menjaga due process kasus Jampidsus, siapa melabeli pers, dan siapa menjawab rapor Kabinet Bayangan dengan data.",
+    subject: "janji kandidat tentang independensi institusi setelah krisis BI, Jampidsus, pers, dan pengawasan sipil 2026",
+    document: "rekam voting dan jabatan, keputusan BI, dokumen perkara, transkrip pidato, respons kebebasan pers, serta rapor Kabinet Bayangan 2026–2027",
+    people: "pemilih yang membutuhkan rekam tindakan sebelum membeli janji institusi kuat",
+    counter: "kata independensi yang dipakai sebagai font tebal tanpa rekam keberanian berbeda pendapat",
+    arc: "proyeksi-2028-warisan-agustus",
+  });
+  patchIssueWithDiscussion(5, 2, {
+    post: "PROYEKSI: Debat demokrasi tidak lagi cukup menjual status korban. Moderator membawa arsip 2026: pergantian pejabat, independensi BI, due process Jampidsus, pelabelan ‘londo ireng’, koreksi klaim nuklir, dan rapor Kabinet Bayangan. Semua kandidat diminta menjawab tanpa tombol whatabout.",
+    subject: "debat demokrasi berbasis arsip krisis institusi, kebebasan pers, due process, dan pengawasan sipil sejak 2026",
+    document: "rekam kebijakan BI, perkara Jampidsus, transkrip pidato, koreksi faktual, rapor Kabinet Bayangan, voting, dan komitmen kandidat",
+    people: "pemilih, pers, pegawai institusi, masyarakat sipil, saksi perkara, penabung, dan warga yang hidup di bawah keputusan presiden berikutnya",
+    counter: "lomba mengaku dizalimi yang menghapus rekam tindakan saat masing-masing kandidat punya kuasa",
+    arc: "proyeksi-2029-payoff-agustus",
   });
 
   const politicalAliases = [
@@ -8748,7 +9055,7 @@
       followTitle:follow?.title,
     });
     const replyText=voiceReply?.text||fallbackReplyText,identity=characterCommentIdentity(character,currentIssue());
-    state.comments.unshift(makeComment(match.score===3?"good":match.score===2?"neutral":"bad",replyText,{avatar:identity.avatar,handle:identity.handle,kind:"npc",label:`${identity.sameAsPost?"TOKOH YANG SAMA":"TOKOH KARTU"} • ${match.label}`,replyTo:currentIssue().title}));
+    state.comments.unshift(makeComment(match.score===3?"good":match.score===2?"neutral":"bad",replyText,{avatar:identity.avatar,handle:identity.handle,kind:"npc",label:match.label,replyTo:currentIssue().title}));
     state.comments=state.comments.slice(0,36);
     addLog(`${match.label}: ${character.name} memakai ${ability.name}.${follow?` Follow-up “${follow.title}” terbuka.`:""}`,match.score===3?"good":match.score===2?"info":"bad");
     flash(`${character.icon} ${match.label}`);beep(match.score===0?150:match.score===2?420:720,.09);renderCards();render();saveGame(true);
@@ -8828,17 +9135,24 @@
     if (!number) return `• 0${suffix}`;
     return `${number > 0 ? "▲" : "▼"} ${Math.abs(number).toLocaleString("id-ID")}${suffix}`;
   }
+  function formatMarketNumber(value) {
+    const number = Number(value) || 0;
+    return number.toLocaleString("id-ID", {
+      minimumFractionDigits: Number.isInteger(number) ? 0 : 1,
+      maximumFractionDigits: Number.isInteger(number) ? 0 : 1,
+    });
+  }
   function renderMarketPanel() {
     const engine = window.PNMarketSim;
     if (!engine || !state.market || !$("#marketSim")) return;
     const market = state.market, labels = engine.labels(market), tone = marketTone();
-    $("#usdIdrValue").textContent = Math.round(market.usdIdr).toLocaleString("id-ID");
-    $("#ihsgValue").textContent = Math.round(market.ihsg).toLocaleString("id-ID");
+    $("#usdIdrValue").textContent = formatMarketNumber(market.usdIdr);
+    $("#ihsgValue").textContent = formatMarketNumber(market.ihsg);
     $("#usdIdrDelta").textContent = signedMarketDelta(market.usdDelta);
     $("#ihsgDelta").textContent = signedMarketDelta(market.ihsgDelta);
     $("#usdRow").className = `market-row ${(market.usdDelta || 0) > 0 ? "bad" : (market.usdDelta || 0) < 0 ? "good" : ""}`;
     $("#ihsgRow").className = `market-row ${(market.ihsgDelta || 0) < 0 ? "bad" : (market.ihsgDelta || 0) > 0 ? "good" : ""}`;
-    $("#marketMode").textContent = market.archive ? "ARSIP + SIMULASI" : "SIMULASI SEED";
+    $("#marketMode").textContent = market.asOf ? `AKTUAL • ${market.asOf.toUpperCase()}` : market.archive ? "ARSIP DATA" : "SIMULASI SEED";
     $("#marketStatus").className = `market-status ${tone === "neutral" ? "" : tone}`;
     $("#marketStatus").textContent = `${labels.usd} • ${labels.ihsg}`;
     $("#marketCause").textContent = market.cause || "Pasar membaca data, kebijakan, dan risiko; bukan tepuk tangan semata.";
@@ -8847,7 +9161,7 @@
   function showMarketInfo() {
     const market = state.market || {}, labels = window.PNMarketSim?.labels(market) || {};
     const history = (state.marketHistory || []).slice(-6).reverse();
-    $("#modalContent").innerHTML = `<h2>📉 Pasar Timeline</h2><p>Ini <b>simulasi game</b>, bukan feed trading dan bukan ramalan. Sampai Juli 2026, arahnya memakai jangkar arsip; sesudah itu seed, risiko global, dan keputusan campaign membentuk cabang baru.</p><div class="ending-score"><div><strong>Rp${Math.round(market.usdIdr || 0).toLocaleString("id-ID")}</strong>USD/IDR</div><div><strong>${Math.round(market.ihsg || 0).toLocaleString("id-ID")}</strong>IHSG</div><div><strong>${Math.round(state.podiumRisk || 0)}</strong>Risiko Podium</div><div><strong>${state.foreignTrips || 0}</strong>Lawatan</div></div><div class="lesson"><b>${labels.usd || "RUPIAH DATAR"} • ${labels.ihsg || "IHSG DATAR"}</b><br>${escapeHtml(market.cause || "Belum ada sinyal dominan.")}<br><small>“Setelah pidato” tidak otomatis berarti “karena pidato”. Game menilai isi kebijakan, fiskal, komunikasi, arus modal, energi global, tata kelola pasar, dan independensi institusi.</small></div>${eventFactLinks({ facts: sources.marketTimeline })}<div class="career-line"><b>ENAM BULAN TERAKHIR</b><ul>${history.map(item => `<li>${timelineLabel(item.monthIndex)}: USD/IDR <b>${Math.round(item.usdIdr).toLocaleString("id-ID")}</b> • IHSG <b>${Math.round(item.ihsg).toLocaleString("id-ID")}</b></li>`).join("") || "<li>Belum ada histori.</li>"}</ul></div><button class="btn" id="closeMarketInfo">Tutup</button>`;
+    $("#modalContent").innerHTML = `<h2>📉 Pasar Timeline</h2><p>Ini <b>arsip bertanggal + simulasi game</b>, bukan feed trading dan bukan ramalan. Sampai Agustus 2026, angka mengikuti jangkar arsip; data terakhir yang tersedia saat pembaruan 4 Agustus adalah penutupan 3 Agustus. Cabang seed dan keputusan campaign baru dimulai September.</p><div class="ending-score"><div><strong>Rp${formatMarketNumber(market.usdIdr)}</strong>USD/IDR</div><div><strong>${formatMarketNumber(market.ihsg)}</strong>IHSG</div><div><strong>${Math.round(state.podiumRisk || 0)}</strong>Risiko Podium</div><div><strong>${state.foreignTrips || 0}</strong>Lawatan</div></div><div class="lesson"><b>${labels.usd || "RUPIAH DATAR"} • ${labels.ihsg || "IHSG DATAR"}</b><br>${escapeHtml(market.cause || "Belum ada sinyal dominan.")}<br><small>“Setelah pidato” tidak otomatis berarti “karena pidato”. Game menilai isi kebijakan, fiskal, komunikasi, arus modal, energi global, tata kelola pasar, dan independensi institusi.</small></div>${eventFactLinks({ facts: sources.marketTimeline })}<div class="career-line"><b>ENAM BULAN TERAKHIR</b><ul>${history.map(item => `<li>${timelineLabel(item.monthIndex)}: USD/IDR <b>${formatMarketNumber(item.usdIdr)}</b> • IHSG <b>${formatMarketNumber(item.ihsg)}</b></li>`).join("") || "<li>Belum ada histori.</li>"}</ul></div><button class="btn" id="closeMarketInfo">Tutup</button>`;
     $("#modal").classList.remove("hidden");
     $("#closeMarketInfo").onclick = () => $("#modal").classList.add("hidden");
   }
@@ -9681,7 +9995,7 @@
       avatar:i.avatar,
       handle:i.handle,
       kind:"npc",
-      label:`PEMILIK POST • ${stanceLabels[stance] || "PENGKRITIK"}`,
+      label:stanceLabels[stance] || "PENGKRITIK",
       replyTo:shortActionReplyTarget(display.name),
       actionId:a.id,
       actionName:display.name,
@@ -9894,7 +10208,7 @@
       avatar:identity.avatar,
       handle:identity.handle,
       kind:"npc",
-      label:`${identity.sameAsPost?"TOKOH YANG SAMA":"TOKOH KARTU"} • CONTEXT COMBO`,
+      label:"CONTEXT COMBO",
       replyTo:`“${card.title}”`,
       actionId:card.actionId,
       actionName:card.title,

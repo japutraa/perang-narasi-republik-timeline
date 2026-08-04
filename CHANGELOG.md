@@ -2,6 +2,18 @@
 
 Semua perubahan penting pada proyek ini dicatat di sini.
 
+## 3.21.0 — 2026-08-04
+
+- Memperpanjang batas arsip faktual sampai 4 Agustus 2026; Timeline Alternatif kini dimulai September.
+- Membangun 12 varian Agustus tentang perkara mantan Jampidsus, gelombang pengunduran diri pejabat, pergantian kepala BGN, independensi BI, pidato `londo ireng`, klaim nuklir, serta Kabinet Bayangan masyarakat sipil.
+- Memisahkan status tersangka dari putusan bersalah, alasan resmi dari spekulasi motif, dan program nuklir dari kepemilikan senjata yang terverifikasi.
+- Menambahkan lima special event beruntun: krisis kepercayaan Agustus, rapor pertama Kabinet Bayangan, uji calon gubernur BI, chain-of-custody perkara Jampidsus, dan protokol verifikasi pidato.
+- Menghubungkan keputusan baru dengan proyeksi September–Desember 2026, stress test institusi 2027, arsip kandidat 2028, serta payoff debat Pemilu 2029.
+- Menambah domain action-copy khusus penuntutan, bank sentral, pengawasan sipil, kebebasan pers, dan nonproliferasi agar kartu tidak kembali ke wording generik.
+- Mengunci jangkar pasar 3 Agustus 2026 pada JISDOR Rp17.991/US$ dan IHSG 6.234,50. Arsip tidak lagi bergeser karena seed atau statistik pemain; simulasi dimulai September.
+- Menghapus label teknis `PEMILIK POST`, `TOKOH KARTU`, dan `TOKOH YANG SAMA` dari komentar pemain, sambil mempertahankan resolver identitas kanonis serta audit overlap internal.
+- Menaikkan total menjadi 48 event, 384 pilihan, dan 768 cabang tertunda; menambahkan regresi arsip Agustus, pasar aktual, proyeksi, serta larangan label teknis di UI.
+
 ## 3.20.1 — 2026-07-14
 
 - Menghapus kewajiban balasan pemilik post untuk mengulang judul action card lengkap di dalam isi komentar.
