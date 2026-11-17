@@ -84,7 +84,7 @@ test("release references only files that are present", () => {
   required.forEach((file) => assert.ok(fs.existsSync(path.join(root, file)), `${file} is missing`));
   assert.doesNotMatch(indexSource, /<style(?:\s|>)/i, "CSS must not be embedded in index.html");
   assert.doesNotMatch(indexSource, /<script(?![^>]+src=)[^>]*>/i, "JavaScript must not be embedded in index.html");
-  assert.match(indexSource, /meta name="version" content="3\.21\.0"/);
+  assert.match(indexSource, /meta name="version" content="4\.0\.0"/);
   assert.match(indexSource, /id="usdIdrValue"/);
   assert.match(indexSource, /id="ihsgValue"/);
   assert.match(gameSource, /SAVE_KEY = "perang-narasi-save-v3"/);
@@ -563,27 +563,39 @@ test("Pasar Timeline is deterministic, seeded, and separates factual wording fro
   dom.window.close();
 });
 
-test("4 August 2026 archive covers the trust crisis and projects its downstream arcs", async () => {
+test("August–November 2026 archive separates reporting from allegations and future fiction", async () => {
   const { dom, errors } = createDom({ expose: true });
   await tick(dom.window);
   assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
   const api = dom.window.__PN_TEST__;
   const august = api.phases[2].days[7];
-  assert.equal(august.status, "ARSIP • 4 AGUSTUS 2026");
-  assert.match(august.subject, /Jampidsus.*londo ireng.*nuklir.*Kabinet Bayangan.*independensi BI/i);
-  assert.match(august.facts.map((fact) => fact[0]).join(" "), /Jampidsus|Gubernur BI|Kabinet Bayangan/i);
+  assert.equal(august.status, "ARSIP POLITIK 2026");
+  assert.match(`${august.subject} ${august.post} ${august.facts.map((fact) => fact.join(" ")).join(" ")}`, /demonstrasi|antikorupsi|protes/i);
   const variants = dom.window.PNTimelineVariants.build(august, { phaseIndex: 2, dayIndex: 7 });
   assert.ok(variants.length >= 12);
-  assert.match(variants.map((variant) => `${variant.title} ${variant.post}`).join("\n"), /Jampidsus|londo ireng|nuklir|Kabinet Bayangan|gubernur BI|kepala BGN/i);
   assert.ok(variants.every((variant) => variant.facts.length >= 1));
-  assert.equal(api.phases[2].days[8].status, "TIMELINE ALTERNATIF");
-  assert.match(api.phases[2].days.slice(8).map((issue) => issue.subject).join("\n"), /Kabinet Bayangan.*gubernur BI.*barang bukti.*pidato/is);
+  assert.equal(api.phases[2].days[8].status, "ARSIP POLITIK 2026");
+  assert.equal(api.phases[2].days[9].status, "ARSIP POLITIK 2026");
+  assert.equal(api.phases[2].days[10].status, "ARSIP POLITIK 2026");
+  assert.equal(api.phases[2].days[11].status, "TIMELINE ALTERNATIF");
+  const recentArchive = api.phases[2].days.slice(7, 11).map((issue) => `${issue.subject} ${issue.post} ${issue.facts.map((fact) => fact.join(" ")).join(" ")}`).join("\n");
+  assert.match(recentArchive, /Natuna|D-Alpha/i);
+  assert.match(recentArchive, /Hashim|hutan|biodiesel/i);
+  assert.match(recentArchive, /Gibran|mundur|pengunduran diri/i);
+  assert.match(recentArchive, /Raffi|RANS/i);
+  assert.match(recentArchive, /karhutla|hotspot/i);
   const newEvents = [
     "august-2026-trust-collision",
     "shadow-cabinet-first-report",
     "rupiah-bi-fit-proper",
     "jampidsus-evidence-chain",
     "nuclear-speech-correction-protocol",
+    "senayan-protest-2026",
+    "natuna-dalpha-2026",
+    "hashim-biodiesel-land-2026",
+    "gibran-court-2026",
+    "gibran-resignation-2026",
+    "november-stacked-crises-2026",
   ];
   newEvents.forEach((id) => assert.ok(api.specialEvents.some((event) => event.id === id), id));
   const visibleLabels = gameSource.match(/TOKOH YANG SAMA|TOKOH KARTU|PEMILIK POST/g) || [];
@@ -598,7 +610,7 @@ test("all strategic events expose four choices and two delayed branches", async 
   assert.equal(errors.length, 0, errors.map((error) => error.message).join("\n"));
   assert.equal(api.phases.length, 6);
   assert.equal(api.phases.reduce((sum, phase) => sum + phase.days.length, 0), 72);
-  assert.equal(api.specialEvents.length, 48);
+  assert.equal(api.specialEvents.length, 54);
   const tripEvent = api.specialEvents.find((event) => event.id === "passport-during-fire");
   assert.ok(tripEvent);
   assert.equal(tripEvent.sourceKey, "foreignTrips");
@@ -638,8 +650,8 @@ test("all strategic events expose four choices and two delayed branches", async 
     }
   }
 
-  assert.equal(choices, 384);
-  assert.equal(delayedBranches, 768);
+  assert.equal(choices, 432);
+  assert.equal(delayedBranches, 864);
   dom.window.close();
 });
 
@@ -674,7 +686,7 @@ test("every month has seeded single-speaker timeline variants", async () => {
     ...phases.flatMap((phase) => phase.days.map((issue) => issue.title)),
     ...variantTitles,
   ])].filter((title) => title.length >= 28);
-  assert.ok(longHashtags.includes("#DindingEmasPodiumNuklirKursiMundur"));
+  assert.ok(longHashtags.includes("#TahunDitutupDenganKoreksiHalus"));
   longHashtags.forEach((title) => {
     const rendered = hashtagHtml(title);
     const probe = dom.window.document.createElement("span");
@@ -694,8 +706,9 @@ test("every month has seeded single-speaker timeline variants", async () => {
   assert.ok(julyVariants.some((variant) => /kerja sama pertahanan|rudal/i.test(variant.post)));
   assert.ok(julyVariants.every((variant) => variant.facts.some((fact) => /2026-07-07/.test(fact[2] || ""))));
   assert.equal(phases[2].days[6].status, "ARSIP POLITIK 2026");
-  assert.equal(phases[2].days[7].status, "ARSIP • 4 AGUSTUS 2026");
-  assert.equal(phases[2].days[8].status, "TIMELINE ALTERNATIF");
+  assert.equal(phases[2].days[7].status, "ARSIP POLITIK 2026");
+  assert.equal(phases[2].days[10].status, "ARSIP POLITIK 2026");
+  assert.equal(phases[2].days[11].status, "TIMELINE ALTERNATIF");
 
   const campaignGemoy = pack.build(phases[0].days[1], { phaseIndex: 0, dayIndex: 1 });
   assert.ok(campaignGemoy.some((variant) => variant.npc === "Pak Jenderal Gemoyono" && /joget/i.test(variant.post)));
@@ -983,9 +996,9 @@ for (const role of ["buzzer", "aktivis"]) {
     assert.equal(state.phase, 5);
     assert.equal(state.day, 12);
     assert.equal(state.eventHistory.length, state.configuredEvents);
-    assert.equal(state.eventHistory.length, 48);
+    assert.equal(state.eventHistory.length, 54);
     assert.equal(state.narrativeRipples.length, 0);
-    assert.equal(state.resolvedRipples.length, 48);
+    assert.equal(state.resolvedRipples.length, 54);
     assert.ok(state.finalReport);
     assert.ok(state.finalReport.performance.score >= 0 && state.finalReport.performance.score <= 100);
     assert.equal(state.finalReport.election.candidates.reduce((sum, candidate) => sum + candidate.vote, 0), 100);

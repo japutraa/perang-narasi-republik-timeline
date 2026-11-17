@@ -1,9 +1,9 @@
 # Perang Narasi: Republik Timeline
 
-> **Krisis Kepercayaan Agustus — v3.21.0**  
+> **Run Roguelike Republik — v4.0.0**  
 > Game satire politik Indonesia tentang kekuasaan, buzzer, aktivisme, propaganda, algoritma, dan ingatan publik.
 
-[![Release](https://img.shields.io/badge/release-3.21.0-f4d34a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
+[![Release](https://img.shields.io/badge/release-4.0.0-c8f36a)](https://github.com/japutraa/perang-narasi-republik-timeline/releases)
 [![Platform](https://img.shields.io/badge/platform-browser-8bd3ff)](https://japutraa.github.io/perang-narasi-republik-timeline/)
 [![License](https://img.shields.io/badge/license-GPL--3.0-a9f98f)](LICENSE)
 
@@ -13,6 +13,13 @@
 
 Game tidak memerlukan akun, backend, build step, atau dependency runtime. Semua permainan berlangsung di browser dan save hanya disimpan secara lokal.
 
+## Jalankan dan rilis
+
+- Lokal: `python3 -m http.server 8000`, lalu buka `http://localhost:8000`.
+- Validasi: `npm ci && npm test` (Node.js 24).
+- GitHub Pages: workflow `.github/workflows/deploy-pages.yml` menjalankan tes pada pull request dan deploy otomatis dari branch `main`. Atur Pages ke **GitHub Actions** di pengaturan repository.
+
+
 ## Tentang game
 
 Pemain memilih salah satu dari dua jalur:
@@ -20,9 +27,33 @@ Pemain memilih salah satu dari dua jalur:
 - **Relawan Paslon → mesin komunikasi kekuasaan**
 - **Aktivis Timeline → jaringan kampus, masyarakat sipil, watchdog, atau figur publik**
 
-Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024 sampai Pemilu 2029. Bagian 2024 hingga **4 Agustus 2026** mengambil inspirasi dari peristiwa politik yang terdokumentasi. Episode mulai September berada dalam **Timeline Alternatif**, bukan ramalan atau klaim faktual.
+Campaign membentang selama **6 fase × 12 bulan = 72 episode**, dari Pemilu 2024 sampai Pemilu 2029. Arsip faktual diperbarui sampai **17 November 2026**; Desember 2026 dan seterusnya tetap menjadi **Timeline Alternatif**, bukan ramalan atau klaim faktual.
 
-## Fitur v3.21.0
+## Fitur v4.0.0
+
+- Membawa campaign lama ke format **roguelike deckbuilder**: setiap bulan adalah blind, enam fase adalah ante, dan pemain mengejar target sorotan sebelum masuk bulan berikutnya.
+- Rangkai keluarga kartu **Bukti, Viral, Warga, dan Kuasa**. Memainkan keluarga berbeda secara berurutan menaikkan combo dan pengali skor; urutan kartu, efektivitas terhadap isu, dan biaya operasi tetap penting.
+- Setiap blind yang lolos memberi bonus jangkauan, kredibilitas, jaringan, dan kas. Target terlewat tidak memutus kronik; pemain masih bisa pulih di blind berikutnya.
+- Lima spesialisasi yang dipilih saat promosi menjadi **Joker permanen** selama run dan memberi bonus pada keluarga kartu tertentu. Ability crew dan context-combo tetap bisa membuka aksi khusus.
+- Menambahkan panel run score, target blind, ante, combo, dan koleksi Joker ke meja utama. Seed, autosave, dua role, enam fase, 72 bulan, ekonomi, special event, dan ending Pemilu 2029 tetap menjadi kerangka campaign.
+- Mengarsipkan peristiwa Agustus–November 2026: demonstrasi antikorupsi, lelang Natuna D-Alpha, wacana hutan untuk biodiesel, putusan terkait kelayakan Gibran, pengunduran dirinya, polemik kontrak RANS, karhutla, dan dugaan penyadapan.
+- Memperluas pilihan special event dengan **6 dilema baru, 54 total special event, 432 pilihan role, dan 864 cabang konsekuensi tertunda**. Klaim, kritik, status tersangka, dugaan konflik kepentingan, dan putusan tetap dibedakan.
+- Pasar Timeline masih memakai arsip kurs dan IHSG sampai 3 Agustus 2026; angka setelah tanggal itu tetap simulasi seed-based, walaupun arsip peristiwa politik kini berlanjut sampai November.
+
+### Peristiwa dan sumber baru
+
+| Peristiwa | Referensi |
+| --- | --- |
+| Aksi antikorupsi Agustus dan penanganan demonstrasi | [CNA](https://www.channelnewsasia.com/asia/indonesia-protest-jakarta-parliament-6345171), [Reuters](https://www.reuters.com/world/asia-pacific/transport-disrupted-indonesias-capital-after-unrest-following-protest-2026-08-28/) |
+| Natuna D-Alpha dan kritik tata kelola | [JATAM](https://jatam.org/id/lengkap/Proyek-Migas-Raksasa-untuk-Hashim-Adik-Presiden-Prabowo) |
+| Wacana biodiesel dari hutan yang disebut rusak | [BBC News Indonesia](https://www.bbc.com/indonesia/articles/cwkg532d17rmo) |
+| Putusan MK terkait gugatan kelayakan Gibran | [ABC News](https://www.abc.net.au/news/2026-10-07/indonesia-vp-disqualification-education-credentials/107233362) |
+| Pengunduran diri Gibran dan tindak lanjut HMP | [Reuters](https://www.reuters.com/world/asia-pacific/indonesia-vp-gibran-hands-his-resignation-upper-house-2026-11-12/), [Tirto](https://tirto.id/gibran-sudah-mundur-pimpinan-dpr-tegaskan-usulan-hmp-gugur-idSH) |
+| Kontrak influencer, karhutla, dan dugaan penyadapan | [CNN Indonesia](https://www.cnnindonesia.com/hiburan/20261116151853-234-1427714/pernyataan-lengkap-raffi-ahmad-minta-maaf-soal-endorse-rp14-m), [Kementerian Kehutanan](https://www.kehutanan.go.id/news/hotspot-nasional-turun-jadi-25-titik-negara-beri-penghormatan-bagi-pahlawan-karhutla), [AP](https://apnews.com/article/f51d8a85a34cb3f3db4640602d4c8de4) |
+
+## Catatan basis historis v3.21.0
+
+Bagian ini mencatat fitur versi sebelumnya sebagai riwayat perubahan; dokumentasi V4 ada di bagian atas.
 
 - Agustus 2026 dibangun ulang sebagai arsip krisis kepercayaan dengan **12 varian fokus**: perkara mantan Jampidsus, gelombang pejabat mundur, kepala BGN, independensi BI, pidato “londo ireng”, klaim nuklir, dan Kabinet Bayangan masyarakat sipil.
 - Status tersangka dipisahkan dari putusan bersalah; alasan resmi pengunduran diri dipisahkan dari spekulasi motif; program nuklir, kemampuan pengayaan, weaponization, dan senjata terverifikasi dipisahkan secara eksplisit.

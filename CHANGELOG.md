@@ -2,6 +2,16 @@
 
 Semua perubahan penting pada proyek ini dicatat di sini.
 
+## 4.0.0 — 2026-11-17
+
+- Merombak meja permainan menjadi roguelike deckbuilder dengan enam ante dan 72 blind bulanan, sambil mempertahankan dua role, timeline 2024–2029, ekonomi, kru, event, save lokal, dan ending pemilu.
+- Menambahkan skor sorotan per blind, target yang meningkat, combo lintas keluarga kartu, hadiah ketika target tercapai, dan lima pilihan Joker permanen dari promosi fase.
+- Menampilkan ante, blind, skor run, target, combo, dan koleksi Joker dalam HUD baru; memperbarui gaya visual untuk meja strategi kartu dan layar kecil.
+- Memperbarui arsip politik faktual sampai 17 November 2026. Agustus–November kini mencakup protes, Natuna D-Alpha, wacana biodiesel, proses hukum Gibran, pengunduran dirinya, kontrak influencer RANS, karhutla, dan dugaan penyadapan.
+- Menambahkan enam special event dengan pilihan untuk kedua role serta sumber langsung. Dugaan konflik kepentingan dan laporan penyadapan dibingkai sebagai klaim/kritik, bukan putusan pelanggaran.
+- Mempertahankan pasar sebagai arsip aktual sampai 3 Agustus 2026 dan menandai angka setelahnya sebagai simulasi, terpisah dari batas arsip peristiwa politik.
+- Memperbarui metadata build ke v4.0.0 dan menambahkan panduan serta rujukan sumber pada README.
+
 ## 3.21.0 — 2026-08-04
 
 - Memperpanjang batas arsip faktual sampai 4 Agustus 2026; Timeline Alternatif kini dimulai September.

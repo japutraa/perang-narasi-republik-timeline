@@ -17,7 +17,7 @@
     <meta name="author" content="Adrian Janitra Putra" />
     <meta name="creator" content="Adrian Janitra Putra" />
     <meta name="application-name" content="Perang Narasi: Republik Timeline" />
-    <meta name="version" content="3.21.0" />
+    <meta name="version" content="4.0.0" />
     <meta name="theme-color" content="#0b0b0a" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="id_ID" />
@@ -54,7 +54,7 @@
         </div>
         <div>
           <div class="stamp">
-            BUILD 3.21.0 • 4 AGUSTUS 2026<br />Semua nama politik adalah plesetan • arsip faktual s.d. 4 Agustus 2026
+            BUILD 4.0.0 • 17 NOVEMBER 2026<br />6 ANTE • 72 BLIND • 2 JALUR • ARSIP FAKTA S.D. NOVEMBER 2026
           </div>
           <label class="switch" style="margin-top: 9px"
             ><input id="soundToggle" type="checkbox" checked /> bunyi kantor
@@ -78,13 +78,15 @@
             <p class="lead">
               Mulai sebagai relawan paslon atau aktivis timeline, lalu jalani
               <b>72 bulan</b> politik Indonesia: Pemilu 2024, lima tahun
-              kekuasaan, dan Pemilu 2029. Arsip 2024–4 Agustus 2026 mengambil
-              inspirasi dari peristiwa nyata; September 2026 dan setelahnya menjadi
+              kekuasaan, dan Pemilu 2029. Arsip 2024–November 2026 mengambil
+              inspirasi dari peristiwa nyata; Desember 2026 dan setelahnya menjadi
               skenario satire. Pilihanmu membentuk
               karier, kualitas demokrasi, jaringan, dan jenis ruang publik yang
               diwariskan ke pemilu berikutnya. Tiap bulan punya beberapa post
               alternatif dan satu akun fokus, jadi kombinasi timeline berubah
-              ketika kamu memulai campaign baru.
+              ketika kamu memulai campaign baru. Rangkai combo dari action card,
+              kejar target blind bulanan, lalu pilih Joker permanen setiap kali
+              naik ante. Efeknya mengubah cara kartu berikutnya mencetak sorotan.
             </p>
             <div class="campaign-strip">
               <div class="phase-chip"><b>01</b>Pemilu 2024</div>
@@ -207,7 +209,7 @@
               hanya ingin semuanya marah lebih lama.”
             </blockquote>
             <small
-              >Versi 3.21.0 • Krisis Kepercayaan Agustus<br /><span
+              >Versi 4.0.0 • Run Roguelike Republik<br /><span
                 class="author-credit"
                 >GNU GPL v3 • Game by
                 <a
@@ -371,6 +373,16 @@
                 Menguasai percakapan bukan sama dengan membuktikan kebenaran.
                 Sayangnya, dashboard agensi tidak punya kolom untuk itu.
               </p>
+              <section class="rogue-desk" aria-label="Skor blind dan combo narasi">
+                <div class="rogue-desk-top"><span id="rogueAnte">ANTE 01 / 06 • BLIND 01 / 12</span><span>RUN SCORE <b id="rogueTotal">0</b></span></div>
+                <div class="rogue-score-grid">
+                  <div><small>SOROTAN BULAN INI</small><strong id="rogueMonthScore">0</strong></div>
+                  <div class="rogue-target-box"><small>TARGET BLIND</small><strong id="rogueTarget">180</strong></div>
+                  <div class="rogue-combo-box"><small>COMBO</small><strong id="rogueCombo">BELUM ADA KOMBO</strong></div>
+                </div>
+                <div class="rogue-progress-track"><i id="rogueProgress"></i></div>
+                <div id="rogueJokers" class="rogue-jokers"><span class="rogue-joker-empty">Promosi fase menjadi Joker permanen untuk run ini.</span></div>
+              </section>
               <div id="cards" class="card-grid"></div>
             </div>
           </section>

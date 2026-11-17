@@ -2298,3 +2298,55 @@ a {
   padding: 12px 16px;
   font: 800 13px/1.5 var(--font);
 }
+
+/* Version 4: newsroom tabletop + roguelike run HUD */
+:root {
+  --bg:#101117; --panel:#191c25; --panel2:#222632; --ink:#f4f1e8;
+  --muted:#a2a8b5; --red:#ff726b; --yellow:#c8f36a; --green:#74e0a2;
+  --blue:#78c8ff; --purple:#c6a1ff; --line:#373d4b; --black:#08090d;
+  --shadow:0 16px 40px rgba(0,0,0,.34);
+  --font:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+body{background-color:var(--bg);background-image:radial-gradient(ellipse at 50% -15%,rgba(91,97,135,.25),transparent 42%),linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:auto,32px 32px,32px 32px}
+.app{width:min(1580px,calc(100% - 40px));padding-top:20px}
+.masthead{border-bottom:1px solid #3a4050;padding:14px 8px 18px}
+.masthead h1{font-size:clamp(26px,4vw,44px);letter-spacing:-.065em}
+.stamp,.phase-badge,.day-badge,.rank,.money,.event-count{border-radius:8px}
+.box,.panel,.post,.market-sim,.rogue-desk,.modal-card{border-radius:14px;box-shadow:var(--shadow)}
+.panel{border:1px solid #343a49;background:linear-gradient(145deg,rgba(28,31,41,.98),rgba(20,22,29,.98))}
+.panel-title{border-radius:13px 13px 0 0;background:linear-gradient(90deg,#242937,#1d2029);border-bottom:1px solid #393f4d}
+.post{border:1px solid #424858;background:linear-gradient(145deg,#232733,#191c24);padding:20px}
+.battle{border-top:1px solid #343a49;margin-top:18px;padding-top:16px}
+.role-card{border-radius:14px;border:1px solid #424958;background:linear-gradient(145deg,#252a35,#191c24);box-shadow:0 12px 30px #0005;transition:transform .18s,border-color .18s,box-shadow .18s}
+.role-card:hover{transform:translateY(-5px);border-color:var(--yellow);box-shadow:0 17px 38px #0008}
+.btn,.mode-option,.choice-card,.action-card{border-radius:9px}
+.btn{transition:transform .15s,filter .15s,box-shadow .15s}
+.btn:hover,.mode-option:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.action-card{position:relative;overflow:hidden;border:1px solid #404756;background:linear-gradient(150deg,#282d39,#1a1d26);box-shadow:0 8px 18px #0004;transition:transform .16s,border-color .16s,box-shadow .16s}
+.action-card:not(:disabled):hover{transform:translateY(-5px);border-color:var(--yellow);box-shadow:0 14px 26px #0006}
+.action-card:not(:disabled):active{transform:translateY(-1px) scale(.99)}
+.action-card h4{font-size:14px;letter-spacing:-.02em}
+.action-context{border-radius:7px}
+.rogue-desk{margin:18px 0 16px;padding:15px 16px 13px;border:1px solid #49533b;background:radial-gradient(ellipse at 12% 0%,rgba(200,243,106,.1),transparent 50%),linear-gradient(135deg,#20251e,#191c23 58%,#22222b)}
+.rogue-desk-top{display:flex;justify-content:space-between;gap:10px;align-items:center;color:#a9b294;font:800 9px/1.4 var(--font);letter-spacing:.12em}
+.rogue-desk-top b{color:var(--ink);font-variant-numeric:tabular-nums}
+.rogue-score-grid{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:10px;margin:11px 0}
+.rogue-score-grid>div{padding:8px 10px;background:rgba(7,9,11,.26);border:1px solid rgba(255,255,255,.06);border-radius:8px}
+.rogue-score-grid small{display:block;color:#9aa08f;font:800 8px/1.3 var(--font);letter-spacing:.11em;margin-bottom:4px}
+.rogue-score-grid strong{font:800 20px/1 var(--font);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.rogue-target-box strong{color:var(--yellow)}
+.rogue-combo-box strong{font-size:11px;color:#d6bdff;letter-spacing:.04em}
+.rogue-progress-track{height:7px;border-radius:10px;background:#383b34;overflow:hidden}
+.rogue-progress-track i{display:block;height:100%;width:0;background:linear-gradient(90deg,#a6d752,var(--yellow));border-radius:inherit;transition:width .38s cubic-bezier(.2,.75,.25,1);box-shadow:0 0 16px rgba(200,243,106,.48)}
+.rogue-jokers{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.rogue-joker{padding:5px 8px;border:1px solid #695c86;border-radius:7px;background:rgba(113,84,158,.14);color:#e1ccff;font:750 9px/1.3 var(--font)}
+.rogue-joker-empty{color:#9399a4;font-size:9px}
+.joker-reward{display:block;margin-top:9px;padding:7px;border:1px solid #6b5e8a;border-radius:7px;background:rgba(157,122,222,.1);color:#e4d3ff;font:800 8px/1.4 var(--font);letter-spacing:.08em}
+.choice-card:hover{transform:translateY(-3px);border-color:var(--yellow)}
+.special-ribbon{display:inline-block;margin-bottom:10px;padding:5px 8px;border:1px solid #6b5e8a;border-radius:6px;background:rgba(157,122,222,.12);color:#ddc8ff;font:850 9px/1.2 var(--font);letter-spacing:.12em}
+.archive-label{border-radius:4px}
+.modal-card{max-width:980px;border:1px solid #474e5e;background:linear-gradient(150deg,#222631,#171a21)}
+button:focus-visible,a:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+@keyframes rogueHit{0%{filter:brightness(1.6)}100%{filter:brightness(1)}}
+.rogue-desk{animation:rogueHit .35s ease-out}
+@media(max-width:720px){.app{width:min(100% - 20px,1580px);padding-top:10px}.masthead{padding:10px 4px 14px}.rogue-score-grid{grid-template-columns:1fr 1fr}.rogue-combo-box{grid-column:1/-1}.rogue-score-grid strong{font-size:18px}.rogue-desk{padding:12px}.rogue-desk-top{font-size:8px}}
